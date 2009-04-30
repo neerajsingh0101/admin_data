@@ -306,16 +306,16 @@ class AdminDataController  < ApplicationController
       when 'is_not_null':
         attribute_conditions << "#{klass.table_name}.#{col1} IS NOT NULL"        
       when 'is_on':
-        if (time_obj = RollAdminModelDateValidation.validate_with_operator(col3))
+        if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} >= ?",time_obj.beginning_of_day]
           attribute_conditions << ["#{klass.table_name}.#{col1} < ?",time_obj.end_of_day]
         end
       when 'is_on_or_before_date':
-        if (time_obj = RollAdminModelDateValidation.validate_with_operator(col3))
+        if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} <= ?",time_obj.end_of_day]
         end
       when 'is_on_or_after_date':
-        if (time_obj = RollAdminModelDateValidation.validate_with_operator(col3))
+        if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} >= ?",time_obj.beginning_of_day]
         end
 

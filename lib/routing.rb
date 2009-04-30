@@ -1,4 +1,4 @@
-module AdminData
+module AdminDataRouting
   class Routing
     def self.connect_with(map)
       map.with_options :controller => 'admin_data' do |m|
@@ -43,8 +43,6 @@ def admin_data_ensure_update_allowed
   output
 end 
 
-
-
 def belongs_to_what(klass_name)
   @klass = Object.const_get(klass_name)
   output = []
@@ -72,12 +70,9 @@ def has_many_what(klass_name)
   output
 end
 
-
-
 def admin_data_has_many_count(model,send)
   model.send(send.intern).count
 end
-
 
 def get_belongs_to_class(model,belongs_to_string)
   tmp = model.send(belongs_to_string.intern)
@@ -88,4 +83,3 @@ def get_has_many_class(model,belongs_to_string)
   tmp = model.send(belongs_to_string.intern)
   tmp.find(:first).class if tmp.count > 0
 end
-
