@@ -1,0 +1,40 @@
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+
+
+<h1>
+  <i style='font-size:14px;'>(<%= link_to 'Visit Main Site', root_url %>)</i> 
+  <br />
+  <%= link_to 'Admin Model', admin_model_path %> 
+</h1>   
+
+
+<div id='main_content'>
+
+<div style='float:left;'>
+  <table cellspacing="3" cellpadding="3" id="view_table">
+    <caption>Models</caption>
+    <% @klasses.each_with_index do |klass,index| 
+    %>
+      <tr>
+        <td>
+          <%= link_to klass.name, admin_model_list_path(:klass => klass.name) %> 
+          <%= klass.send(:count) %>
+        </td>  
+      </tr>
+    <% end %>
+  </table>  
+</div>
+
+<div style='float:left;margin-left:50px;margin-top:5px' class='highlight_box'>
+  <p>
+    <%= link_to 'Migration Information','/admin_model/migration_information' %>
+  </p>
+</div>
+
+
+<div style='clear:both;'></div>  
+    
+</div>
+
+
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>

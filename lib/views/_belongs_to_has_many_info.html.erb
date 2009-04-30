@@ -1,0 +1,66 @@
+<% if (belongs_to_what(@klass.name).size > 0)  || 
+      (has_many_what(@klass.name).size > 0) ||
+      (has_one_what(@klass.name).size > 0) 
+%>
+
+<div class='relationship_info'>
+
+<% if belongs_to_what(@klass.name).size > 0 %>
+  <p class='belongs_to'>
+    <strong>belongs_to :</strong> 
+  
+    <% belongs_to_what(@klass.name).each do |bt| %>
+      &nbsp;      
+      <% if  @model.send(bt) %>
+          <%= link_to bt, {:action => 'show', :klass => get_belongs_to_class(@model,bt), :model_id => @model.send(bt).id} %>        
+      <% else %>
+          <%= bt %>              
+      <% end %>  
+    <% end %>  
+  </p> 
+<% end %>  
+
+<% if has_one_what(@klass.name).size > 0 %>
+  <p class='belongs_to'>
+    <strong>has_one :</strong> 
+  
+    <% has_one_what(@klass.name).each do |bt| %>
+      &nbsp;      
+      <% if  @model.send(bt) %>
+          <%= link_to bt, {:action => 'show', :klass => get_belongs_to_class(@model,bt), :model_id => @model.send(bt).id} %>        
+      <% else %>
+          <%= bt %>              
+      <% end %>  
+    <% end %>  
+  </p> 
+<% end %>  
+
+
+
+<% if has_many_what(@klass.name).size > 0 %>
+  <p>
+    <strong>has_many :</strong>
+  
+    <% has_many_what(@klass.name).each do |hm| 
+         label = hm + '(' + roll_admin_model_has_many_count(@model,hm).to_s + ')'
+    %>
+    
+      <% if   roll_admin_model_has_many_count(@model,hm) > 0 %>
+        <%= link_to label, {:action => 'list', 
+                            :klass => get_has_many_class(@model,hm), 
+                            :send => hm,
+                            :base => @klass.name, 
+                            :model_id => @model.id} %>        
+      <% else %>
+      <%= label %>      
+      <% end %>  
+
+      &nbsp;
+    <% end %>  
+  
+  </p> 
+<% end %>  
+
+</div>
+
+<% end %>

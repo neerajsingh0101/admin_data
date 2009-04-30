@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+  <script>
+    <% f = File.new(File.join(RAILS_ROOT,'vendor',
+                        'plugins','roll_admin_model','lib','js','jquery-1.3.2.min.js')) %>    
+    <%=f.read%>
+    <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','js',
+                              'jquery-ui-1.7.custom.min.js')) %>    
+    <%=f.read%>
+  </script>
+
+  <% if params[:action] == 'advance_search' %>
+    <script>
+      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','js','search_core.js')) %>    
+      <%=f.read%>
+
+      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','js','jquery.form.js')) %>    
+      <%=f.read%>
+    </script>
+  <% end %>
+  
+  
+  <script>
+  $(document).ready(function(){
+    function colorize_table(){
+        $('.colorize tr:odd').addClass('odd'); 
+        $('.colorize tr:even').addClass('even'); 
+    };
+    
+    colorize_table();
+  });
+  </script>
+
+  <style type='text/css'>
+    <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','css','style.css')) %>    
+    <%=f.read%>
+  </style>
+  
+  <link rel="stylesheet" href="http://static.jquery.com/ui/themes/base/ui.datepicker.css" type="text/css" media="screen" />
+  
+  
+  
+  
+</head>
+<body>
+
+<div id='Wrapper'>

@@ -1,0 +1,221 @@
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande", Verdana, Helvetica, sans-serif; 
+  font-size: 15px; 
+}
+
+body {
+  margin: 10px;
+  padding: 10px 20px 10px 40px;
+  background: #E5E5E5;
+}
+
+div#Wrapper {
+  margin:0 auto;
+  padding:0px;
+  background: white;
+}    
+
+h1 {
+  background:#EDF3FE;
+  padding: 10px;
+  font-size: 36px;
+  font-weight: normal;
+  margin: 0;
+}
+
+h1 a {
+  text-decoration:none;
+}
+
+#main_content {
+  	margin:0 0 20px 0;
+  	padding:0px 10px 40px 10px;
+}
+
+
+table {
+	padding: 0;
+	margin:5px 0 5px 0;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+table caption {
+  margin: 5px 5px 5px 0;
+	padding: 7px 0 7px 7px;
+	font: 22px Verdana, Arial, Helvetica, sans-serif;
+	text-align:left;
+  background:#E9E9E9;          	
+}
+
+table th {
+	font: bold 13px Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border: 1px solid #ccc;
+	letter-spacing: 2px;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+}
+
+
+table td {
+	border: 1px solid #DEDEDE;
+	padding: 6px 6px 6px 12px;
+
+}
+
+table#advance_search_table {
+/*	width: 600px;*/
+}
+
+
+.search_box,.relationship_info,.update_record_box {
+	background:#F8F8FF;
+	border:1px solid #DEDEDE;
+	color:#444444;	
+	margin:0;
+	padding:5px;
+}
+
+.update_record_box {
+	margin:5px 0;
+	padding:5px;
+}
+
+
+
+/*IE6 will ignore this*/
+input[disabled], input[readonly], select[disabled], select[readonly], checkbox[disabled], checkbox[readonly], textarea[disabled], textarea[readonly]
+{
+ background-color: #dcdcdc;
+ border:  1px solid gray;
+ color: #000000;
+ cursor: default;
+}
+
+.ram_drop_down {
+	width:180px;
+/*	
+	do not enable height. causes problem with IE
+	height:120%;
+*/
+	font-size:15px;
+}
+
+.remove_row {
+	width:120px;
+}
+
+.ram_input_field_col3 {
+	font-size:15px;
+}
+
+#tr_add_another {
+	font-size:12px;
+}
+
+#quick_search_input {
+	font-size:15px;
+}
+
+
+.odd { 
+  background-color: #ffc; /* pale yellow for odd rows */ 
+} 
+.even { 
+  background-color: #cef; /* pale blue for even rows */ 
+} 
+
+
+.highlight_box {
+background:#C1EAFE none repeat scroll 0 0;
+border:3px solid #17B0F8;
+font-family:georgia,times new roman,times,serif;
+font-size:16px;
+padding:10px;
+position:relative;
+text-align:left;
+}
+
+
+input.submit-box {
+	font-size:18px;
+	text-align:left;
+}
+
+
+form.nice_form {
+	background: #EDF3FE;
+}
+
+#footer a {
+	color:#676767;
+	font-size:13px;
+	float:right;
+	text-decoration:none;
+}
+
+
+.digg_pagination {
+  background: white;
+  margin-top:15px;
+  /* self-clearing method: */ }
+  .digg_pagination a, .digg_pagination span {
+    padding: .2em .5em;
+    display: block;
+    float: left;
+    margin-right: 1px; }
+  .digg_pagination span.disabled {
+    color: #999;
+    border: 1px solid #DDD; }
+  .digg_pagination span.current {
+    font-weight: bold;
+    background: #2E6AB1;
+    color: white;
+    border: 1px solid #2E6AB1; }
+  .digg_pagination a {
+    text-decoration: none;
+    color: #105CB6;
+    border: 1px solid #9AAFE5; }
+    .digg_pagination a:hover, .digg_pagination a:focus {
+      color: #003;
+      border-color: #003; }
+  .digg_pagination .page_info {
+    background: #2E6AB1;
+    color: white;
+    padding: .4em .6em;
+    width: 37em;
+    margin-bottom: .3em;
+    text-align: left; }
+    .digg_pagination .page_info b {
+      color: #003;
+      background: #6aa6ed;
+      padding: .1em .25em; }
+  .digg_pagination:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden; }
+  * html .digg_pagination {
+    height: 1%; }
+  *:first-child+html .digg_pagination {
+    overflow: hidden; }
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+

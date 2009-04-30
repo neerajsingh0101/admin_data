@@ -1,0 +1,13 @@
+<h4> 
+   <%= link_to 'Quick Search',"/admin_model/list?klass=#{@klass.name}"  %>    
+   | 
+   <%= link_to 'Advance Search',"/admin_model/advance_search?klass=#{@klass.name}"  %> 
+   
+   | 
+   <%= link_to 'Table Structure',"/admin_model/table_structure?klass=#{@klass.name}"  %> 
+   
+   <% if @controller.send(:roll_admin_model_ensure_update_allowed) %> 
+     |
+     <%= link_to '+ Add Record',"/admin_model/new?klass=#{@klass.name}"  %> 
+   <% end %>
+</h4>

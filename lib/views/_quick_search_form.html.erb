@@ -1,0 +1,16 @@
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
+
+<%=form_tag('/admin_model/quick_search',:method => 'get', :id => 'search')%>   
+  <input type="hidden" name="klass" value="<%=@klass.to_s%>" />     
+  <div class='search_box'>
+      <div id='quick_search'>
+        <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>"/>
+        <input type="submit" value="Search" />
+      </div>
+ </div>
+</form>
+
+
+<script type="text/javascript">
+    document.getElementById("quick_search_input").focus()
+</script>

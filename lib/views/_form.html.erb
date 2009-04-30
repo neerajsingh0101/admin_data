@@ -1,0 +1,60 @@
+<table cellspacing="2" cellpadding="2" width="840px">
+
+<% @serializable = @klass.serialized_attributes %>
+
+<% @klass.columns.each do |col| %>
+  <% uscore_name = @klass.to_s.underscore %>
+  <% col_limit = col.limit || 255 %>
+  <tr>
+    <td width="140px"><label for="<%= col.name %>"><%= col.name %>:</label></td>
+    <td width="70px"><%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %></td>
+    <td>
+      <% if @serializable.has_key?(col.name) %>
+        <i>Cannot edit serialized field.</i>
+        <% if !@model.send(col.name).nil? %>
+          <i>Raw contents:</i><br/>
+          <%= @model.send(col.name).inspect %>
+        <% end %>
+      <% else %>
+        <% if col.name == 'id' %>
+          <%= @model.new_record? ? '(auto)' : @model.id %>
+        <% elsif col.type == :text %>
+          <textarea rows="6" cols="50" name="<%= uscore_name %>[<%= col.name %>]"><%= @model.send(col.name) %></textarea>
+        <% elsif col.type == :datetime && ['created_at', 'updated_at'].include?(col.name) %>
+          <%= @model.new_record? ? '(auto)' : @model.send(col.name) %>
+        <% elsif col.type == :datetime 
+                 value = @model.send(col.name)
+                 value = value.send(:to_s,:db) if value
+                 value = Time.now.to_s(:db) if params[:action] == 'new'
+                 
+        %>
+          <%= text_field @klass.to_s.underscore, col.name, 
+                          :value => value, 
+                          :class => 'nice-field' %>          
+        <% elsif col.type == :boolean %>
+          <select id="<%= uscore_name %>_<%= col.name %>" name="<%= uscore_name %>[<%= col.name %>]">
+            <option value=""></option>
+            <option value="true" <%= 'selected' if @model.send(col.name) %>>True</option>
+            <option value="false"<%= 'selected' if !@model.send(col.name) %>>False</option>
+          </select>
+        <% else %>
+          <% size = (col_limit < 56) ? col_limit : 56 %>
+          <% if col.limit %>
+            <%= text_field @klass.to_s.underscore, col.name, :value => @model.send(col.name), :size => size, :maxlength => col.limit,  :class => 'nice-field' %>
+          <% else %>
+            <%= text_field @klass.to_s.underscore, col.name, :value => @model.send(col.name), :size => size, :class => 'nice-field' %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+
+
+
+  <tr>
+    <td colspan="3" align="center">
+        <%= submit_tag('Save', :class => 'submit-box', :disable_with => 'Please wait ...')%>
+    </td>
+  </tr>
+</table>

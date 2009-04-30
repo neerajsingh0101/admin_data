@@ -1,0 +1,28 @@
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+
+<h1>
+  <%= link_to 'Admin Model', admin_model_path %> 
+  >
+  <%= link_to @klass, admin_model_list_path(:klass => @klass.name) %> 
+</h1>   
+
+
+<div id='main_content'>
+
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_flash_message.html.erb'))).result(binding) %>
+
+<% if session[:roll_admin_model_search_type] == 'advance' %>
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_advance_search_form.html.erb'))).result(binding) %>     
+<% else %>
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_quick_search_form.html.erb'))).result(binding) %>        
+<% end %>
+
+<br />
+
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_search_results.html.erb'))).result(binding) %>
+
+</div>
+
+
+
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>

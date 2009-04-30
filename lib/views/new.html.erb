@@ -1,0 +1,25 @@
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+
+<h1>
+  <%= link_to 'Admin Model', admin_model_path %> 
+  >
+  <%= link_to @klass, admin_model_list_path(:klass => @klass.name) %> 
+</h1>
+
+
+<div id='main_content'>
+
+
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
+
+<h2>Creating a new <%= @klass.name %> record</h2>
+
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_error_message.html.erb'))).result(binding) %>
+
+<%= form_tag({:action => 'create', :klass => @klass.to_s}, {:class => 'nice_form'}) %>
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_form.html.erb'))).result(binding) %>
+</form>
+
+</div>
+ 
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>

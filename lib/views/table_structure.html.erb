@@ -1,0 +1,33 @@
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+
+
+
+
+<h1>
+  <%= link_to 'Admin Model', admin_model_path %> 
+  >
+  <%= link_to @klass, admin_model_list_path(:klass => @klass.name) %> 
+</h1>   
+
+
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
+
+<div id='main_content'>
+
+  <table cellspacing="3" cellpadding="3" id="view_table" class='colorize'>
+    <caption>Structure for <%=@klass.table_name%> table</caption>
+    <% @records.each do |record| 
+    %>
+      <tr>
+        <td>
+          <%=record%>
+        </td>  
+      </tr>
+    <% end %>
+  </table>  
+</div>
+
+</div>
+
+
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>
