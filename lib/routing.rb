@@ -1,4 +1,4 @@
-module AdminDataRouting
+module AdminData
   class Routing
     def self.connect_with(map)
       map.with_options :controller => 'admin_data' do |m|

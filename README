@@ -41,7 +41,7 @@ HOW TO INSTALL THIS PLUGIN
 HOW TO USE IT
 ======================
 After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
-AdminDataRouting::Routing.connect_with map
+AdminData::Routing.connect_with map
 Now go to http://localhost:3000/admin_data
 
 SECURING IT
