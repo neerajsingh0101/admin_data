@@ -1,7 +1,7 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
 <h1>
-  <%= link_to 'Admin Model', admin_model_path %> 
+  <%= link_to 'Admin Data', admin_data_path %> 
 </h1>   
 
 <br />
@@ -23,4 +23,4 @@
 </div>
 
 
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>

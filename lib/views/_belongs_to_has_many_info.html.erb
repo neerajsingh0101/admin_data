@@ -42,10 +42,10 @@
     <strong>has_many :</strong>
   
     <% has_many_what(@klass.name).each do |hm| 
-         label = hm + '(' + roll_admin_model_has_many_count(@model,hm).to_s + ')'
+         label = hm + '(' + admin_data_has_many_count(@model,hm).to_s + ')'
     %>
     
-      <% if   roll_admin_model_has_many_count(@model,hm) > 0 %>
+      <% if   admin_data_has_many_count(@model,hm) > 0 %>
         <%= link_to label, {:action => 'list', 
                             :klass => get_has_many_class(@model,hm), 
                             :send => hm,

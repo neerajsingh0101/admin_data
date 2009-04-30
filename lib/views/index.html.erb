@@ -1,10 +1,10 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
 
 <h1>
   <i style='font-size:14px;'>(<%= link_to 'Visit Main Site', root_url %>)</i> 
   <br />
-  <%= link_to 'Admin Model', admin_model_path %> 
+  <%= link_to 'Admin Data', admin_data_path %> 
 </h1>   
 
 
@@ -17,7 +17,7 @@
     %>
       <tr>
         <td>
-          <%= link_to klass.name, admin_model_list_path(:klass => klass.name) %> 
+          <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
           <%= klass.send(:count) %>
         </td>  
       </tr>
@@ -27,7 +27,7 @@
 
 <div style='float:left;margin-left:50px;margin-top:5px' class='highlight_box'>
   <p>
-    <%= link_to 'Migration Information','/admin_model/migration_information' %>
+    <%= link_to 'Migration Information','/admin_data/migration_information' %>
   </p>
 </div>
 
@@ -37,4 +37,4 @@
 </div>
 
 
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>

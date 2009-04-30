@@ -14,7 +14,7 @@
     <caption>
         <%= link_to params[:base] + ' ID ' + params[:model_id], {:action => 'show', :klass => params[:base], :model_id => params[:model_id]}%>
         has 
-        <% count = roll_admin_model_has_many_count(Object.const_get(params[:base]).find(params[:model_id]),params[:send]) %>
+        <% count = admin_data_has_many_count(Object.const_get(params[:base]).find(params[:model_id]),params[:send]) %>
         <%= pluralize(count,params[:klass].downcase)%>
     </caption>    
   <% else %>
@@ -37,7 +37,7 @@
           <% if column == @klass.columns[0] %>
             <%= link_to(record.send(column.name),:action => 'show', :klass => @klass, :model_id => record.id) %>            
           <% else %>
-            <%=h  get_roll_admin_model_value_for_column(column,record) %>
+            <%=h  get_admin_data_value_for_column(column,record) %>
           <% end %>  
           
         </td>

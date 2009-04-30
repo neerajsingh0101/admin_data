@@ -1,7 +1,6 @@
 require 'date'
 
-class RollAdminModelDateValidation
-  
+class AdminDataDateValidation
   
   def self.validate_with_operator(input)
     return false if input.blank?
@@ -10,19 +9,12 @@ class RollAdminModelDateValidation
     
     # replace multiple consecutive white spaces by one single whitespace
     input.gsub!(/\s+/,' ')
-    
-    puts "input is #{input}"
-        
     date = validate(input)
-    
     return date if date
     return false
   end
   
-  
-  
-  
-  
+
   # Usage:
   #
   # validate('13-feb-2008') # => true

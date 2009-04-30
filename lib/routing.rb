@@ -1,28 +1,28 @@
-module RollAdminModel
+module AdminData
   class Routing
     def self.connect_with(map)
-      map.with_options :controller => 'admin_model' do |m|
-        m.admin_model 'admin-model' ,:action => 'index'
-        m.admin_model 'admin_model' ,:action => 'index'
-        m.admin_model_list 'admin_model/list' ,:action => 'list'
-        m.admin_model_show 'admin_model/show' ,:action => 'show'
-        m.admin_model_destroy 'admin_model/destroy' ,:action => 'destroy'
-        m.admin_model_delete 'admin_model/delete' ,:action => 'delete'
-        m.admin_model_edit 'admin_model/edit' ,:action => 'edit'
-        m.admin_model_edit 'admin_model/update' ,:action => 'update'
-        m.admin_model_search 'admin_model/quick_search' ,:action => 'quick_search'
-        m.admin_model_search 'admin_model/advance_search' ,:action => 'advance_search'
-        m.admin_model_search 'admin_model/migration_information' ,:action => 'migration_information'
-        m.admin_model_search 'admin_model/table_structure' ,:action => 'table_structure'
-        m.admin_model_search 'admin_model/new' ,:action => 'new'
-        m.admin_model_search 'admin_model/create' ,:action => 'create'
+      map.with_options :controller => 'admin_data' do |m|
+        m.admin_data 'admin-data' ,:action => 'index'
+        m.admin_data 'admin_data' ,:action => 'index'
+        m.admin_data_list 'admin_data/list' ,:action => 'list'
+        m.admin_data_show 'admin_data/show' ,:action => 'show'
+        m.admin_data_destroy 'admin_data/destroy' ,:action => 'destroy'
+        m.admin_data_delete 'admin_data/delete' ,:action => 'delete'
+        m.admin_data_edit 'admin_data/edit' ,:action => 'edit'
+        m.admin_data_edit 'admin_data/update' ,:action => 'update'
+        m.admin_data_search 'admin_data/quick_search' ,:action => 'quick_search'
+        m.admin_data_search 'admin_data/advance_search' ,:action => 'advance_search'
+        m.admin_data_search 'admin_data/migration_information' ,:action => 'migration_information'
+        m.admin_data_search 'admin_data/table_structure' ,:action => 'table_structure'
+        m.admin_data_search 'admin_data/new' ,:action => 'new'
+        m.admin_data_search 'admin_data/create' ,:action => 'create'
       end
     end
   end
 end
 
 
-def get_roll_admin_model_value_for_column(column,source)
+def get_admin_data_value_for_column(column,source)
   if column.type == :datetime
     tmp = source.send(column.name)
     tmp.strftime('%m/%d/%Y %H:%M:%S %p') unless tmp.blank?
@@ -32,14 +32,14 @@ def get_roll_admin_model_value_for_column(column,source)
 end
 
 
-def roll_admin_model_ensure_update_allowed
+def admin_data_ensure_update_allowed
   return true if Rails.env.development? || Rails.env.test?  
 
-  proc = Object.const_get('ROLL_ADMIN_MODEL_UPDATE_ALLOWED') rescue nil
+  proc = Object.const_get('ADMIN_DATA_UPDATE_ALLOWED') rescue nil
   return false unless proc
   
   output =  proc.call(self)
-  Rails.logger.info("Authorization for admin_model update was called and the result was #{output}")
+  Rails.logger.info("Authorization for admin_data update was called and the result was #{output}")
   output
 end 
 
@@ -74,7 +74,7 @@ end
 
 
 
-def roll_admin_model_has_many_count(model,send)
+def admin_data_has_many_count(model,send)
   model.send(send.intern).count
 end
 

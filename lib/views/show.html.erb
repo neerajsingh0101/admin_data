@@ -1,10 +1,10 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
 
 <h1>
-  <%= link_to 'Admin Model', admin_model_path %> 
+  <%= link_to 'Admin Data', admin_data_path %> 
   >
-  <%= link_to @klass, admin_model_list_path(:klass => @klass.name) %> 
+  <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
   >
   <%= link_to "ID #{@model.id}", ''%>  
 </h1>   
@@ -13,12 +13,12 @@
 
 <div id='main_content'>
 
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_flash_message.html.erb'))).result(binding) %>
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>
 
 
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_belongs_to_has_many_info.html.erb'))).result(binding) %>
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_belongs_to_has_many_info.html.erb'))).result(binding) %>
 
-<% if @controller.send(:roll_admin_model_ensure_update_allowed) %>
+<% if @controller.send(:admin_data_ensure_update_allowed) %>
 <br />
 <div class='update_record_box'>
 <%= link_to 'Edit',:action => 'edit', :klass => @klass, :model_id => @model.id %> 
@@ -34,7 +34,7 @@
     <tr>
       <th><%= column.name %></th>
       <td>
-        <%=h  get_roll_admin_model_value_for_column(column,@model) %>
+        <%=h  get_admin_data_value_for_column(column,@model) %>
       </td>
     </tr>
   <% end %>
@@ -45,4 +45,4 @@
 
 </div>
 
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>

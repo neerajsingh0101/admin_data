@@ -1,16 +1,13 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_top.html.erb'))).result(binding) %>
-
-
-
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
 <h1>
-  <%= link_to 'Admin Model', admin_model_path %> 
+  <%= link_to 'Admin Data', admin_data_path %> 
   >
-  <%= link_to @klass, admin_model_list_path(:klass => @klass.name) %> 
+  <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
 </h1>   
 
 
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
+<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
 
 <div id='main_content'>
 
@@ -30,4 +27,4 @@
 </div>
 
 
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','roll_admin_model','lib','views','_bottom.html.erb')) %>
+<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>

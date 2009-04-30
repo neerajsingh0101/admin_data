@@ -1,14 +1,14 @@
-class AdminModelController  < ApplicationController
+class AdminDataController  < ApplicationController
   
   unloadable
   
   before_filter :secure_it
-  before_filter :roll_admin_model_ensure_update_allowed, :only => [:destroy, :delete, :edit]
+  before_filter :admin_data_ensure_update_allowed, :only => [:destroy, :delete, :edit]
 
 
   def migration_information
     @data = ActiveRecord::Base.connection.select_all('select * from schema_migrations');
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/migration_information.html.erb"        
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/migration_information.html.erb"        
   end
   
   def table_structure
@@ -62,9 +62,6 @@ class AdminModelController  < ApplicationController
       @records << ((format_string % values).gsub(/,\s*$/, ''))
     end
     
-    
-    
-    
     if (indexes = ActiveRecord::Base.connection.indexes(@klass.table_name)).any?
       add_index_statements = indexes.map do |index|
         statment_parts = [ ('add_index ' + index.table.inspect) ]
@@ -78,11 +75,11 @@ class AdminModelController  < ApplicationController
       add_index_statements.sort.each { |index| @records << index }
     end  
     
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/table_structure.html.erb"        
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/table_structure.html.erb"        
   end
 
   def quick_search
-    session[:roll_admin_model_search_type] = 'quick'          
+    session[:admin_data_search_type] = 'quick'          
     @klass = Object.const_get(params[:klass])
     
     params[:query] = params[:query].strip
@@ -95,12 +92,12 @@ class AdminModelController  < ApplicationController
                                   :conditions => build_quick_search_conditions(@klass,params[:query]))
     end
     
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/list.html.erb"    
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"    
   end
   
   
   def advance_search
-    session[:roll_admin_model_search_type] = 'advance'    
+    session[:admin_data_search_type] = 'advance'    
     @klass = Object.const_get(params[:klass])
     
     if !params[:adv_search].blank?
@@ -113,10 +110,10 @@ class AdminModelController  < ApplicationController
         
     respond_to do |format|
         format.html {
-          render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/list.html.erb"               
+          render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"               
         }
         format.js {
-          render :file => "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/_search_results.html.erb"               
+          render :file => "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/_search_results.html.erb"               
         }
       end
   end
@@ -148,7 +145,7 @@ class AdminModelController  < ApplicationController
         end
       end
     end
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/index.html.erb"
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/index.html.erb"
   end
 
 
@@ -161,17 +158,17 @@ class AdminModelController  < ApplicationController
     else
       @records = @klass.send(:paginate,:page => params[:page],:order => 'id desc')
     end
-    session[:roll_admin_model_search_type] = nil 
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/list.html.erb"    
+    session[:admin_data_search_type] = nil 
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"    
   end
 
   def show
-    roll_admin_model_ensure_update_allowed
+    admin_data_ensure_update_allowed
     
     @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/show.html.erb"        
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/show.html.erb"        
   end
   
   def destroy
@@ -181,7 +178,7 @@ class AdminModelController  < ApplicationController
     
     @klass.send(:destroy,params[:model_id])
     flash[:success] = 'Record was destroyed'
-    redirect_to admin_model_list_path(:klass => @klass.name)    
+    redirect_to admin_data_list_path(:klass => @klass.name)    
   end
 
   def delete
@@ -191,20 +188,20 @@ class AdminModelController  < ApplicationController
     
     @klass.send(:delete,params[:model_id])
     flash[:success] = 'Record was deleted'
-    redirect_to admin_model_list_path(:klass => @klass.name)    
+    redirect_to admin_data_list_path(:klass => @klass.name)    
   end
   
   def edit
     @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/edit.html.erb"        
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/edit.html.erb"        
   end
 
   def new
     @klass = Object.const_get(params[:klass])
     @model = @klass.send(:new) 
-    render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/new.html.erb"        
+    render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/new.html.erb"        
   end
   
   def update
@@ -218,9 +215,9 @@ class AdminModelController  < ApplicationController
     
     if @model.update_attributes(model_attrs)
       flash[:success] = "Record was Updated"
-      redirect_to admin_model_show_path(:model_id => @model.id, :klass => @klass.to_s)
+      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.to_s)
     else
-      render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/edit.html.erb"              
+      render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/edit.html.erb"              
     end
   end
   
@@ -234,10 +231,10 @@ class AdminModelController  < ApplicationController
     
     @model = @klass.create(model_attrs)
     if @model.errors.any?
-      render :file =>   "#{RAILS_ROOT}/vendor/plugins/roll_admin_model/lib/views/new.html.erb"                    
+      render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/new.html.erb"                    
     else
       flash[:success] = "Record was created"
-      redirect_to admin_model_show_path(:model_id => @model.id, :klass => @klass.to_s)
+      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.to_s)
     end
   end
   
@@ -250,11 +247,11 @@ class AdminModelController  < ApplicationController
   def secure_it
     return true if Rails.env.development? || Rails.env.test?
     begin
-      output =  Object.const_get('ROLL_ADMIN_MODEL_AUTH').call(self)
-      Rails.logger.debug("Authentication for admin_model was called and the result was #{output}")
+      output =  Object.const_get('ADMIN_DATA_AUTH').call(self)
+      Rails.logger.debug("Authentication for admin_data was called and the result was #{output}")
       render :text => 'You are not authorized' unless output
     rescue NameError => e
-      Rails.logger.debug("ROLL_ADMIN_MODEL_AUTH is not declared" + e.to_s)      
+      Rails.logger.debug("ADMIN_DATA_AUTH is not declared" + e.to_s)      
       render :text => 'You are not authorized'
     end
   end
