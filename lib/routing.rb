@@ -75,11 +75,19 @@ def admin_data_has_many_count(model,send)
 end
 
 def get_belongs_to_class(model,belongs_to_string)
-  tmp = model.send(belongs_to_string.intern)
-  tmp.class.to_s if tmp
+  begin
+    tmp = model.send(belongs_to_string.intern)
+    tmp.class.to_s if tmp
+  rescue
+    nil
+  end
 end
 
 def get_has_many_class(model,belongs_to_string)
-  tmp = model.send(belongs_to_string.intern)
-  tmp.find(:first).class if tmp.count > 0
+  begin
+    tmp = model.send(belongs_to_string.intern)
+    tmp.find(:first).class if tmp.count > 0
+  rescue
+    nil
+  end
 end

@@ -41,8 +41,16 @@ HOW TO INSTALL THIS PLUGIN
 HOW TO USE IT
 ======================
 After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
-AdminData::Routing.connect_with map
+AdminData::Routing.connect_with map. After the lines have been added it might look like this
+
+ActionController::Routing::Routes.draw do |map|
+  AdminData::Routing.connect_with map
+  # ... more routing information
+end
+
 Now go to http://localhost:3000/admin_data
+
+
 
 SECURING IT
 =============================
