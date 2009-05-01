@@ -40,7 +40,7 @@ Your rails project must be using Rails 2.2 or higher.
 
 HOW TO INSTALL THIS PLUGIN
 ==========================
-> ruby script/plugin install git://github.com/neerajdotname/admin_data.git
+ruby script/plugin install git://github.com/neerajdotname/admin_data.git
 
 HOW TO USE IT
 ======================

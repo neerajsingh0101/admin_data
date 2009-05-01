@@ -87,12 +87,12 @@ class AdminDataController  < ApplicationController
     if params[:query].blank?
       @records = @klass.send( :paginate,
                               :page => params[:page],
-                              :order => 'id desc',
+                              :order => "#{@klass.table_name}.id desc",
                               :per_page => 25)            
     else
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
-                                  :order => 'id desc',
+                                  :order => "#{@klass.table_name}.id desc",
                                   :conditions => build_quick_search_conditions(@klass,params[:query]))
     end
     
@@ -107,13 +107,13 @@ class AdminDataController  < ApplicationController
     if !params[:adv_search].blank?
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
-                                  :order => 'id desc',
+                                  :order => "#{@klass.table_name}.id desc",
                                   :conditions => build_advance_search_conditions(@klass,params[:adv_search]))
     else
       @records = @klass.send( :paginate,
                               :page => params[:page],
                               :per_page => 25,
-                              :order => 'id desc')      
+                              :order => "#{@klass.table_name}.id desc")      
     end
         
     respond_to do |format|
@@ -165,12 +165,12 @@ class AdminDataController  < ApplicationController
       @records = has_many_proxy.send( :paginate,
                                       :page => params[:page],
                                       :per_page => 25,
-                                      :order => 'id desc')            
+                                      :order => "#{@klass.table_name}.id desc")            
     else
       @records = @klass.send( :paginate,
                               :page => params[:page],
                               :per_page => 25,
-                              :order => 'id desc')
+                              :order => "#{@klass.table_name}.id desc")
     end
     session[:admin_data_search_type] = nil 
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"    
