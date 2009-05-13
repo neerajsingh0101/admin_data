@@ -102,7 +102,14 @@ class AdminDataController  < ApplicationController
   
   def advance_search
     session[:admin_data_search_type] = 'advance'    
-    @klass = Object.const_get(params[:klass])
+    begin
+      @klass = Object.const_get(params[:klass])
+    rescue TypeError => e # in case no params[:klass] is supplied
+      redirect_to admin_data_path and return
+    rescue NameError => e # in case wrong params[:klass] is supplied
+      redirect_to admin_data_path and return
+    end
+
     
     if !params[:adv_search].blank?
       @records = @klass.paginate( :page => params[:page],
