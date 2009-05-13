@@ -6,7 +6,7 @@
    | 
    <%= link_to 'Table Structure',"/admin_data/table_structure?klass=#{@klass.name}"  %> 
    
-   <% if @controller.send(:admin_data_ensure_update_allowed) %> 
+   <% if @controller.send(:admin_data_is_allowed_to_update?) %> 
      |
      <%= link_to '+ Add Record',"/admin_data/new?klass=#{@klass.name}"  %> 
    <% end %>

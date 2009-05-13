@@ -18,7 +18,7 @@
 
 <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_belongs_to_has_many_info.html.erb'))).result(binding) %>
 
-<% if @controller.send(:admin_data_ensure_update_allowed) %>
+<% if @controller.send(:admin_data_is_allowed_to_update?) %>
 <br />
 <div class='update_record_box'>
 <%= link_to 'Edit',:action => 'edit', :klass => @klass, :model_id => @model.id %> 
@@ -34,7 +34,7 @@
     <tr>
       <th><%= column.name %></th>
       <td>
-        <%=h  get_admin_data_value_for_column(column,@model) %>
+        <%=h  admin_data_get_value_for_column(column,@model) %>
       </td>
     </tr>
   <% end %>

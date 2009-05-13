@@ -2,8 +2,8 @@ class AdminDataController  < ApplicationController
   
   unloadable
   
-  before_filter :secure_it
-  before_filter :admin_data_ensure_update_allowed, :only => [:destroy, :delete, :edit]
+  before_filter :ensure_is_allowed_to_view
+  before_filter :admin_data_is_allowed_to_update?, :only => [:destroy, :delete, :edit]
   before_filter :get_class_from_params, :only => [:table_structure,:quick_search,:advance_search,:list,:show,:destroy,:delete,:edit,:new,:update,:create]
 
   def migration_information
@@ -170,7 +170,7 @@ class AdminDataController  < ApplicationController
 
   
   def show
-    admin_data_ensure_update_allowed
+    admin_data_is_allowed_to_update?
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/show.html.erb"        
@@ -239,16 +239,8 @@ class AdminDataController  < ApplicationController
   private
   #-------
    
-  def secure_it
-    return true if Rails.env.development? || Rails.env.test?
-    begin
-      output =  Object.const_get('ADMIN_DATA_AUTH').call(self)
-      Rails.logger.debug("Authentication for admin_data was called and the result was #{output}")
-      render :text => 'You are not authorized' unless output
-    rescue NameError => e
-      Rails.logger.debug("ADMIN_DATA_AUTH is not declared" + e.to_s)      
-      render :text => 'You are not authorized'
-    end
+  def ensure_is_allowed_to_view
+    render :text => 'You are not authorized' unless admin_data_is_allowed_to_view?
   end
    
   def build_quick_search_conditions(klass,search_term)
@@ -339,7 +331,7 @@ class AdminDataController  < ApplicationController
     when BigDecimal
       value.to_s
     when Date, DateTime, Time
-      "'" + value.to_s(:db) + "'"
+      "'#{value.to_s(:db)}'"
     else
       value.inspect
     end

@@ -37,7 +37,7 @@
           <% if column == @klass.columns[0] %>
             <%= link_to(record.send(column.name),:action => 'show', :klass => @klass, :model_id => record.id) %>            
           <% else %>
-            <%=h  get_admin_data_value_for_column(column,record) %>
+            <%=h  admin_data_get_value_for_column(column,record) %>
           <% end %>  
           
         </td>
