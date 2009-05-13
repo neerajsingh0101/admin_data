@@ -4,7 +4,7 @@ class AdminDataController  < ApplicationController
   
   before_filter :secure_it
   before_filter :admin_data_ensure_update_allowed, :only => [:destroy, :delete, :edit]
-
+  before_filter :get_class_from_params, :only => [:table_structure,:quick_search,:advance_search,:list,:show,:destroy,:delete,:edit,:new,:update,:create]
 
   def migration_information
     @data = ActiveRecord::Base.connection.select_all('select * from schema_migrations');
@@ -12,9 +12,6 @@ class AdminDataController  < ApplicationController
   end
   
   def table_structure
-
-    @klass = Object.const_get(params[:klass])
-    
     @types = ActiveRecord::Base.connection.native_database_types    
 
     if ActiveRecord::Base.connection.respond_to?(:pk_and_sequence_for)
@@ -36,7 +33,6 @@ class AdminDataController  < ApplicationController
       (spec.keys - [:name, :type]).each{ |k| spec[k].insert(0, "#{k.inspect} => ")}
       spec
     end.compact
-
 
     # find all migration keys used in this table
     keys = [:name, :limit, :precision, :scale, :default, :null] & column_specs.map(&:keys).flatten
@@ -80,8 +76,6 @@ class AdminDataController  < ApplicationController
 
   def quick_search
     session[:admin_data_search_type] = 'quick'          
-    @klass = Object.const_get(params[:klass])
-    
     params[:query] = params[:query].strip
     
     if params[:query].blank?
@@ -101,16 +95,8 @@ class AdminDataController  < ApplicationController
   
   
   def advance_search
-    session[:admin_data_search_type] = 'advance'    
-    begin
-      @klass = Object.const_get(params[:klass])
-    rescue TypeError => e # in case no params[:klass] is supplied
-      redirect_to admin_data_path and return
-    rescue NameError => e # in case wrong params[:klass] is supplied
-      redirect_to admin_data_path and return
-    end
-
-    
+    session[:admin_data_search_type] = 'advance'
+        
     if !params[:adv_search].blank?
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
@@ -165,7 +151,6 @@ class AdminDataController  < ApplicationController
 
 
   def list
-    @klass = Object.const_get(params[:klass])    
     if params[:base]
       model= Object.const_get(params[:base]).find(params[:model_id])
       has_many_proxy = model.send(params[:send].intern)
@@ -183,17 +168,15 @@ class AdminDataController  < ApplicationController
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"    
   end
 
+  
   def show
     admin_data_ensure_update_allowed
-    
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/show.html.erb"        
   end
   
   def destroy
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
     
@@ -203,7 +186,6 @@ class AdminDataController  < ApplicationController
   end
 
   def delete
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
     
@@ -213,20 +195,19 @@ class AdminDataController  < ApplicationController
   end
   
   def edit
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/edit.html.erb"        
   end
 
+
+
   def new
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:new) 
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/new.html.erb"        
   end
   
   def update
-    @klass = Object.const_get(params[:klass])
     @model = @klass.send(:find,params[:model_id]) rescue nil
     render :text => "<h2>#{@klass_name} Not Found: #{params[:model_id]}</h2>", :status => 404 and return if @model.nil?
         
@@ -243,13 +224,8 @@ class AdminDataController  < ApplicationController
   end
   
   def create
-    @klass = Object.const_get(params[:klass])
-    
-        
     model_name_underscored = @klass.to_s.underscore
-    
     model_attrs = params[model_name_underscored]
-    
     @model = @klass.create(model_attrs)
     if @model.errors.any?
       render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/new.html.erb"                    
@@ -258,8 +234,6 @@ class AdminDataController  < ApplicationController
       redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.to_s)
     end
   end
-  
-  
   
   #-------
   private
@@ -277,7 +251,6 @@ class AdminDataController  < ApplicationController
     end
   end
    
-  
   def build_quick_search_conditions(klass,search_term)
     like_operator = 'LIKE'
     like_operator = 'ILIKE' if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
@@ -290,7 +263,6 @@ class AdminDataController  < ApplicationController
     end
 
     condition = attribute_conditions.join(' or ')
-
     [condition, {:search_term => "%#{search_term.downcase}%"}]
   end
   
@@ -370,6 +342,16 @@ class AdminDataController  < ApplicationController
       "'" + value.to_s(:db) + "'"
     else
       value.inspect
+    end
+  end
+  
+  def get_class_from_params
+    begin
+      @klass = Object.const_get(params[:klass])
+    rescue TypeError # in case no params[:klass] is supplied
+      redirect_to admin_data_path
+    rescue NameError # in case wrong params[:klass] is supplied
+      redirect_to admin_data_path
     end
   end
   
