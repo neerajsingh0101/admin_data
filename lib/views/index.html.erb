@@ -11,15 +11,18 @@
 <div style='float:left;'>
   <table cellspacing="3" cellpadding="3" id="view_table">
     <caption>Models</caption>
-    <% @klasses.each_with_index do |klass,index| 
-    %>
-      <tr>
-        <td>
-          <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
-          <%= klass.send(:count) %>
-        </td>  
-      </tr>
-    <% end %>
+        <% @klasses.in_groups_of(5,nil).each do |group| %>
+          <tr>
+            <% group.each do |klass| %>
+              <% if klass %>
+                <td>
+                  <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
+                  <%= klass.send(:count) %>
+                </td>  
+              <% end %>
+            <% end %>  
+          </tr>
+        <% end %>
   </table>  
 </div>
 
