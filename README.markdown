@@ -1,9 +1,10 @@
-== Introduction
+# admin_data
+
+## Introduction
 
 This is a plugin to manage your database records using browser. 
 
-== Features
-
+## Features
 
 * Browse table records.
 
@@ -29,22 +30,22 @@ This is a plugin to manage your database records using browser.
 
 * All the features are povided without using named_scope. So no new method is added to the model. It is totally non-intrusive from that point of view.
 
-== Live Demo
+## Live Demo
 
 http://www.neeraj.name/admin_data
 
 Note that in the demo you will be accessing only features available for read only. You will not be
 able to update/delete/create any record. 
 
-== Requirement
+## Requirement
 
 Your Rails project must be using Rails 2.2 or higher.
 
-== How to install this plugin
+## Installation
 
 ruby script/plugin install git://github.com/neerajdotname/admin_data.git
 
-== How to use it
+## How to use it
 
 After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
 AdminData::Routing.connect_with map. After the lines have been added it might look like this
@@ -57,7 +58,7 @@ end
 
 Now go to http://localhost:3000/admin_data
 
-== Securing the access
+## Securing the access
 
 This plugin will allow access to browse the models without any authorization check in development and test environment. 
 
@@ -72,15 +73,15 @@ ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
 ADMIN_DATA_UPDATE_ALLOWED    = false
 
 
-== Tested with
+## Tested with
 
 I have tested this plugin with MySQL and PostgreSQL. 
 
-== Feedback
+## Feedback
 
 Email me: neerajdotname [at] gmail (dot) com
 
-== License
+## License
 
 Copyright (c) 2009 Javan Makhmali
 
