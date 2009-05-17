@@ -43,7 +43,7 @@ Your Rails project must be using Rails 2.2 or higher.
 
 ## Installation
 
-ruby script/plugin install git://github.com/neerajdotname/admin_data.git
+	ruby script/plugin install git://github.com/neerajdotname/admin_data.git
 
 ## How to use it
 
@@ -51,10 +51,10 @@ After installing the plugin you need to put following lines of code in config/ro
 AdminData::Routing.connect_with map. After the lines have been added it might look like this
 
 
-ActionController::Routing::Routes.draw do |map|
-  AdminData::Routing.connect_with map
-  # ... more routing information
-end
+	ActionController::Routing::Routes.draw do |map|
+	  AdminData::Routing.connect_with map
+	  # ... more routing information
+	end
 
 Now go to http://localhost:3000/admin_data
 
@@ -65,12 +65,12 @@ This plugin will allow access to browse the models without any authorization che
 However in other environments a security check is enforced. Given below is one way to ensure authentication. Put the following
 four lines of code in an initializer at ~/config/initializers/admin_data.rb
 
-# authorization check to access the controller
-ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
+### authorization check to access the controller
+	ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
 
 
-# If you want updates to be allowed then set this constant as true
-ADMIN_DATA_UPDATE_ALLOWED    = false
+### If you want updates to be allowed then set this constant as true
+	ADMIN_DATA_UPDATE_ALLOWED    = false
 
 
 ## Tested with
