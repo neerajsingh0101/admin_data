@@ -62,8 +62,7 @@ Now go to http://localhost:3000/admin_data
 
 This plugin will allow access to browse the models without any authorization check in development and test environment. 
 
-However in other environments a security check is enforced. Given below is one way to ensure authentication. Put the following
-four lines of code in an initializer at ~/config/initializers/admin_data.rb
+However in other environments a security check is enforced. Given below is one way to ensure authentication. Put the following lines of code in an initializer at ~/config/initializers/admin_data.rb
 
 ### authorization check to access the controller
 	ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
