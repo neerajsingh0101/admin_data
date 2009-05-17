@@ -4,6 +4,7 @@ This is a plugin to manage your database records using browser.
 
 == Features
 
+
 * Browse table records.
 
 * For each individual record a snapshot of all association records is shown. Currently the associations that are supported are has_many, belongs_to and has_one. If an associated record is not present then there will be no link.
@@ -48,6 +49,7 @@ ruby script/plugin install git://github.com/neerajdotname/admin_data.git
 After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
 AdminData::Routing.connect_with map. After the lines have been added it might look like this
 
+
 ActionController::Routing::Routes.draw do |map|
   AdminData::Routing.connect_with map
   # ... more routing information
@@ -64,8 +66,11 @@ four lines of code in an initializer at ~/config/initializers/admin_data.rb
 
 # authorization check to access the controller
 ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
+
+
 # If you want updates to be allowed then set this constant as true
 ADMIN_DATA_UPDATE_ALLOWED    = false
+
 
 == Tested with
 
