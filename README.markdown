@@ -64,12 +64,12 @@ This plugin will allow access to browse the models without any authorization che
 
 However in other environments a security check is enforced. Given below is one way to ensure authentication. Put the following lines of code in an initializer at ~/config/initializers/admin_data.rb
 
-### authorization check to access the controller
-	ADMIN_DATA_AUTH = Proc.new { |controller| controller.send("admin_logged_in?") }
+### authorization check to see if the data should be shown to the user
+	ADMIN_DATA_VIEW_AUTHORIZATION = Proc.new { |controller| controller.send("admin_logged_in?") }
 
 
-### If you want updates to be allowed then set this constant as true
-	ADMIN_DATA_UPDATE_ALLOWED    = false
+### authorization check to see if the user should be allowed to update the data
+	ADMIN_DATA_UPDATE_AUTHORIZATION    = Proc.new { |controller| return false }
 
 
 ## Tested with

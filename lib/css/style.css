@@ -157,6 +157,19 @@ form.nice_form {
 	text-decoration:none;
 }
 
+#advance_search_table {
+	margin:5px;
+	padding:5px;
+	border:2px solid red;
+}
+
+.advtable td {
+	border-bottom:1px solid #F0F0EE;
+}
+.advtable td {
+	padding:10px;
+}
+
 
 .digg_pagination {
   background: white;
@@ -203,19 +216,6 @@ form.nice_form {
     height: 1%; }
   *:first-child+html .digg_pagination {
     overflow: hidden; }
-
-
-  
-
-
-
-
-
-
-
-
-
-
 
 
 

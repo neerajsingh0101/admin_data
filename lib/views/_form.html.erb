@@ -1,4 +1,4 @@
-<table cellspacing="2" cellpadding="2" width="840px">
+<table cellspacing="3" cellpadding="3" width="100%;" class='with_border'>
 
 <% @serializable = @klass.serialized_attributes %>
 
@@ -6,8 +6,10 @@
   <% uscore_name = @klass.to_s.underscore %>
   <% col_limit = col.limit || 255 %>
   <tr>
-    <td width="140px"><label for="<%= col.name %>"><%= col.name %>:</label></td>
-    <td width="70px"><%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %></td>
+    <td width="20%;">
+      <strong><%= col.name %>:</strong>
+      (<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>)
+    </td>
     <td>
       <% if @serializable.has_key?(col.name) %>
         <i>Cannot edit serialized field.</i>
@@ -19,7 +21,7 @@
         <% if col.name == 'id' %>
           <%= @model.new_record? ? '(auto)' : @model.id %>
         <% elsif col.type == :text %>
-          <textarea rows="6" cols="50" name="<%= uscore_name %>[<%= col.name %>]"><%= @model.send(col.name) %></textarea>
+          <textarea rows="6" cols="70" name="<%= uscore_name %>[<%= col.name %>]"><%= @model.send(col.name) %></textarea>
         <% elsif col.type == :datetime && ['created_at', 'updated_at'].include?(col.name) %>
           <%= @model.new_record? ? '(auto)' : @model.send(col.name) %>
         <% elsif col.type == :datetime 

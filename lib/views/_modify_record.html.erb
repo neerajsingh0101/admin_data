@@ -1,0 +1,9 @@
+<% if @controller.send(:admin_data_is_allowed_to_update?) %>
+  <div class="block">
+    <h3>Modify Record</h3>
+
+      <p><%= link_to 'Edit',:action => 'edit', :klass => @klass, :model_id => @model.id %> </p>
+      <p><%= link_to 'Delete', { :action => 'delete', :klass => @klass, :model_id => @model.id } ,{ :confirm => ' You are deleing a record. Are you sure?'} %> </p>
+      <p><%= link_to 'Destroy',{ :action => 'destroy',  :klass => @klass, :model_id => @model.id },{ :confirm => 'You are destroying a record. Are you sure?'} %></p>
+  </div>
+<% end %>

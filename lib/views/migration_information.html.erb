@@ -1,26 +1,36 @@
 <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
-<h1>
-  <%= link_to 'Admin Data', admin_data_path %> 
-</h1>   
-
-<br />
-<br />
-<div id='main_content'>
-
-   <table cellspacing="3" cellpadding="3" id="view_table" class='colorize'>
-     <caption>Migration Information</caption>
-     <% @data.each do |record| 
-     %>
-       <tr>
-         <td><%=record.keys.first%></td>  
-         <td><%=record.values.first%></td>  
-       </tr>
-     <% end %>
-   </table>  
-
-
+<div id="container">
+  
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>    
+  
+  <div id="wrapper">
+    <div id="main">
+      
+      <div class="block" id="block-tables">
+        <div class="secondary-navigation">
+          <div class="clear"></div>
+        </div>          
+        <div class="content">          
+          <h2 class="title">Migration Information from schema_migrations table</h2>
+          <div class="inner">
+              <table class="table colorize">
+                <tr>             
+                  <th class='first last'>version</th>
+                </tr>
+                <% @data.each do |record| %>
+                  <tr><td><%=record.values.first%></td></tr>
+                <% end %>  
+              </table>
+          </div>
+        </div>
+      </div>
+        
+      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>      
+      
+    </div>
+    <div class="clear"></div>      
+  </div>    
 </div>
-
 
 <%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>

@@ -12,52 +12,7 @@ class AdminDataController  < ApplicationController
   end
   
   def table_structure
-    @types = ActiveRecord::Base.connection.native_database_types    
-
-    if ActiveRecord::Base.connection.respond_to?(:pk_and_sequence_for)
-      pk, pk_seq = ActiveRecord::Base.connection.pk_and_sequence_for(@klass.table_name)
-    end
-    pk ||= 'id'
-
-    column_specs = @klass.columns.map do |column|
-      raise StandardError, "Unknown type '#{column.sql_type}' for column '#{column.name}'" if @types[column.type].nil?
-      next if column.name == pk
-      spec = {}
-      spec[:name]      = column.name.inspect
-      spec[:type]      = column.type.to_s
-      spec[:limit]     = column.limit.inspect if column.limit != @types[column.type][:limit] && column.type != :decimal
-      spec[:precision] = column.precision.inspect if !column.precision.nil?
-      spec[:scale]     = column.scale.inspect if !column.scale.nil?
-      spec[:null]      = 'false' if !column.null
-      spec[:default]   = default_string(column.default) if column.has_default?
-      (spec.keys - [:name, :type]).each{ |k| spec[k].insert(0, "#{k.inspect} => ")}
-      spec
-    end.compact
-
-    # find all migration keys used in this table
-    keys = [:name, :limit, :precision, :scale, :default, :null] & column_specs.map(&:keys).flatten
-
-    # figure out the lengths for each column based on above keys
-    lengths = keys.map{ |key| column_specs.map{ |spec| spec[key] ? spec[key].length + 2 : 0 }.max }
-
-    # the string we're going to sprintf our values against, with standardized column widths
-    format_string = lengths.map{ |len| "%-#{len}s" }
-
-    # find the max length for the 'type' column, which is special
-    type_length = column_specs.map{ |column| column[:type].length }.max
-
-    # add column type definition to our format string
-    format_string.unshift "    %-#{type_length}s "
-
-    format_string *= ''
-
-    @records = []
-    column_specs.each do |colspec|
-      values = keys.zip(lengths).map{ |key, len| colspec.key?(key) ? colspec[key] + ", " : " " * len }
-      values.unshift colspec[:type]
-      @records << ((format_string % values).gsub(/,\s*$/, ''))
-    end
-    
+    @indexes = []
     if (indexes = ActiveRecord::Base.connection.indexes(@klass.table_name)).any?
       add_index_statements = indexes.map do |index|
         statment_parts = [ ('add_index ' + index.table.inspect) ]
@@ -67,15 +22,14 @@ class AdminDataController  < ApplicationController
 
         '  ' + statment_parts.join(', ')
       end
-      @records << ""
-      add_index_statements.sort.each { |index| @records << index }
+      add_index_statements.sort.each { |index| @indexes << index }
     end  
     
     render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/table_structure.html.erb"        
   end
 
+
   def quick_search
-    session[:admin_data_search_type] = 'quick'          
     params[:query] = params[:query].strip
     
     if params[:query].blank?
@@ -95,8 +49,6 @@ class AdminDataController  < ApplicationController
   
   
   def advance_search
-    session[:admin_data_search_type] = 'advance'
-        
     if !params[:adv_search].blank?
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
@@ -111,18 +63,19 @@ class AdminDataController  < ApplicationController
         
     respond_to do |format|
         format.html {
-          render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/list.html.erb"               
+          render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/advance_search.html.erb"               
         }
         format.js {
           render :file => "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/_search_results.html.erb"               
         }
-      end
+    end
+
   end
   
   def index
     @klasses = []
     models = []
-
+    
     model_dir = File.join(RAILS_ROOT,'app','models')
     Dir.chdir(model_dir) { models = Dir["**/*.rb"] }
     
@@ -235,10 +188,8 @@ class AdminDataController  < ApplicationController
     end
   end
   
-  #-------
   private
-  #-------
-   
+  
   def ensure_is_allowed_to_view
     render :text => 'You are not authorized' unless admin_data_is_allowed_to_view?
   end
@@ -326,16 +277,6 @@ class AdminDataController  < ApplicationController
       table_name_and_attribute_name =  klass.table_name+'.'+column.name    
   end
   
-  def default_string(value)
-    case value
-    when BigDecimal
-      value.to_s
-    when Date, DateTime, Time
-      "'#{value.to_s(:db)}'"
-    else
-      value.inspect
-    end
-  end
   
   def get_class_from_params
     begin

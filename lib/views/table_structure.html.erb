@@ -1,30 +1,82 @@
 <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
-<h1>
-  <%= link_to 'Admin Data', admin_data_path %> 
-  >
-  <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
-</h1>   
+<div id="container">
+  
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>    
+  
+  <div id="wrapper">
+    <div id="main">
+    
+    <div class='breadcrum'>
+        <%= link_to 'Home',admin_data_path %>
+        >
+        <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+    </div>
+      
+      
+      <h2 class="title"><%=@klass.name%></h2>        
 
+      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>      
+      
+      <div class="block" id="block-tables">
+        <div class="secondary-navigation">
+            <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_secondary_navigation.html.erb'))).result(binding) %>                                              
+          <div class="clear"></div>
+        </div>          
+        <div class="content">          
+          <h2 class="title"></h2>
+          <div class="inner">
+          
+            <h2> Columns</h2>
+            <table class="table colorize">
+              <tr>
+                <th>Column Name</th>
+                <th>Type</th>
+                <th>Null</th>
+                <th>Default</th>
+              </tr>
+              <% @klass.columns.each do |column| %>
+                 <tr>
+                  <td><%=column.name%></td>
+                  <td><%=column.type%></td>
+                  <td><%=column.null%></td>
+                  <td><%=admin_data_default_string(column.default) if column.has_default?%></td>
+                 </tr>
+              <% end %>  
+            </table>
 
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
-
-<div id='main_content'>
-
-  <table cellspacing="3" cellpadding="3" id="view_table" class='colorize'>
-    <caption>Structure for <%=@klass.table_name%> table</caption>
-    <% @records.each do |record| 
-    %>
-      <tr>
-        <td>
-          <%=record%>
-        </td>  
-      </tr>
-    <% end %>
-  </table>  
+            <h2> Indexes</h2>            
+            <% if @indexes.size == 0 %>
+              <p>No index was found </p>
+            <% else %>  
+              <table class="table colorize">
+                <tr>
+                  <th>Info</th>
+                </tr>
+                <% @indexes.each do |index| %>
+                   <tr>
+                    <td><%= index %></td>
+                   </tr>
+                <% end %>  
+              </table>
+            <% end %>
+            
+            
+            
+          
+          </div>
+        </div>
+      </div>
+        
+      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>      
+    </div>
+      
+    <div class="clear"></div>      
+  </div>    
 </div>
-
-</div>
-
 
 <%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>
+
+
+
+

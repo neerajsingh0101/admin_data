@@ -1,0 +1,60 @@
+<div class="block">
+  <h3>Association Information</h3>
+
+    <% if (admin_data_belongs_to_what(@klass.name).size > 0)  || 
+          (admin_data_has_many_what(@klass.name).size > 0) ||
+          (admin_data_has_one_what(@klass.name).size > 0) 
+    %>
+
+        <% if admin_data_belongs_to_what(@klass.name).size > 0 %>
+          <p>
+            <strong>belongs_to :</strong> 
+
+            <% admin_data_belongs_to_what(@klass.name).each do |bt| %>
+              &nbsp;      
+              <% if  @model.send(bt) %>
+                  <%= link_to bt, {:action => 'show', :klass => admin_data_get_belongs_to_class(@model,bt), :model_id => @model.send(bt).id} %>        
+              <% else %>
+                  <%= bt %>              
+              <% end %>  
+            <% end %>  
+          </p> 
+        <% end %>  
+
+        <% if admin_data_has_one_what(@klass.name).size > 0 %>
+          <p>
+            <strong>has_one :</strong> 
+
+            <% admin_data_has_one_what(@klass.name).each do |bt| %>
+              &nbsp;      
+              <% if  @model.send(bt) %>
+                  <%= link_to bt, {:action => 'show', :klass => admin_data_get_belongs_to_class(@model,bt), :model_id => @model.send(bt).id} %>        
+              <% else %>
+                  <%= bt %>              
+              <% end %>  
+            <% end %>  
+          </p> 
+        <% end %>  
+
+        <% if admin_data_has_many_what(@klass.name).size > 0 %>
+          <p>
+            <strong>has_many :</strong>
+             <% admin_data_has_many_what(@klass.name).each do |hm| 
+                 label = hm + '(' + admin_data_has_many_count(@model,hm).to_s + ')'
+             %>
+              <% if   admin_data_has_many_count(@model,hm) > 0 %>
+                <%= link_to label, {:action => 'list', 
+                                    :klass => admin_data_get_has_many_class(@model,hm), 
+                                    :send => hm,
+                                    :base => @klass.name, 
+                                    :model_id => @model.id} %>        
+              <% else %>
+                <%= label %>      
+              <% end %>  
+              &nbsp;
+            <% end %>  
+          </p> 
+        <% end %>  
+
+    <% end %>
+</div>

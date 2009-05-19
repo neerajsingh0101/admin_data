@@ -1,11 +1,28 @@
+def admin_data_default_string(value)
+  case value
+  when BigDecimal
+    value.to_s
+  when Date, DateTime, Time
+    "'#{value.to_s(:db)}'"
+  else
+    value.inspect
+  end
+end
+
+
+def admin_data_am_i_active(action_name)
+  action_names = action_name.split
+  action_names.include?(params[:action]) ? 'active' : ''
+end
+
 def admin_data_is_allowed_to_update?
   return true if Rails.env.development? || Rails.env.test?  
   begin
-    output = Object.const_get('ADMIN_DATA_UPDATE_ALLOWED').call(self)
-    Rails.logger.info("Authentication for ADMIN_DATA_UPDATE_ALLOWED was called and the result was #{output}")    
+    output = Object.const_get('ADMIN_DATA_UPDATE_AUTHORIZATION').call(self)
+    Rails.logger.info("Authentication for ADMIN_DATA_UPDATE_AUTHORIZATION was called and the result was #{output}")    
     return false unless output    
   rescue NameError => e
-    Rails.logger.info("ADMIN_DATA_UPDATE_ALLOWED is not declared. " + e.to_s)      
+    Rails.logger.info("ADMIN_DATA_UPDATE_AUTHORIZATION is not declared. " + e.to_s)      
     return false
   end
   true
@@ -14,11 +31,11 @@ end
 def admin_data_is_allowed_to_view?
   return true if Rails.env.development? || Rails.env.test?  
   begin
-    output = Object.const_get('ADMIN_DATA_AUTH').call(self)
-    Rails.logger.info("Authentication for ADMIN_DATA_AUTH was called and the result was #{output}")    
+    output = Object.const_get('ADMIN_DATA_VIEW_AUTHORIZATION').call(self)
+    Rails.logger.info("Authentication for ADMIN_DATA_VIEW_AUTHORIZATION was called and the result was #{output}")    
     return false unless output    
   rescue NameError => e
-    Rails.logger.info("ADMIN_DATA_AUTH is not declared. " + e.to_s)      
+    Rails.logger.info("ADMIN_DATA_VIEW_AUTHORIZATION is not declared. " + e.to_s)      
     return false
   end
   true

@@ -1,6 +1,6 @@
 <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
   <div id="container">
-    
+
     <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>      
     
     <div id="wrapper">
@@ -18,11 +18,11 @@
         
         <div class="block" id="block-text">
           <div class="secondary-navigation">
-            <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_secondary_navigation.html.erb'))).result(binding) %>                                      
+            <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_secondary_navigation.html.erb'))).result(binding) %>                          
             <div class="clear"></div>
           </div>          
           <div class="content">         
-              <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_quick_search_form.html.erb'))).result(binding) %>                    
+              <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_advance_search_form.html.erb'))).result(binding) %>                    
           </div>
         </div>
 
@@ -31,7 +31,7 @@
             <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_search_results.html.erb'))).result(binding) %>
           </div>
         </div>
-                   
+
         <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>                    
         
       </div>

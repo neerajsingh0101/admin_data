@@ -1,23 +1,14 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_search_tool_bar.html.erb'))).result(binding) %>     
-
 <%= form_tag('/admin_data/advance_search',:method => 'get', :id => 'advance_search_form')%>
     <input type="hidden" name="klass" value="<%=@klass.to_s%>" />       
     <input type="hidden" name="search_type" value="advance" />        
     <div id='advance_search' class='search_box'>
-     <h4> 
-        Advance Search 
-     </h4>
-   
+     <h2>Advance Search</h2>
      <input type="submit" value="Search" />
-   
-     <table id='advance_search_table'>
+     <table id='advance_search_table' class='advtable'>
      </table>
-
      <input type="submit" value="Search" />
    </div>
-   
 </form>   
-
 
 <div style='display:none;' id='ram_table_structure_data'>
   <% 

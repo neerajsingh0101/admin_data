@@ -1,0 +1,10 @@
+<div id="header">
+  <h1><a href="index.html">admin_data</a></h1>
+  <div id="main-navigation">
+    <ul>
+      <li class="first <%=admin_data_am_i_active('index list show table_structure advance_search new create edit')%>"><%= link_to 'Home',admin_data_path %></li>
+      <li class="<%=admin_data_am_i_active('migration_information')%>"><%= link_to 'Migration Information', '/admin_data/migration_information' %>
+    </ul>
+    <div class="clear"></div>
+  </div>
+</div>    

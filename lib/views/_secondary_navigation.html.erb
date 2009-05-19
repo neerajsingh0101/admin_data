@@ -1,0 +1,14 @@
+<ul>
+  <li class="first <%=admin_data_am_i_active('list quick_search')%>">
+    <%= link_to 'Quick Search',admin_data_list_path(:klass => @klass.name) %> 
+  </li>
+  <li class="<%=admin_data_am_i_active('advance_search')%>">
+    <%= link_to 'Advance Search',"/admin_data/advance_search?klass=#{@klass.name}" %>
+  </li>
+  <li class="<%=admin_data_am_i_active('table_structure')%>">
+    <%= link_to 'Table Structure',"/admin_data/table_structure?klass=#{@klass.name}" %>
+  </li>
+  <li class="<%=admin_data_am_i_active('new')%>">
+    <%= link_to '+Add New Record',"/admin_data/new?klass=#{@klass.name}" %>
+  </li>
+</ul>

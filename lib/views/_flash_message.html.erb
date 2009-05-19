@@ -1,4 +1,18 @@
-<p style='color:red;font-size:140%;'>
-  <%= flash[:success] %>
-  <%= flash[:error] %>  
-</p>
+<div class='flash'>  
+  <% if @model && @model.errors.any? %>
+      <div class='message error'>
+        <% @model.errors.full_messages.each do |message| %>
+          <p><%=message%></p>
+        <% end %>  
+      </div>
+  <% end %>  
+
+  <% if flash[:success] %>
+    <div class='message warning'>
+      <%=flash[:success]%>
+    </div>
+  <% end %>  
+  
+</div>  
+
+
