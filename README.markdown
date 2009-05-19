@@ -82,7 +82,7 @@ Email me: neerajdotname [at] gmail (dot) com
 
 ## License
 
-Copyright (c) 2009 Javan Makhmali
+Copyright (c) 2009 neerajdotname
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
