@@ -20,4 +20,8 @@ load_will_paginate
 require 'admin_data_date_validation'
 require 'admin_data_helpers'
 
-raise 'plugin admin_data only works with Rails 2.2 and higher' if Rails.version < "2.2.0"
+if Rails.version < "2.2.0"
+  raise 'plugin admin_data only works with Rails 2.2 and higher' 
+elsif Rails.version > '2.2.0' && Rails.version < '2.3.0'
+  raise 'this plugin admin_data only works with Rails 2.3 and higher. You are using Rails 2.2 . Please read README on how to use this plugin with Rails 2.2'   
+end

@@ -41,22 +41,38 @@ able to update/delete/create any record.
 
 Your Rails project must be using Rails 2.2 or higher.
 
-## Installation
+## Installation instruction if you are using Rails 2.3
 
 	ruby script/plugin install git://github.com/neerajdotname/admin_data.git
+	
+## Installation instruction if you are using Rails 2.2
 
-## How to use it
+If you are using Rails 2.2 then you need to checkout older version of this plugin like this
+
+   git clone git://github.com/neerajdotname/admin_data.git
+   cd admin_data
+   git co -b for_rails_2.2 origin/for_rails_2.2
+   cd ..
+   cp -rv admin_data my_app/vendor/plugins 
+
+
+After the plugin has been copied to your vendor/plugins directory then you need to make certain
+changes to the config/routes.rb .
 
 After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
-AdminData::Routing.connect_with map. After the lines have been added it might look like this
 
+	AdminData::Routing.connect_with map. 
+
+After the lines have been added it might look like this
 
 	ActionController::Routing::Routes.draw do |map|
 	  AdminData::Routing.connect_with map
 	  # ... more routing information
 	end
 
-Now go to http://localhost:3000/admin_data
+## How to use it
+
+	http://localhost:3000/admin_data
 
 ## Securing the access
 
