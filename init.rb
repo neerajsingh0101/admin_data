@@ -17,7 +17,6 @@ end
 
 load_will_paginate
   
-require 'routing'
 require 'admin_data_date_validation'
 require 'admin_data_helpers'
 

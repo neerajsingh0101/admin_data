@@ -1,9 +1,5 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
-
 <div id="container">
-  
   <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>    
-  
   <div id="wrapper">
     <div id="main">
     
@@ -74,9 +70,3 @@
     <div class="clear"></div>      
   </div>    
 </div>
-
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>
-
-
-
-

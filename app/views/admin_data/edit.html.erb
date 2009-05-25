@@ -1,4 +1,3 @@
-<%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_top.html.erb'))).result(binding) %>
 
 <div id="container">
   
@@ -15,10 +14,10 @@
           <%= link_to "ID #{@model.id}", ''%>  
       </div>
     
-      <h2 class="title"><%=@model.class.name%> ID <%=@model.id%></h2>        
-
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>      
+      <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
       
+      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>      
+
       <div class="block" id="block-tables">
         <div class="secondary-navigation">
           <div class="clear"></div>
@@ -26,16 +25,12 @@
         <div class="content">          
           <h2 class="title"></h2>
           <div class="inner">
-              <table class="table with_border" cellspacing="3" cellpadding="3">
-              <% @klass.columns.each_with_index do |column,index| %>
-                <tr>
-                  <td><%= column.name %></td>
-                  <td style="font-size:120%;">
-                    <%=h  admin_data_get_value_for_column(column,@model) %>
-                  </td>
-                </tr>
-              <% end %>
-              </table>
+          
+            <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},{:class => 'nice_form'}) %>
+              <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_form.html.erb'))).result(binding) %>
+            </form>
+          
+          
           </div>
         </div>
       </div>
@@ -51,5 +46,3 @@
     <div class="clear"></div>      
   </div>    
 </div>
-
-<%= File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_bottom.html.erb')) %>
