@@ -45,6 +45,8 @@ Your Rails project must be using Rails 2.2 or higher.
 
 	ruby script/plugin install git://github.com/neerajdotname/admin_data.git
 	
+that's it. Now visit http://localhost:3000/admin_data	
+	
 ## Installation instruction if you are using Rails 2.2
 
 If you are using Rails 2.2 then you need to checkout older version of this plugin like this
