@@ -49,15 +49,11 @@ Your Rails project must be using Rails 2.2 or higher.
 
 If you are using Rails 2.2 then you need to checkout older version of this plugin like this
 
-   git clone git://github.com/neerajdotname/admin_data.git
-
-   cd admin_data
-
-   git co -b for_rails_2.2 origin/for_rails_2.2
-
-   cd ..
-
-   cp -rv admin_data my_app/vendor/plugins 
+	git clone git://github.com/neerajdotname/admin_data.git
+   	cd admin_data
+   	git co -b for_rails_2.2 origin/for_rails_2.2
+   	cd ..
+   	cp -rv admin_data my_app/vendor/plugins 
 
 
 After the plugin has been copied to your vendor/plugins directory then you need to make certain
