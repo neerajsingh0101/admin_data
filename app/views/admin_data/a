@@ -1,0 +1,40 @@
+<div id="container">
+  
+  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>  
+  
+  <div id="wrapper">
+    <div id="main">
+      
+      <div class="block" id="block-tables">
+        <div class="secondary-navigation">
+          <div class="clear"></div>
+        </div>          
+        <div class="content">          
+          <h2 class="title">Models</h2>
+          <div class="inner">
+              <table class="table">
+                <% @klasses.in_groups_of(2,nil).each do |group| %>
+                  <tr>
+                    <% group.each do |klass| %>
+                      <% if klass %>
+                        <td width='25%;' style='font-size:140%;'>
+                          <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
+                          <%= klass.send(:count) %>
+                        </td>  
+                      <% else %>
+                        <td width='25%;'>&nbsp;</td>  
+                      <% end %>
+                    <% end %>  
+                  </tr>
+                <% end %>
+              </table>
+          </div>
+        </div>
+      </div>
+        
+      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>            
+      
+    </div>
+    <div class="clear"></div>      
+  </div>    
+</div>
