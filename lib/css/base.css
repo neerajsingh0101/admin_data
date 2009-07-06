@@ -485,3 +485,13 @@ input[disabled], input[readonly], select[disabled], select[readonly], checkbox[d
  color: #000000;
  cursor: default;
 }
+
+span.title {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+span.records_count {
+  color: dimgray;
+  font-size: 13px;
+}  

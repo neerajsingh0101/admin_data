@@ -14,13 +14,12 @@
     <% if params[:action] == 'advance_search' %>
       <script>
         <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','search_core.js')) %>    
-        <%=f.read%>
+        <%= f.read %>
 
         <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','jquery.form.js')) %>    
-        <%=f.read%>
+        <%= f.read %>
       </script>
     <% end %>
-  
   
     <script>
       $(document).ready(function(){
@@ -34,15 +33,14 @@
 	
   	<style type='text/css'>
       <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','css','base.css')) %>    
-      <%=f.read%>
+      <%= f.read %>
       <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','css','green.css')) %>    
-      <%=f.read%>    
+      <%= f.read %>    
     </style>  
   </head>
 
   <body>
-    <%=yield%>
+    <%= yield %>
   </body>
   
 </html>
-

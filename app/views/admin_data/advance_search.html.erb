@@ -1,42 +1,45 @@
-  <div id="container">
+<div id="container">
 
-    <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>      
-    
-    <div id="wrapper">
-      <div id="main_big">
+  <%= erb_file('lib','views','_header.html.erb') %>      
+  
+  <div id="wrapper">
+    <div id="main_big">
 
-      <div class='breadcrum'>
-          <%= link_to 'Home',admin_data_path %>
-          >
-          <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
-      </div>
-        
-        <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>              
-        
-        <h2 class="title"><%=@klass.name%></h2>        
-        
-        <div class="block" id="block-text">
-          <div class="secondary-navigation">
-            <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_secondary_navigation.html.erb'))).result(binding) %>                          
-            <div class="clear"></div>
-          </div>          
-          <div class="content">         
-              <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_advance_search_form.html.erb'))).result(binding) %>                    
-          </div>
+    <div class='breadcrum'>
+        <%= link_to 'Home',admin_data_path %>
+        >
+        <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+    </div>
+      
+    <%= erb_file('lib','views','_flash_message.html.erb') %>
+      
+    <p>
+      <span class="title"><%= @klass.name %></span>
+      <span class='records_count'>(<%= @klass.count %> records)</span>
+    </p>        
+      
+      <div class="block" id="block-text">
+        <div class="secondary-navigation">
+          <%= erb_file('lib','views','_secondary_navigation.html.erb') %>
+          <div class="clear"></div>
+        </div>          
+        <div class="content">         
+            <%= erb_file('lib','views','_advance_search_form.html.erb') %>                    
         </div>
-
-        <div class="block" id="block-tables">
-          <div class="content">          
-            <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_search_results.html.erb'))).result(binding) %>
-          </div>
-        </div>
-
-        <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>                    
-        
       </div>
-      <div class="clear"></div>      
-    </div>    
-    <div id="box">
+
+      <div class="block" id="block-tables">
+        <div class="content">          
+          <%= erb_file('lib','views','_search_results.html.erb') %>
+        </div>
+      </div>
+
+      <%= erb_file('lib','views','_powered_by.html.erb') %>                    
       
     </div>
+    <div class="clear"></div>      
+  </div>    
+  <div id="box">
+    
   </div>
+</div>

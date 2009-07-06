@@ -27,47 +27,26 @@ class AdminDataController  < ApplicationController
     end  
   end
 
-
   def quick_search
     params[:query] = params[:query].strip
-    
-    if params[:query].blank?
-      @records = @klass.send( :paginate,
-                              :page => params[:page],
-                              :order => "#{@klass.table_name}.id desc",
-                              :per_page => 25)            
-    else
-      @records = @klass.paginate( :page => params[:page],
+    @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
-                                  :order => "#{@klass.table_name}.id desc",
+                                  :order => params[:sortby], 
                                   :conditions => build_quick_search_conditions(@klass,params[:query]))
-    end
     render :action => 'list'
   end
   
-  
   def advance_search
-    if !params[:adv_search].blank?
-      @records = @klass.paginate( :page => params[:page],
+    @records = @klass.paginate( :page => params[:page],
                                   :per_page => 25,
-                                  :order => "#{@klass.table_name}.id desc",
+                                  :order => params[:sortby],
                                   :conditions => build_advance_search_conditions(@klass,params[:adv_search]))
-    else
-      @records = @klass.send( :paginate,
-                              :page => params[:page],
-                              :per_page => 25,
-                              :order => "#{@klass.table_name}.id desc")      
-    end
-        
     respond_to do |format|
-        format.html {
-          render
-        }
+        format.html { render }
         format.js {
           render :file => "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/_search_results.html.erb"               
         }
     end
-
   end
   
   def index
@@ -99,7 +78,6 @@ class AdminDataController  < ApplicationController
     end
   end
 
-
   def list
     if params[:base]
       model= Object.const_get(params[:base]).find(params[:model_id])
@@ -116,7 +94,6 @@ class AdminDataController  < ApplicationController
     end
   end
 
-  
   def show
     admin_data_is_allowed_to_update?
     @model = @klass.send(:find,params[:model_id]) rescue nil
@@ -148,7 +125,6 @@ class AdminDataController  < ApplicationController
 
   def new
     @model = @klass.send(:new) 
-    # render :file =>   "#{RAILS_ROOT}/vendor/plugins/admin_data/lib/views/new.html.erb"        
   end
   
   def update
@@ -186,6 +162,7 @@ class AdminDataController  < ApplicationController
   end
    
   def build_quick_search_conditions(klass,search_term)
+    return nil if search_term.blank?
     like_operator = 'LIKE'
     like_operator = 'ILIKE' if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
     
@@ -201,6 +178,8 @@ class AdminDataController  < ApplicationController
   end
   
   def build_advance_search_conditions(klass,search_options)
+    return nil if params[:adv_search].blank?
+
     attribute_conditions = []    
     terms = {}    
     
@@ -213,34 +192,42 @@ class AdminDataController  < ApplicationController
       
       tmp_key = 'tmp'+key.to_s
       
-      
       like_operator = 'LIKE'
       like_operator = 'ILIKE' if ActiveRecord::Base.connection.adapter_name == 'PostgreSQL'
       
       case col2
       when 'contains':
         attribute_conditions << ["#{klass.table_name}.#{col1} #{like_operator} ?","%#{col3}%"] if !col3.blank?
+      
       when 'is_exactly':
         attribute_conditions << ["#{klass.table_name}.#{col1} = ?",col3] if !col3.blank?
+      
       when 'does_not_contain':
         attribute_conditions << ["#{klass.table_name}.#{col1} NOT #{like_operator} ?","%#{col3}%"] if !col3.blank?        
+      
       when 'is_false':
         attribute_conditions << ["#{klass.table_name}.#{col1} = ?",false]                  
+      
       when 'is_true':  
         attribute_conditions << ["#{klass.table_name}.#{col1} = ?",true]        
+      
       when 'is_null':  
         attribute_conditions << "#{klass.table_name}.#{col1} IS NULL"        
+      
       when 'is_not_null':
         attribute_conditions << "#{klass.table_name}.#{col1} IS NOT NULL"        
+      
       when 'is_on':
         if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} >= ?",time_obj.beginning_of_day]
           attribute_conditions << ["#{klass.table_name}.#{col1} < ?",time_obj.end_of_day]
         end
+      
       when 'is_on_or_before_date':
         if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} <= ?",time_obj.end_of_day]
         end
+      
       when 'is_on_or_after_date':
         if (time_obj = AdminDataDateValidation.validate_with_operator(col3))
           attribute_conditions << ["#{klass.table_name}.#{col1} >= ?",time_obj.beginning_of_day]
@@ -263,11 +250,9 @@ class AdminDataController  < ApplicationController
     condition
   end
   
-
   def table_name_and_attribute_name(klass,column)
-      table_name_and_attribute_name =  klass.table_name+'.'+column.name    
+    table_name_and_attribute_name =  klass.table_name+'.'+column.name    
   end
-  
   
   def get_class_from_params
     begin
@@ -278,6 +263,5 @@ class AdminDataController  < ApplicationController
       redirect_to admin_data_path
     end
   end
-  
   
 end

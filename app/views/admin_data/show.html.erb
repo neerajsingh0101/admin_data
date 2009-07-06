@@ -1,5 +1,5 @@
 <div id="container">
-  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>    
+  <%= erb_file('lib','views','_header.html.erb') %>    
   <div id="wrapper">
     <div id="main">
     
@@ -13,7 +13,7 @@
     
       <h2 class="title"><%=@model.class.name%> ID <%=@model.id%></h2>        
 
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>      
+      <%= erb_file('lib','views','_flash_message.html.erb') %>      
       
       <div class="block" id="block-tables">
         <div class="secondary-navigation">
@@ -36,12 +36,12 @@
         </div>
       </div>
         
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>      
+      <%= erb_file('lib','views','_powered_by.html.erb') %>      
     </div>
     
     <div id="sidebar">
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_association_info.html.erb'))).result(binding) %>            
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_modify_record.html.erb'))).result(binding) %>            
+      <%= erb_file('lib','views','_association_info.html.erb') %>            
+      <%= erb_file('lib','views','_modify_record.html.erb') %>            
     </div>  
       
     <div class="clear"></div>      

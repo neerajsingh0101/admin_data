@@ -18,6 +18,8 @@ This is a plugin to manage your database records using browser.
 
 * Advance search for each field of the each of the table.
 
+* Along with search sort the result on any column in ascending or descending order.
+
 * Browse migration records from the table even though there is no corresponding model for it.
 
 * Add a new record (persmission check enforced)

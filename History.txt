@@ -1,0 +1,8 @@
+=== 0.0.2 2009-07-06
+
+* ability to sort records
+* better visual clue that search is in progress
+
+=== 0.0.1 2009-05-01
+
+* Initial release

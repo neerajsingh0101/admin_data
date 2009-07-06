@@ -1,7 +1,7 @@
 
 <div id="container">
   
-  <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_header.html.erb'))).result(binding) %>    
+  <%= erb_file('lib','views','_header.html.erb') %>    
   
   <div id="wrapper">
     <div id="main">
@@ -16,7 +16,7 @@
     
       <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
       
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_flash_message.html.erb'))).result(binding) %>      
+      <%= erb_file('lib','views','_flash_message.html.erb') %>      
 
       <div class="block" id="block-tables">
         <div class="secondary-navigation">
@@ -25,22 +25,19 @@
         <div class="content">          
           <h2 class="title"></h2>
           <div class="inner">
-          
             <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},{:class => 'nice_form'}) %>
-              <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_form.html.erb'))).result(binding) %>
+              <%= erb_file('lib','views','_form.html.erb') %>
             </form>
-          
-          
           </div>
         </div>
       </div>
         
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_powered_by.html.erb'))).result(binding) %>      
+      <%= erb_file('lib','views','_powered_by.html.erb') %>      
     </div>
     
     <div id="sidebar">
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_association_info.html.erb'))).result(binding) %>            
-      <%= ERB.new(File.read(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','views','_modify_record.html.erb'))).result(binding) %>            
+      <%= erb_file('lib','views','_association_info.html.erb') %>            
+      <%= erb_file('lib','views','_modify_record.html.erb') %>            
     </div>  
       
     <div class="clear"></div>      

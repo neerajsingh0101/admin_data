@@ -4,12 +4,20 @@
   <div class='search_box'>
       <div id='quick_search'>
         <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>"/>
-        <input type="submit" value="Search" />
+      <span style='margin:5px 0 0 10px;'>
+        sort by
+        <select name='sortby'>
+          <%= build_sort_options(@klass) %>
+        </select>
+      </span>
       </div>
+      <div style='margin-top:10px;'>
+        <%= submit_tag 'Search', :disable_with => 'searching ...' %>
+      </div>  
  </div>
 </form>
 <br />
 
 <script type="text/javascript">
-    document.getElementById("quick_search_input").focus()
+  document.getElementById("quick_search_input").focus()
 </script>

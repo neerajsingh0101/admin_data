@@ -1,3 +1,28 @@
+def build_sort_options(klass)
+  output = []
+  klass.columns.each do |column|
+    name = column.name
+
+    selected_text = params[:sortby] == "#{name} desc" ? "selected='selected'" : ''
+    output << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
+
+    selected_text = params[:sortby] == "#{name} asc" ? "selected='selected'" : ''
+    output << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
+  end
+  output.join
+end
+          
+def erb_file(*args)
+  s = args
+  b = []
+  b << RAILS_ROOT
+  b << 'vendor'
+  b << 'plugins'
+  b << 'admin_data'
+  tmp = b + args
+  ERB.new(File.read(File.join(tmp))).result(binding)      
+end
+
 def admin_data_default_string(value)
   case value
   when BigDecimal
