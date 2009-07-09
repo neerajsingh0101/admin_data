@@ -7,6 +7,7 @@ class AdminDataController  < ApplicationController
   before_filter :ensure_is_allowed_to_view
   before_filter :admin_data_is_allowed_to_update?, :only => [:destroy, :delete, :edit]
   before_filter :get_class_from_params, :only => [:table_structure,:quick_search,:advance_search,:list,:show,:destroy,:delete,:edit,:new,:update,:create]
+  before_filter :build_klasses
 
   def migration_information
     @data = ActiveRecord::Base.connection.select_all('select * from schema_migrations');
@@ -50,33 +51,9 @@ class AdminDataController  < ApplicationController
   end
   
   def index
-    @klasses = []
-    models = []
-    
-    model_dir = File.join(RAILS_ROOT,'app','models')
-    Dir.chdir(model_dir) { models = Dir["**/*.rb"] }
-    
-    models = models.sort
-    
-    models.each do |model|
-      class_name = model.sub(/\.rb$/,'').camelize      
-      begin
-        # for models/foo/bar/baz.rb
-        klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) } 
-      rescue Exception
-      end
-      if klass && klass.ancestors.include?(ActiveRecord::Base)  && !@klasses.include?(klass)
-        # it is possible that a model doesnot have a table because migration has not been run or
-        # migration has deleted the table but the model has not been deleted. So remove those classes from the list
-        # I will send a count method to determine if a table is existing or not
-        begin
-          klass.send(:count)
-          @klasses << klass 
-        rescue ActiveRecord::StatementInvalid  => e
-        end
-      end
-    end
+    #render
   end
+
 
   def list
     if params[:base]
@@ -263,5 +240,34 @@ class AdminDataController  < ApplicationController
       redirect_to admin_data_path
     end
   end
+
   
+  def build_klasses
+    @klasses = []
+    models = []
+    
+    model_dir = File.join(RAILS_ROOT,'app','models')
+    Dir.chdir(model_dir) { models = Dir["**/*.rb"] }
+    
+    models = models.sort
+    
+    models.each do |model|
+      class_name = model.sub(/\.rb$/,'').camelize      
+      begin
+        # for models/foo/bar/baz.rb
+        klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) } 
+      rescue Exception
+      end
+      if klass && klass.ancestors.include?(ActiveRecord::Base)  && !@klasses.include?(klass)
+        # it is possible that a model doesnot have a table because migration has not been run or
+        # migration has deleted the table but the model has not been deleted. So remove those classes from the list
+        # I will send a count method to determine if a table is existing or not
+        begin
+          klass.send(:count)
+          @klasses << klass 
+        rescue ActiveRecord::StatementInvalid  => e
+        end
+      end
+    end
+  end
 end

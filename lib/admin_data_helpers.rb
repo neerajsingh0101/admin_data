@@ -1,3 +1,9 @@
+def build_drop_down_for_klasses
+  @klasses.inject([]) do |result,klass|
+    result << [klass.name, "http://#{request.host_with_port}/admin_data/list?klass=#{klass.name}"]
+  end
+end
+
 def build_sort_options(klass)
   output = []
   klass.columns.each do |column|

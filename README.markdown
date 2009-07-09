@@ -6,17 +6,19 @@ This is a plugin to manage your database records using browser.
 
 ## Features
 
+* Totally non intrusive. No change is required anywhere in your app. All the features are provided without using any named_scope. Nothing is stored in sesssion or in cookies. 
+
 * Browse table records.
 
-* For each individual record a snapshot of all association records is shown. Currently the associations that are supported are has_many, belongs_to and has_one. If an associated record is not present then there will be no link.
+* For each individual record a snapshot of all association records is shown. Associations that are supported are has_many, belongs_to and has_one. If an associated record is not present then there will be no link.
 
-* Next to association a count of number of associated records is show. 
+* Next to association a count of number of associated records is shown. 
 
-* Al the associated records are link so one can navigate from record to record. 
+* Al the associated records are links so one can navigate from record to record. 
 
-* Quick search across all records in the table.
+* Quick search across all records in a table.
 
-* Advance search for each field of the each of the table.
+* Advance search for each field of each of the tables.
 
 * Along with search sort the result on any column in ascending or descending order.
 
@@ -29,8 +31,6 @@ This is a plugin to manage your database records using browser.
 * Delete an existing record (persmission check enforced and no callbacks)
 
 * Destroy an existing record (persmission check enforced and callbacks will be invoked)
-
-* All the features are povided without using named_scope. So no new method is added to the model. It is totally non-intrusive from that point of view.
 
 ## Live Demo
 

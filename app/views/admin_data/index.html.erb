@@ -12,22 +12,12 @@
         <div class="content">          
           <h2 class="title">Models</h2>
           <div class="inner">
-              <table class="table">
-                <% @klasses.in_groups_of(2,nil).each do |group| %>
-                  <tr>
-                    <% group.each do |klass| %>
-                      <% if klass %>
-                        <td width='25%;' style='font-size:140%;'>
+            <% @klasses.each do |klass| %>
+              <span style='margin:15px 0 15px 0;padding:15px 20px 15px 0;line-height:40px;font-size:16px;'>
                           <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
-                          <%= klass.send(:count) %>
-                        </td>  
-                      <% else %>
-                        <td width='25%;'>&nbsp;</td>  
-                      <% end %>
-                    <% end %>  
-                  </tr>
-                <% end %>
-              </table>
+                          <span style='font-size:13px;'><%= klass.send(:count) %></span>
+              </span>            
+            <% end %>
           </div>
         </div>
       </div>
