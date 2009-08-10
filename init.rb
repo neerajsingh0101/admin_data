@@ -12,6 +12,7 @@ def load_will_paginate
       $stderr.puts %(
       ***********************************************
       * gem will_paginate is missing                *
+      * plugin admin_data depends on will_paginate  * 
       * Please install will_paginate by executing   *
       * gem sources -a http://gems.github.com       *
       * sudo gem install mislav-will_paginate       *
