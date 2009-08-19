@@ -1,7 +1,6 @@
-
 <div id="container">
   
-  <%= erb_file('lib','views','_header.html.erb') %>    
+  <%= erb_file('misc','_header.html.erb') %>    
   
   <div id="wrapper">
     <div id="main">
@@ -16,7 +15,7 @@
     
       <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
       
-      <%= erb_file('lib','views','_flash_message.html.erb') %>      
+      <%= erb_file('misc','_flash_message.html.erb') %>      
 
       <div class="block" id="block-tables">
         <div class="secondary-navigation">
@@ -26,18 +25,18 @@
           <h2 class="title"></h2>
           <div class="inner">
             <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},{:class => 'nice_form'}) %>
-              <%= erb_file('lib','views','_form.html.erb') %>
+              <%= erb_file('misc','_form.html.erb') %>
             </form>
           </div>
         </div>
       </div>
         
-      <%= erb_file('lib','views','_powered_by.html.erb') %>      
+      <%= erb_file('misc','_powered_by.html.erb') %>      
     </div>
     
     <div id="sidebar">
-      <%= erb_file('lib','views','_association_info.html.erb') %>            
-      <%= erb_file('lib','views','_modify_record.html.erb') %>            
+      <%= erb_file('association','_association_info.html.erb') %>            
+      <%= erb_file('misc','_modify_record.html.erb') %>            
     </div>  
       
     <div class="clear"></div>      

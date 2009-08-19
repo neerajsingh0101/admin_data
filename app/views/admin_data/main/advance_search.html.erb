@@ -1,6 +1,6 @@
 <div id="container">
 
-  <%= erb_file('lib','views','_header.html.erb') %>      
+  <%= erb_file('misc','_header.html.erb') %>      
   
   <div id="wrapper">
     <div id="main_big">
@@ -11,7 +11,7 @@
         <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
     </div>
       
-    <%= erb_file('lib','views','_flash_message.html.erb') %>
+    <%= erb_file('misc','_flash_message.html.erb') %>
       
     <p>
       <span class="title"><%= @klass.name %></span>
@@ -20,21 +20,21 @@
       
       <div class="block" id="block-text">
         <div class="secondary-navigation">
-          <%= erb_file('lib','views','_secondary_navigation.html.erb') %>
+          <%= erb_file('misc','_secondary_navigation.html.erb') %>
           <div class="clear"></div>
         </div>          
         <div class="content">         
-            <%= erb_file('lib','views','_advance_search_form.html.erb') %>                    
+            <%= erb_file('search','_advance_search_form.html.erb') %>                    
         </div>
       </div>
 
       <div class="block" id="block-tables">
         <div class="content">          
-          <%= erb_file('lib','views','_search_results.html.erb') %>
+          <%= erb_file('search','_search_results.html.erb') %>
         </div>
       </div>
 
-      <%= erb_file('lib','views','_powered_by.html.erb') %>                    
+      <%= erb_file('misc','_powered_by.html.erb') %>                    
       
     </div>
     <div class="clear"></div>      

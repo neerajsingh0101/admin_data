@@ -301,3 +301,13 @@ ul.list li .item .avatar {
   -moz-border-radius-bottomright: 4px;
   -webkit-border-bottom-right-radius: 4px;
 }
+
+
+a.powered_by {
+  color: white;
+  font-size: 130%;
+}
+a.powered_by:hover {
+  color: white;
+  font-size: 130%;
+}

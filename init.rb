@@ -25,7 +25,6 @@ end
 if load_will_paginate
 
    require 'admin_data_date_validation'
-   require 'admin_data_helpers'
 
    if Rails.version < "2.2.0"
       raise %( plugin admin_data only works with Rails 2.2 and higher)
@@ -34,3 +33,5 @@ if load_will_paginate
    end
 
 end
+
+ActionView::Base.send :include, AdminData::Helpers
