@@ -106,11 +106,11 @@ Email me: neerajdotname [at] gmail (dot) com
 
 ## Author Blog
 
-www.neeraj.name
+[www.neeraj.name](www.neeraj.name)
 
-## github
+## source code
 
-http://github.com/neerajdotname/admin_data
+[http://github.com/neerajdotname/admin_data](http://github.com/neerajdotname/admin_data)
 
 ## License
 
