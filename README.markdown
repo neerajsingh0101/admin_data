@@ -106,7 +106,7 @@ Email me: neerajdotname [at] gmail (dot) com
 
 ## Author Blog
 
-[www.neeraj.name](www.neeraj.name)
+[www.neeraj.name](http://www.neeraj.name)
 
 ## source code
 
