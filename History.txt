@@ -1,3 +1,9 @@
+
+=== 0.0.4 2009-08-28
+
+* storing serialized array in string causing problem in truncate method. more at
+  http://github.com/neerajdotname/admin_data/issues#issue/3. 
+
 === 0.0.3 2009-08-10
 
 * not requiring rubygems

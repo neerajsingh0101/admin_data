@@ -64,7 +64,14 @@ module AdminData::Helpers
       else
          value = source.send(column.name)
          return value if options[:limit].blank?
-         truncate(value,:length => options[:limit]) if column.type == :string || column.type == :text
+         if column.type == :string || column.type == :text
+           # storing serialized array in string will faile truncate method
+           begin
+            truncate(value,:length => options[:limit])
+           rescue
+             '<actual data is not being shown because truncate method failed.>'
+           end
+         end
       end
    end
 

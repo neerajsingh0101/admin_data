@@ -1,3 +1,6 @@
+AdminData::Version = AdminData::VERSION = '0.0.4'
+
+
 # not requiring rubygems because of this http://gist.github.com/54177
 #require 'rubygems'
 
