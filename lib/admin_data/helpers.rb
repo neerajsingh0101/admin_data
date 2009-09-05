@@ -29,10 +29,6 @@ module AdminData::Helpers
     tmp.join
   end
 
-  def show_header
-    erb_file('main','misc','_header.html.erb')
-  end
-
   def build_drop_down_for_klasses
     @klasses.inject([]) do |result,klass|
       result << [klass.name,  admin_data_list_url(:klass => klass.name)]
@@ -51,20 +47,6 @@ module AdminData::Helpers
       output << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
     end
     output.join
-  end
-
-  def erb_file(*args)
-    s = args
-    b = []
-    b << RAILS_ROOT
-    b << 'vendor'
-    b << 'plugins'
-    b << 'admin_data'
-    b << 'app'
-    b << 'views'
-    b << 'admin_data'
-    tmp = b + args
-    ERB.new(File.read(File.join(tmp))).result(binding)
   end
 
   def admin_data_string_representation_of_data(value)
@@ -100,16 +82,19 @@ module AdminData::Helpers
     ''
   end
 
-  def admin_data_get_value_for_column(column,source, options = {})
+  # options supports :limit which is applied if the column type is string
+  # or text
+  #
+  def admin_data_get_value_for_column(column, source, options = {})
     options.reverse_merge!(:limit => 400)
     if column.type == :datetime
-      tmp = source.send(column.name)
-      tmp.strftime('%m/%d/%Y %H:%M:%S %p') unless tmp.blank?
+      d = source.send(column.name)
+      d.strftime('%m/%d/%Y %H:%M:%S %p') unless d.blank?
     else
       value = source.send(column.name)
       return value if options[:limit].blank?
       if column.type == :string || column.type == :text
-        # storing serialized array in string will faile truncate method
+        # truncate method fails in handling serialized array stored in string column
         begin
           truncate(value,:length => options[:limit])
         rescue
