@@ -89,4 +89,19 @@ class AdminData::Util
     end
   end
 
+  def self.build_sort_options(klass,sortby)
+    output = []
+    klass.columns.each do |column|
+      name = column.name
+
+      selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''
+      output << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
+
+      selected_text = sortby == "#{name} asc" ? "selected='selected'" : ''
+      output << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
+    end
+    output.join
+  end
+
+
 end

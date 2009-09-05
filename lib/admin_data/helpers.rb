@@ -1,5 +1,4 @@
 module AdminData::Helpers
-  
 
   # using params[:controller]
   # Usage:
@@ -23,20 +22,6 @@ module AdminData::Helpers
     ''
   end
 
-  # using params[:sortby]
-  def build_sort_options(klass)
-    output = []
-    klass.columns.each do |column|
-      name = column.name
-
-      selected_text = params[:sortby] == "#{name} desc" ? "selected='selected'" : ''
-      output << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
-
-      selected_text = params[:sortby] == "#{name} asc" ? "selected='selected'" : ''
-      output << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
-    end
-    output.join
-  end
 
   # uses truncate method
   # options supports :limit which is applied if the column type is string

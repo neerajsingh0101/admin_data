@@ -7,7 +7,7 @@
       <span style='margin:5px 0 0 10px;'>
         sort by
         <select name='sortby'>
-          <%= build_sort_options(@klass) %>
+          <%= AdminData::Util.build_sort_options(@klass,params[:sortby]) %>
         </select>
       </span>
       </div>
