@@ -131,6 +131,8 @@ AdminDataConfig.set = {
 
 I have tested this plugin with MySQL and PostgreSQL. 
 
+Run all the tests by going to the plugin directory and executing <tt>rake</tt> . There are over 100 tests and all of them should pass.
+
 
 ## Feedback and bug report
 
