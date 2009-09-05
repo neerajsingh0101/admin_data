@@ -114,7 +114,8 @@ class AdminData::SearchController  < AdminData::BaseController
       when 'less_than':
         attribute_conditions << ["#{table_name}.#{col1} < ?",col3.to_i] unless col3.blank?
       else
-        raise 'invalid option passed' if Rails.env.development? || Rails.env.test?
+        # it means user did not even select a value of col2
+        # ignore it
       end
 
     end # end of search_options loop

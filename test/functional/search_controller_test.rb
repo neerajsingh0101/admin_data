@@ -150,6 +150,24 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
+  context 'xhr advance_search with empty col2' do
+    setup do
+      Article.delete_all
+      @python_book = Factory(:article, :title => 'python')
+      @python_beginner_book = Factory(:article, :title => 'python for beginners')
+      xml_http_request :post,:advance_search, {:klass => 'Article', 
+                            :search_type => 'advance',
+                            :sortby => 'id desc',
+                            :adv_search => {'1_row' => {'col1' => 'title', :col2 => nil, :col3 => nil} }
+                            }
+    end
+    should_respond_with :success
+    should 'contain text' do
+      assert_tag(:tag => 'div', 
+                 :attributes => {:class => 'page_info'}, 
+                 :descendant => {:tag => 'b', :child => /all 2/})
+    end
+  end
 
   context 'xhr advance_search with two search terms' do
     setup do
