@@ -82,6 +82,17 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
   end
 
+  context 'get show for a model which belongs to another class' do
+    setup do
+      @comment = Factory(:comment, :article => @article)
+      get :show, {:model_id => @comment.id, :klass => @comment.class.name }
+    end
+    should_respond_with :success
+  end
+
+
+
+
   context 'destroy' do
     setup do
       grant_update_access
