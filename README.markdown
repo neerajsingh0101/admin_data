@@ -15,7 +15,7 @@ able to update/delete/create any record.
 
 * No change is required anywhere in your application.
 
-* All the features are provided without any creating any new named_scope. No lingering named_scope in your main app.
+* All the features are provided without creating any new named_scope. No lingering named_scope in your app.
 
 * Nothing is stored in session or in cookies.
 
@@ -32,7 +32,7 @@ able to update/delete/create any record.
 * Quick search across all records in a table. Quick searches across all records and all columns which are
 either 'string' type or 'text' type.
 
-* Advance search for each field of each of the tables.(click here)[http://www.neeraj.name/admin_data/advance_search?klass=Article] to see the options that are supported. Different options appear for diffent data types. 
+* Advance search for each field of each of the tables.[click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) to see the options that are supported. Different options appear for diffent data types. 
 
 * Sort the result on any column in ascending or descending order for both quick and advance search.
 
@@ -42,13 +42,13 @@ either 'string' type or 'text' type.
 
 * For both viewing the page and updating a record, security check is enforced. More on this in next section.
 
-* Add a new record (persmission check enforced)
+* Add a new record (update security check enforced)
 
-* Edit an existing record (persmission check enforced)
+* Edit an existing record (update security check enforced)
 
-* Delete an existing record (persmission check enforced and no callbacks)
+* Delete an existing record (update security check enforced and no callbacks)
 
-* Destroy an existing record (persmission check enforced and callbacks will be invoked)
+* Destroy an existing record (update security check enforced and callbacks will be invoked)
 
 * Diagnostic test lists all the columns which are foreign keys but index is not defined on them.
 
