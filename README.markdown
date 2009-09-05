@@ -32,7 +32,7 @@ able to update/delete/create any record.
 * Quick search across all records in a table. Quick searches across all records and all columns which are
 either 'string' type or 'text' type.
 
-* Advance search for each field of each of the tables.[click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) to see the options that are supported. Different options appear for diffent data types. 
+* Advance search for each field of each of the tables. [click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) to see the options that are supported. Different options appear for diffent data types. 
 
 * Sort the result on any column in ascending or descending order for both quick and advance search.
 
@@ -121,8 +121,8 @@ Put the following lines of code in an initializer at <tt>~/config/initializers/a
 
 <pre>
 AdminDataConfig.set = {
-  :view_security_check => lambda {|controller| controller.send('logged_in?' },
-  :update_security_check => lambda {|controller| controller.send('admin_logged_in?' }
+  :view_security_check => lambda {|controller| controller.send('logged_in?') },
+  :update_security_check => lambda {|controller| controller.send('admin_logged_in?') }
 }
 </pre>
 
