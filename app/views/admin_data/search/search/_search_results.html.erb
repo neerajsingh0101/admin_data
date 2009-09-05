@@ -15,7 +15,7 @@
         has 
         <% 
           model = Object.const_get(params[:base]).find(params[:model_id])
-          count = admin_data_has_many_count(model,params[:send]) 
+          count = AdminData::Util.has_many_count(model,params[:send]) 
         %>
         <%= pluralize(count,params[:klass].downcase)%>
     </caption>    

@@ -1,6 +1,6 @@
 <div class="block">
     <h3>Association Information</h3>
-    <% if admin_data_association_info_size(klass) %>
+    <% if AdminData::Util.admin_data_association_info_size(klass) %>
       <%= render 'admin_data/main/association/belongs_to_info' , :klass => klass, :model => model %>
       <%= render 'admin_data/main/association/has_one_info' , :klass => klass, :model => model %>
       <%= render 'admin_data/main/association/has_many_info' , :klass => klass, :model => model %> 

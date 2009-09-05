@@ -1,12 +1,12 @@
-<% if admin_data_has_many_what(klass.name).size > 0 %>
+<% if AdminData::Util.has_many_what(klass.name).size > 0 %>
   <p>
     <strong>has_many :</strong>
-      <% admin_data_has_many_what(klass.name).each do |hm| 
-          label = hm + '(' + admin_data_has_many_count(model,hm).to_s + ')'
+      <% AdminData::Util.has_many_what(klass.name).each do |hm| 
+          label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
       %>
-      <% if admin_data_has_many_count(model,hm) > 0 %>
+      <% if AdminData::Util.has_many_count(model,hm) > 0 %>
         <%= link_to label, {:action => 'list', 
-                            :klass => admin_data_get_has_many_class(model,hm), 
+                            :klass => AdminData::Util.get_class_name_for_has_many_association(model,hm), 
                             :send => hm,
                             :base => klass.name, 
                             :model_id => model.id} %>        

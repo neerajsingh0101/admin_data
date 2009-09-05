@@ -35,7 +35,7 @@
               <td><%=column.name%></td>
               <td><%=column.type%></td>
               <td><%=column.null%></td>
-              <td><%=admin_data_string_representation_of_data(column.default) if column.has_default?%></td>
+              <td><%= AdminData::Util.string_representation_of_data(column.default) if column.has_default?%></td>
               </tr>
           <% end %>  
         </table>

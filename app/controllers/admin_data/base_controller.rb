@@ -6,8 +6,7 @@ class AdminData::BaseController  < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :ensure_is_allowed_to_view
-  before_filter :build_klasses
+  before_filter :ensure_is_allowed_to_view , :build_klasses, :build_drop_down_for_klasses
 
   private
 
@@ -29,6 +28,45 @@ class AdminData::BaseController  < ApplicationController
     rescue NameError # in case wrong params[:klass] is supplied
       Rails.logger.debug 'wrong params[:klass] was supplied'
       redirect_to admin_data_path
+    end
+  end
+
+  def build_klasses
+    @klasses = []
+    models = []
+
+    model_dir = File.join(RAILS_ROOT,'app','models')
+    Dir.chdir(model_dir) { models = Dir["**/*.rb"] }
+
+    models = models.sort
+
+    models.each do |model|
+      class_name = model.sub(/\.rb$/,'').camelize
+      begin
+        # for models/foo/bar/baz.rb
+        klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) }
+      rescue Exception
+      end
+      if klass && klass.ancestors.include?(ActiveRecord::Base)  && !@klasses.include?(klass)
+        # it is possible that a model doesnot have a table because migration
+        # has not been run or
+        # migration has deleted the table but the model has not been deleted.
+        # So remove those classes from the list
+        # I will send a count method to determine if a table is existing or not
+        begin
+          klass.send(:count)
+          @klasses << klass
+        rescue ActiveRecord::StatementInvalid  => e
+        end
+      end
+    end
+  end
+
+
+  # can't be extracted to a helper because it uses named routes
+  def build_drop_down_for_klasses
+    @drop_down_for_klasses = @klasses.inject([]) do |result,klass|
+      result << [klass.name,  admin_data_list_url(:klass => klass.name)]
     end
   end
 

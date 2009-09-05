@@ -6,7 +6,7 @@
     <select id='drop_down_value_klass' style='font-size:14px;' 
             onchange="window.location.href=this.options[this.selectedIndex].value">
       <option></option>      
-      <%= options_for_select(build_drop_down_for_klasses,
+      <%= options_for_select(@drop_down_for_klasses,
                              "http://#{request.host_with_port}/admin_data/list?klass=#{params[:klass]}") %>
     </select>
   </div>
