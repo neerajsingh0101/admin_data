@@ -1,49 +1,46 @@
+<% raise 'boom' %>
+
+
 <div id='results'>
-
-<div class="digg_pagination">
-  <div class="page_info">
-    <%= page_entries_info @records %>
+  <div class="digg_pagination">
+    <div class="page_info">
+      <%= page_entries_info @records %>
+    </div>
+    <%= will_paginate @records, :container => false, :params => {:klass => @klass.name} %>
   </div>
-  <%= will_paginate @records, :container => false, :params => {:klass => @klass.name} %>
-</div>
 
-
-<table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
-
+  <table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
   <% if params[:base] %>
     <caption>
-        <%= link_to params[:base] + ' ID ' + params[:model_id], {:action => 'show', :klass => params[:base], :model_id => params[:model_id]}%>
-        has 
-        <% count = admin_data_has_many_count(Object.const_get(params[:base]).find(params[:model_id]),params[:send]) %>
-        <%= pluralize(count,params[:klass].downcase)%>
+      <%= link_to params[:base] + ' ID ' + params[:model_id], 
+          {:action => 'show', :klass => params[:base], :model_id => params[:model_id]}%>
+      has 
+      <% count = admin_data_has_many_count(Object.const_get(params[:base]).find(params[:model_id]),params[:send]) %>
+      <%= pluralize(count,params[:klass].downcase)%>
     </caption>    
   <% else %>
     <caption><%= params[:klass]%> list </caption>
   <% end %>  
   
-  
-  
   <tr>
-    <% for column in @klass.columns %>
-      <td><strong><%= column.name %></strong></td>
-    <% end %>
+  <% for column in @klass.columns %>
+    <td><strong><%= column.name %></strong></td>
+  <% end %>
   </tr>
 
-  <% @records.each_with_index do |record,index| 
-  %>
-    <tr>
-      <% for column in @klass.columns %>
-        <td>
-          <% if column == @klass.columns[0] %>
-            <%= link_to(record.send(column.name),:action => 'show', :klass => @klass, :model_id => record.id) %>            
-          <% else %>
-            <%=h  admin_data_get_value_for_column(column,record) %>
-          <% end %>  
-          
-        </td>
-      <% end %>
-    </tr>
-  <% end %>  
+  <% @records.each_with_index do |record,index| %>
+  <tr>
+  <% for column in @klass.columns %>
+    <td>
+      <% if column == @klass.columns[0] %>
+      <%= link_to(record.send(column.name),:action => 'show', :klass => @klass, :model_id => record.id) %>            
+      <% else %>
+        <%=h  admin_data_get_value_for_column(column,record) %>
+      <% end %>  
+    </td>
+  <% end %>
+  </tr>
+<% end %>  
 
 </table>
 

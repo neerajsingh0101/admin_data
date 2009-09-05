@@ -4,9 +4,22 @@
 
 This is a plugin to manage your database records using browser. 
 
-## Features
+## Live Demo
 
-* Totally non intrusive. No change is required anywhere in your app. All the features are provided without using any named_scope. Nothing is stored in sesssion or in cookies. 
+[http://www.neeraj.name/admin_data](http://www.neeraj.name/admin_data)
+
+Note that in the demo you will be accessing only 'read only' features. You will not be
+able to update/delete/create any record. 
+
+## Totally Non Intrusive
+
+* No change is required anywhere in your application.
+
+* All the features are provided without any creating any new named_scope. No lingering named_scope in your main app.
+
+* Nothing is stored in session or in cookies.
+
+## Features
 
 * Browse table records.
 
@@ -16,13 +29,18 @@ This is a plugin to manage your database records using browser.
 
 * Al the associated records are links so one can navigate from record to record. 
 
-* Quick search across all records in a table.
+* Quick search across all records in a table. Quick searches across all records and all columns which are
+either 'string' type or 'text' type.
 
-* Advance search for each field of each of the tables.
+* Advance search for each field of each of the tables.(click here)[http://www.neeraj.name/admin_data/advance_search?klass=Article] to see the options that are supported. Different options appear for diffent data types. 
 
-* Along with search sort the result on any column in ascending or descending order.
+* Sort the result on any column in ascending or descending order for both quick and advance search.
 
-* Browse migration records from the table even though there is no corresponding model for it.
+* Browse migration records from schema_migrations table even though there is no corresponding model for this table.
+
+* Configure number of records to be shown in the list. Default value is 50.
+
+* For both viewing the page and updating a record, security check is enforced. More on this in next section.
 
 * Add a new record (persmission check enforced)
 
@@ -32,20 +50,21 @@ This is a plugin to manage your database records using browser.
 
 * Destroy an existing record (persmission check enforced and callbacks will be invoked)
 
-## Live Demo
+* Diagnostic test lists all the columns which are foreign keys but index is not defined on them.
 
-[http://www.neeraj.name/admin_data](http://www.neeraj.name/admin_data)
+## Requirements
 
-Note that in the demo you will be accessing only features available for read only. You will not be
-able to update/delete/create any record. 
+* Rails project must be using Rails 2.2 or higher.
 
-## Requirement
-
-Your Rails project must be using Rails 2.2 or higher.
+* will_paginate gem.
 
 ## Installation instruction if you are using Rails 2.3
 
-	ruby script/plugin install git://github.com/neerajdotname/admin_data.git
+<pre>
+   <code>
+ruby script/plugin install git://github.com/neerajdotname/admin_data.git
+  </code>
+</pre>  
 	
 that's it. Now visit http://localhost:3000/admin_data	
 	
@@ -82,27 +101,42 @@ After the lines have been added it might look like this
 
 	http://localhost:3000/admin_data
 
-## Securing the access
+## Security check
 
-This plugin will allow access to browse the models without any authorization check in development and test environment. 
+This plugin allows you to configure security check for both view and update access. Default security
+check is to allow both view and update access in development mode and restrict both view and update
+access in any other environment. Given below is the default security.
 
-However in other environments a security check is enforced. Given below is one way to ensure authentication. Put the following lines of code in an initializer at ~/config/initializers/admin_data.rb
+<pre>
+AdminDataConfig.set = {
+  :will_paginate_per_page => 50,
+  :view_security_check => lambda {|controller| return true if Rails.env.development? },
+  :update_security_check => lambda {|controller| return true if Rails.env.development? }
+}
+</pre>
 
-### authorization check to see if the data should be shown to the user
-	ADMIN_DATA_VIEW_AUTHORIZATION = Proc.new { |controller| controller.send("admin_logged_in?") }
 
+Given below is one way to ensure authentication in other environments. 
+Put the following lines of code in an initializer at <tt>~/config/initializers/admin_data_setting.rb</tt> .
 
-### authorization check to see if the user should be allowed to update the data
-	ADMIN_DATA_UPDATE_AUTHORIZATION    = Proc.new { |controller| return false }
+<pre>
+AdminDataConfig.set = {
+  :view_security_check => lambda {|controller| controller.send('logged_in?' },
+  :update_security_check => lambda {|controller| controller.send('admin_logged_in?' }
+}
+</pre>
 
 
 ## Tested with
 
 I have tested this plugin with MySQL and PostgreSQL. 
 
-## Feedback
+
+## Feedback and bug report
 
 Email me: neerajdotname [at] gmail (dot) com
+
+Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://github.com/neerajdotname/admin_data/issues)
 
 ## Author Blog
 

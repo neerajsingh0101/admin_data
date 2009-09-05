@@ -1,30 +1,18 @@
-<div id="container">
-  
-  <%= erb_file('misc','_header.html.erb') %>  
-  
-  <div id="wrapper">
-    <div id="main">
-      
-      <div class="block" id="block-tables">
-        <div class="secondary-navigation">
-          <div class="clear"></div>
-        </div>          
-        <div class="content">          
-          <h2 class="title">Models</h2>
-          <div class="inner">
-            <% @klasses.each do |klass| %>
-              <span style='margin:15px 0 15px 0;padding:15px 20px 15px 0;line-height:40px;font-size:16px;'>
-                          <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
-                          <span style='font-size:13px;'><%= klass.send(:count) %></span>
-              </span>            
-            <% end %>
-          </div>
-        </div>
+<div id="main">
+  <div class="block" id="block-tables">
+    <div class="secondary-navigation">
+      <div class="clear"></div>
+    </div>          
+    <div class="content">          
+      <h2 class="title">Models</h2>
+      <div class="inner">
+      <% @klasses.each do |klass| %>
+        <span style='margin:15px 0 15px 0;padding:15px 20px 15px 0;line-height:40px;font-size:16px;'>
+          <%= link_to klass.name, admin_data_list_path(:klass => klass.name) %> 
+          <span style='font-size:13px;'><%= klass.send(:count) %></span>
+        </span>            
+      <% end %>
       </div>
-        
-      <%= erb_file('misc','_powered_by.html.erb') %>            
-      
     </div>
-    <div class="clear"></div>      
-  </div>    
+  </div>
 </div>

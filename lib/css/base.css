@@ -18,16 +18,16 @@ body {
   min-width: 960px;
 }
 
-#header, #wrapper {
+#header, #wrapper, #footer {
   padding: 0 20px;
 }
 
-#header {
+#header, #footer {
   position: relative;
   padding-top: 1px;  
 }
 
-#header h1 {
+#header h1, #footer h5 {
   margin: 0;
   padding: 10px 0;  
   font-size: 30px;
@@ -166,7 +166,11 @@ body {
 }
 
 #footer {
-  padding-bottom: 20px;
+  background-color: #C9DEB7;
+}
+
+#footer a {
+  color:#3B5526;
 }
 
 /* pagination */

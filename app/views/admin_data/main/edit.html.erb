@@ -1,44 +1,33 @@
-<div id="container">
-  
-  <%= erb_file('misc','_header.html.erb') %>    
-  
-  <div id="wrapper">
-    <div id="main">
-    
-      <div class='breadcrum'>
-          <%= link_to 'Home',admin_data_path %>
-          >
-          <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
-          >
-          <%= link_to "ID #{@model.id}", ''%>  
-      </div>
-    
-      <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
-      
-      <%= erb_file('misc','_flash_message.html.erb') %>      
+<div id="main">
+  <div class='breadcrum'>
+    <%= link_to 'Home',admin_data_path %>
+    >
+    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+    >
+    <%= link_to "ID #{@model.id}", ''%>  
+  </div>
 
-      <div class="block" id="block-tables">
-        <div class="secondary-navigation">
-          <div class="clear"></div>
-        </div>          
-        <div class="content">          
-          <h2 class="title"></h2>
-          <div class="inner">
-            <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},{:class => 'nice_form'}) %>
-              <%= erb_file('misc','_form.html.erb') %>
-            </form>
-          </div>
-        </div>
+  <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
+  
+  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+
+  <div class="block" id="block-tables">
+    <div class="secondary-navigation">
+      <div class="clear"></div>
+    </div>          
+    <div class="content">          
+      <h2 class="title"></h2>
+      <div class="inner">
+        <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},
+                      {:class => 'nice_form'}) %>
+          <%= render :partial => 'admin_data/main/misc/form' %>
+        </form>
       </div>
-        
-      <%= erb_file('misc','_powered_by.html.erb') %>      
     </div>
-    
-    <div id="sidebar">
-      <%= erb_file('association','_association_info.html.erb') %>            
-      <%= erb_file('misc','_modify_record.html.erb') %>            
-    </div>  
-      
-    <div class="clear"></div>      
-  </div>    
+  </div>
 </div>
+
+<div id="sidebar">
+  <%= render 'admin_data/main/association/association_info', :klass => @klass, :model => @model %>
+  <%= render 'admin_data/main/misc/modify_record', :model => @model, :klass => @klass %>
+</div>  

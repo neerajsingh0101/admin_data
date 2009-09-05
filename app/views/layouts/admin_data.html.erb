@@ -4,21 +4,19 @@
 	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	  <title>admin_data</title>
 
-    <script>
-      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','jquery-1.3.2.min.js')) %>    
-      <%=f.read%>
-      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','jquery-ui-1.7.custom.min.js')) %>    
-      <%=f.read%>
-    </script>
+    <%#
+      assert_tag is complaining while parsing inline jquery files. Hence in test mode
+      I am including reference to external file
+    %>
+    <% if Rails.env.test? %>
+      <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js') %>
+      <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js') %>
+    <% else %>
+      <%= admin_data_javascript_include_tag('jquery-1.3.2.min','jquery-ui-1.7.custom.min') %>
+    <% end %>  
 
     <% if params[:action] == 'advance_search' %>
-      <script>
-        <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','search_core.js')) %>    
-        <%= f.read %>
-
-        <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','js','jquery.form.js')) %>    
-        <%= f.read %>
-      </script>
+      <%= admin_data_javascript_include_tag('search_core','jquery.form') %>
     <% end %>
   
     <script>
@@ -31,16 +29,19 @@
       });
     </script>
 	
-  	<style type='text/css'>
-      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','css','base.css')) %>    
-      <%= f.read %>
-      <% f = File.new(File.join(RAILS_ROOT,'vendor','plugins','admin_data','lib','css','green.css')) %>    
-      <%= f.read %>    
-    </style>  
+    <%= admin_data_stylesheet_link_tag('base','green') %>
+
   </head>
 
   <body>
-    <%= yield %>
+    <div id="container">
+      <%= render :partial => 'admin_data/main/misc/header' %>
+      <div id="wrapper">
+        <%= yield %>
+        <div class="clear"></div>      
+      </div>    
+      <%= render :partial => 'admin_data/main/misc/powered_by' %>
+    </div>
   </body>
   
 </html>

@@ -38,3 +38,13 @@ if load_will_paginate
 end
 
 ActionView::Base.send :include, AdminData::Helpers
+
+require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','settings.rb')
+
+AdminDataConfig.set = {
+  :plugin_dir => File.join(RAILS_ROOT,'vendor','plugins','admin_data'),
+  :will_paginate_per_page => 50,
+  :view_security_check => lambda {|controller| return true if Rails.env.development? },
+  :update_security_check => lambda {|controller| return true if Rails.env.development? }
+}
+

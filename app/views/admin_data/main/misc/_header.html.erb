@@ -13,13 +13,14 @@
   <div style='clear:both;'></div>
   <div id="main-navigation">
     <ul>
-      <li class="first <%=admin_data_am_i_active('main','index list show table_structure advance_search new create edit')%>">
+      <li class="first <%=admin_data_am_i_active(['main','index list show table_structure new create edit'],
+                                                 ['search','advance_search'])%>">
         <%= link_to 'Home', admin_data_path %>
       </li>
-      <li class="<%=admin_data_am_i_active('migration','index')%>">
+      <li class="<%=admin_data_am_i_active(['migration','index'])%>">
         <%= link_to 'Migration Information', admin_data_migration_information_path %>
       </li>
-      <li class="<%=admin_data_am_i_active('diagnostic','index missing_index')%>">
+      <li class="<%=admin_data_am_i_active(['diagnostic','index missing_index'])%>">
         <%= link_to 'Diagnostic', admin_data_diagnostic_path %>
       </li>
     </ul>

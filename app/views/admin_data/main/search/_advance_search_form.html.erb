@@ -1,12 +1,23 @@
+<% raise 'boom' %>
+
+
+
+
+
+
+
+
+
+
 <%= form_tag('/admin_data/advance_search',:method => 'get', :id => 'advance_search_form')%>
-    <input type="hidden" name="klass" value="<%=@klass.to_s%>" />       
-    <input type="hidden" name="search_type" value="advance" />        
-    <div id='advance_search' class='search_box'>
-     <h2>Advance Search</h2>
-     <input type="submit" value="Search" />
-     <table id='advance_search_table' class='advtable'>
-     </table>
-     <input type="submit" value="Search" />
+  <input type="hidden" name="klass" value="<%=@klass.to_s%>" />       
+  <input type="hidden" name="search_type" value="advance" />        
+  <div id='advance_search' class='search_box'>
+    <h2>Advance Search</h2>
+    <input type="submit" value="Search" />
+    <table id='advance_search_table' class='advtable'>
+    </table>
+    <input type="submit" value="Search" />
    </div>
 </form>   
 

@@ -1,25 +1,13 @@
-<div id="container">
-  
-  <%= erb_file('misc','_header.html.erb') %>    
-  
-  <div id="wrapper">
-    <div id="main">
-      
-      <div class="block" id="block-tables">
-        <div class="secondary-navigation">
-          <div class="clear"></div>
-        </div>          
-        <div class="content">          
-          <h2 class="title">Diagnostic test</h2>
-          <div class="inner" style='font-size:120%;'>
-              <%= link_to 'Find missing database index', admin_data_diagnostic_missing_index_url %>
-          </div>
-        </div>
+<div id="main">
+  <div class="block" id="block-tables">
+    <div class="secondary-navigation">
+      <div class="clear"></div>
+    </div>          
+    <div class="content">          
+      <h2 class="title">Diagnostic test</h2>
+      <div class="inner" style='font-size:120%;'>
+        <%= link_to 'Find missing database index', admin_data_diagnostic_missing_index_url %>
       </div>
-        
-      <%= erb_file('misc','_powered_by.html.erb') %>      
-      
     </div>
-    <div class="clear"></div>      
-  </div>    
+  </div>
 </div>

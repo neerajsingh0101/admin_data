@@ -1,0 +1,15 @@
+<% raise 'boom' %>
+
+<h4> 
+  <%= link_to 'Quick Search', admin_data_list_path(:klass => @klass.name) %>
+   | 
+   <%= link_to 'Advance Search', admin_data_advance_search_path(:klass => @klass.name) %> 
+   
+   | 
+   <%= link_to 'Table Structure', admin_data_table_structure_path(:klass => @klass.name)  %> 
+   
+   <% if @controller.send(:admin_data_is_allowed_to_update?) %> 
+     |
+     <%= link_to '+ Add Record', admin_data_new_path(:klass => @klass.name) %> 
+   <% end %>
+</h4>

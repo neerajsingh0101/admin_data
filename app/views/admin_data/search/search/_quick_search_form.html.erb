@@ -1,0 +1,23 @@
+<br />
+<%=form_tag('/admin_data/quick_search',:method => 'get', :id => 'search',:style=>'margin:5px;padding:5px;')%>   
+  <input type="hidden" name="klass" value="<%=@klass.to_s%>" />     
+  <div class='search_box'>
+      <div id='quick_search'>
+        <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>"/>
+      <span style='margin:5px 0 0 10px;'>
+        sort by
+        <select name='sortby'>
+          <%= build_sort_options(@klass) %>
+        </select>
+      </span>
+      </div>
+      <div style='margin-top:10px;'>
+        <%= submit_tag 'Search', :name => nil, :disable_with => 'searching ...' %>
+      </div>  
+ </div>
+</form>
+<br />
+
+<script type="text/javascript">
+  document.getElementById("quick_search_input").focus()
+</script>

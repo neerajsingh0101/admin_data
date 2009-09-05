@@ -1,13 +1,6 @@
-class AdminData::DiagnosticController  < ApplicationController
-
-   layout 'admin_data'
-
-   include AdminData::Chelper
+class AdminData::DiagnosticController  < AdminData::BaseController 
 
    unloadable
-
-   before_filter :ensure_is_allowed_to_view
-   before_filter :build_klasses
 
    def index
       render

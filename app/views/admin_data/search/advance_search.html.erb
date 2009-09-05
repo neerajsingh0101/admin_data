@@ -1,0 +1,30 @@
+<div id="main_big">
+  <div class='breadcrum'>
+    <%= link_to 'Home',admin_data_path %>
+    >
+    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+  </div>
+  
+  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+  
+  <p>
+    <span class="title"><%= @klass.name %></span>
+    <span class='records_count'>(<%= @klass.count %> records)</span>
+  </p>        
+  
+  <div class="block" id="block-text">
+    <div class="secondary-navigation">
+      <%= render 'admin_data/main/misc/secondary_navigation', :klass => @klass %>
+      <div class="clear"></div>
+    </div>          
+    <div class="content">         
+      <%= render :partial => 'admin_data/search/search/advance_search_form' %>
+    </div>
+  </div>
+
+  <div class="block" id="block-tables">
+    <div class="content">          
+      <%= render :partial => 'admin_data/search/search/search_results' %>
+    </div>
+  </div>
+</div>

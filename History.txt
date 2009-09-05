@@ -1,4 +1,18 @@
 
+=== 0.0.5 2009-09-04
+
+* tests for this plugin
+
+* changed the way security configiruation is passed to the plugin
+
+* users can configure number of records in a page. Default is 50 
+
+* fixed bug associated with advance search 
+
+* added link to report bug in footer
+
+* fixed bug in date parsing
+
 === 0.0.4 2009-08-28
 
 * storing serialized array in string causing problem in truncate method. more at

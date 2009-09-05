@@ -9,17 +9,19 @@ class AdminDataDateValidation
     
     # replace multiple consecutive white spaces by one single whitespace
     input.gsub!(/\s+/,' ')
-    date = validate(input)
-    return date if date
-    return false
+    operator, date = input.split
+    return false if operator.nil?
+    return false unless %w(> < >= <= =).include? operator
+    validate(date)
   end
   
 
   # Usage:
   #
-  # validate('13-feb-2008') # => true
-  # validate('13-February-2008') # => true
-  # validate('13-February-2008') # => true
+  # validate('13-feb-2008') # => time_object
+  # validate('13-February-2008') # => time_object
+  # validate('13-February-2008') # => time_object
+  # validate('30-Feb-2008') #=> false
   #
   def self.validate(input)
     return false if input.nil?

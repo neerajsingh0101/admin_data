@@ -1,49 +1,39 @@
-<div id="container">
-  <%= erb_file('misc','_header.html.erb') %>    
-  <div id="wrapper">
-    <div id="main">
-    
-      <div class='breadcrum'>
-          <%= link_to 'Home',admin_data_path %>
-          >
-          <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
-          >
-          <%= link_to "ID #{@model.id}", ''%>  
-      </div>
-    
-      <h2 class="title"><%=@model.class.name%> ID <%=@model.id%></h2>        
+<div id="main">
+  <div class='breadcrum'>
+    <%= link_to 'Home',admin_data_path %>
+    >
+    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+    >
+    <%= link_to "ID #{@model.id}", ''%>  
+  </div>
 
-      <%= erb_file('misc','_flash_message.html.erb') %>      
-      
-      <div class="block" id="block-tables">
-        <div class="secondary-navigation">
-          <div class="clear"></div>
-        </div>          
-        <div class="content">          
-          <h2 class="title"></h2>
-          <div class="inner">
-              <table class="table with_border" cellspacing="3" cellpadding="3">
-              <% @klass.columns.each_with_index do |column,index| %>
-                <tr>
-                  <td><%= column.name %></td>
-                  <td style="font-size:120%;">
-                    <%=h  admin_data_get_value_for_column(column,@model, :limit => nil) %>
-                  </td>
-                </tr>
-              <% end %>
-              </table>
-          </div>
-        </div>
+  <h2 class="title"><%=@model.class.name%> ID <%=@model.id%></h2>        
+
+  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+  
+  <div class="block" id="block-tables">
+    <div class="secondary-navigation">
+      <div class="clear"></div>
+    </div>          
+    <div class="content">          
+      <h2 class="title"></h2>
+      <div class="inner">
+        <table class="table with_border" cellspacing="3" cellpadding="3">
+        <% @klass.columns.each_with_index do |column,index| %>
+          <tr>
+            <td><%= column.name %></td>
+            <td style="font-size:120%;">
+              <%=h  admin_data_get_value_for_column(column,@model, :limit => nil) %>
+            </td>
+          </tr>
+        <% end %>
+        </table>
       </div>
-        
-      <%= erb_file('misc','_powered_by.html.erb') %>      
     </div>
-    
-    <div id="sidebar">
-      <%= erb_file('association','_association_info.html.erb') %>            
-      <%= erb_file('misc','_modify_record.html.erb') %>            
-    </div>  
-      
-    <div class="clear"></div>      
-  </div>    
+  </div>
 </div>
+
+<div id="sidebar">
+  <%= render 'admin_data/main/association/association_info', :klass => @klass, :model => @model %>
+  <%= render 'admin_data/main/misc/modify_record', :model => @model, :klass => @klass %>
+</div>  
