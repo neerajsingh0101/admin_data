@@ -26,6 +26,8 @@ able to update/delete/create any record.
 
 * For each individual record a snapshot of all association records is shown. Associations that are supported are has_many, belongs_to and has_one. If an associated record is not present then there will be no link.
 
+* Supports name spaced models like Vehicle::Car and Vehicle::Engine.
+
 * Next to association a count of number of associated records is shown. 
 
 * Al the associated records are links so one can navigate from record to record. 
