@@ -36,7 +36,10 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'testing filter ensure_is_allowed_to_update' do
     setup do
       @controller.class.before_filter.each do |filter|
-        @filter = filter if filter.method == :ensure_is_allowed_to_update
+        if filter.kind_of?(ActionController::Filters::BeforeFilter) && 
+            filter.method == :ensure_is_allowed_to_update
+            @filter = filter 
+        end
       end
     end
     should 'have filter called ensure_is_allowed_to_update' do
