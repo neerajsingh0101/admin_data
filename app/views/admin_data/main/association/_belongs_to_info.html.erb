@@ -1,11 +1,12 @@
-<% if AdminData::Util.belongs_to_what(klass.name).size > 0 %>
+<% if AdminData::Util.belongs_to_what(klass).size > 0 %>
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
   
-    <% AdminData::Util.belongs_to_what(klass.name).each do |bt| %>
+    <% AdminData::Util.belongs_to_what(klass).each do |bt| %>
       &nbsp;      
       <% if  model.send(bt) %>
-        <%= link_to bt, admin_data_show_path(:klass => AdminData::Util.get_class_name_for_belongs_to_class(model,bt), 
+        <%= link_to bt, admin_data_show_path(:klass => 
+                                             AdminData::Util.get_class_name_for_belongs_to_class(model,bt), 
                                              :model_id => model.send(bt).id) %>        
       <% else %>
           <%= bt %>              

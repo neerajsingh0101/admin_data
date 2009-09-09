@@ -32,8 +32,9 @@ class AdminData::MainController  < AdminData::BaseController
 
   def list
     if params[:base]
-      model= Object.const_get(params[:base]).find(params[:model_id])
+      model= params[:base].camelize.constantize.find(params[:model_id])
       has_many_proxy = model.send(params[:send].intern)
+      @total_num_of_childrenre = has_many_proxy.send(:count)
       @records = has_many_proxy.send(  :paginate,
                                        :page => params[:page],
                                        :per_page => per_page,
@@ -71,26 +72,25 @@ class AdminData::MainController  < AdminData::BaseController
 
   def update
     model_name_underscored = @klass.to_s.underscore
-
     model_attrs = params[model_name_underscored]
-
     if @model.update_attributes(model_attrs)
       flash[:success] = "Record was updated"
-      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.to_s)
+      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.name.underscore)
     else
       render :action => 'edit'
     end
   end
 
   def create
-    model_name_underscored = @klass.to_s.underscore
+    model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
     @model = @klass.create(model_attrs)
+
     if @model.errors.any?
       render :action => 'new'
     else
       flash[:success] = "Record was created"
-      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.name)
+      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.name.underscore)
     end
   end
 

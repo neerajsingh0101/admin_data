@@ -1,4 +1,4 @@
-class AdminData::BaseController  < ApplicationController
+class AdminData::BaseController < ApplicationController
 
   helper_method :admin_data_is_allowed_to_update?
 
@@ -21,7 +21,7 @@ class AdminData::BaseController  < ApplicationController
 
   def get_class_from_params
     begin
-      @klass = Object.const_get(params[:klass])
+      @klass = params[:klass].camelize.constantize
     rescue TypeError => e # in case no params[:klass] is supplied
       Rails.logger.debug 'no params[:klass] was supplied'
       redirect_to admin_data_path
@@ -45,25 +45,25 @@ class AdminData::BaseController  < ApplicationController
       begin
         # for models/foo/bar/baz.rb
         klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) }
-      rescue Exception
+      rescue Exception => e
+        Rails.logger.debug e.message
       end
       if klass && klass.ancestors.include?(ActiveRecord::Base)  && !@klasses.include?(klass)
-        # it is possible that a model doesnot have a table because migration
-        # has not been run or
+        # it is possible that a model doesn't have a corresponding table because 
+        # migration has not run or
         # migration has deleted the table but the model has not been deleted.
-        # So remove those classes from the list
-        # I will send a count method to determine if a table is existing or not
+        #
+        # In order to remove such classes from the list sending count method to klass 
         begin
           klass.send(:count)
           @klasses << klass
         rescue ActiveRecord::StatementInvalid  => e
+          Rails.logger.debug e.message
         end
       end
     end
   end
 
-
-  # can't be extracted to a helper because it uses named routes
   def build_drop_down_for_klasses
     @drop_down_for_klasses = @klasses.inject([]) do |result,klass|
       result << [klass.name,  admin_data_list_url(:klass => klass.name)]

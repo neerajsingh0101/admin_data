@@ -1,7 +1,7 @@
-<% if AdminData::Util.has_many_what(klass.name).size > 0 %>
+<% if AdminData::Util.has_many_what(klass).size > 0 %>
   <p>
     <strong>has_many :</strong>
-      <% AdminData::Util.has_many_what(klass.name).each do |hm| 
+      <% AdminData::Util.has_many_what(klass).each do |hm| 
           label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
       %>
       <% if AdminData::Util.has_many_count(model,hm) > 0 %>

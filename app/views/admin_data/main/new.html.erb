@@ -21,7 +21,7 @@
       <h2 class="title"></h2>
       <div class="inner">
         <h2>Create a new record</h2>
-        <%= form_tag({:action => 'create', :klass => @klass.to_s}, {:class => 'nice_form'}) %>
+        <%= form_tag({:action => 'create', :klass => @klass.name.underscore}, {:class => 'nice_form'}) %>
           <%= render :partial => 'admin_data/main/misc/form' %>
         </form>
       </div>

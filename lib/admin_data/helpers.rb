@@ -1,5 +1,68 @@
 module AdminData::Helpers
 
+  def admin_data_form_field(klass,model,col)
+    html = []
+
+    if klass.serialized_attributes.has_key?(col.name)
+      html << %{ <i>Cannot edit serialized field.</i> }
+      unless model.send(col.name).blank?
+        html << %{ <i>Raw contents:</i><br/> }
+        html << model.send(col.name).inspect
+      end
+      return html.join
+    end
+
+    uscore_name = klass.name.underscore
+    if col.name == 'id'
+      html<<  model.new_record? ? '(auto)' : model.id
+
+    elsif col.type == :text
+      html << "<textarea rows='6' cols='70' name='#{uscore_name}[#{col.name}]'>"
+      html << model.send(col.name)
+      html << '</textarea>'
+
+    elsif col.type == :datetime && ['created_at', 'updated_at'].include?(col.name)
+      html <<  model.new_record? ? '(auto)' : model.send(col.name)
+
+    elsif col.type == :datetime
+      value = model.send(col.name)
+      value = value.send(:to_s, :db) if value
+      value = Time.now.to_s(:db) if params[:action] == 'new'
+      html << text_field(klass.name.underscore, col.name, :value => value, :class => 'nice-field')
+
+    elsif col.type == :boolean
+      html << "<select id='#{uscore_name}_#{col.name}' name='#{uscore_name}[#{col.name}]'>"
+      html <<  "<option value=''></option>"
+
+      if model.send(col.name)
+        html << %{ <option value='true' 'selected'>True</option> }
+      else
+        html << %{ <option value='true'>True</option> }
+      end
+
+      if !model.send(col.name)
+        html << %{ <option value='false' 'selected'>False</option> }
+      else
+        html << %{ <option value='false'>False</option> }
+      end
+
+      html << '</select>'
+
+    else
+      col_limit = col.limit || 255
+      size = (col_limit < 56) ? col_limit : 56
+      if col.limit
+        html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
+        :size => size, :maxlength => col.limit, :class => 'nice-field')
+
+      else
+        html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
+        :size => size, :class => 'nice-field')
+      end
+    end
+  end
+
+
   # using params[:controller]
   # Usage:
   #

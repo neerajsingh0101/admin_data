@@ -1,7 +1,17 @@
 
+=== 0.0.6 2009-09-09
+
+* more tests for the plugin. Now 151 tests and 229 assertions
+
+* support for name spaced models like Vehicle::Car and Vehicle::Engine
+
+* fixed a bug related to advance search
+
+* refactored JavaScript code for advance search
+
 === 0.0.5 2009-09-04
 
-* tests for this plugin
+* tests for the plugin
 
 * changed the way security configiruation is passed to the plugin
 
@@ -31,3 +41,21 @@
 === 0.0.1 2009-05-01
 
 * Initial release
+
+
+
+
+
+TODO write test for javascript
+TODO if an invalid date value is entered then show appropriate message
+TODO change the response type to be JSON
+
+# TODO to get the name of the class of belongs_to relationship
+# one should not have to go throough model. It should be derived
+# from association meta
+
+
+TODO allow a way to update an attribute that is protected from mass assignment
+
+
+# TODO test that when truncate method raises exception than right value is shown

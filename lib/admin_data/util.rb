@@ -22,9 +22,6 @@ class AdminData::Util
     tmp.join
   end
 
-  # TODO to get the name of the class of belongs_to relationship
-  # one should not have to go throough model. It should be derived
-  # from association meta
   def self.get_class_name_for_has_many_association(model,belongs_to_string)
     begin
       tmp = model.send(belongs_to_string.intern)
@@ -47,35 +44,35 @@ class AdminData::Util
     model.send(send.intern).count
   end
 
-  def self.has_many_what(klass_name)
+  def self.has_many_what(klass)
     output = []
-    Object.const_get(klass_name).reflections.each do |key,value|
+    klass.name.camelize.constantize.reflections.each do |key,value|
       output << value.name.to_s if value.macro.to_s == 'has_many'
     end
     output
   end
 
-  def self.has_one_what(klass_name)
+  def self.has_one_what(klass)
     output = []
-    Object.const_get(klass_name).reflections.each do |key,value|
+    klass.name.camelize.constantize.reflections.each do |key,value|
       output << value.name.to_s if value.macro.to_s == 'has_one'
     end
     output
   end
 
-  def self.belongs_to_what(klass_name)
+  def self.belongs_to_what(klass)
+    # is it possible to user inject here to ge rid of output
     output = []
-    Object.const_get(klass_name).reflections.each do |key,value|
+    klass.name.camelize.constantize.reflections.each do |key,value|
       output << value.name.to_s if value.macro.to_s == 'belongs_to'
     end
     output
   end
 
   def self.admin_data_association_info_size(klass)
-    return true if
-     (belongs_to_what(klass.name).size > 0)  || 
-          (has_many_what(klass.name).size > 0) ||
-          (has_one_what(klass.name).size > 0) 
+    (belongs_to_what(klass).size > 0)  ||
+    (has_many_what(klass).size > 0) ||
+    (has_one_what(klass).size > 0)
   end
 
   def self.string_representation_of_data(value)
@@ -90,18 +87,15 @@ class AdminData::Util
   end
 
   def self.build_sort_options(klass,sortby)
-    output = []
-    klass.columns.each do |column|
+    klass.columns.inject([]) do |result,column|
       name = column.name
 
       selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''
-      output << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
+      result << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
 
       selected_text = sortby == "#{name} asc" ? "selected='selected'" : ''
-      output << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
+      result << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
     end
-    output.join
   end
-
 
 end

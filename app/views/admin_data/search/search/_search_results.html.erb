@@ -13,11 +13,7 @@
       <%= link_to params[:base] + ' ID ' + params[:model_id], 
           {:action => 'show', :klass => params[:base], :model_id => params[:model_id]} %>
         has 
-        <% 
-          model = Object.const_get(params[:base]).find(params[:model_id])
-          count = AdminData::Util.has_many_count(model,params[:send]) 
-        %>
-        <%= pluralize(count,params[:klass].downcase)%>
+        <%= pluralize(@total_num_of_children,params[:klass].downcase)%>
     </caption>    
   <% else %>
     <caption><%= params[:klass]%> list </caption>

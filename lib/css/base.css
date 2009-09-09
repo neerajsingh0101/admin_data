@@ -499,3 +499,9 @@ span.records_count {
   color: dimgray;
   font-size: 13px;
 }  
+
+span.searching_message{
+  color: red;
+  font-size: 25px;
+  margin: 20px 0 20px 0;
+}

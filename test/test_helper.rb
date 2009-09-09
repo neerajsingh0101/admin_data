@@ -86,3 +86,6 @@ class Test::Unit::TestCase
   end
 
 end
+
+# to test helper tests
+require 'action_view/test_case' 
