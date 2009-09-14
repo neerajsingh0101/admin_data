@@ -55,6 +55,9 @@ require 'will_paginate'
 gem 'thoughtbot-factory_girl','>= 1.2.2'
 require 'factory_girl'
 
+gem 'flexmock'
+require 'flexmock'
+
 
 #require all factories
 f = File.join(File.dirname(__FILE__), 'factories', '*.rb')

@@ -87,9 +87,7 @@ module AdminData::Helpers
 
 
   # uses truncate method
-  # options supports :limit which is applied if the column type is string
-  # or text
-  #
+  # options supports :limit which is applied if the column type is string or text
   def admin_data_get_value_for_column(column, source, options = {})
     options.reverse_merge!(:limit => 400)
     if column.type == :datetime
