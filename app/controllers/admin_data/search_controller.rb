@@ -87,18 +87,15 @@ class AdminData::SearchController  < AdminData::BaseController
 
       when 'is_on':
 
-        Rails.logger.info "col3 is #{col3}"
         if (time_obj = AdminDataDateValidation.validate(col3))
           attribute_conditions << ["#{table_name}.#{col1} >= ?",time_obj.beginning_of_day]
           attribute_conditions << ["#{table_name}.#{col1} < ?",time_obj.end_of_day]
         end
-        Rails.logger.info "time_obj is #{time_obj}"
 
       when 'is_on_or_before_date':
         if (time_obj = AdminDataDateValidation.validate(col3))
           attribute_conditions << ["#{table_name}.#{col1} <= ?",time_obj.end_of_day]
         end
-       
 
       when 'is_on_or_after_date':
         if time_obj = AdminDataDateValidation.validate(col3)
@@ -114,8 +111,7 @@ class AdminData::SearchController  < AdminData::BaseController
       when 'less_than':
         attribute_conditions << ["#{table_name}.#{col1} < ?",col3.to_i] unless col3.blank?
       else
-        # it means user did not even select a value of col2
-        # ignore it
+         # it means user did not select anything in col2. Ignore it.
       end
 
     end # end of search_options loop
