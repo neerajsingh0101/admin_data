@@ -71,8 +71,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should_respond_with :success
     should_assign_to :klasses
-    should 'have three models' do
-      assert_equal 4, assigns(:klasses).size
+    should 'have 5  models' do
+      assert_equal 5, assigns(:klasses).size
     end
   end
 
