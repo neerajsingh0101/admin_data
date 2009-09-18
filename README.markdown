@@ -55,6 +55,8 @@ either 'string' type or 'text' type.
 
 * Diagnostic test lists all the columns which are foreign keys but index is not defined on them.
 
+* Plugin does not assume that all the tables have primary key as 'id'. It respects the primary_key set in the model.
+
 ## Requirements
 
 * Rails project must be using Rails 2.2 or higher.

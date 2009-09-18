@@ -1,3 +1,8 @@
+=== 0.0.8 2009-09-18
+
+* do not assume that primary key is 'id' . Respect the primary key set by model.
+
+* test for alternate primary key
 
 === 0.0.7 2009-09-17
 
