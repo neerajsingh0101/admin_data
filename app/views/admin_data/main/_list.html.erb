@@ -10,7 +10,7 @@
   <div class='breadcrum'>
     <%= link_to 'Home',admin_data_path %>
     >
-    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+    <%= link_to @klass, admin_data_list_path(:klass => @klass.name.underscore) %> 
   </div>
     
   <%= render 'admin_data/main/misc/flash_message', :model => @model %>

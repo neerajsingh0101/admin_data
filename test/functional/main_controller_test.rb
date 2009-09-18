@@ -74,6 +74,13 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have 5  models' do
       assert_equal 5, assigns(:klasses).size
     end
+    should 'have link for article' do
+       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/list?klass=article'})
+    end
+    should 'have link for engine' do
+       s = CGI.escape('vehicle/engine')
+       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/list?klass=#{s}" } )
+    end
   end
 
   context 'get list for article' do
@@ -88,6 +95,18 @@ class AdminData::MainControllerTest < ActionController::TestCase
       get :list, {:klass => @car.class.name.underscore}
     end
     should_respond_with :success
+    should 'contain proper link at header' do
+       s = CGI.escape('vehicle/car')
+       assert_tag(:tag => 'div', :attributes => {:class => 'breadcrum'},
+                  :descendant => {:tag => 'a', :attributes => { :href => "/admin_data/list?klass=#{s}" }})
+    end
+    should 'contain proper link at table listing' do
+       s1 = CGI.escape("vehicle/car")
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/show?klass=#{s1}#{s2}model_id=#{@car.id}"
+       assert_tag(:tag => 'td',
+                  :descendant => {:tag => 'a', :attributes => { :href => url }})
+    end
   end
 
   context 'get list article has_many association' do
@@ -129,11 +148,18 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get show for article' do
+  context 'get show for article which has many comments' do
     setup do
+      @comment1 = Factory(:comment, :article => @article)
+      @comment2 = Factory(:comment, :article => @article)
       get :show, {:model_id => @article.id, :klass => @article.class.name }
     end
     should_respond_with :success
+    should 'have association link for comments' do
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/list?base=article#{s2}children=comments#{s2}klass=comment#{s2}model_id=#{@article.id}"
+       assert_tag(:tag => 'a', :attributes => {:href => url})
+    end
   end
 
   context 'get show for car' do
@@ -347,3 +373,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
   end
 
 end
+
+
+
