@@ -153,6 +153,10 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 
 [http://github.com/neerajdotname/admin_data](http://github.com/neerajdotname/admin_data)
 
+## Contributors
+
+[Alexey Borzenkov](http://github.com/snaury)
+
 ## License
 
 MIT
