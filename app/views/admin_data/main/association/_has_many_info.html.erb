@@ -7,7 +7,7 @@
       <% if AdminData::Util.has_many_count(model,hm) > 0 %>
         <%= link_to label, {:action => 'list', 
                             :klass => AdminData::Util.get_class_name_for_has_many_association(model,hm), 
-                            :send => hm,
+                            :children => hm,
                             :base => klass.name, 
                             :model_id => model.id} %>        
       <% else %>
