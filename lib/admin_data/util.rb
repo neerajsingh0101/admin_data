@@ -40,8 +40,8 @@ class AdminData::Util
     end
   end
 
-  def self.has_many_count(model,send)
-    model.send(send.intern).count
+  def self.has_many_count(model,hm)
+    model.send(hm.intern).count
   end
 
   def self.has_many_what(klass)
