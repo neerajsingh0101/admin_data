@@ -53,6 +53,10 @@ class AdminData::SearchController  < AdminData::BaseController
 
     search_options.each do |key,value|
       col1 = value[:col1]
+      
+      # col1 value is directly used in the sql statement. So it is important to sanitize it
+      col1 = col1.gsub(/\W/,'')
+
       col2 = value[:col2]
       col3 = value[:col3]
       col3 = col3.downcase.strip unless col3.blank?
