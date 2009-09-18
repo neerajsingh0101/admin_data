@@ -9,6 +9,8 @@ class AdminData::MainController  < AdminData::BaseController
                 :only => [ :table_structure, :list,:show,:destroy,:delete,
                            :edit,:new,:update, :create]
 
+  before_filter :ensure_list_children_valid, :only => [:list]
+
   before_filter :get_model_and_verify_it, :only => [:destroy, :delete, :edit, :update, :show]
   
   def table_structure
@@ -108,6 +110,15 @@ class AdminData::MainController  < AdminData::BaseController
     @model = @klass.send(m, params[:model_id])
     if @model.blank?
       render :text => "<h2>#{@klass.name} not found: #{params[:model_id]}</h2>", :status => 404 
+    end
+  end
+
+  def ensure_list_children_valid
+    if params[:base]
+      model_klass = params[:base].camelize.constantize
+      unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
+        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", :status => 404
+      end
     end
   end
 
