@@ -31,6 +31,8 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def list
+    order = "#{@klass.table_name}.#{@klass.primary_key} desc"
+
     if params[:base]
       model= params[:base].camelize.constantize.find(params[:model_id])
       has_many_proxy = model.send(params[:send].intern)
@@ -38,11 +40,11 @@ class AdminData::MainController  < AdminData::BaseController
       @records = has_many_proxy.send(  :paginate,
                                        :page => params[:page],
                                        :per_page => per_page,
-                                       :order => "#{@klass.table_name}.id desc")
+                                       :order => order )
     else
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => per_page,
-                                  :order => "#{@klass.table_name}.id desc")
+                                  :order => order )
     end
   end
 
@@ -101,7 +103,9 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def get_model_and_verify_it
-    @model = @klass.send(:find_by_id,params[:model_id])
+     primary_key = @klass.primary_key
+     m = "find_by_#{primary_key}".intern
+    @model = @klass.send(m, params[:model_id])
     if @model.blank?
       render :text => "<h2>#{@klass.name} not found: #{params[:model_id]}</h2>", :status => 404 
     end

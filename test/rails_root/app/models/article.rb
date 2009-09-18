@@ -1,5 +1,7 @@
 class Article < ActiveRecord::Base
 
+  set_primary_key 'article_id'
+
   has_many :comments, :dependent => :destroy
 
   before_save :set_body_html

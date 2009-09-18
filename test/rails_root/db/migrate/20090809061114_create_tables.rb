@@ -1,6 +1,6 @@
 class CreateTables < ActiveRecord::Migration
   def self.up
-    create_table :articles do |t|
+    create_table(:articles, :primary_key => 'article_id') do |t|
       t.string :title ,:null => false
       t.text :body, :null => false
       t.text :body_html, :null => false

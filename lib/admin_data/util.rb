@@ -87,7 +87,7 @@ class AdminData::Util
   end
 
   def self.build_sort_options(klass,sortby)
-    klass.columns.inject([]) do |result,column|
+   klass.columns.inject([]) do |result,column|
       name = column.name
 
       selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''

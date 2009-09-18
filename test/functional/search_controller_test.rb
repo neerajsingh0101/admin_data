@@ -60,7 +60,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, {:klass => 'Article', :query => 'python', :sortby => 'id desc'}
+      get :quick_search, {:klass => 'Article', :query => 'python', :sortby => 'article_id desc'}
     end
     should_respond_with :success
     should_assign_to :records
@@ -96,7 +96,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @clojure_book = Factory(:article, :title => 'clojure')
       xml_http_request :post,:advance_search, {:klass => 'Article', 
                             :search_type => 'advance',
-                            :sortby => 'id desc',
+                            :sortby => 'article_id desc',
                             :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} }
                             }
     end
@@ -117,7 +117,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @clojure_book = Factory(:article, :title => 'clojure')
       xml_http_request :post,:advance_search, {:klass => 'Article', 
                             :search_type => 'advance',
-                            :sortby => 'id desc',
+                            :sortby => 'article_id desc',
                             :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'clojure'} }
                             }
     end
@@ -138,7 +138,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @clojure_book = Factory(:article, :title => 'clojure')
       xml_http_request :post,:advance_search, {:klass => 'Article', 
                             :search_type => 'advance',
-                            :sortby => 'id desc',
+                            :sortby => 'article_id desc',
                             :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => ''} }
                             }
     end
@@ -157,7 +157,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       xml_http_request :post,:advance_search, {:klass => 'Article', 
                             :search_type => 'advance',
-                            :sortby => 'id desc',
+                            :sortby => 'article_id desc',
                             :adv_search => {'1_row' => {'col1' => 'title', :col2 => nil, :col3 => nil} }
                             }
     end
@@ -178,7 +178,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @clojure_book = Factory(:article, :title => 'clojure', :body => 'not for beginners')
       xml_http_request :post,:advance_search, {:klass => 'Article', 
                             :search_type => 'advance',
-                            :sortby => 'id desc',
+                            :sortby => 'article_id desc',
                             :adv_search => {
                                 '1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'},
                                 '2_row' => {'col1' => 'body', :col2 => 'contains', :col3 => 'beginners'} 
