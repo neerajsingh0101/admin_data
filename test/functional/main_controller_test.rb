@@ -94,7 +94,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
-      get :list, {:base => 'Article', :klass => 'Comment', :model_id => @article.id, :send => 'comments'}
+      get :list, {:base => 'Article', :klass => 'Comment', :model_id => @article.id, :children => 'comments'}
     end
     should_respond_with :success
     should_assign_to :records
@@ -113,7 +113,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
       @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
       @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
       get :list, {:base => @car.class.name.underscore, 
-                  :klass => @door1.class.name.underscore, :model_id => @car.id, :send => 'doors'}
+                  :klass => @door1.class.name.underscore, 
+                  :model_id => @car.id, 
+                  :children => 'doors'}
     end
     should_respond_with :success
     should_assign_to :records
