@@ -182,6 +182,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
                   :attributes => {:class => 'belongs_to'},
                   :descendant => {:tag => 'a', :child => /article/})
     end
+    should 'have link to belongs_to association' do
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/show?klass=article#{s2}model_id=#{@article.id}"
+       assert_tag(:tag => 'a', :attributes => {:href => url})
+    end
   end
 
   context 'get show for door which belongs to another class' do
@@ -196,6 +201,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
                  :descendant => {:tag => 'a', :child => /car/})
     end
   end
+
+  #TODO get show for a car which has one engine to test has_one relationship
 
   context 'destroy an article' do
     setup do
@@ -242,12 +249,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_change('car count', :by => -1) {Vehicle::Car.count}
     should_change('door count', :by => 1) {Vehicle::Door.count}
   end
-
-
-
-
-
-
 
   context 'get edit article' do
     setup do

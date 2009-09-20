@@ -22,23 +22,31 @@ class AdminData::Util
     tmp.join
   end
 
-  def self.get_class_name_for_has_many_association(model,belongs_to_string)
-    begin
-      tmp = model.send(belongs_to_string.intern)
-      tmp.find(:first).class if tmp.count > 0
-    rescue
-      nil
+  def self.get_class_name_for_has_many_association(model,has_many_string)
+     # do not really know how to return something from inside the hash.each do 
+     # I was getting local jump error
+    output = []
+    model.class.name.camelize.constantize.reflections.each do |key,value|
+      if value.macro.to_s == 'has_many' && value.name.to_s == has_many_string
+         output << value.klass
+      end
     end
+    output.any? ? output.first : nil
   end
 
   def self.get_class_name_for_belongs_to_class(model,belongs_to_string)
-    begin
-      tmp = model.send(belongs_to_string.intern)
-      tmp.class.to_s if tmp
-    rescue
-      nil
+     # do not really know how to return something from inside the hash.each do 
+     # I was getting local jump error
+    output = []
+    model.class.name.camelize.constantize.reflections.each do |key,value|
+      if value.macro.to_s == 'belongs_to' && value.name.to_s == belongs_to_string
+         output << value.klass
+      end
     end
+    output.any? ? output.first : nil
   end
+
+  #TODO what about the get_class_name for has_one relationship ??
 
   def self.has_many_count(model,hm)
     model.send(hm.intern).count

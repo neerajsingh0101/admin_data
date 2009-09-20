@@ -4,10 +4,10 @@
   
     <% AdminData::Util.belongs_to_what(klass).each do |bt| %>
       &nbsp;      
-      <% if  model.send(bt) %>
-        <%= link_to bt, admin_data_show_path(:klass => 
-                                             AdminData::Util.get_class_name_for_belongs_to_class(model,bt), 
-                                             :model_id => model.send(bt).id) %>        
+      <% if model.send(bt) %>
+         <%= link_to bt, admin_data_show_path(
+            :klass => AdminData::Util.get_class_name_for_belongs_to_class(model,bt).name.underscore, 
+            :model_id => model.send(bt).id) %>        
       <% else %>
           <%= bt %>              
       <% end %>  
