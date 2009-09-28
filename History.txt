@@ -1,3 +1,10 @@
+=== 0.0.11 2009-09-28
+
+* renamed quick search to search
+* using jQuery theme to make drop down boxes jazzier
+* more tests
+* moved some inline css to external css file
+
 === 0.0.10 2009-09-18
 
 * fixed listing and has_many association info for namespaced model 
