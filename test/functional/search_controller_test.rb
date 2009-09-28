@@ -10,57 +10,140 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     @controller = AdminData::SearchController.new
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
+    @article = Factory(:article)
+    @car = Vehicle::Car.create(:year => 2000, :brand => 'bmw')
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/quick_search',  :controller => 'admin_data/search',
-                                                  :action => :quick_search
+  should_route :get, '/admin_data/search',  :controller => 'admin_data/search',
+                                                  :action => :search
 
   should_route :get, '/admin_data/advance_search',:controller => 'admin_data/search',
                                                   :action => :advance_search
 
-  context 'get quick_search with no klass param' do
+  context 'get search car has_many association' do
     setup do
-      get :quick_search
+      Vehicle::Door.delete_all
+      @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
+      @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
+      get :search, {  :base => @car.class.name.underscore, 
+                      :klass => @door1.class.name.underscore, 
+                      :model_id => @car.id, 
+                      :children => 'doors'}
+    end
+    should_respond_with :success
+    should_assign_to :records
+    should 'have 2 records' do
+      assert_equal 2, assigns(:records).size
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /has 2/m)
+    end
+  end
+
+
+  context 'get search article has_many association' do
+    setup do
+      @comment1 = Factory(:comment, :article => @article)
+      @comment2 = Factory(:comment, :article => @article)
+      get :search, { :base => 'Article', :klass => 'Comment', :model_id => @article.id, :children => 'comments' }
+    end
+    should_respond_with :success
+    should_assign_to :records
+    should 'have 2 records' do
+      assert_equal 2, assigns(:records).size
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /has 2 Comments/ )
+    end
+  end
+
+  
+  context 'get search for comment' do
+    setup do
+      @comment = Factory(:comment)
+      @comment = Factory(:comment)
+      get :search, {:klass => @comment.class.name.underscore}
+    end
+    should_respond_with :success
+    should 'contain valid link at header breadcrum' do
+      assert_tag( :tag => 'div',
+                  :attributes => {:class => 'breadcrum'},
+                  :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/search?klass=comment'}})
+    end
+    should 'contain proper link at table listing' do
+      s2 = ERB::Util.html_escape('&')
+      url = "/admin_data/show?klass=comment#{s2}model_id=#{Comment.last.id}"
+      assert_tag( :tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
+    end
+  end
+
+  context 'get search for car' do
+    setup do
+      get :search, {:klass => @car.class.name.underscore}
+    end
+    should_respond_with :success
+    should 'contain proper link at header breadcum' do
+       s = CGI.escape('vehicle/car')
+       assert_tag(:tag => 'div', 
+                  :attributes => {:class => 'breadcrum'},
+                  :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/search?klass=#{s}" }})
+    end
+    should 'contain proper link at table listing' do
+       s1 = CGI.escape("vehicle/car")
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/show?klass=#{s1}#{s2}model_id=#{@car.class.last.id}"
+       assert_tag(:tag => 'td',
+                  :descendant => {:tag => 'a', :attributes => {:href => url}})
+    end
+  end
+
+  context 'get search with no klass param' do
+    setup do
+      get :search
     end
     should_respond_with :redirect
     should_redirect_to('admin_data root') {admin_data_url}
   end
 
-  context 'get quick_search with no search param' do
+  context 'get search with no search param' do
     setup do
-      get :quick_search, {:klass => 'Article'}
+      get :search, {:klass => 'Article'}
     end
     should_respond_with :success
     should_assign_to :records
   end
 
-  context 'get quick_search with search term' do
+  context 'get search with search term' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, {:klass => 'Article', :query => 'python'}
+      get :search, {:klass => 'Article', :query => 'python'}
     end
     should_respond_with :success
     should_assign_to :records
     should 'have only one record' do
       assert_equal 2, assigns(:records).size
-      assert_equal @python_book.id, assigns(:records).first.id
-      assert_equal @python_beginner_book.id, assigns(:records).last.id
+      assert_equal @python_book.id, assigns(:records).last.id
+      assert_equal @python_beginner_book.id, assigns(:records).first.id
     end
   end
 
-  context 'get quick_search with search term with revert id order' do
+  context 'get search with search term with revert id order' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, {:klass => 'Article', :query => 'python', :sortby => 'article_id desc'}
+      get :search, {:klass => 'Article', :query => 'python', :sortby => 'article_id desc'}
     end
     should_respond_with :success
     should_assign_to :records
@@ -94,17 +177,17 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request :post,:advance_search, {:klass => 'Article', 
-                            :search_type => 'advance',
-                            :sortby => 'article_id desc',
-                            :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} }
+      xml_http_request  :post,
+                        :advance_search, {:klass => 'Article', 
+                                          :sortby => 'article_id desc',
+                                          :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} }
                             }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /all 2/})
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 2 records found/ )
     end
   end
 
@@ -115,17 +198,18 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request :post,:advance_search, {:klass => 'Article', 
-                            :search_type => 'advance',
-                            :sortby => 'article_id desc',
-                            :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'clojure'} }
-                            }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :sortby => 'article_id desc',
+                          :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'clojure'} }
+                        }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /1/})
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 1 record found/ )
     end
   end
 
@@ -136,39 +220,43 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request :post,:advance_search, {:klass => 'Article', 
-                            :search_type => 'advance',
-                            :sortby => 'article_id desc',
-                            :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => ''} }
-                            }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :sortby => 'article_id desc',
+                          :adv_search => {'1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => ''} }
+                        }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /all 4/})
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 4 records found/ )
     end
   end
+
 
   context 'xhr advance_search with empty col2' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
-      xml_http_request :post,:advance_search, {:klass => 'Article', 
-                            :search_type => 'advance',
-                            :sortby => 'article_id desc',
-                            :adv_search => {'1_row' => {'col1' => 'title', :col2 => nil, :col3 => nil} }
-                            }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :sortby => 'article_id desc',
+                          :adv_search => {'1_row' => {'col1' => 'title', :col2 => nil, :col3 => nil} }
+                        }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /all 2/})
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 2 records found/ )
     end
   end
 
+  
   context 'xhr advance_search with two search terms' do
     setup do
       Article.delete_all
@@ -176,20 +264,22 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners', :body => 'for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure', :body => 'not for beginners')
-      xml_http_request :post,:advance_search, {:klass => 'Article', 
-                            :search_type => 'advance',
-                            :sortby => 'article_id desc',
-                            :adv_search => {
-                                '1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'},
-                                '2_row' => {'col1' => 'body', :col2 => 'contains', :col3 => 'beginners'} 
-                                }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :sortby => 'article_id desc',
+                          :adv_search => 
+                            {
+                              '1_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'},
+                              '2_row' => {'col1' => 'body', :col2 => 'contains', :col3 => 'beginners'} 
                             }
+                        }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /1/})
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 1 record found/ )
     end
   end
 
@@ -244,38 +334,48 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :title => 'python')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} } }
     end
     should_respond_with :success
     should 'contain text' do
-      assert_tag(:tag => 'div',:attributes => {:class => 'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
-
 
   context 'xhr advance_search contains -ve' do
     setup do
       Article.delete_all
       Factory(:article, :title => 'ruby')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} } }
+      xml_http_request :post, 
+                       :advance_search, 
+                       { :klass => 'Article', 
+                         :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'contains', :col3 => 'python'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag => 'div',:attributes =>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title' },
+                  :content => /Search result: 0 records found/ )
     end
   end
-
 
   context 'xhr advance_search is exactly +ve' do
     setup do
       Article.delete_all
       Factory(:article, :title => 'python')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
+      xml_http_request :post,
+                       :advance_search, 
+                       { :klass => 'Article', 
+                         :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -283,11 +383,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :title => 'python2')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes => { :class => 'title'},
+                     :content => /Search result: 1 record found/ )
     end
   end
 
@@ -296,11 +400,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :title => 'python')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -308,11 +416,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :title => 'python2')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'does_not_contain', :col3 => 'py'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'title', :col2 => 'does_not_contain', :col3 => 'py'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes =>{ :class => 'title'},
+                     :content => /Search result: 1 record found/ )
     end
   end
 
@@ -320,11 +432,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :approved => false)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_false'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_false'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => {:class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -332,11 +448,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :approved => true)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_false'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_false'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag(:tag => 'h2',
+                    :attributes => {:class => 'title'},
+                    :content => /Search result: 1 record found/ )
     end
   end
 
@@ -345,11 +465,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :approved => true)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_true'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_true'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -357,11 +481,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :approved => false)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_true'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'approved', :col2 => 'is_true'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag(:tag => 'h2',
+                    :attributes => {:class => 'title'},
+                    :content => /Search result: 1 record found/ )
     end
   end
 
@@ -370,11 +498,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :status => nil)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_null'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_null'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title' },
+                  :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -382,11 +514,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :status => 'something')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_null'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_null'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag(:tag => 'h2',
+                    :attributes => {:class => 'title'},
+                    :content => /Search result: 1 record found/ )
     end
   end
 
@@ -395,11 +531,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :status => 'something')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_not_null'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_not_null'} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -407,11 +547,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :status => nil)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_not_null'} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'status', :col2 => 'is_not_null'} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes => { :class => 'title'},
+                     :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -419,11 +563,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'is_equal_to', :col3 => 100.to_s} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'is_equal_to', :col3 => 100.to_s} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title' },
+                  :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -431,11 +579,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'is_equal_to', :col3 => 101.to_s} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'is_equal_to', :col3 => 101.to_s} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes => { :class => 'title' },
+                     :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -443,23 +595,32 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'greater_than', :col3 => 99.to_s} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'greater_than', :col3 => 99.to_s} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
+  
   context 'xhr advance_search does greater than -ve' do
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'greater_than', :col3 => 101.to_s} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'greater_than', :col3 => 101.to_s} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 0 records found/ )
     end
   end
 
@@ -467,11 +628,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'less_than', :col3 => 101.to_s} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'less_than', :col3 => 101.to_s} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title' }, 
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -479,11 +644,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       Factory(:article, :hits_count => 100)
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'less_than', :col3 => 99.to_s} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'hits_count', :col2 => 'less_than', :col3 => 99.to_s} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes => { :class => 'h2' },
+                     :content => /Search result: 1 record found/ ) 
     end
   end
 
@@ -493,11 +662,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = Time.now.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on', :col3 => d} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes =>{ :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -506,11 +679,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = 1.year.ago.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on', :col3 => d} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag( :tag => 'h2',
+                     :attributes => { :class => 'title'},
+                     :content => /Search result: 1 record found/ )
     end
   end
 
@@ -519,11 +696,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = 1.month.ago.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :descendant => /Search result: 1 record found/ )
     end
   end
 
@@ -532,11 +713,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = 1.year.from_now.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2', 
+                  :attributes => { :class => 'title' },
+                  :content => /Search result: 0 records found/ ) 
     end
   end
 
@@ -546,11 +731,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = 1.month.from_now.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {'col1' => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
     end
     should 'contain text' do
-      assert_tag(:tag=>'div',:attributes=>{:class=>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_tag( :tag => 'h2',
+                  :attributes => { :class => 'title'},
+                  :content => /Search result: 1 record found/ )
     end
   end
 
@@ -559,11 +748,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       Factory(:article, :published_at => Time.now)
       d = 1.year.ago.strftime('%d-%B-%Y')
-      xml_http_request :post,:advance_search, {:klass => 'Article', :search_type => 'advance',
-          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => 'Article', 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
     end
     should 'contain text' do
-      assert_no_tag(:tag=>'div',:attributes=>{:class =>'page_info'},:descendant => {:tag => 'b', :child => /1/})
+      assert_no_tag(:tag => 'h2',
+                    :attributes => {:class => 'title'},
+                    :content => /Search result: 1 record found/ )
     end
   end
 

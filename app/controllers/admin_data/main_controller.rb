@@ -14,6 +14,7 @@ class AdminData::MainController  < AdminData::BaseController
   before_filter :get_model_and_verify_it, :only => [:destroy, :delete, :edit, :update, :show]
   
   def table_structure
+    @page_title = 'table_structure'
     @indexes = []
     if (indexes = ActiveRecord::Base.connection.indexes(@klass.table_name)).any?
       add_index_statements = indexes.map do |index|
@@ -32,45 +33,49 @@ class AdminData::MainController  < AdminData::BaseController
     render
   end
 
-  def list
-    order = "#{@klass.table_name}.#{@klass.primary_key} desc"
+  #def list
+    ## TODO write test for this case
+    ##order = "#{@klass.table_name}.#{@klass.primary_key} desc"
 
-    if params[:base]
-      model= params[:base].camelize.constantize.find(params[:model_id])
-      has_many_proxy = model.send(params[:children].intern)
-      @total_num_of_childrenre = has_many_proxy.send(:count)
-      @records = has_many_proxy.send(  :paginate,
-                                       :page => params[:page],
-                                       :per_page => per_page,
-                                       :order => order )
-    else
-      @records = @klass.paginate( :page => params[:page],
-                                  :per_page => per_page,
-                                  :order => order )
-    end
-  end
+    #if params[:base]
+      #model= params[:base].camelize.constantize.find(params[:model_id])
+      #has_many_proxy = model.send(params[:children].intern)
+      #@total_num_of_childrenre = has_many_proxy.send(:count)
+      #@records = has_many_proxy.send(  :paginate,
+                                       #:page => params[:page],
+                                       #:per_page => per_page,
+                                       #:order => order )
+    #else
+      #@records = @klass.paginate( :page => params[:page],
+                                  #:per_page => per_page,
+                                  #:order => order )
+    #end
+  #end
 
   def show
+    @page_title = "#{@klass.name.underscore}:#{@model.id}"
     render
   end
 
   def destroy
     @klass.send(:destroy, params[:model_id])
     flash[:success] = 'Record was destroyed'
-    redirect_to admin_data_list_path(:klass => @klass.name)
+    redirect_to admin_data_search_path(:klass => @klass.name)
   end
 
   def delete
     @klass.send(:delete, params[:model_id])
     flash[:success] = 'Record was deleted'
-    redirect_to admin_data_list_path(:klass => @klass.name)
+    redirect_to admin_data_search_path(:klass => @klass.name)
   end
 
   def edit
+    @page_title = "edit #{@klass.name.underscore}:#{@model.id}"
     render
   end
 
   def new
+    @page_title = "new #{@klass.name.underscore}"
     @model = @klass.send(:new)
   end
 

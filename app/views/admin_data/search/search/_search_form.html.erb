@@ -1,0 +1,21 @@
+<%= form_tag('/admin_data/search', :method => 'get',
+                                         :class => 'form search_form', 
+                                         :id => 'search') %>   
+
+  <input type="hidden" name="klass" value="<%=klass.to_s%>" />     
+  <div class='search_box'>
+    <div id='quick_search'>
+      <div class='group'>
+        <label class='label'>search keyword</label>
+        <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>"/>
+      </div>
+
+     <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
+
+   </div>
+   <div style='margin-top:10px;'>
+     <%= submit_tag 'Search', :name => nil, :disable_with => 'searching ...' %>
+   </div>  
+ </div>
+</form>
+<br />

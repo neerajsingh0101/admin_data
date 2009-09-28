@@ -88,7 +88,14 @@ class Test::Unit::TestCase
     AdminDataConfig.set=({:update_security_check => Proc.new { |controller| false } })
   end
 
+  def show_response
+    response_html = File.join(RAILS_ROOT, 'tmp', 'response.html')
+    File.open(response_html,'w') { |f| f.write(@response.body) }
+    system 'open ' + File.expand_path(response_html) rescue nil
+  end
+
 end
 
 # to test helper tests
 require 'action_view/test_case' 
+require 'phocus' 

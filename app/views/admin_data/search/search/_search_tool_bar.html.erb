@@ -1,7 +1,7 @@
 <% raise 'boom' %>
 
 <h4> 
-  <%= link_to 'Quick Search', admin_data_list_path(:klass => @klass.name) %>
+  <%= link_to 'Quick Search', admin_data_search_path(:klass => @klass.name) %>
    | 
    <%= link_to 'Advance Search', admin_data_advance_search_path(:klass => @klass.name) %> 
    

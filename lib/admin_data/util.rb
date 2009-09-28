@@ -52,6 +52,7 @@ class AdminData::Util
     model.send(hm.intern).count
   end
 
+  #TODO use inject
   def self.has_many_what(klass)
     output = []
     klass.name.camelize.constantize.reflections.each do |key,value|
@@ -60,6 +61,7 @@ class AdminData::Util
     output
   end
 
+  #TODO use inject
   def self.has_one_what(klass)
     output = []
     klass.name.camelize.constantize.reflections.each do |key,value|
@@ -68,6 +70,7 @@ class AdminData::Util
     output
   end
 
+  #TODO use inject
   def self.belongs_to_what(klass)
     # is it possible to user inject here to ge rid of output
     output = []

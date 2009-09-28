@@ -5,7 +5,8 @@
           label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
       %>
       <% if AdminData::Util.has_many_count(model,hm) > 0 %>
-        <%= link_to label, {:action => 'list', 
+        <%= link_to label, {:controller => 'search', 
+                            :action => 'search', 
                             :klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 
                             :children => hm,
                             :base => klass.name.underscore, 

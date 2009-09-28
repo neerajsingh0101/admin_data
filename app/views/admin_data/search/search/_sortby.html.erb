@@ -1,0 +1,7 @@
+<div class='group'>
+  <label class='label'>sort by</label>
+  <select name='sortby' id='sortby' style='width:200px;display:inline;'>
+    <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
+  </select>
+</div>  
+

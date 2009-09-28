@@ -75,76 +75,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
       assert_equal 5, assigns(:klasses).size
     end
     should 'have link for article' do
-       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/list?klass=article'})
+       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/search?klass=article'})
     end
     should 'have link for engine' do
        s = CGI.escape('vehicle/engine')
-       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/list?klass=#{s}" } )
-    end
-  end
-
-  context 'get list for article' do
-    setup do
-      get :list, {:klass => @article.class.name.underscore}
-    end
-    should_respond_with :success
-  end
-
-  context 'get list for car' do
-    setup do
-      get :list, {:klass => @car.class.name.underscore}
-    end
-    should_respond_with :success
-    should 'contain proper link at header' do
-       s = CGI.escape('vehicle/car')
-       assert_tag(:tag => 'div', :attributes => {:class => 'breadcrum'},
-                  :descendant => {:tag => 'a', :attributes => { :href => "/admin_data/list?klass=#{s}" }})
-    end
-    should 'contain proper link at table listing' do
-       s1 = CGI.escape("vehicle/car")
-       s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/show?klass=#{s1}#{s2}model_id=#{@car.id}"
-       assert_tag(:tag => 'td',
-                  :descendant => {:tag => 'a', :attributes => { :href => url }})
-    end
-  end
-
-  context 'get list article has_many association' do
-    setup do
-      @comment1 = Factory(:comment, :article => @article)
-      @comment2 = Factory(:comment, :article => @article)
-      get :list, {:base => 'Article', :klass => 'Comment', :model_id => @article.id, :children => 'comments'}
-    end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have 2 records' do
-      assert_equal 2, assigns(:records).size
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /all 2/})
-    end
-  end
-
-  context 'get list car has_many association' do
-    setup do
-      @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
-      @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
-      get :list, {:base => @car.class.name.underscore, 
-                  :klass => @door1.class.name.underscore, 
-                  :model_id => @car.id, 
-                  :children => 'doors'}
-    end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have 2 records' do
-      assert_equal 2, assigns(:records).size
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'div', 
-                 :attributes => {:class => 'page_info'}, 
-                 :descendant => {:tag => 'b', :child => /all 2/})
+       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/search?klass=#{s}" } )
     end
   end
 
@@ -157,7 +92,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/list?base=article#{s2}children=comments#{s2}klass=comment#{s2}model_id=#{@article.id}"
+       url = "/admin_data/search?base=article#{s2}children=comments#{s2}klass=comment#{s2}model_id=#{@article.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end

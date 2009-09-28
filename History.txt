@@ -73,6 +73,3 @@ TODO change the response type to be JSON
 
 
 TODO allow a way to update an attribute that is protected from mass assignment
-
-
-# TODO test that when truncate method raises exception than right value is shown

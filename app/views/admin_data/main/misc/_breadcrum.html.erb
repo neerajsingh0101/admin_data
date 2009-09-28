@@ -1,0 +1,10 @@
+<div class='breadcrum'>
+  <%= link_to 'Home',admin_data_path %>
+  >
+  <%= data %>
+  <% if params[:klass] && !(params[:action] == 'show') %>
+    <span class='description'>
+      (<%= pluralize(@klass.count,'record') %> ) 
+    </span>  
+  <% end %>  
+</div>

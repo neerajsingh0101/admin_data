@@ -1,5 +1,10 @@
 module AdminData::Helpers
 
+  def breadcrum(&block)
+    partial_value = render(:partial => '/admin_data/main/misc/breadcrum', :locals => {:data => capture(&block)}) 
+    concat(partial_value)
+  end
+
   def admin_data_form_field(klass,model,col)
     html = []
 

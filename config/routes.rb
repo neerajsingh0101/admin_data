@@ -2,7 +2,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'admin_data/main' do |m|
     m.admin_data                    '/admin_data' ,                 :action => 'index'
-    m.admin_data_list               '/admin_data/list' ,            :action => 'list'
     m.admin_data_show               '/admin_data/show' ,            :action => 'show'
 
     m.admin_data_destroy            '/admin_data/destroy',          
@@ -29,7 +28,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.with_options :controller => 'admin_data/search' do |m|
-    m.admin_data_search         '/admin_data/quick_search',         :action => 'quick_search'
+    m.admin_data_search         '/admin_data/search',               :action => 'search'
     m.admin_data_advance_search '/admin_data/advance_search',       :action => 'advance_search'
   end
   

@@ -4,16 +4,29 @@ class AdminData::SearchController  < AdminData::BaseController
 
   before_filter :get_class_from_params
 
-  def quick_search
-    params[:query] = params[:query].strip unless params[:query].blank?
-    cond = build_quick_search_conditions(@klass,params[:query])
-    @records = @klass.paginate(  :page => params[:page],
-                                 :per_page => per_page,
-                                 :order => params[:sortby],
-                                 :conditions => cond ) 
+  def search
+    @page_title = "Search #{@klass.name.underscore}"
+    if params[:base]
+      model = params[:base].camelize.constantize.find(params[:model_id])
+      has_many_proxy = model.send(params[:children].intern)
+      @total_num_of_children = has_many_proxy.send(:count)
+      @records = has_many_proxy.send(  :paginate,
+                                       :page => params[:page],
+                                       :per_page => per_page,
+                                       :order => params[:sortby] )
+    else
+      params[:query] = params[:query].strip unless params[:query].blank?
+      cond = build_search_conditions(@klass,params[:query])
+      order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
+      @records = @klass.paginate( :page => params[:page],
+                                  :per_page => per_page,
+                                  :order => order,
+                                  :conditions => cond ) 
+    end
   end
 
   def advance_search
+    @page_title = "Advance search #{@klass.name.underscore}"
     cond = build_advance_search_conditions(@klass,params[:adv_search])
     @records = @klass.paginate(  :page => params[:page],
                                  :per_page => per_page,
@@ -23,15 +36,15 @@ class AdminData::SearchController  < AdminData::BaseController
       format.html { render }
       format.js {
         plugin_dir = AdminDataConfig.setting[:plugin_dir]
-        file_location = "#{plugin_dir}/app/views/admin_data/search/search/_search_results.html.erb"
-        render :file =>  file_location
+        file_location = "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb"
+        render :file =>  file_location, :locals => {:klass => @klass, :records => @records}
       }
     end
   end
 
   private
 
-  def build_quick_search_conditions(klass,search_term)
+  def build_search_conditions(klass,search_term)
     return nil if search_term.blank?
     like_operator = ActiveRecord::Base.connection.adapter_name == 'PostgreSQL' ? 'ILIKE' : 'LIKE'
 
@@ -90,7 +103,6 @@ class AdminData::SearchController  < AdminData::BaseController
         attribute_conditions << "#{table_name}.#{col1} IS NOT NULL"
 
       when 'is_on':
-
         if (time_obj = AdminDataDateValidation.validate(col3))
           attribute_conditions << ["#{table_name}.#{col1} >= ?",time_obj.beginning_of_day]
           attribute_conditions << ["#{table_name}.#{col1} < ?",time_obj.end_of_day]

@@ -1,15 +1,13 @@
-<div class='flash'>  
-  <% if model && model.errors.any? %>
+<% if model && model.errors.any? %>
+  <div class='flash'>
     <div class='message error'>
     <% model.errors.full_messages.each do |message| %>
       <p><%=message%></p>
     <% end %>  
     </div>
-  <% end %>  
+  </div>
+<% end %>  
 
-  <% if flash[:success] %>
-    <div class='message warning'>
-      <%=flash[:success]%>
-    </div>
-  <% end %>  
-</div>  
+<% if flash[:success] %>
+  <div class='flash'><div class='message warning'><p><%= flash[:success] %></p></div></div>
+<% end %>  

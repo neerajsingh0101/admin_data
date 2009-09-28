@@ -1,0 +1,1600 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	  <title>admin_data</title>
+    
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/ui-lightness/ui.all.css" media="screen" rel="stylesheet" type="text/css" /> 
+    <style>* {margin:0;padding:0}
+.clear { clear: both; height: 0; }
+
+h1 { margin: 15px 0; font-size: 22px; font-weight: normal; }
+h2 { font-size: 22px; margin: 15px 0; font-weight: normal;}
+h3 { font-size: 18px; margin: 10px 0; font-weight: normal;}
+h4 { font-size: 16px; margin: 10px 0; font-weight: normal;}
+hr {height: 1px; border: 0; }
+p { margin: 15px 0;}
+a img { border: none; }
+
+body {
+  font-size: 12px;
+  font-family: sans-serif;  
+}
+
+#container {
+  min-width: 960px;
+}
+
+#header, #wrapper {
+  padding: 0 20px;
+}
+
+#header {
+  position: relative;
+  padding-top: 1px;  
+}
+
+#header h1 {
+  margin: 0;
+  padding: 10px 0;  
+  font-size: 30px;
+}
+
+#header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
+  text-decoration: none;
+}
+
+#main {  
+  width: 70%;
+  float: left;    
+}
+
+.actions-bar {
+  padding: 10px 1px;
+}
+
+.actions-bar .actions {
+  float: left;
+}
+
+
+.actions-bar .pagination {
+  float: right;
+  padding: 1px 0;
+}
+
+#sidebar {
+  width: 25%;
+  float: right;      
+}
+
+#sidebar h3 {  
+  padding: 10px 15px;
+  margin: 0;
+  font-size: 13px;
+}
+
+#sidebar .block {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+#sidebar .block .content {
+  padding: 0 15px;
+}
+
+#sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
+  display: block;
+  padding: 10px 15px;
+}
+
+#sidebar .block .sidebar-block, #sidebar .notice {
+  padding:10px;
+}
+
+#wrapper {
+  padding-top: 20px;
+}
+
+#main .block {
+  margin-bottom: 20px;
+  padding-top: 1px;
+}
+
+#main .block .content .inner {
+  padding: 0 15px 15px;  
+}
+
+#main .main p.first {
+  margin-top: 0;
+}
+
+#user-navigation {
+  position: absolute;
+  top: 0px;
+  right: 20px;  
+}
+
+#main-navigation {
+  width: 100%;
+}
+
+#user-navigation ul, #main-navigation ul, .secondary-navigation ul, #sidebar ul.navigation {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#user-navigation ul li, #main-navigation ul li, .secondary-navigation ul li {
+  float: left;  
+}
+
+#main-navigation ul li {
+  margin-right: 5px;
+}
+
+#user-navigation ul li {
+  padding: 5px 10px;
+}
+
+#main-navigation ul li a:link, #main-navigation ul li a:visited, #main-navigation ul li a:hover, #main-navigation ul li a:active,
+.secondary-navigation ul li a:link, .secondary-navigation ul li a:visited, .secondary-navigation ul li a:hover, .secondary-navigation ul li a:active,
+#user-navigation ul li a:link, #user-navigation ul li a:visited, #user-navigation ul li a:hover, #user-navigation ul li a:active {
+  text-decoration: none;
+}
+
+#main-navigation ul li a {
+  font-size: 15px;
+  display: block;
+  padding: 8px 15px;
+}
+
+.secondary-navigation {
+  font-size: 13px;  
+  border-bottom-width: 10px;
+  border-bottom-style: solid;
+}
+
+.secondary-navigation ul li a {
+  display: block;
+  padding: 10px 15px;  
+}
+
+#footer {
+  padding-bottom: 20px;
+}
+
+/* pagination */
+
+.pagination a, .pagination span {
+  padding: 2px 5px;
+  margin-right: 5px; 
+  display: block;
+  float: left;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.pagination span.current {
+  font-weight: bold;  
+}
+
+.pagination a {
+  text-decoration: none;  
+}
+
+/* tables */
+.table {
+  width: 100%;
+  border-collapse: collapse;  
+  margin-bottom: 15px;
+}
+
+.table th {
+  padding: 10px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.table th.first {
+  width: 30px;
+}
+
+.table th.last {
+  width: 200px;  
+}
+
+.table .checkbox {
+  margin-left: 10px;
+}
+
+.table td {
+  padding: 10px;
+}
+
+.table td.last {
+  text-align: right;
+}
+
+/* forms */
+
+input.checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+.form .group {
+  margin-bottom: 15px;
+}
+
+.form div.left {
+  width: 20%;
+  float: left;
+}
+
+.form div.right {
+  width: 75%;
+  float: right;
+}
+
+.form .columns .column {
+  width: 48%;
+}
+
+.form .columns .left {
+  float: left;
+}
+
+.form .columns .right {
+  float: right;
+}
+
+.form label.label, .form input.text_field, .form textarea.text_area {
+  font-size: 1.2em;
+  padding: 1px 0;
+  margin: 0;
+}
+
+.form label.right {
+  text-align: right;
+}
+
+.form input.checkbox, .form input.radio {
+  margin-right: 5px;
+}
+
+.form label.checkbox, .form label.radio {
+  line-height: 1.5em;
+}
+
+.form label.label {
+  display: block;
+  padding-bottom: 2px;  
+  font-weight: bold;
+}
+
+.form div.fieldWithErrors label.label {
+  display: inline;
+}
+
+.form .fieldWithErrors .error {
+  color: red;
+}
+
+.form input.text_field, .form textarea.text_area {
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+}
+
+/* lists */
+
+ul.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.list li {
+  clear: left;
+  padding-bottom: 5px;
+}
+
+ul.list li .left {
+  float: left;  
+}
+
+ul.list li .left .avatar {
+  width: 50px;
+  height: 50px;
+}
+
+ul.list li .item {
+  margin-left: 80px;
+}
+
+ul.list li .item .avatar {
+  float: left;
+  margin: 0 5px 5px 0;
+  width: 30px;
+  height: 30px;
+}
+
+/* box */
+
+#box {
+  width: 500px;
+  margin: 50px auto;  
+}
+
+#box .block {
+  margin-bottom: 20px;
+}
+
+#box .block h2 {
+  padding: 10px 15px;
+  margin: 0;  
+}
+
+#box .block .content {
+  padding: 10px 20px;
+}
+
+
+a:link, a:visited { color: #07b; text-decoration: none; }
+a, a:hover, a:active { color: #d30; }
+h1, h2, h3 {color: #444}
+
+body {
+  color: #333;
+  background: #EBEBEB;
+  font: normal 12px/1.5em "Lucida Grande", "Helvetica Neue", Arial, sans-serif;
+}
+
+hr {
+  background: #aaa; 
+}
+
+p {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+input.checkbox {
+  vertical-align:middle;
+}
+
+#header h1 {
+  font-size: 28px;
+  padding: 5px 0;
+  margin: 5px 0;
+}
+
+.hightlight {
+  background-color: #ffc;
+}
+.small {
+  font-size: 11px;
+}
+.gray {
+  color: #999;
+}
+#header {
+  background: #232C30;
+}
+
+#header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
+  color: #eaeaea;
+}
+
+#main {
+  background: #EBEBEB;
+  width: 73%;
+}
+
+#main .block {
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  padding: 0;
+  margin-bottom:20px;
+  padding-bottom: 20px;
+  background: transparent;
+}
+
+#main .block .content {
+  border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  background: #fff;
+}
+
+#main .block h2.title {
+  margin: 10px 0 5px 0;
+  background-color: none;
+  padding: 5px 5px 5px 15px;
+  font-size:18px;
+  color: #456;
+}
+
+.main_container {
+  padding:10px;
+}
+
+#footer {
+  background-color: #ddd;
+  border-top: 1px solid #bbb;
+}
+
+#footer .block {
+  font-size:11px;
+  background-color: #ddd;
+  padding: 0 10px;
+  text-align: right;
+}
+
+/* #sidebar .block { background: #FFF; padding-bottom:0px; } */
+
+#sidebar .notice {
+  background-color: #ffc;
+  padding: 0 10px;
+  border-bottom:1px solid #ddd;
+  border-right:1px solid #ddd;
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+}
+#sidebar .notice h2 {
+  font-size:16px;
+  margin: 5px 0;
+  border-bottom:1px solid #456;
+}
+#sidebar .notice p {
+  font-size:12px;
+}
+
+#sidebar .block {
+  padding-bottom: 0;
+}
+
+#sidebar .block .content {
+  padding: 0 10px;
+}
+
+
+#sidebar h3 {  
+  background: #fff;
+  border-bottom:1px solid #ccc;
+  border-right:1px solid #ccc;
+  border-left:1px solid #ddd;
+  border-top:1px solid #ddd;
+  padding: 5px 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+#sidebar ul li a:link, #sidebar ul li a:visited {
+  font-size:12px;
+}
+
+#sidebar ul li a:hover, #sidebar ul li a:active {
+  background: none;
+  color: #444;
+  font-size:12px;
+  text-decoration:underline;
+}
+#sidebar ul.navigation li.last a {
+  border-bottom: none;
+}
+
+#sidebar ul.navigation li a:link,#sidebar ul.navigation li a:visited {
+  padding: 5px 10px;
+  color:#6a6a6a;
+  text-decoration: none;
+}
+#sidebar ul.navigation li a:hover {
+  text-decoration:underline;
+}
+#sidebar .block .sidebar-block h4 {
+  border-bottom: 1px dotted #aaa;
+}
+#main-navigation ul li {
+  background: #456;
+  border-top: 1px solid #5C738A;
+  color: #eee;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+#main-navigation ul li:hover {
+  border-top-color: #7593B0;
+  background-color: #576C82 !important;
+  color: #fff;
+}
+
+#main-navigation ul li.active {
+  border-top: 1px solid #fff;
+  background-color: #eee !important;
+  color: #333;
+}
+
+#main-navigation ul li a:link, #main-navigation ul li a:visited, #main-navigation ul li a:hover, #main-navigation ul li a:active,
+.secondary-navigation ul li a:link, .secondary-navigation ul li a:visited, .secondary-navigation ul li a:hover, .secondary-navigation ul li a:active,
+#user-navigation ul li a:link, #user-navigation ul li a:visited, #user-navigation ul li a:hover, #user-navigation ul li a:active {
+  text-decoration: none;
+  color: #FFF;
+}
+
+#user-navigation ul li a:link, #user-navigation ul li a:visited {
+  color: #CDE;
+  border-bottom: 1px dotted #345;
+}
+
+#user-navigation ul li a:hover {
+  color: #fff;
+  border-bottom: 1px dotted #CDE;
+  text-decoration: none;
+}
+
+#main-navigation ul li a {
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+#main-navigation ul li.active a:link, #main-navigation ul li.active a:visited, #main-navigation ul li.active a:hover, #main-navigation ul li.active a:active {
+  color: #364b69;
+}
+
+.secondary-navigation {
+  background: #eaeaea;
+  border-bottom: 0px;
+}
+
+.secondary-navigation ul li {
+  background: #456;
+  border-top: 1px solid #5C738A;
+  color: #eee;
+  margin-right: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.secondary-navigation ul li a {
+  padding: 3px 10px;
+}
+
+.secondary-navigation ul li.active:hover {
+  background: #fff !important;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+.secondary-navigation ul li.active {
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  background-color: #fff !important;
+  color: #333;
+}
+
+.secondary-navigation ul li.active a {
+  color: #333;
+}
+
+.secondary-navigation ul li:hover {
+  border-top-color: #7593B0;
+  background-color: #576C82 !important;
+  color: #fff;
+}
+
+/* pagination */
+
+.pagination span.current {
+  background: #576C82;
+  color: #FFF;
+  border: 1px solid #7593B0;
+  -moz-border-radius:5px;
+}
+
+.pagination span.disabled {
+  background: #eee;
+  color: #aaa;
+  border: 1px solid #ddd;
+  -moz-border-radius:5px;
+}
+
+.pagination a {
+  color: #364B69;
+  border: 1px solid #ddd;
+  -moz-border-radius:5px;
+  font-size:11px;
+}
+
+.pagination a:hover {
+  color: #444;
+  background: #eaeaea;
+  border: 1px solid #576C82;
+}
+
+/* tables */
+
+.table th {
+  background: #576C82;
+  color: #FFF;
+  font-weight:normal;
+  padding:3px;
+}
+
+.table th a.toggle {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: transparent url('images/tick.png') center no-repeat;
+  text-indent: -9999px;
+  -moz-outline: none;
+}
+
+.table th.first {
+  width: 30px;
+  text-align: center;
+}
+
+.table td {
+  border-bottom: 1px solid #AAA;
+}
+
+/* forms */
+
+.form input.text, .form textarea.textarea {
+  border: 1px solid #ddd;
+  padding: 5px;
+  width:99%;
+}
+
+.form input.text_field, .form textarea.text_area {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-top: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  width:99%;
+}
+
+.form .navform {
+  padding:10px;
+  background-color: #eee;
+  font-size:14px;
+  border-bottom:1px solid #ddd;
+  border-right:1px solid #ddd;
+  border-top:1px solid #eee;
+  border-left:1px solid #eee;
+}
+
+.form .navform input {
+  font-size:14px;
+}
+
+.description {
+  color:#aaa;
+  font-family:Georgia, serif;
+}
+
+/* flash-messages */
+.flash .message {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  text-align:center;
+  margin:0 auto 5px;
+  width:80%;
+}
+.flash .message p {
+  margin:8px;
+}
+.flash .error {
+  border: 1px solid #fbb;
+  background-color: #fdd;
+}
+.flash .warning {
+  border: 1px solid #fffaaa;
+  background-color: #ffffcc;
+}
+.flash .notice {
+  border: 1px solid #ddf;
+  background-color: #eef;
+}
+
+/* lists */
+
+ul.list li {
+  border-bottom-color: #F0F0EE;
+}
+
+ul.list li .item .avatar {
+  border-color: #F0F0EE;
+  margin: 3px 10px 0 0;
+}
+
+ul.list li .left  {
+  padding: 5px 5px;
+}
+
+/* box */
+
+#box .block {
+  background: #FFF;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+#box .block h2 {
+  background: #576C82;  
+  color: #FFF;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+/* Selectmenu
+----------------------------------*/
+.ui-selectmenu { display: block; position:relative; height:2em; text-decoration: none; overflow:hidden;}
+.ui-selectmenu-icon { position:absolute; right:6px; margin-top:-8px; top: 50%; }
+.ui-selectmenu-menu { padding:0; margin:0; list-style:none; position:absolute; top: 0; visibility: hidden; overflow: auto; }
+.ui-selectmenu-open { visibility: visible; }
+.ui-selectmenu-menu-popup { margin-top: -1px; }
+.ui-selectmenu-menu-dropdown { }
+.ui-selectmenu-menu li { padding:0; margin:0; display: block; border-top: 1px dotted transparent; border-bottom: 1px dotted transparent; border-right-width: 0 !important; border-left-width: 0 !important; font-weight: normal !important; }
+.ui-selectmenu-menu li a,.ui-selectmenu-status {line-height: 1.4em; display:block; padding:.3em 1em; outline:none; text-decoration:none; }
+.ui-selectmenu-menu li.ui-selectmenu-hasIcon a,
+.ui-selectmenu-hasIcon .ui-selectmenu-status { padding-left: 20px; position: relative; margin-left: 5px; }
+.ui-selectmenu-menu li .ui-icon, .ui-selectmenu-status .ui-icon { position: absolute; top: 1em; margin-top: -8px; left: 0; }
+.ui-selectmenu-status { line-height: 1.4em; }
+.ui-selectmenu-open li.ui-selectmenu-item-focus a {  }
+.ui-selectmenu-open li.ui-selectmenu-item-selected { }
+.ui-selectmenu-menu li span,.ui-selectmenu-status span { display:block; margin-bottom: .2em; }
+.ui-selectmenu-menu li .ui-selectmenu-item-header { font-weight: bold; }
+.ui-selectmenu-menu li .ui-selectmenu-item-content {  }
+.ui-selectmenu-menu li .ui-selectmenu-item-footer { opacity: .8; }
+/*for optgroups*/
+.ui-selectmenu-menu .ui-selectmenu-group { font-size: 1em; }
+.ui-selectmenu-menu .ui-selectmenu-group .ui-selectmenu-group-label { line-height: 1.4em; display:block; padding:.6em .5em 0; font-weight: bold; }
+.ui-selectmenu-menu .ui-selectmenu-group ul { margin: 0; padding: 0; }#footer {
+  padding-left:30px;
+}
+
+.search_form { 
+  margin:15px 5px 5px 5px;
+  padding:5px;
+}
+
+.breadcrum {
+  margin-bottom: 15px;
+}
+
+#quick_search_input { font-size:15px; }
+
+table.with_border td{
+	border:2px solid #DEDEDE;
+	padding:5px;
+}
+
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+.advtable {
+	font-size:15px;
+}
+
+.ram_drop_down {
+	font-size:15px;
+	width:180px;
+	padding:2px;
+	margin:2px;
+}
+.advtable td {
+	border-bottom:1px solid #F0F0EE;
+	padding:10px;
+}
+
+.ram_input_field_col3 {
+	font-size:15px;
+}
+
+/*IE6 will ignore this*/
+input[disabled], input[readonly], select[disabled], select[readonly], checkbox[disabled], checkbox[readonly], textarea[disabled], textarea[readonly]
+{
+ background-color: #dcdcdc;
+ border:  1px solid gray;
+ color: #000000;
+ cursor: default;
+}
+
+/*span.title {*/
+  /*font-weight: bold;*/
+  /*font-size: 20px;*/
+/*}*/
+
+span.searching_message{
+  color: red;
+  font-size: 25px;
+  margin: 20px 0 20px 0;
+}
+
+
+
+table#view_table {
+	padding: 0;
+  margin:5px 0 5px 0;
+	border-collapse:collapse;
+	border-spacing:0;
+}
+
+table#view_table th {
+	border: 1px solid #ccc;
+	letter-spacing: 2px;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+}
+
+
+table#view_table td {
+	border: 1px solid #DEDEDE;
+	padding: 6px 6px 6px 12px;
+}
+
+</style>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script> /*
+ * jQuery UI selectmenu
+ *
+ * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * http://docs.jquery.com/UI
+ */
+
+(function($) {
+
+$.widget("ui.selectmenu", {
+	_init: function() {
+		var self = this, o = this.options;
+		
+		//quick array of button and menu id's
+		var num = Math.round(Math.random() * 1000);
+		this.ids = [this.element.attr('id') + '_' + 'button' + '_' + num, this.element.attr('id') + '_' + 'menu' + '_' + num];
+		
+		//define safe mouseup for future toggling
+		this._safemouseup = true;
+		
+		//create menu button wrapper
+		this.newelement = $('<a class="'+ this.widgetBaseClass +' ui-widget ui-state-default ui-corner-all" id="'+this.ids[0]+'" role="button" href="#" aria-haspopup="true" aria-owns="'+this.ids[1]+'" aria-expanded="false"></a>')
+			.insertAfter(this.element);
+		
+		//transfer tabindex
+		var tabindex = this.element.attr('tabindex') || '0'; 
+		this.newelement.attr('tabindex', tabindex);
+		
+		//save reference to select in data for ease in calling methods
+		this.newelement.data('selectelement', this.element);
+		
+		//menu icon
+		this.selectmenuIcon = $('<span class="'+ this.widgetBaseClass +'-icon ui-icon"></span>')
+			.prependTo(this.newelement)
+			.addClass( (o.style == "popup")? 'ui-icon-triangle-2-n-s' : 'ui-icon-triangle-1-s' );	
+
+			
+		//make associated form label trigger focus
+		$('label[for='+this.element.attr('id')+']')
+			.attr('for', this.ids[0])
+			.bind('click', function(){
+				self.newelement.focus();
+				return false;
+			});	
+
+		//click toggle for menu visibility
+		this.newelement
+			.bind('mousedown', function(event){
+				self._toggle(event);
+				//make sure a click won't open/close instantly
+				if(o.style == "popup"){
+					self._safemouseup = false;
+					setTimeout(function(){self._safemouseup = true;}, 300);
+				}	
+				return false;
+			})
+			.bind('click',function(){
+				return false;
+			})
+			.keydown(function(event){
+				var ret = true;
+				switch (event.keyCode) {
+					case $.ui.keyCode.ENTER:
+						ret = true;
+						break;
+					case $.ui.keyCode.SPACE:
+						ret = false;
+						self._toggle(event);	
+						break;
+					case $.ui.keyCode.UP:
+					case $.ui.keyCode.LEFT:
+						ret = false;
+						self._moveSelection(-1);
+						break;
+					case $.ui.keyCode.DOWN:
+					case $.ui.keyCode.RIGHT:
+						ret = false;
+						self._moveSelection(1);
+						break;	
+					case $.ui.keyCode.TAB:
+						ret = true;
+						break;	
+					default:
+						ret = false;
+						self._typeAhead(event.keyCode, 'mouseup');
+						break;	
+				}
+				return ret;
+			})
+			.bind('mouseover focus', function(){ 
+				$(this).addClass(self.widgetBaseClass+'-focus ui-state-hover'); 
+			})
+			.bind('mouseout blur', function(){  
+				$(this).removeClass(self.widgetBaseClass+'-focus ui-state-hover'); 
+			});
+		
+		//document click closes menu
+		$(document)
+			.mousedown(function(event){
+				self.close(event);
+			});
+
+		//change event on original selectmenu
+		this.element
+			.click(function(){ this._refreshValue(); })
+			.focus(function(){ this.newelement.focus(); });
+		
+		//create menu portion, append to body
+		var cornerClass = (o.style == "dropdown")? " ui-corner-bottom" : " ui-corner-all"
+		this.list = $('<ul class="' + self.widgetBaseClass + '-menu ui-widget ui-widget-content'+cornerClass+'" aria-hidden="true" role="listbox" aria-multiselectable="false" aria-labelledby="'+this.ids[0]+'" id="'+this.ids[1]+'"></ul>').appendTo('body');				
+		
+		//serialize selectmenu element options	
+		var selectOptionData = [];
+		this.element
+			.find('option')
+			.each(function(){
+				selectOptionData.push({
+					value: $(this).attr('value'),
+					text: self._formatText(jQuery(this).text()),
+					selected: $(this).attr('selected'),
+					classes: $(this).attr('class'),
+					parentOptGroup: $(this).parent('optgroup').attr('label')
+				});
+			});		
+				
+		//active state class is only used in popup style
+		var activeClass = (self.options.style == "popup") ? " ui-state-active" : "";
+		
+		//write li's
+		for(var i in selectOptionData){
+			var thisLi = $('<li><a href="#" tabindex="-1" role="option" aria-selected="false">'+ selectOptionData[i].text +'</a></li>')
+				.data('index',i)
+				.addClass(selectOptionData[i].classes)
+				.data('optionClasses', selectOptionData[i].classes)
+				.mouseup(function(event){
+						if(self._safemouseup){
+							var changed = $(this).data('index') != self._selectedIndex();
+							self.value($(this).data('index'));
+							self.select(event);
+							if(changed){ self.change(event); }
+							self.close(event,true);
+						}
+					return false;
+				})
+				.click(function(){
+					return false;
+				})
+				.bind('mouseover focus', function(){ 
+					self._selectedOptionLi().addClass(activeClass); 
+					self._focusedOptionLi().removeClass(self.widgetBaseClass+'-item-focus ui-state-hover'); 
+					$(this).removeClass('ui-state-active').addClass(self.widgetBaseClass + '-item-focus ui-state-hover'); 
+				})
+				.bind('mouseout blur', function(){ 
+					if($(this).is( self._selectedOptionLi() )){ $(this).addClass(activeClass); }
+					$(this).removeClass(self.widgetBaseClass + '-item-focus ui-state-hover'); 
+				});
+				
+			//optgroup or not...
+			if(selectOptionData[i].parentOptGroup){
+				var optGroupName = self.widgetBaseClass + '-group-' + selectOptionData[i].parentOptGroup;
+				if(this.list.find('li.' + optGroupName).size()){
+					this.list.find('li.' + optGroupName + ':last ul').append(thisLi);
+				}
+				else{
+					$('<li class="'+self.widgetBaseClass+'-group '+optGroupName+'"><span class="'+self.widgetBaseClass+'-group-label">'+selectOptionData[i].parentOptGroup+'</span><ul></ul></li>')
+						.appendTo(this.list)
+						.find('ul')
+						.append(thisLi);
+				}
+			}
+			else{
+				thisLi.appendTo(this.list);
+			}
+			
+			//this allows for using the scrollbar in an overflowed list
+			this.list.bind('mousedown mouseup', function(){return false;});
+			
+			//append icon if option is specified
+			if(o.icons){
+				for(var j in o.icons){
+					if(thisLi.is(o.icons[j].find)){
+						thisLi
+							.data('optionClasses', selectOptionData[i].classes + ' ' + self.widgetBaseClass + '-hasIcon')
+							.addClass(self.widgetBaseClass + '-hasIcon');
+						var iconClass = o.icons[j].icon || "";
+						
+						thisLi
+							.find('a:eq(0)')
+							.prepend('<span class="'+self.widgetBaseClass+'-item-icon ui-icon '+iconClass + '"></span>');
+					}
+				}
+			}
+		}	
+		
+		//add corners to top and bottom menu items
+		this.list.find('li:last').addClass("ui-corner-bottom");
+		if(o.style == 'popup'){ this.list.find('li:first').addClass("ui-corner-top"); }
+		
+		//transfer classes to selectmenu and list
+		if(o.transferClasses){
+			var transferClasses = this.element.attr('class') || ''; 
+			this.newelement.add(this.list).addClass(transferClasses);
+		}
+		
+		//original selectmenu width
+		var selectWidth = this.element.width();
+		
+		//set menu button width
+		this.newelement.width( (o.width) ? o.width : selectWidth);
+		
+		//set menu width to either menuWidth option value, width option value, or select width 
+		if(o.style == 'dropdown'){ this.list.width( (o.menuWidth) ? o.menuWidth : ((o.width) ? o.width : selectWidth)); }
+		else { this.list.width( (o.menuWidth) ? o.menuWidth : ((o.width) ? o.width - o.handleWidth : selectWidth - o.handleWidth)); }	
+		
+		//set max height from option 
+		if(o.maxHeight && o.maxHeight < this.list.height()){ this.list.height(o.maxHeight); }	
+		
+		//save reference to actionable li's (not group label li's)
+		this._optionLis = this.list.find('li:not(.'+ self.widgetBaseClass +'-group)');
+				
+		//transfer menu click to menu button
+		this.list
+			.keydown(function(event){
+				var ret = true;
+				switch (event.keyCode) {
+					case $.ui.keyCode.UP:
+					case $.ui.keyCode.LEFT:
+						ret = false;
+						self._moveFocus(-1);
+						break;
+					case $.ui.keyCode.DOWN:
+					case $.ui.keyCode.RIGHT:
+						ret = false;
+						self._moveFocus(1);
+						break;	
+					case $.ui.keyCode.HOME:
+						ret = false;
+						self._moveFocus(':first');
+						break;	
+					case $.ui.keyCode.PAGE_UP:
+						ret = false;
+						self._scrollPage('up');
+						break;	
+					case $.ui.keyCode.PAGE_DOWN:
+						ret = false;
+						self._scrollPage('down');
+						break;
+					case $.ui.keyCode.END:
+						ret = false;
+						self._moveFocus(':last');
+						break;			
+					case $.ui.keyCode.ENTER:
+					case $.ui.keyCode.SPACE:
+						ret = false;
+						self.close(event,true);
+						$(event.target).parents('li:eq(0)').trigger('mouseup');
+						break;		
+					case $.ui.keyCode.TAB:
+						ret = true;
+						self.close(event);
+						break;	
+					case $.ui.keyCode.ESCAPE:
+						ret = false;
+						self.close(event,true);
+						break;	
+					default:
+						ret = false;
+						self._typeAhead(event.keyCode,'focus');
+						break;		
+				}
+				return ret;
+			});
+			
+		//selectmenu style
+		if(o.style == 'dropdown'){
+			this.newelement
+				.addClass(self.widgetBaseClass+"-dropdown");
+			this.list
+				.addClass(self.widgetBaseClass+"-menu-dropdown");	
+		}
+		else {
+			this.newelement
+				.addClass(self.widgetBaseClass+"-popup");
+			this.list
+				.addClass(self.widgetBaseClass+"-menu-popup");	
+		}
+		
+		//append status span to button
+		this.newelement.prepend('<span class="'+self.widgetBaseClass+'-status">'+ selectOptionData[this._selectedIndex()].text +'</span>');
+		
+		//hide original selectmenu element
+		this.element.hide();
+		
+		//transfer disabled state
+		if(this.element.attr('disabled') == true){ this.disable(); }
+		
+		//update value
+		this.value(this._selectedIndex());
+	},
+	destroy: function() {
+		this.element.removeData(this.widgetName)
+			.removeClass(this.widgetBaseClass + '-disabled' + ' ' + this.namespace + '-state-disabled')
+			.removeAttr('aria-disabled');
+	
+		//unbind click on label, reset its for attr
+		$('label[for='+this.newelement.attr('id')+']')
+			.attr('for',this.element.attr('id'))
+			.unbind('click');
+		this.newelement.remove();
+		this.list.remove();
+		this.element.show();	
+	},
+	_typeAhead: function(code, eventType){
+		var self = this;
+		//define self._prevChar if needed
+		if(!self._prevChar){ self._prevChar = ['',0]; }
+		var C = String.fromCharCode(code);
+		c = C.toLowerCase();
+		var focusFound = false;
+		function focusOpt(elem, ind){
+			focusFound = true;
+			$(elem).trigger(eventType);
+			self._prevChar[1] = ind;
+		};
+		this.list.find('li a').each(function(i){	
+			if(!focusFound){
+				var thisText = $(this).text();
+				if( thisText.indexOf(C) == 0 || thisText.indexOf(c) == 0){
+						if(self._prevChar[0] == C){
+							if(self._prevChar[1] < i){ focusOpt(this,i); }	
+						}
+						else{ focusOpt(this,i); }	
+				}
+			}
+		});
+		this._prevChar[0] = C;
+	},
+	_uiHash: function(){
+		return {
+			value: this.value()
+		};
+	},
+	open: function(event){
+		var self = this;
+		this._refreshPosition();
+		this._closeOthers(event);
+		this.newelement
+			.attr('aria-expanded', true)
+			.addClass('ui-state-active');
+		
+		this.list
+			.appendTo('body')
+			.addClass(self.widgetBaseClass + '-open')
+			.attr('aria-hidden', false)
+			.find('li:not(.'+ self.widgetBaseClass +'-group):eq('+ this._selectedIndex() +') a').focus();	
+		if(this.options.style == "dropdown"){ this.newelement.removeClass('ui-corner-all').addClass('ui-corner-top'); }	
+		this._refreshPosition();
+		this._trigger("open", event, this._uiHash());
+	},
+	close: function(event, retainFocus){
+		if(this.newelement.is('.ui-state-active')){
+			this.newelement
+				.attr('aria-expanded', false)
+				.removeClass('ui-state-active');
+			this.list
+				.attr('aria-hidden', true)
+				.removeClass(this.widgetBaseClass+'-open');
+			if(this.options.style == "dropdown"){ this.newelement.removeClass('ui-corner-top').addClass('ui-corner-all'); }
+			if(retainFocus){this.newelement.focus();}	
+			this._trigger("close", event, this._uiHash());
+		}
+	},
+	change: function(event) {
+		this.element.trigger('change');
+		this._trigger("change", event, this._uiHash());
+	},
+	select: function(event) {
+		this._trigger("select", event, this._uiHash());
+	},
+	_closeOthers: function(event){
+		$('.'+ this.widgetBaseClass +'.ui-state-active').not(this.newelement).each(function(){
+			$(this).data('selectelement').selectmenu('close',event);
+		});
+		$('.'+ this.widgetBaseClass +'.ui-state-hover').trigger('mouseout');
+	},
+	_toggle: function(event,retainFocus){
+		if(this.list.is('.'+ this.widgetBaseClass +'-open')){ this.close(event,retainFocus); }
+		else { this.open(event); }
+	},
+	_formatText: function(text){
+		return this.options.format ? this.options.format(text) : text;
+	},
+	_selectedIndex: function(){
+		return this.element[0].selectedIndex;
+	},
+	_selectedOptionLi: function(){
+		return this._optionLis.eq(this._selectedIndex());
+	},
+	_focusedOptionLi: function(){
+		return this.list.find('.'+ this.widgetBaseClass +'-item-focus');
+	},
+	_moveSelection: function(amt){
+		var currIndex = parseInt(this._selectedOptionLi().data('index'), 10);
+		var newIndex = currIndex + amt;
+		return this._optionLis.eq(newIndex).trigger('mouseup');
+	},
+	_moveFocus: function(amt){
+		if(!isNaN(amt)){
+			var currIndex = parseInt(this._focusedOptionLi().data('index'), 10);
+			var newIndex = currIndex + amt;
+		}
+		else { var newIndex = parseInt(this._optionLis.filter(amt).data('index'), 10); }
+		
+		if(newIndex < 0){ newIndex = 0; }
+		if(newIndex > this._optionLis.size()-1){
+			newIndex =  this._optionLis.size()-1;
+		}
+		this._focusedOptionLi().find('a:eq(0)').blur();
+		this._optionLis.eq(newIndex).find('a:eq(0)').focus();
+	},
+	_scrollPage: function(direction){
+		var numPerPage = Math.floor(this.list.outerHeight() / this.list.find('li:first').outerHeight());
+		numPerPage = (direction == 'up') ? -numPerPage : numPerPage;
+		this._moveFocus(numPerPage);
+	},
+	_setData: function(key, value) {
+		this.options[key] = value;
+		if (key == 'disabled') {
+			this.element
+				.add(this.newelement)
+				.add(this.list)
+					[value ? 'addClass' : 'removeClass'](
+						this.widgetBaseClass + '-disabled' + ' ' +
+						this.namespace + '-state-disabled')
+					.attr("aria-disabled", value);
+		}
+	},
+	value: function(newValue) {
+		if (arguments.length) {
+			this.element[0].selectedIndex = newValue;
+			this._refreshValue();
+			this._refreshPosition();
+		}
+		return this.element[0].selectedIndex;
+	},
+	_refreshValue: function() {
+		var activeClass = (this.options.style == "popup") ? " ui-state-active" : "";
+		//deselect previous
+		this.list
+			.find('.'+ this.widgetBaseClass +'-item-selected')
+			.removeClass(this.widgetBaseClass + "-item-selected" + activeClass)
+			.find('a')
+			.attr('aria-selected', 'false');
+		//select new
+		this._selectedOptionLi()
+			.addClass(this.widgetBaseClass + "-item-selected"+activeClass)
+			.find('a')
+			.attr('aria-selected', 'true');
+		//toggle any class brought in from option
+		var currentOptionClasses = this.newelement.data('optionClasses') ? this.newelement.data('optionClasses') : "";
+		var newOptionClasses = this._selectedOptionLi().data('optionClasses') ? this._selectedOptionLi().data('optionClasses') : "";
+		this.newelement
+			.removeClass(currentOptionClasses)
+			.data('optionClasses', newOptionClasses)
+			.addClass( newOptionClasses )
+			.find('.'+this.widgetBaseClass+'-status')
+			.html( 
+				this._selectedOptionLi()
+					.find('a:eq(0)')
+					.html() 
+			);
+	},
+	_refreshPosition: function(){	
+		//set left value
+		this.list.css('left', this.newelement.offset().left);
+		
+		//set top value
+		var menuTop = this.newelement.offset().top;
+		var scrolledAmt = this.list[0].scrollTop;
+		this.list.find('li:lt('+this._selectedIndex()+')').each(function(){
+			scrolledAmt -= $(this).outerHeight();
+		});
+		
+		if(this.newelement.is('.'+this.widgetBaseClass+'-popup')){
+			menuTop+=scrolledAmt; 
+			this.list.css('top', menuTop); 
+		}	
+		else { 
+			menuTop += this.newelement.height();
+			this.list.css('top', menuTop); 
+		}
+	}
+});
+
+$.extend($.ui.selectmenu, {
+	getter: "value",
+	version: "@VERSION",
+	eventPrefix: "selectmenu",
+	defaults: {
+		transferClasses: true,
+		style: 'popup', 
+		width: null, 
+		menuWidth: null, 
+		handleWidth: 26, 
+		maxHeight: null,
+		icons: null, 
+		format: null
+	}
+});
+
+})(jQuery);</script>
+
+    
+  
+    <script>
+      $(document).ready(function(){
+        function colorize_table(){
+            $('.colorize tr:odd').addClass('odd'); 
+            $('.colorize tr:even').addClass('even'); 
+        };
+        colorize_table();
+
+        $('#drop_down_value_klass').selectmenu();
+        $('#sortby').selectmenu();
+      });
+    </script>
+	
+
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="header">
+  <h1 style='float:left;'>
+    <a href="/admin_data">admin_data</a>
+  </h1>
+  <div id='model_drop_down' style='float:right;margin:10px;'>
+    <select id='drop_down_value_klass' style='width:300px;font-size:14px;' 
+            onchange="window.location.href=this.options[this.selectedIndex].value">
+      <option></option>      
+      <option value="http://test.host/admin_data/search?klass=Article">Article</option>
+<option value="http://test.host/admin_data/search?klass=Comment">Comment</option>
+<option value="http://test.host/admin_data/search?klass=Vehicle%3A%3ACar">Vehicle::Car</option>
+<option value="http://test.host/admin_data/search?klass=Vehicle%3A%3ADoor">Vehicle::Door</option>
+<option value="http://test.host/admin_data/search?klass=Vehicle%3A%3AEngine">Vehicle::Engine</option>
+    </select>
+  </div>
+  <div style='clear:both;'></div>
+  <div id="main-navigation">
+    <ul>
+      <li class="first active">
+        <a href="/admin_data">Home</a>
+      </li>
+      <li class="">
+        <a href="/admin_data/migration">Migration Information</a>
+      </li>
+      <li class="">
+        <a href="/admin_data/diagnostic">Diagnostic</a>
+      </li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+</div>    
+
+      <div id="wrapper">
+        <div id='main'>
+    <div class='breadcrum'>
+  <a href="/admin_data">Home</a>
+  >
+  
+    <a href="/admin_data/search?klass=vehicle%2Fcar">Vehicle::Car</a> 
+  
+  
+    <span class='description'>
+      (1 record ) 
+    </span>  
+    
+</div>
+  
+
+  <div class="block" id="block-text">
+    <div class="secondary-navigation">
+      <ul>
+  <li class="first active">
+    <a href="/admin_data/search?klass=vehicle%2Fcar">Quick Search</a> 
+  </li>
+  <li class="">
+    <a href="/admin_data/advance_search?klass=vehicle%2Fcar">Advance Search</a>
+  </li>
+  <li class="">
+    <a href="/admin_data/table_structure?klass=vehicle%2Fcar">Table Structure</a>
+  </li>
+  
+    
+  
+</ul>
+
+      <div class="clear"></div>
+    </div>          
+
+    <div class="content">         
+      
+        <form action="/admin_data/search" class="form search_form" id="search" method="get">   
+
+  <input type="hidden" name="klass" value="Vehicle::Car" />     
+  <div class='search_box'>
+    <div id='quick_search'>
+      <div class='group'>
+        <label class='label'>search keyword</label>
+        <input type="text" id="quick_search_input" name="query" value=""/>
+      </div>
+
+     <div class='group'>
+  <label class='label'>sort by</label>
+  <select name='sortby' id='sortby' style='width:200px;display:inline;'>
+    <option value='id desc' >&nbsp;id desc</option><option value='id asc' >&nbsp;id asc</option><option value='year desc' >&nbsp;year desc</option><option value='year asc' >&nbsp;year asc</option><option value='brand desc' >&nbsp;brand desc</option><option value='brand asc' >&nbsp;brand asc</option><option value='created_at desc' >&nbsp;created_at desc</option><option value='created_at asc' >&nbsp;created_at asc</option><option value='updated_at desc' >&nbsp;updated_at desc</option><option value='updated_at asc' >&nbsp;updated_at asc</option>
+  </select>
+</div>  
+
+
+
+   </div>
+   <div style='margin-top:10px;'>
+     <input onclick="if (window.hiddenCommit) { window.hiddenCommit.setAttribute('value', this.value); }else { hiddenCommit = document.createElement('input');hiddenCommit.type = 'hidden';hiddenCommit.value = this.value;hiddenCommit.name = this.name;this.form.appendChild(hiddenCommit); }this.setAttribute('originalValue', this.value);this.disabled = true;this.value='searching ...';result = (this.form.onsubmit ? (this.form.onsubmit() ? this.form.submit() : false) : this.form.submit());if (result == false) { this.value = this.getAttribute('originalValue');this.disabled = false; }return result;" type="submit" value="Search" />
+   </div>  
+ </div>
+</form>
+<br />
+
+<script type="text/javascript">
+  document.getElementById("quick_search_input").focus();
+</script>
+
+        
+    </div>
+  </div>
+
+  <div class="block" id="block-tables">
+    <div class="content">          
+      <div class='inner'>
+        <div id='results'>
+              <h2 class='title'> 
+
+  
+    All Vehicle::Car records 
+    
+
+</h2>
+
+
+    <div class="pagination">
+      
+    </div>
+    <div class='clear'></div>
+
+    <table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
+
+    <tbody>
+      <tr>
+      
+        <th> id </th>
+      
+        <th> year </th>
+      
+        <th> brand </th>
+      
+        <th> created_at </th>
+      
+        <th> updated_at </th>
+      
+    </tr>
+    </tbody>
+
+    
+      <tr>
+        
+          <td>
+            
+              <a href="/admin_data/show?klass=vehicle%2Fcar&amp;model_id=1">1</a>
+              
+            
+          </td>
+        
+          <td>
+            
+              
+              
+            
+          </td>
+        
+          <td>
+            
+              bmw
+              
+            
+          </td>
+        
+          <td>
+            
+              09/25/2009 13:03:27 PM
+              
+            
+          </td>
+        
+          <td>
+            
+              09/25/2009 13:03:27 PM
+              
+            
+          </td>
+        
+      </tr>
+      
+    </table>
+
+    <div class="pagination">
+      
+    </div>
+    <div class='clear'></div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>  
+
+        <div class="clear"></div>      
+      </div>    
+      <div id="footer">
+  <p style='float:left;font-size:11px;padding:2px 10px 2px 2px;'>
+    Powered by 
+    <a href='http://github.com/neerajdotname/admin_data/tree/master' class='powered_by'>
+      admin_data
+    </a>
+  </p>
+
+  <p style='float:left;font-size:11px;padding:2px 10px 2px 2px;'> 
+    <a href='http://github.com/neerajdotname/admin_data/issues' class='powered_by'>
+      Report Bug
+    </a>
+  </p>
+  <div class='clear'></div>
+</div>
+
+    </div>
+  </body>
+  
+</html>

@@ -18,16 +18,16 @@ body {
   min-width: 960px;
 }
 
-#header, #wrapper, #footer {
+#header, #wrapper {
   padding: 0 20px;
 }
 
-#header, #footer {
+#header {
   position: relative;
   padding-top: 1px;  
 }
 
-#header h1, #footer h5 {
+#header h1 {
   margin: 0;
   padding: 10px 0;  
   font-size: 30px;
@@ -39,11 +39,6 @@ body {
 
 #main {  
   width: 70%;
-  float: left;    
-}
-
-#main_big {  
-/*  width: 100%;*/
   float: left;    
 }
 
@@ -69,32 +64,25 @@ body {
 #sidebar h3 {  
   padding: 10px 15px;
   margin: 0;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 #sidebar .block {
   margin-bottom: 20px;
   padding-bottom: 10px;
-  padding-left:5px;
 }
 
 #sidebar .block .content {
   padding: 0 15px;
-  font-size:15px;
 }
 
 #sidebar ul.navigation li a:link, #sidebar ul.navigation li a:visited {
   display: block;
   padding: 10px 15px;
-  font-size:15px;
 }
 
 #sidebar .block .sidebar-block, #sidebar .notice {
   padding:10px;
-}
-
-#sidebar p {
-  font-size:120%;
 }
 
 #wrapper {
@@ -166,11 +154,7 @@ body {
 }
 
 #footer {
-  background-color: #C9DEB7;
-}
-
-#footer a {
-  color:#3B5526;
+  padding-bottom: 20px;
 }
 
 /* pagination */
@@ -259,7 +243,7 @@ input.checkbox {
 }
 
 .form label.label, .form input.text_field, .form textarea.text_area {
-  font-size: 15px;
+  font-size: 1.2em;
   padding: 1px 0;
   margin: 0;
 }
@@ -350,158 +334,3 @@ ul.list li .item .avatar {
 }
 
 
-
-
-
-
-
-
-
-
-.digg_pagination {
-  background: white;
-  margin-top:15px;
-  margin-bottom:15px;
-  font-size:120%;
-  /* self-clearing method: */ }
-  .digg_pagination a, .digg_pagination span {
-    padding: .2em .5em;
-    display: block;
-    float: left;
-    margin-right: 1px; }
-  .digg_pagination span.disabled {
-    color: #999;
-    border: 1px solid #DDD; }
-  .digg_pagination span.current {
-    font-weight: bold;
-    background: #2E6AB1;
-    background: #44721E;
-    color: white;
-    border: 1px solid #2E6AB1; 
-    border: 1px solid #44721E; 
-}
-  .digg_pagination a {
-    text-decoration: none;
-    color: #105CB6;
-    border: 1px solid #9AAFE5; }
-    .digg_pagination a:hover, .digg_pagination a:focus {
-      color: #003;
-      border-color: #003; }
-  .digg_pagination .page_info {
-    background: #2E6AB1;
-    background: #44721E;
-    color: white;
-    padding: .4em .6em;
-    width: 37em;
-    margin-bottom: .3em;
-    text-align: left; }
-    .digg_pagination .page_info b {
-      color: #003;
-      background: #6aa6ed;
-      background: #91B96F;
-      padding: .1em .25em; }
-  .digg_pagination:after {
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden; }
-  * html .digg_pagination {
-    height: 1%; }
-  *:first-child+html .digg_pagination {
-    overflow: hidden; }
-
-
-
-table#view_table {
-	padding: 0;
-	margin:5px 0 5px 0;
-	border-collapse:collapse;
-	border-spacing:0;
-}
-
-table#view_table caption {
-  margin: 5px 5px 5px 0;
-	padding: 7px 0 7px 7px;
-	font: 22px Verdana, Arial, Helvetica, sans-serif;
-	text-align:left;
-  background:#E9E9E9;          	
-}
-
-table#view_table th {
-	font: bold 13px Verdana, Arial, Helvetica, sans-serif;
-	color: #4f6b72;
-	border: 1px solid #ccc;
-	letter-spacing: 2px;
-	text-align: left;
-	padding: 6px 6px 6px 12px;
-}
-
-
-table#view_table td {
-	border: 1px solid #DEDEDE;
-	padding: 6px 6px 6px 12px;
-}
-
-
-
-#quick_search_input {
-font-size:15px;
-}
-
-table.with_border td{
-	border:2px solid #DEDEDE;
-	padding:5px;
-}
-
-
-table {
-	border-collapse:collapse;
-	border-spacing:0;
-}
-
-.advtable {
-	font-size:15px;
-}
-
-.ram_drop_down {
-	font-size:15px;
-	width:180px;
-	padding:2px;
-	margin:2px;
-}
-.advtable td {
-	border-bottom:1px solid #F0F0EE;
-}
-.advtable td {
-	padding:10px;
-}
-
-.ram_input_field_col3 {
-	font-size:15px;
-}
-
-/*IE6 will ignore this*/
-input[disabled], input[readonly], select[disabled], select[readonly], checkbox[disabled], checkbox[readonly], textarea[disabled], textarea[readonly]
-{
- background-color: #dcdcdc;
- border:  1px solid gray;
- color: #000000;
- cursor: default;
-}
-
-span.title {
-  font-weight: bold;
-  font-size: 20px;
-}
-
-span.records_count {
-  color: dimgray;
-  font-size: 13px;
-}  
-
-span.searching_message{
-  color: red;
-  font-size: 25px;
-  margin: 20px 0 20px 0;
-}

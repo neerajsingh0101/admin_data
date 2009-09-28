@@ -1,11 +1,10 @@
 <div id="main">
-  <div class='breadcrum'>
-    <%= link_to 'Home',admin_data_path %>
-    >
-    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+
+  <% breadcrum do %>
+    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
     >
     <%= link_to "ID #{@model.id}", ''%>  
-  </div>
+  <% end %>
 
   <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
   
@@ -20,7 +19,7 @@
       <div class="inner">
         <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},
                       {:class => 'nice_form'}) %>
-          <%= render :partial => 'admin_data/main/misc/form' %>
+                      <%= render 'admin_data/main/misc/form', :klass => @klass %>
         </form>
       </div>
     </div>

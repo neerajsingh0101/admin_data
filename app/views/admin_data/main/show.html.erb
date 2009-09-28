@@ -1,11 +1,10 @@
 <div id="main">
-  <div class='breadcrum'>
-    <%= link_to 'Home',admin_data_path %>
-    >
-    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
+
+  <% breadcrum do %>
+    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
     >
     <%= link_to "ID #{@model.id}", ''%>  
-  </div>
+  <% end %>
 
   <h2 class="title"><%=@model.class.name%> ID <%=@model.id%></h2>        
 

@@ -66,7 +66,7 @@ class AdminData::BaseController < ApplicationController
 
   def build_drop_down_for_klasses
     @drop_down_for_klasses = @klasses.inject([]) do |result,klass|
-      result << [klass.name,  admin_data_list_url(:klass => klass.name)]
+      result << [klass.name,  admin_data_search_url(:klass => klass.name)]
     end
   end
 

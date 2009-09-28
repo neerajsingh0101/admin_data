@@ -7,9 +7,11 @@
       <h2 class="title">Models</h2>
       <div class="inner">
       <% @klasses.each do |klass| %>
-        <span style='margin:15px 0 15px 0;padding:15px 20px 15px 0;line-height:40px;font-size:16px;'>
-          <%= link_to klass.name, admin_data_list_path(:klass => klass.name.underscore) %> 
-          <span style='font-size:13px;'><%= klass.send(:count) %></span>
+        <span class='klass_box'>
+          <%= link_to klass.name, admin_data_search_path(:klass => klass.name.underscore) %> 
+          <span class='klass_description'>
+            (<%= pluralize(klass.send(:count),'record') %>)
+          </span>
         </span>            
       <% end %>
       </div>

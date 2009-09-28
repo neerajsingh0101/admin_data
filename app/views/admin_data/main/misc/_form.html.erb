@@ -1,22 +1,17 @@
-<table cellspacing="3" cellpadding="3" width="100%;" class='with_border'>
-
-<% @klass.columns.each do |col| %>
-  <% col_limit = col.limit || 255 %>
-  <tr>
-    <td width="20%;">
+<% klass.columns.each do |col| 
+  col_limit = col.limit || 255 %>
+  <div class='group'>
+    <div class='left'>
       <strong><%= col.name %>:</strong>
       (<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>)
-    </td>
+    </div>
+    <div class='right'>
+      <%= admin_data_form_field(klass,@model,col) %>
+    </div>
+    <div class='clear'></div>
+  </div>
+<% end %>
 
-    <td>
-      <%= admin_data_form_field(@klass,@model,col) %>
-    </td>
-  </tr>
-  <% end %>
-
-  <tr>
-    <td colspan="3" align="center">
-      <%= submit_tag('Save', :class => 'submit-box', :disable_with => 'Please wait ...')%>
-   </td>
-  </tr>
-</table>
+  <div class='group navform'>
+    <%= submit_tag('Save', :class => 'button', :disable_with => 'Please wait ...') %>
+  </div>

@@ -1,0 +1,28 @@
+  <% breadcrum do %>
+    <%= link_to klass.name , admin_data_search_path(:klass => klass.name.underscore) %> 
+  <% end %>  
+
+  <div class="block" id="block-text">
+    <div class="secondary-navigation">
+      <%= render 'admin_data/main/misc/secondary_navigation', :klass => klass %>
+      <div class="clear"></div>
+    </div>          
+
+    <div class="content">         
+      <% if advance_search %>
+        <%= render 'admin_data/search/search/advance_search_form', :klass => klass %>
+      <% else %>
+        <%= render 'admin_data/search/search/search_form', :klass => klass %>
+      <% end %>  
+    </div>
+  </div>
+
+  <div class="block" id="block-tables">
+    <div class="content">          
+      <div class='inner'>
+        <div id='results'>
+          <%= render 'admin_data/search/search/listing', :klass => klass, :records => records %>
+        </div>
+      </div>
+    </div>
+  </div>

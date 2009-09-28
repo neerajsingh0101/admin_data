@@ -1,15 +1,9 @@
 <div id="main">
-  <div class='breadcrum'>
-    <%= link_to 'Home',admin_data_path %>
-    >
-    <%= link_to @klass, admin_data_list_path(:klass => @klass.name) %> 
-  </div>
 
-  <p>
-    <span class="title"><%= @klass.name %></span>
-    <span class='records_count'>(<%= @klass.count %> records)</span>
-  </p>        
-    
+  <% breadcrum do %>
+    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
+  <% end %>
+
   <%= render 'admin_data/main/misc/flash_message', :model => @model %>
 
   <div class="block" id="block-tables">
@@ -17,14 +11,15 @@
       <%= render 'admin_data/main/misc/secondary_navigation', :klass => @klass %>
       <div class="clear"></div>
     </div>          
+
     <div class="content">          
-      <h2 class="title"></h2>
       <div class="inner">
         <h2>Create a new record</h2>
-        <%= form_tag({:action => 'create', :klass => @klass.name.underscore}, {:class => 'nice_form'}) %>
-          <%= render :partial => 'admin_data/main/misc/form' %>
+        <%= form_tag({:action => 'create', :klass => @klass.name.underscore}, {:class => 'form'}) %>
+        <%= render 'admin_data/main/misc/form', :klass => @klass %>
         </form>
       </div>
     </div>
+
   </div>
 </div>

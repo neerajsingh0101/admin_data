@@ -1,21 +1,19 @@
 <div id="header">
-  <h1 style='float:left;'>
+  <h1 class='logo'>
     <%= link_to 'admin_data', admin_data_path %>
   </h1>
-  <div id='model_drop_down' style='float:right;margin:10px;'>
-    <select id='drop_down_value_klass' style='font-size:14px;' 
-            onchange="window.location.href=this.options[this.selectedIndex].value">
+  <div id='model_drop_down'>
+    <select id='drop_down_value_klass'> 
       <option></option>      
-      <%= options_for_select(@drop_down_for_klasses,
-                             "http://#{request.host_with_port}/admin_data/list?klass=#{params[:klass]}") %>
+      <%= options_for_select(drop_down_for_klasses, "http://#{request.host_with_port}/admin_data/list?klass=#{params[:klass]}") %>
     </select>
   </div>
-  <div style='clear:both;'></div>
+  <div class='clear'></div>
   <div id="main-navigation">
     <ul>
       <li class="first <%=admin_data_am_i_active(
-                                                 ['main','index list show table_structure new create edit'],
-                                                 ['search','advance_search'])%>">
+                                                 ['main','index show table_structure new create edit'],
+                                                 ['search','search advance_search'])%>">
         <%= link_to 'Home', admin_data_path %>
       </li>
       <li class="<%=admin_data_am_i_active(['migration','index'])%>">

@@ -3,10 +3,12 @@ class AdminData::DiagnosticController  < AdminData::BaseController
    unloadable
 
    def index
+      @page_title = 'diagnostic'
       render
    end
 
    def missing_index
+      @page_title = 'missing index'
       @indexes = {}
       conn = ActiveRecord::Base.connection
       conn.tables.each do |table|
