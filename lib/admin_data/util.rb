@@ -22,6 +22,10 @@ class AdminData::Util
     tmp.join
   end
 
+  def self.get_class_name_for_habtm_association(model,habtm_string)
+    model.class.reflections.values.detect {|reflection| reflection.name == habtm_string.to_sym}.klass
+  end
+
   def self.get_class_name_for_has_many_association(model,has_many_string)
      # do not really know how to return something from inside the hash.each do 
      # I was getting local jump error
@@ -50,6 +54,10 @@ class AdminData::Util
 
   def self.has_many_count(model,hm)
     model.send(hm.intern).count
+  end
+
+  def self.habtm_count(model,habtm)
+    has_many_count(model,habtm)
   end
 
   #TODO use inject
@@ -83,8 +91,17 @@ class AdminData::Util
   def self.admin_data_association_info_size(klass)
     (belongs_to_what(klass).size > 0)  ||
     (has_many_what(klass).size > 0) ||
-    (has_one_what(klass).size > 0)
+    (has_one_what(klass).size > 0) ||
+    (habtm_what(klass).size > 0)
   end
+
+  def self.habtm_what(klass)
+    tmp = klass.name.camelize.constantize.reflections.values.select do |reflection|
+      reflection.macro == :has_and_belongs_to_many
+    end
+    tmp.map(&:name).map(&:to_s)
+  end
+
 
   def self.string_representation_of_data(value)
     case value

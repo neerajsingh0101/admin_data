@@ -6,9 +6,9 @@
       &nbsp;      
       <% if  model.send(bt) %>
         <%= link_to bt, 
-                    admin_data_show_path(
+                    admin_data_on_k_path(
                       :klass => AdminData::Util.get_class_name_for_belongs_to_class(model,bt), 
-                      :model_id => model.send(bt).id) %>        
+                      :id => model.send(bt).id) %>        
       <% else %>
           <%= bt %>              
       <% end %>  

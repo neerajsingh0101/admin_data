@@ -10,7 +10,7 @@
                             :klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 
                             :children => hm,
                             :base => klass.name.underscore, 
-                            :model_id => model.id} %>        
+                            :id => model.id} %>        
       <% else %>
         <%= label %>      
       <% end %>  

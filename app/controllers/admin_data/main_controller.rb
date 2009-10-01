@@ -3,15 +3,13 @@ class AdminData::MainController  < AdminData::BaseController
   unloadable
 
   before_filter :ensure_is_allowed_to_update, 
-                :only => [:destroy, :delete, :edit, :update, :create]
+                :only => [:destroy, :del, :edit, :update, :create]
 
   before_filter :get_class_from_params,
-                :only => [ :table_structure, :list,:show,:destroy,:delete,
+                :only => [ :table_structure, :show, :destroy, :del,
                            :edit,:new,:update, :create]
 
-  before_filter :ensure_list_children_valid, :only => [:list]
-
-  before_filter :get_model_and_verify_it, :only => [:destroy, :delete, :edit, :update, :show]
+  before_filter :get_model_and_verify_it, :only => [:destroy, :del, :edit, :update, :show]
   
   def table_structure
     @page_title = 'table_structure'
@@ -29,28 +27,13 @@ class AdminData::MainController  < AdminData::BaseController
     end
   end
 
-  def index
+  def all_models
     render
   end
 
-  #def list
-    ## TODO write test for this case
-    ##order = "#{@klass.table_name}.#{@klass.primary_key} desc"
-
-    #if params[:base]
-      #model= params[:base].camelize.constantize.find(params[:model_id])
-      #has_many_proxy = model.send(params[:children].intern)
-      #@total_num_of_childrenre = has_many_proxy.send(:count)
-      #@records = has_many_proxy.send(  :paginate,
-                                       #:page => params[:page],
-                                       #:per_page => per_page,
-                                       #:order => order )
-    #else
-      #@records = @klass.paginate( :page => params[:page],
-                                  #:per_page => per_page,
-                                  #:order => order )
-    #end
-  #end
+  def index
+    render
+  end
 
   def show
     @page_title = "#{@klass.name.underscore}:#{@model.id}"
@@ -58,15 +41,15 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def destroy
-    @klass.send(:destroy, params[:model_id])
+    @klass.send(:destroy, params[:id])
     flash[:success] = 'Record was destroyed'
-    redirect_to admin_data_search_path(:klass => @klass.name)
+    redirect_to admin_data_search_path(:klass => @klass.name.underscore)
   end
 
-  def delete
-    @klass.send(:delete, params[:model_id])
+  def del
+    @klass.send(:delete, params[:id])
     flash[:success] = 'Record was deleted'
-    redirect_to admin_data_search_path(:klass => @klass.name)
+    redirect_to admin_data_search_path(:klass => @klass.name.underscore)
   end
 
   def edit
@@ -80,11 +63,11 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def update
-    model_name_underscored = @klass.to_s.underscore
+    model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
     if @model.update_attributes(model_attrs)
       flash[:success] = "Record was updated"
-      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.name.underscore)
+      redirect_to admin_data_on_k_path(:id => @model.id, :klass => @klass.name.underscore)
     else
       render :action => 'edit'
     end
@@ -99,7 +82,7 @@ class AdminData::MainController  < AdminData::BaseController
       render :action => 'new'
     else
       flash[:success] = "Record was created"
-      redirect_to admin_data_show_path(:model_id => @model.id, :klass => @klass.name.underscore)
+      redirect_to admin_data_on_k_path(:id => @model.id, :klass => @klass.name.underscore)
     end
   end
 
@@ -110,21 +93,13 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def get_model_and_verify_it
-     primary_key = @klass.primary_key
-     m = "find_by_#{primary_key}".intern
-    @model = @klass.send(m, params[:model_id])
+    primary_key = @klass.primary_key
+    m = "find_by_#{primary_key}".intern
+    @model = @klass.send(m, params[:id])
     if @model.blank?
-      render :text => "<h2>#{@klass.name} not found: #{params[:model_id]}</h2>", :status => 404 
+      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", :status => :not_found 
     end
   end
 
-  def ensure_list_children_valid
-    if params[:base]
-      model_klass = params[:base].camelize.constantize
-      unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
-        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", :status => 404
-      end
-    end
-  end
 
 end

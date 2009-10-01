@@ -14,24 +14,45 @@ class AdminData::MainControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data',                 :controller => 'admin_data/main', :action => :index
+  should_route :get, '/admin_data',                 :controller => 'admin_data/main', :action => :all_models
 
-  should_route :get, '/admin_data/show',            :controller => 'admin_data/main', :action => :show
+  should_route :get, '/admin_data/article/1',       :controller => 'admin_data/main', 
+                                                    :action => :show, 
+                                                    :klass => 'article', 
+                                                    :id => 1
 
-  should_route :delete, '/admin_data/destroy',      :controller => 'admin_data/main', :action => :destroy
+  should_route :delete, '/admin_data/article/1',    :controller => 'admin_data/main', 
+                                                    :action => :destroy,
+                                                    :klass => 'article',
+                                                    :id => 1
 
-  should_route :delete, '/admin_data/delete',       :controller => 'admin_data/main', :action => :delete
+  should_route :delete, '/admin_data/article/1/del',  :controller => 'admin_data/main', 
+                                                    :action => :del,
+                                                    :klass => 'article',
+                                                    :id => 1
 
-  should_route :get, '/admin_data/edit',            :controller => 'admin_data/main', :action => :edit
+  should_route :get, '/admin_data/article/1/edit',  :controller => 'admin_data/main', 
+                                                    :action => :edit,
+                                                    :klass => 'article',
+                                                    :id => 1
 
-  should_route :post, '/admin_data/update',         :controller => 'admin_data/main', :action => :update
+  should_route :put, '/admin_data/article/1',       :controller => 'admin_data/main', 
+                                                    :action => :update,
+                                                    :klass => 'article',
+                                                    :id => 1
 
-  should_route :get, '/admin_data/new',             :controller => 'admin_data/main', :action => :new
+  should_route :get, '/admin_data/article/new',     :controller => 'admin_data/main', 
+                                                    :action => :new,
+                                                    :klass => 'article'
 
-  should_route :post, '/admin_data/create',         :controller => 'admin_data/main', :action => :create
+  should_route :post, '/admin_data/article',        :controller => 'admin_data/main', 
+                                                    :action => :create,
+                                                    :klass => 'article'
 
-  should_route :get, '/admin_data/table_structure', :controller => 'admin_data/main', 
-                                                    :action => :table_structure
+  should_route :get, '/admin_data/article/table_structure', 
+                                                    :controller => 'admin_data/main', 
+                                                    :action => :table_structure,
+                                                    :klass => 'article'
 
   context 'testing filter ensure_is_allowed_to_update' do
     setup do
@@ -47,7 +68,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should 'have filter for actions' do
       assert @filter.options[:only].include?('destroy')
-      assert @filter.options[:only].include?('delete')
+      assert @filter.options[:only].include?('del')
       assert @filter.options[:only].include?('edit')
       assert @filter.options[:only].include?('update')
       assert @filter.options[:only].include?('create')
@@ -56,7 +77,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'get table_structure' do
     setup do
-      get :table_structure, {:klass => 'Article'}
+      get :table_structure, {:klass => 'article'}
     end
     should_respond_with :success
     should 'have text index' do
@@ -64,10 +85,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get index' do
+  context 'get all_models' do
     setup do
-      get :index
-
+      get :all_models
     end
     should_respond_with :success
     should_assign_to :klasses
@@ -75,24 +95,25 @@ class AdminData::MainControllerTest < ActionController::TestCase
       assert_equal 5, assigns(:klasses).size
     end
     should 'have link for article' do
-       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/search?klass=article'})
+       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/article/search'})
     end
     should 'have link for engine' do
        s = CGI.escape('vehicle/engine')
-       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/search?klass=#{s}" } )
+       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/#{s}/search" } )
     end
   end
+
 
   context 'get show for article which has many comments' do
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
-      get :show, {:model_id => @article.id, :klass => @article.class.name }
+      get :show, {:id => @article.id, :klass => @article.class.name.underscore }
     end
     should_respond_with :success
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/search?base=article#{s2}children=comments#{s2}klass=comment#{s2}model_id=#{@article.id}"
+       url = "/admin_data/comment/search?base=article#{s2}children=comments#{s2}id=#{@article.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -100,7 +121,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get show for car' do
     setup do
       @engine = Vehicle::Engine.create(:car_id => @car.id, :cylinders => 4)
-      get :show, {:model_id => @car.id, :klass => @car.class.name.underscore }
+      get :show, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :success
   end
@@ -109,7 +130,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get show for comment which belongs to another class' do
     setup do
       @comment = Factory(:comment, :article => @article)
-      get :show, {:model_id => @comment.id, :klass => @comment.class.name.underscore }
+      get :show, {:id => @comment.id, :klass => @comment.class.name.underscore }
     end
     should_respond_with :success
     should 'have belongs_to message' do
@@ -119,7 +140,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should 'have link to belongs_to association' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/show?klass=article#{s2}model_id=#{@article.id}"
+       url = "/admin_data/article/#{@article.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -127,7 +148,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get show for door which belongs to another class' do
     setup do
       @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
-      get :show, {:model_id => @door.id, :klass => @door.class.name.underscore }
+      get :show, {:id => @door.id, :klass => @door.class.name.underscore }
     end
     should_respond_with :success
     should 'have belongs_to message' do
@@ -143,7 +164,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       grant_update_access
       @comment = Factory(:comment, :article => @article)
-      delete :destroy, {:model_id => @article.id, :klass => @article.class.name.underscore}
+      delete :destroy, {:id => @article.id, :klass => @article.class.name.underscore}
     end
     should_respond_with :redirect
     should_change('article count', :by => -1) {Article.count}
@@ -155,7 +176,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       grant_update_access
       @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
-      delete :destroy, {:model_id => @car.id, :klass => @car.class.name.underscore}
+      delete :destroy, {:id => @car.id, :klass => @car.class.name.underscore}
     end
     should_respond_with :redirect
     should_change('car count', :by => -1) {Vehicle::Car.count}
@@ -167,34 +188,35 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       grant_update_access
       @comment = Factory(:comment, :article => @article)
-      delete :delete, {:model_id => @article.id, :klass => @article.class.name.underscore }
+      delete :del, {:id => @article.id, :klass => @article.class.name.underscore }
     end
     should_respond_with :redirect
     should_change('article count', :by => -1) {Article.count}
     should_change('comment count', :by => 1) {Comment.count}
   end
 
+  
   context 'delete a car' do
     setup do
       grant_update_access
       @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
-      delete :delete, {:model_id => @car.id, :klass => @car.class.name.underscore }
+      delete :del, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :redirect
     should_change('car count', :by => -1) {Vehicle::Car.count}
-    should_change('door count', :by => 1) {Vehicle::Door.count}
+    should_change('door count since del does not call callbacks', :by => 1) {Vehicle::Door.count}
   end
 
   context 'get edit article' do
     setup do
-      get :edit, {:model_id => @article.id, :klass => @article.class.name }
+      get :edit, {:id => @article.id, :klass => @article.class.name }
     end
     should_respond_with :success
   end
 
   context 'get edit car' do
     setup do
-      get :edit, {:model_id => @car.id, :klass => @car.class.name.underscore }
+      get :edit, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :success
   end
@@ -216,10 +238,10 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'update article successful' do
     setup do
       grant_update_access
-      post :update, {:klass => 'Article', :model_id => @article.id, :article => {:title => 'new title'}}
+      post :update, {:klass => 'article', :id => @article.id, :article => {:title => 'new title'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_show_path(:model_id => Article.last.id, :klass => 'article') }
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last.id, :klass => 'article') }
     should_set_the_flash_to /Record was updated/
     should_not_change('article count') { Article.count }
   end
@@ -227,10 +249,10 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'update car successful' do
     setup do
       grant_update_access
-      post :update, {:klass => 'vehicle/car', :model_id => @car.id, 'vehicle/car' => {:brand => 'honda'}}
+      post :update, {:klass => 'vehicle/car', :id => @car.id, 'vehicle/car' => {:brand => 'honda'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_show_path(:model_id => Vehicle::Car.last.id, 
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, 
                                                            :klass => @car.class.name.underscore) }
     should_set_the_flash_to /Record was updated/
       should_not_change('car count') { Vehicle::Car.count }
@@ -239,7 +261,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'update failure' do
     setup do
       grant_update_access
-      post :update, {:klass => 'Article', :model_id => @article.id, :article => {:body => ''}}
+      post :update, {:klass => 'article', :id => @article.id, :article => {:body => ''}}
     end
     should_respond_with :success
     should_not_set_the_flash
@@ -255,7 +277,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
       post :create, {:klass => 'article', 'article' => {:title => 'hello', :body => 'hello world'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_show_path(:model_id => Article.last.id, 
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last.id, 
                                                            :klass => @article.class.name.underscore) }
     should_set_the_flash_to /Record was created/
       should_change('article count', :by => 1) { Article.count }
@@ -267,7 +289,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
       post :create, {:klass => 'vehicle/car', 'vehicle/car' => {:brand => 'hello'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_show_path(:model_id => Vehicle::Car.last.id, 
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, 
                                                            :klass => @car.class.name.underscore) }
     should_set_the_flash_to /Record was created/
     should_change('vehicle count', :by => 1) { Vehicle::Car.count }
@@ -289,7 +311,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'filter get_model_and_verify_if failure case' do
     setup do
-      get :show, {:model_id => 999999999999994533, :klass => 'Article' }
+      get :show, {:id => 999999999999994533, :klass => 'Article' }
     end
     should_respond_with :not_found
     should 'contain the error message' do
@@ -300,7 +322,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'filter is_allowed_to_view failure case' do
     setup do
       revoke_read_only_access
-      get :show, {:model_id => @article.id, :klass => 'Article' }
+      get :show, {:id => @article.id, :klass => 'article' }
     end
     should_respond_with :unauthorized
     should 'contain the  message' do

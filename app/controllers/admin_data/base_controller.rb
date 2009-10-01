@@ -24,49 +24,41 @@ class AdminData::BaseController < ApplicationController
       @klass = params[:klass].camelize.constantize
     rescue TypeError => e # in case no params[:klass] is supplied
       Rails.logger.debug 'no params[:klass] was supplied'
-      redirect_to admin_data_path
+      redirect_to admin_data_index_path
     rescue NameError # in case wrong params[:klass] is supplied
       Rails.logger.debug 'wrong params[:klass] was supplied'
-      redirect_to admin_data_path
+      redirect_to admin_data_index_path
     end
   end
 
   def build_klasses
-    @klasses = []
-    models = []
-
     model_dir = File.join(RAILS_ROOT,'app','models')
-    Dir.chdir(model_dir) { models = Dir["**/*.rb"] }
+    model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
+    klasses = get_klass_names(model_names.sort)
+    @klasses = remove_klasses_without_table(klasses)
+  end
 
-    models = models.sort
+  def remove_klasses_without_table(klasses)
+    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && k.table_exists? }
+  end
 
-    models.each do |model|
-      class_name = model.sub(/\.rb$/,'').camelize
+  def get_klass_names(model_names)
+    model_names.inject([]) do |output, model_name|
+      class_name = model_name.sub(/\.rb$/,'').camelize
       begin
-        # for models/foo/bar/baz.rb
-        klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) }
+        # for models like app/models/foo/bar/baz.rb
+        klass = class_name.split('::').inject(Object){ |klass, part| klass.const_get(part) }
+        output << klass
       rescue Exception => e
         Rails.logger.debug e.message
       end
-      if klass && klass.ancestors.include?(ActiveRecord::Base)  && !@klasses.include?(klass)
-        # it is possible that a model doesn't have a corresponding table because 
-        # migration has not run or
-        # migration has deleted the table but the model has not been deleted.
-        #
-        # In order to remove such classes from the list sending count method to klass 
-        begin
-          klass.send(:count)
-          @klasses << klass
-        rescue ActiveRecord::StatementInvalid  => e
-          Rails.logger.debug e.message
-        end
-      end
+      output
     end
   end
 
   def build_drop_down_for_klasses
     @drop_down_for_klasses = @klasses.inject([]) do |result,klass|
-      result << [klass.name,  admin_data_search_url(:klass => klass.name)]
+      result << [klass.name, admin_data_search_url(:klass => klass.name.underscore)]
     end
   end
 

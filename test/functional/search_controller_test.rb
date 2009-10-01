@@ -15,11 +15,13 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/search',  :controller => 'admin_data/search',
-                                                  :action => :search
+  should_route :get, '/admin_data/article/search',  :controller => 'admin_data/search',
+                                                    :action => :search,
+                                                    :klass => 'article'
 
-  should_route :get, '/admin_data/advance_search',:controller => 'admin_data/search',
-                                                  :action => :advance_search
+  should_route :get, '/admin_data/article/advance_search',  :controller => 'admin_data/search',
+                                                    :action => :advance_search,
+                                                    :klass => 'article'
 
   context 'get search car has_many association' do
     setup do
@@ -28,13 +30,16 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
       get :search, {  :base => @car.class.name.underscore, 
                       :klass => @door1.class.name.underscore, 
-                      :model_id => @car.id, 
+                      :id => @car.id, 
                       :children => 'doors'}
     end
     should_respond_with :success
     should_assign_to :records
     should 'have 2 records' do
       assert_equal 2, assigns(:records).size
+    end
+    should 'have 2 total number of children' do
+      assert_equal 2, assigns(:total_num_of_children)
     end
     should 'contain text' do
       assert_tag(:tag => 'h2', 
@@ -48,7 +53,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
-      get :search, { :base => 'Article', :klass => 'Comment', :model_id => @article.id, :children => 'comments' }
+      get :search, { :base => 'article', :klass => 'comment', :id => @article.id, :children => 'comments' }
     end
     should_respond_with :success
     should_assign_to :records
@@ -58,8 +63,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should 'contain text' do
       assert_tag(:tag => 'h2', 
                  :attributes => {:class => 'title'}, 
-                 :content => /has 2 Comments/ )
+                 :content => /has 2 comments/ )
     end
+  end
+
+  context 'get search for children but children class is wrong' do
+    setup do
+      get :search, { :base => 'article', :klass => 'comment', :model_id => @article.id, :children => 'wrong_children_name' }
+    end
+    should_respond_with :not_found
   end
 
   
@@ -73,11 +85,10 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should 'contain valid link at header breadcrum' do
       assert_tag( :tag => 'div',
                   :attributes => {:class => 'breadcrum'},
-                  :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/search?klass=comment'}})
+                  :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/comment/search'}})
     end
     should 'contain proper link at table listing' do
-      s2 = ERB::Util.html_escape('&')
-      url = "/admin_data/show?klass=comment#{s2}model_id=#{Comment.last.id}"
+      url = "/admin_data/comment/#{Comment.last.id}"
       assert_tag( :tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
     end
   end
@@ -91,12 +102,12 @@ class AdminData::SearchControllerTest < ActionController::TestCase
        s = CGI.escape('vehicle/car')
        assert_tag(:tag => 'div', 
                   :attributes => {:class => 'breadcrum'},
-                  :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/search?klass=#{s}" }})
+                  :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/#{s}/search" }})
     end
     should 'contain proper link at table listing' do
        s1 = CGI.escape("vehicle/car")
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/show?klass=#{s1}#{s2}model_id=#{@car.class.last.id}"
+       url = "/admin_data/#{s1}/#{@car.class.last.id}"
        assert_tag(:tag => 'td',
                   :descendant => {:tag => 'a', :attributes => {:href => url}})
     end
@@ -104,13 +115,13 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   context 'get search with no klass param' do
     setup do
-      get :search
+      assert_raises ActionController::RoutingError do
+        get :search
+      end
     end
-    should_respond_with :redirect
-    should_redirect_to('admin_data root') {admin_data_url}
   end
 
-  context 'get search with no search param' do
+  context 'get search with no search query' do
     setup do
       get :search, {:klass => 'Article'}
     end
@@ -118,7 +129,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should_assign_to :records
   end
 
-  context 'get search with search term' do
+  context 'get search with search query default order' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
@@ -153,13 +164,13 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       assert_equal @python_beginner_book.id, assigns(:records).first.id
     end
   end
-  
+ 
   context 'get advance_search with no klass param' do
     setup do
-      get :advance_search
+      assert_raises ActionController::RoutingError do 
+        get :advance_search
+      end
     end
-    should_respond_with :redirect
-    should_redirect_to('admin_data root') {admin_data_url}
   end
 
   context 'get advance_search with klass param' do

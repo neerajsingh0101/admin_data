@@ -6,7 +6,9 @@
     <%= link_to "ID #{@model.id}", ''%>  
   <% end %>
 
-  <h2 class="title">Editing <%=@model.class.name%> id <%=@model.id%></h2>        
+  <h2 class="title">
+    Editing <%=@model.class.name%> id <%=@model.id%>
+  </h2>        
   
   <%= render 'admin_data/main/misc/flash_message', :model => @model %>
 
@@ -17,9 +19,9 @@
     <div class="content">          
       <h2 class="title"></h2>
       <div class="inner">
-        <%= form_tag({:action => 'update', :model_id => @model.id, :klass => @klass.to_s},
-                      {:class => 'nice_form'}) %>
-                      <%= render 'admin_data/main/misc/form', :klass => @klass %>
+        <%= form_tag( {:action => 'update', :id => @model.id, :klass => @klass.name.underscore},
+                     {:class => 'nice_form', :method => :put}) %>
+          <%= render 'admin_data/main/misc/form', :klass => @klass %>
         </form>
       </div>
     </div>

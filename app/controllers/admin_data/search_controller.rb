@@ -3,21 +3,23 @@ class AdminData::SearchController  < AdminData::BaseController
   unloadable
 
   before_filter :get_class_from_params
+  before_filter :ensure_valid_children_klass, :only => [:search]
 
   def search
     @page_title = "Search #{@klass.name.underscore}"
+    order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
+
     if params[:base]
-      model = params[:base].camelize.constantize.find(params[:model_id])
+      model = params[:base].camelize.constantize.find(params[:id])
       has_many_proxy = model.send(params[:children].intern)
       @total_num_of_children = has_many_proxy.send(:count)
       @records = has_many_proxy.send(  :paginate,
                                        :page => params[:page],
                                        :per_page => per_page,
-                                       :order => params[:sortby] )
+                                       :order => order )
     else
       params[:query] = params[:query].strip unless params[:query].blank?
       cond = build_search_conditions(@klass,params[:query])
-      order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => per_page,
                                   :order => order,
@@ -138,6 +140,15 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def table_name_and_attribute_name(klass,column)
     table_name_and_attribute_name =  klass.table_name+'.'+column.name
+  end
+
+  def ensure_valid_children_klass
+    if params[:base]
+      model_klass = params[:base].camelize.constantize
+      unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
+        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", :status => :not_found 
+      end
+    end
   end
 
 end

@@ -1,3 +1,11 @@
+=== 0.0.11 2009-10-01
+
+* Major contribution in this release by Alex Rothenburg. http://github.com/alexrothenberg 
+* this plugin now treats each model as a restful resource. 
+* security fix and test for it
+* commented out offending code for has_one relationship
+* has_one and habtm relationships along with test would be taken up in next release
+
 === 0.0.11 2009-09-28
 
 * renamed quick search to search
@@ -79,4 +87,11 @@ TODO change the response type to be JSON
 # from association meta
 
 
+TODO when a record is destroyed then flash message is not appearing [test it]
+
 TODO allow a way to update an attribute that is protected from mass assignment
+
+TODO write a test which will test the action of the form element for search
+TODO write a test which will test the action of the form element for advance search
+TODO write test for hbtm relationship
+TODO use metaplugin to get the information regarding columns
