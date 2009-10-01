@@ -155,8 +155,9 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 
 ## Contributors
 
-[Alexey Borzenkov](http://github.com/snaury)
-[Alex Rothenberg](http://github.com/alexrothenberg)
+* [Alexey Borzenkov](http://github.com/snaury)
+
+* [Alex Rothenberg](http://github.com/alexrothenberg)
 
 ## License
 
