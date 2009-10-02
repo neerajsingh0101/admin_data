@@ -1,4 +1,10 @@
-=== 0.0.11 2009-10-01
+=== 0.0.13 2009-10-02
+
+* better indentation 
+* consolidated javascripts 
+* more tests 
+
+=== 0.0.12 2009-10-01
 
 * Major contribution in this release by Alex Rothenburg. http://github.com/alexrothenberg 
 * this plugin now treats each model as a restful resource. 
