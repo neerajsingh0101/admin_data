@@ -14,7 +14,6 @@ class AdminDataDateValidation
     return false unless %w(> < >= <= =).include? operator
     validate(date)
   end
-  
 
   # Usage:
   #
@@ -62,8 +61,6 @@ class AdminDataDateValidation
     return false unless months.keys.include? mm
     
     mm = months[mm]
-    
-    
     mm = mm.to_i
     yyyy = yyyy.to_i
     dd = dd.to_i
@@ -82,6 +79,5 @@ class AdminDataDateValidation
     t = Time.now
     t.change(:year => yyyy, :month => mm, :day => dd, :hour => 0)
   end
-  
   
 end

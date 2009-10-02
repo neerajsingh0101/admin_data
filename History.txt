@@ -82,16 +82,10 @@ TODO write test for javascript
 TODO if an invalid date value is entered then show appropriate message
 TODO change the response type to be JSON
 
-# TODO to get the name of the class of belongs_to relationship
-# one should not have to go throough model. It should be derived
-# from association meta
-
 
 TODO when a record is destroyed then flash message is not appearing [test it]
 
 TODO allow a way to update an attribute that is protected from mass assignment
 
-TODO write a test which will test the action of the form element for search
-TODO write a test which will test the action of the form element for advance search
 TODO write test for hbtm relationship
 TODO use metaplugin to get the information regarding columns

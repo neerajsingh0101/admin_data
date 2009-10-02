@@ -135,11 +135,11 @@ class AdminData::SearchController  < AdminData::BaseController
     end # end of search_options loop
 
     # queries are joined by AND
-    klass.send(:merge_conditions,*attribute_conditions)
+    klass.send(:merge_conditions, *attribute_conditions)
   end
 
   def table_name_and_attribute_name(klass,column)
-    table_name_and_attribute_name =  klass.table_name+'.'+column.name
+    table_name_and_attribute_name = klass.table_name + '.' + column.name
   end
 
   def ensure_valid_children_klass

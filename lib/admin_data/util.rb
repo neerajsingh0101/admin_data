@@ -1,91 +1,76 @@
 class AdminData::Util
 
   def self.javascript_include_tag(*args)
-    tmp = []
-    tmp << '<script>'
-    args.each do |arg|
+    data = args.inject('') do |sum, arg|
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','js',"#{arg}.js"))
-      tmp << f.read
+      sum << f.read
     end
-    tmp << '</script>'
-    tmp.join
+    ['<script>', data, '</script>'].join
   end
 
   def self.stylesheet_link_tag(*args)
-    tmp = []
-    tmp << '<style>'
-    args.each do |arg|
+    data = args.inject('') do |sum, arg|
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','css',"#{arg}.css"))
-      tmp << f.read
+      sum << f.read
     end
-    tmp << '</style>'
-    tmp.join
+    ['<style>', data, '</style>'].join
   end
 
-  def self.get_class_name_for_habtm_association(model,habtm_string)
+  def self.get_class_name_for_habtm_association(model, habtm_string)
     model.class.reflections.values.detect {|reflection| reflection.name == habtm_string.to_sym}.klass
   end
 
-  def self.get_class_name_for_has_many_association(model,has_many_string)
-     # do not really know how to return something from inside the hash.each do 
-     # I was getting local jump error
-    output = []
-    model.class.name.camelize.constantize.reflections.each do |key,value|
-      if value.macro.to_s == 'has_many' && value.name.to_s == has_many_string
-         output << value.klass
-      end
+  def self.get_class_name_for_has_many_association(model, has_many_string)
+    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
+      value.macro == :has_many && value.name.to_s == has_many_string
     end
-    output.any? ? output.first : nil
+    data.klass if data # output of detect from hash is an array with key and value
   end
 
-  def self.get_class_name_for_belongs_to_class(model,belongs_to_string)
-     # do not really know how to return something from inside the hash.each do 
-     # I was getting local jump error
-    output = []
-    model.class.name.camelize.constantize.reflections.each do |key,value|
-      if value.macro.to_s == 'belongs_to' && value.name.to_s == belongs_to_string
-         output << value.klass
-      end
+  def self.get_class_name_for_belongs_to_class(model, belongs_to_string)
+    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
+      value.macro == :belongs_to && value.name.to_s == belongs_to_string
     end
-    output.any? ? output.first : nil
+    data.klass if data
   end
 
-  #TODO what about the get_class_name for has_one relationship ??
+  def self.get_class_name_for_has_one_class(model, has_one_string)
+    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
+      value.macro == :has_one && value.name.to_s == has_one_string
+    end
+    data.klass if data
+  end
 
-  def self.has_many_count(model,hm)
+  def self.has_many_count(model, hm)
     model.send(hm.intern).count
   end
 
-  def self.habtm_count(model,habtm)
-    has_many_count(model,habtm)
+  def self.habtm_count(model, habtm)
+    has_many_count(model, habtm)
   end
 
-  #TODO use inject
   def self.has_many_what(klass)
-    output = []
-    klass.name.camelize.constantize.reflections.each do |key,value|
-      output << value.name.to_s if value.macro.to_s == 'has_many'
-    end
-    output
+    klass.name.camelize.constantize.reflections.values.select do |value|
+      value.macro == :has_many
+    end.map(&:name).map(&:to_s)
   end
 
-  #TODO use inject
   def self.has_one_what(klass)
-    output = []
-    klass.name.camelize.constantize.reflections.each do |key,value|
-      output << value.name.to_s if value.macro.to_s == 'has_one'
-    end
-    output
+    klass.name.camelize.constantize.reflections.values.select do |value|
+      value.macro == :has_one
+    end.map(&:name).map(&:to_s)
   end
 
-  #TODO use inject
   def self.belongs_to_what(klass)
-    # is it possible to user inject here to ge rid of output
-    output = []
-    klass.name.camelize.constantize.reflections.each do |key,value|
-      output << value.name.to_s if value.macro.to_s == 'belongs_to'
-    end
-    output
+    klass.name.camelize.constantize.reflections.values.select do |value|
+      value.macro == :belongs_to
+    end.map(&:name).map(&:to_s)
+  end
+
+  def self.habtm_what(klass)
+    klass.name.camelize.constantize.reflections.values.select do |value|
+      value.macro == :has_and_belongs_to_many
+    end.map(&:name).map(&:to_s)
   end
 
   def self.admin_data_association_info_size(klass)
@@ -94,14 +79,6 @@ class AdminData::Util
     (has_one_what(klass).size > 0) ||
     (habtm_what(klass).size > 0)
   end
-
-  def self.habtm_what(klass)
-    tmp = klass.name.camelize.constantize.reflections.values.select do |reflection|
-      reflection.macro == :has_and_belongs_to_many
-    end
-    tmp.map(&:name).map(&:to_s)
-  end
-
 
   def self.string_representation_of_data(value)
     case value
@@ -115,7 +92,7 @@ class AdminData::Util
   end
 
   def self.build_sort_options(klass,sortby)
-   klass.columns.inject([]) do |result,column|
+    klass.columns.inject([]) do |result,column|
       name = column.name
 
       selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''

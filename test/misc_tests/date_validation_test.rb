@@ -13,7 +13,6 @@ class AdminDataTest < Test::Unit::TestCase
     # only the first three characters of the month should be checked
     assert ::AdminDataDateValidation.validate('13-FEBfoo-2009')  
     
-    
     assert !::AdminDataDateValidation.validate('13-foo-2009')    # month name is wrong
     assert !::AdminDataDateValidation.validate('13 foo 2009')    # there must be two occurences of -
     assert !::AdminDataDateValidation.validate('32-jan-2009')    # day is wrong

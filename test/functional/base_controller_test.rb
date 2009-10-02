@@ -4,10 +4,8 @@ class AdminData::BaseControllerTest < ActionController::TestCase
 
   context 'testing filter ensure_is_allowed_to_view' do
     setup do
-      AdminData::BaseController.before_filter.each do |filter|
-        if filter.kind_of?(ActionController::Filters::BeforeFilter) && filter.method == :ensure_is_allowed_to_view
-         @filter = filter 
-        end
+      @filter = AdminData::BaseController.before_filter.detect do |filter|
+        filter.kind_of?(ActionController::Filters::BeforeFilter) && filter.method == :ensure_is_allowed_to_view
       end
     end
     should 'have filter called ensure_is_allowed_to_view' do

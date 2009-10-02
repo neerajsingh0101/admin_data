@@ -16,24 +16,12 @@
     <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js') %>
     <%= AdminData::Util.javascript_include_tag('ui.selectmenu','app') %>
 
-    <% if params[:action] == 'advance_search' %>
+    <%# assert_tag is throwing a lot of warning with these inline javascripts.
+        no need of these javascripts in test mode %>
+    <% if params[:action] == 'advance_search' && !Rails.env.test? %>
       <%= AdminData::Util.javascript_include_tag('search_core','jquery.form') %>
     <% end %>
   
-    <script>
-      $(document).ready(function(){
-        function colorize_table(){
-            $('.colorize tr:odd').addClass('odd'); 
-            $('.colorize tr:even').addClass('even'); 
-        };
-        colorize_table();
-
-        $('#drop_down_value_klass').selectmenu();
-        $('#sortby').selectmenu();
-      });
-    </script>
-	
-
   </head>
 
   <body>
