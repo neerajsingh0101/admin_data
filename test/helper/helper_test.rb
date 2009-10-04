@@ -22,6 +22,21 @@ class HelperTest < ActionView::TestCase
     assert_equal 'this is a ve...', output
   end
 
+  def test_admin_data_get_value_for_column_for_integer
+    @article = Factory(:article, :hits_count => 100)
+    column = Article.columns.select {|column| column.name.to_s == 'hits_count'}.first
+    output = admin_data_get_value_for_column(column, @article)
+    assert_equal 100, output
+  end
+
+  def test_admin_data_get_value_for_column_for_integer2
+    @article = Factory(:article, :hits_count => 100)
+    column = Article.columns.select {|column| column.name.to_s == 'hits_count'}.first
+    output = admin_data_get_value_for_column(column, @article, {:limit => 10})
+    assert_equal 100, output
+  end
+
+
   def test_admin_data_get_value_for_column_using_truncate_method_with_exception
     column = Article.columns.select {|column| column.name.to_s == 'title'}.first
     @article = Factory(:article, :title => 'this is a very very very long long long title')

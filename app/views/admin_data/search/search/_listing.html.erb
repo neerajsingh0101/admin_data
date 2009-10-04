@@ -1,39 +1,39 @@
-    <%= render 'admin_data/search/search/title',  :records => records, 
-                                                  :total_num_of_children => @total_num_of_children %>
+<%= render 'admin_data/search/search/title',  :records => records, 
+                                              :total_num_of_children => @total_num_of_children %>
 
-    <div class="pagination">
-      <%= will_paginate @records, :container => false, :params => {:klass => klass.name} %>
-    </div>
-    <div class='clear'></div>
+<div class="pagination">
+  <%= will_paginate @records, :container => false, :params => {:klass => klass.name} %>
+</div>
+<div class='clear'></div>
 
-    <table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
+<table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
 
-    <thead>
-      <tr>
+  <thead>
+    <tr>
       <% for column in klass.columns %>
         <th> <%= column.name %> </th>
       <% end %>
     </tr>
-    </thead>
+  </thead>
 
-    <% @records.each do |record| %>
-      <tr>
-        <% for column in klass.columns %>
-          <td>
-            <% if (column.name == klass.primary_key) %>
-              <%= link_to(record.send(column.name), 
-                          admin_data_on_k_path(:klass => klass.name.underscore, :id => record.id)) %>
-            <% else %>
-              <%=h  admin_data_get_value_for_column(column,record) %>
-            <% end %>  
-          </td>
-        <% end %>
-      </tr>
-    <% end %>  
-    </table>
+  <% @records.each do |record| %>
+    <tr>
+      <% for column in klass.columns %>
+        <td>
+          <% if (column.name == klass.primary_key) %>
+            <%= link_to(record.send(column.name), 
+                      admin_data_on_k_path(:klass => klass.name.underscore, :id => record.id)) %>
+          <% else %>
+            <%=h  admin_data_get_value_for_column(column,record) %>
+          <% end %>  
+        </td>
+      <% end %>
+    </tr>
+  <% end %>  
+</table>
 
-    <div class="pagination">
-      <%= will_paginate records, :container => false, :params => {:klass => klass.name} %>
-    </div>
-    <div class='clear'></div>
+<div class="pagination">
+  <%= will_paginate records, :container => false, :params => {:klass => klass.name.underscore} %>
+</div>
+<div class='clear'></div>
 

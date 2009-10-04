@@ -95,20 +95,19 @@ module AdminData::Helpers
   # options supports :limit which is applied if the column type is string or text
   def admin_data_get_value_for_column(column, source, options = {})
     options.reverse_merge!(:limit => 400)
+    value = source.send(column.name)
     if column.type == :datetime
-      d = source.send(column.name)
-      d.strftime('%m/%d/%Y %H:%M:%S %p') unless d.blank?
-    else
-      value = source.send(column.name)
+      value.strftime('%m/%d/%Y %H:%M:%S %p') unless value.blank?
+    elsif column.type == :string || column.type == :text
       return value if options[:limit].blank?
-      if column.type == :string || column.type == :text
-        # truncate method fails in handling serialized array stored in string column
-        begin
-          truncate(value,:length => options[:limit])
-        rescue
-          '<actual data is not being shown because truncate method failed.>'
-        end
+      # truncate method fails in handling serialized array stored in string column
+      begin
+        truncate(value,:length => options[:limit])
+      rescue
+        '<actual data is not being shown because truncate method failed.>'
       end
+    else
+      value
     end
   end
 
