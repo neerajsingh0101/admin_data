@@ -1,3 +1,7 @@
+=== 0.0.14 2009-10-05
+
+* while editing match was being done for hard coded value id. Now it looks for klass.primary_key 
+
 === 0.0.13 2009-10-04
 
 * fixed IE7 bug 

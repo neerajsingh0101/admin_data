@@ -5,7 +5,7 @@ module AdminData::Helpers
     concat(partial_value)
   end
 
-  def admin_data_form_field(klass,model,col)
+  def admin_data_form_field(klass, model, col)
     html = []
 
     if klass.serialized_attributes.has_key?(col.name)
@@ -18,8 +18,8 @@ module AdminData::Helpers
     end
 
     uscore_name = klass.name.underscore
-    if col.name == 'id'
-      html<<  model.new_record? ? '(auto)' : model.id
+    if col.name == klass.primary_key.to_s 
+      html <<  model.new_record? ? '(auto)' : model.id
 
     elsif col.type == :text
       html << "<textarea rows='6' cols='70' name='#{uscore_name}[#{col.name}]'>"
@@ -37,7 +37,7 @@ module AdminData::Helpers
 
     elsif col.type == :boolean
       html << "<select id='#{uscore_name}_#{col.name}' name='#{uscore_name}[#{col.name}]'>"
-      html <<  "<option value=''></option>"
+      html << "<option value=''></option>"
 
       if model.send(col.name)
         html << %{ <option value='true' 'selected'>True</option> }
@@ -58,11 +58,14 @@ module AdminData::Helpers
       size = (col_limit < 56) ? col_limit : 56
       if col.limit
         html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
-        :size => size, :maxlength => col.limit, :class => 'nice-field')
+                                                            :size => size, 
+                                                            :maxlength => col.limit, 
+                                                            :class => 'nice-field')
 
       else
         html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
-        :size => size, :class => 'nice-field')
+                                                            :size => size, 
+                                                            :class => 'nice-field')
       end
     end
   end

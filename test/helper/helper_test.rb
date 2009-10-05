@@ -6,6 +6,37 @@ class HelperTest < ActionView::TestCase
 
   self.helper_class = AdminData::Helpers
 
+  def test_admin_data_form_field_id
+    @article = Factory(:article)
+    col = Article.columns.detect {|col| col.name == 'article_id'}
+    output = admin_data_form_field(Article, @article, col)
+    assert_equal "(auto)", output
+  end
+
+  def test_admin_data_form_field_comment_id
+    @comment = Factory(:comment)
+    col = Comment.columns.detect {|col| col.name == 'id'}
+    output = admin_data_form_field(Comment, @comment, col)
+    assert_equal "(auto)", output
+  end
+
+
+  def test_admin_data_form_field_hits_count
+    @article = Factory(:article)
+    col = Article.columns.detect {|col| col.name == 'hits_count'}
+    output = admin_data_form_field(Article, @article, col)
+    expected = %{<input class="nice-field" id="article_hits_count" name="article[hits_count]" size="56" type="text" value="1" />}
+    assert_equal [expected], output
+  end
+
+  def test_admin_data_form_field_title
+    @article = Factory(:article)
+    col = Article.columns.detect {|col| col.name == 'title'}
+    output = admin_data_form_field(Article, @article, col)
+    expected = %{<input class="nice-field" id="article_title" maxlength="255" name="article[title]" size="56" type="text" value="this is a dummy title" />}
+    assert_equal [expected], output
+  end
+
   def test_admin_data_get_value_for_column
     column = Article.columns.select {|column| column.name.to_s == 'title'}.first
     @article = Factory(:article)
