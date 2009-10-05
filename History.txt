@@ -1,3 +1,7 @@
+=== 0.0.13 2009-10-04
+
+* fixed IE7 bug 
+
 === 0.0.12 2009-10-04
 
 * fixed bug regarding integer values not appearning in listing 

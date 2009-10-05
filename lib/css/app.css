@@ -77,6 +77,10 @@ table#view_table td {
 	padding: 6px 6px 6px 12px;
 }
 
+table#view_table tr.highlight{
+  background-color: yellow;
+}
+
 .logo {float: left;}
 
 #model_drop_down {
@@ -109,5 +113,23 @@ table#view_table td {
 #footer p {
   float:left;
   font-size:11px;
-  padding:2px 10px 2px 2px;'
+  padding:2px 10px 2px 2px;
 }
+
+#main {
+  width: 100%;
+}
+
+
+.main2 {
+  background-color: #FFF;
+  padding:5px;
+  margin:10px 2px 10px 2px;
+  float:left;
+}
+
+#header {
+  position: static; /* without this header does not show up in IE7 */
+}
+
+
