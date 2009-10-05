@@ -5,7 +5,7 @@ module AdminData::Helpers
     concat(partial_value)
   end
 
-  def admin_data_form_field(klass, model, col)
+  def admin_data_form_field(klass, model, col, f)
     html = []
 
     if klass.serialized_attributes.has_key?(col.name)
@@ -18,55 +18,49 @@ module AdminData::Helpers
     end
 
     uscore_name = klass.name.underscore
-    if col.name == klass.primary_key.to_s 
+    if col.primary 
       html <<  model.new_record? ? '(auto)' : model.id
 
+    elsif reflection = klass.reflections.values.detect {|reflection| reflection.primary_key_name.to_sym == col.name.to_sym}
+      #foreign key
+      association_name = reflection.klass.columns.map(&:name).include?('name') ? :name : reflection.klass.primary_key
+      all_for_dropdown = reflection.klass.all(:order => "#{association_name} asc")
+      html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
+
     elsif col.type == :text
-      html << "<textarea rows='6' cols='70' name='#{uscore_name}[#{col.name}]'>"
-      html << model.send(col.name)
-      html << '</textarea>'
+      html << f.text_area(col.name, :rows => 6, :cols => 70)
 
     elsif col.type == :datetime && ['created_at', 'updated_at'].include?(col.name)
       html <<  model.new_record? ? '(auto)' : model.send(col.name)
 
     elsif col.type == :datetime
-      value = model.send(col.name)
-      value = value.send(:to_s, :db) if value
-      value = Time.now.to_s(:db) if params[:action] == 'new'
-      html << text_field(klass.name.underscore, col.name, :value => value, :class => 'nice-field')
+      value = model.send(col.name) 
+      value = Time.now if params[:action] == 'new'
+      year_value = value.year if value
+      html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
+      html << f.datetime_select(col.name, :discard_year => true) 
+    
+    elsif col.type == :date
+      value = model.send(col.name) 
+      value = Time.now if params[:action] == 'new'
+      year_value = value.year if value
+      html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
+      html << f.date_select(col.name)
+    
+    elsif col.type == :time
+      value = model.send(col.name) 
+      value = Time.now if params[:action] == 'new'
+      html << f.time_select(col.name, :discard_year => true) 
 
     elsif col.type == :boolean
-      html << "<select id='#{uscore_name}_#{col.name}' name='#{uscore_name}[#{col.name}]'>"
-      html << "<option value=''></option>"
-
-      if model.send(col.name)
-        html << %{ <option value='true' 'selected'>True</option> }
-      else
-        html << %{ <option value='true'>True</option> }
-      end
-
-      if !model.send(col.name)
-        html << %{ <option value='false' 'selected'>False</option> }
-      else
-        html << %{ <option value='false'>False</option> }
-      end
-
-      html << '</select>'
+      html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
 
     else
       col_limit = col.limit || 255
       size = (col_limit < 56) ? col_limit : 56
-      if col.limit
-        html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
-                                                            :size => size, 
-                                                            :maxlength => col.limit, 
-                                                            :class => 'nice-field')
-
-      else
-        html << text_field(klass.to_s.underscore, col.name, :value => model.send(col.name),
-                                                            :size => size, 
-                                                            :class => 'nice-field')
-      end
+      options = {:size => size, :class => 'nice-field'}
+      options[:maxlength] = col.limit if col.limit
+      html << f.text_field(col.name, options)
     end
   end
 

@@ -202,7 +202,37 @@ class AdminData::MainControllerTest < ActionController::TestCase
       get :edit, {:id => @article.id, :klass => @article.class.name }
     end
     should_respond_with :success
+    
+    should "not have input for primary key" do
+      assert_select 'form' do
+        assert_select "input[name='comment[id]']", false
+      end
+    end
+
+    should "have dropdowns for published_at datetime column" do
+      assert_select 'form' do
+        assert_select "input[type='text'][name='article[published_at(1i)]']"
+        assert_select "select[name='article[published_at(4i)]']"
+        assert_select "select[name='article[published_at(5i)]']"
+      end
+    end
+    
   end
+
+  context 'get edit comment' do
+    setup do
+      @comment = Factory(:comment, :article => @article)
+      get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
+    end
+    should_respond_with :success
+
+    should "have dropdowns for belongs_to article" do
+      assert_select 'form' do
+        assert_select "select[name='comment[article_id]']"
+      end
+    end
+  end
+  
 
   context 'get edit car' do
     setup do
@@ -210,7 +240,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should_respond_with :success
   end
-  
+
   context 'get new article' do
     setup do
       get :new, {:klass => Article.name.underscore }

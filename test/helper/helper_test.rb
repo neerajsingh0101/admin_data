@@ -6,17 +6,21 @@ class HelperTest < ActionView::TestCase
 
   self.helper_class = AdminData::Helpers
 
+  def setup
+    @f = flexmock
+  end
+
   def test_admin_data_form_field_id
     @article = Factory(:article)
     col = Article.columns.detect {|col| col.name == 'article_id'}
-    output = admin_data_form_field(Article, @article, col)
+    output = admin_data_form_field(Article, @article, col, @f)
     assert_equal "(auto)", output
   end
 
   def test_admin_data_form_field_comment_id
     @comment = Factory(:comment)
     col = Comment.columns.detect {|col| col.name == 'id'}
-    output = admin_data_form_field(Comment, @comment, col)
+    output = admin_data_form_field(Comment, @comment, col, @f)
     assert_equal "(auto)", output
   end
 
@@ -24,16 +28,54 @@ class HelperTest < ActionView::TestCase
   def test_admin_data_form_field_hits_count
     @article = Factory(:article)
     col = Article.columns.detect {|col| col.name == 'hits_count'}
-    output = admin_data_form_field(Article, @article, col)
-    expected = %{<input class="nice-field" id="article_hits_count" name="article[hits_count]" size="56" type="text" value="1" />}
+    expected = '<input> for hits_count'
+    @f.should_receive(:text_field).with('hits_count', {:class => "nice-field", :size => 56}).and_return(expected)
+    output = admin_data_form_field(Article, @article, col, @f)
     assert_equal [expected], output
   end
 
   def test_admin_data_form_field_title
     @article = Factory(:article)
     col = Article.columns.detect {|col| col.name == 'title'}
-    output = admin_data_form_field(Article, @article, col)
-    expected = %{<input class="nice-field" id="article_title" maxlength="255" name="article[title]" size="56" type="text" value="this is a dummy title" />}
+    expected = '<input> for hits_count'
+    @f.should_receive(:text_field).with('title', {:class => "nice-field", :size => 56, :maxlength => 255}).and_return(expected)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected], output
+  end
+
+  def test_admin_data_form_field_published_at
+    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999'))
+    col = Article.columns.detect {|col| col.name == 'published_at'}
+    expected_year_input = '<input> for year'
+    expected_dropdowns  = '<select> for month and <select> for day'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    flexmock(self).should_receive(:text_field_tag).with('article[published_at(1i)]', 1999, :class => 'nice-field').and_return(expected_year_input)
+    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true}).and_return(expected_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_year_input, expected_dropdowns], output
+  end
+
+  def test_admin_data_form_field_published_at_uses_current_date_for_new
+    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999'))
+    col = Article.columns.detect {|col| col.name == 'published_at'}
+    expected_year_input = '<input> for year'
+    expected_dropdowns  = '<select> for month and <select> for day'
+    flexmock(self).should_receive(:params).and_return({:action => 'new'})
+    flexmock(self).should_receive(:text_field_tag).with('article[published_at(1i)]', Time.now.year, :class => 'nice-field').and_return(expected_year_input)
+    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true}).and_return(expected_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_year_input, expected_dropdowns], output
+  end
+
+  def test_admin_data_form_field_foreign_key_article_id
+    @article = Factory(:article)
+    @comment = Factory(:comment, :article => @article)
+    col = Comment.columns.detect {|col| col.name == 'article_id'}
+    expected  = '<select> for articles'
+    all_articles = flexmock
+    flexmock(Article).should_receive(:all).with(:order => "article_id asc").and_return(all_articles)
+    @f.should_receive(:collection_select).with('article_id', all_articles, :id, 'article_id', {:include_blank => true} ).and_return(expected)
+    output = admin_data_form_field(Comment, @comment, col, @f)
     assert_equal [expected], output
   end
 

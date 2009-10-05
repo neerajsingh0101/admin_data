@@ -6,12 +6,12 @@
       (<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>)
     </div>
     <div class='right'>
-      <%= admin_data_form_field(klass, @model, col) %>
+      <%= admin_data_form_field(klass, @model, col, f) %>
     </div>
     <div class='clear'></div>
   </div>
 <% end %>
 
   <div class='group navform'>
-    <%= submit_tag('Save', :class => 'button', :disable_with => 'Please wait ...') %>
+    <%= f.submit('Save', :class => 'button', :disable_with => 'Please wait ...') %>
   </div>

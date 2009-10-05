@@ -19,10 +19,11 @@
 
     <div class="content">          
       <div class="inner">
-        <%= form_tag( {:action => 'update', :id => @model.id, :klass => @klass.name.underscore},
-                      {:class => 'form', :method => :put}) %>
-          <%= render 'admin_data/main/misc/form', :klass => @klass %>
-        </form>
+        <% form_for @klass.name.underscore.to_sym, @model, 
+                    :url => admin_data_on_k_path(:klass => @klass.name, :id => @model.id), 
+                    :html=> {:class => 'form', :method => :put} do |f| %>
+          <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
+        <% end %>
       </div>
     </div>
 

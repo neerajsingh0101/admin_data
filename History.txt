@@ -1,3 +1,9 @@
+=== 0.0.16 2009-10-07
+
+* form UI foreign keys are dropdown (display name attribute if it exists and id otherwise)
+* form UI date fields use date_select (with free text year since we cannot guess a good range)
+* form UI refactored to use form_for instead of form_tag and hadcoded html
+     
 === 0.0.15 2009-10-06
 
 * cache the list of models
@@ -21,7 +27,7 @@
 
 === 0.0.11 2009-10-01
 
-* Major contribution in this release by Alex Rothenburg. http://github.com/alexrothenberg 
+* Major contribution in this release by Alex Rothenberg. http://github.com/alexrothenberg 
 * this plugin now treats each model as a restful resource. 
 * security fix and test for it
 * commented out offending code for has_one relationship
