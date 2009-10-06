@@ -847,11 +847,110 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                                                       :col2 => 'is_on_or_before_date', 
                                                       :col3 => d} } }
     end
-    should 'contain text' do
+    should 'does contain text' do
       assert_no_tag(:tag => 'h2',
                     :attributes => {:class => 'title'},
                     :content => /Search result: 1 record found/ )
     end
   end
+
+  context 'xhr advance_search invalid date for field is_on or before' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', 
+                                                      :col2 => 'is_on_or_before_date', 
+                                                      :col3 => 'invalid_date'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid date/ )
+    end
+  end
+
+  context 'xhr advance_search invalid date for field is_on or after' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', 
+                                                      :col2 => 'is_on_or_after_date', 
+                                                      :col3 => 'invalid_date'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid date/ )
+    end
+  end
+
+
+  context 'xhr advance_search invalid date for field is_on' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'published_at', 
+                                                      :col2 => 'is_on', 
+                                                      :col3 => 'invalid_date'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid date/ )
+    end
+  end
+
+
+  context 'xhr advance_search invalid integer for field is_equal_to' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'hits_count', 
+                                                      :col2 => 'is_equal_to', 
+                                                      :col3 => 'invalid_integer'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid integer/ )
+    end
+  end
+
+  context 'xhr advance_search invalid integer for field less_than' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'hits_count', 
+                                                      :col2 => 'less_than', 
+                                                      :col3 => 'invalid_integer'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid integer/ )
+    end
+  end
+
+  context 'xhr advance_search invalid integer for field greater_than' do
+    setup do
+      xml_http_request  :post,
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :adv_search => {'2_row' => {:col1 => 'hits_count', 
+                                                      :col2 => 'greater_than', 
+                                                      :col3 => 'invalid_integer'} } }
+    end
+    should 'contain text' do
+      assert_tag(:tag => 'p',
+                    :attributes => {:class => 'error'},
+                    :content => /is not a valid integer/ )
+    end
+  end
+
 
 end
