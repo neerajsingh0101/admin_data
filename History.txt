@@ -4,6 +4,7 @@
 * advance search refactoring
 * jQuery UI datepicker for date field
 * advance search now shows validation error for integer and date fields
+* log.js for easy logging in JavaScript
 
 === 0.0.14 2009-10-05
 
