@@ -32,10 +32,13 @@ class AdminData::BaseController < ApplicationController
   end
 
   def build_klasses
-    model_dir = File.join(RAILS_ROOT,'app','models')
-    model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
-    klasses = get_klass_names(model_names.sort)
-    @klasses = remove_klasses_without_table(klasses)
+    unless defined? $admin_data_klasses
+      model_dir = File.join(RAILS_ROOT,'app','models')
+      model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
+      klasses = get_klass_names(model_names.sort)
+      $admin_data_klasses = remove_klasses_without_table(klasses)
+    end
+    @klasses = $admin_data_klasses
   end
 
   def remove_klasses_without_table(klasses)

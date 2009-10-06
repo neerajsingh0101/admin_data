@@ -94,13 +94,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have 5  models' do
       assert_equal 5, assigns(:klasses).size
     end
-    should 'have link for article' do
-       assert_tag(:tag => 'a', :attributes => {:href => '/admin_data/article/search'})
-    end
-    should 'have link for engine' do
-       s = CGI.escape('vehicle/engine')
-       assert_tag(:tag => 'a', :attributes => {:href => "/admin_data/#{s}/search" } )
-    end
   end
 
   context 'get show for article which has many comments' do
