@@ -19,7 +19,7 @@
     <%# assert_tag is throwing a lot of warning with these inline javascripts.
         no need of these javascripts in test mode %>
     <% if params[:action] == 'advance_search' && !Rails.env.test? %>
-      <%= AdminData::Util.javascript_include_tag('search_core','jquery.form') %>
+      <%= AdminData::Util.javascript_include_tag('adv_search','jquery.form') %>
     <% end %>
   
   </head>
