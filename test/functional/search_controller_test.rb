@@ -331,50 +331,50 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
     context 'col2 not null' do
       should '' do
-        cond = @controller.send(:build_advance_search_conditions, @klass,
+        hash = @controller.send(:build_advance_search_conditions, @klass,
                                 { '429440_row' => { :col1 => 'body', 
                                                     :col2 => 'is_not_null'}})
-        assert_equal '(articles.body IS NOT NULL)', cond
+        assert_equal '(articles.body IS NOT NULL)', hash[:cond]
       end
     end
 
     context 'col2 contains' do
       should '' do
-        cond = @controller.send(:build_advance_search_conditions, @klass,
+        hash = @controller.send(:build_advance_search_conditions, @klass,
                                 { '429440_row' => { :col1 => 'body', 
                                                     :col2 => 'contains', 
                                                     :col3 => 'python'}})
-        assert_equal "(articles.body LIKE '%python%')", cond
+        assert_equal "(articles.body LIKE '%python%')", hash[:cond]
       end
     end
 
     context 'col2 is exactly' do
       should '' do
-        cond = @controller.send(:build_advance_search_conditions, @klass,
+        hash = @controller.send(:build_advance_search_conditions, @klass,
                                 { '429440_row' => { :col1 => 'body', 
                                                     :col2 => 'is_exactly', 
                                                     :col3 => 'python'}})
-        assert_equal "(articles.body = 'python')", cond
+        assert_equal "(articles.body = 'python')", hash[:cond]
       end
     end
 
     context 'does not conatin' do
       should '' do
-        cond = @controller.send(:build_advance_search_conditions, @klass,
+        hash = @controller.send(:build_advance_search_conditions, @klass,
                               { '429440_row' => { :col1 => 'body', 
                                                   :col2 => 'does_not_contain', 
                                                   :col3 => 'python'}})
-        assert_equal "(articles.body NOT LIKE '%python%')", cond
+        assert_equal "(articles.body NOT LIKE '%python%')", hash[:cond]
       end
     end
 
     context 'is false' do
       should '' do
-        cond = @controller.send(:build_advance_search_conditions, @klass,
+        hash = @controller.send(:build_advance_search_conditions, @klass,
                               { '429440_row' => { :col1 => 'body', 
                                                   :col2 => 'is_false', 
                                                   :col3 => 'python'}})
-        assert_equal "(articles.body = 'f')", cond
+        assert_equal "(articles.body = 'f')", hash[:cond]
       end
     end
   end #end of nested context

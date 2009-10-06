@@ -132,4 +132,7 @@ table#view_table tr.highlight{
   position: static; /* without this header does not show up in IE7 */
 }
 
-
+.error {
+   color: red;
+   font-size: 16px;
+}

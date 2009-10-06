@@ -19,7 +19,7 @@ class AdminData::SearchController  < AdminData::BaseController
                                        :order => order )
     else
       params[:query] = params[:query].strip unless params[:query].blank?
-      cond = build_search_conditions(@klass,params[:query])
+      cond = build_search_conditions(@klass, params[:query])
       @records = @klass.paginate( :page => params[:page],
                                   :per_page => per_page,
                                   :order => order,
@@ -29,7 +29,8 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def advance_search
     @page_title = "Advance search #{@klass.name.underscore}"
-    cond = build_advance_search_conditions(@klass,params[:adv_search])
+    hash = build_advance_search_conditions(@klass, params[:adv_search])
+    cond = hash[:cond]
     @records = @klass.paginate(  :page => params[:page],
                                  :per_page => per_page,
                                  :order => params[:sortby],
@@ -37,9 +38,16 @@ class AdminData::SearchController  < AdminData::BaseController
     respond_to do |format|
       format.html { render }
       format.js {
+        errors = hash[:errors]    
         plugin_dir = AdminDataConfig.setting[:plugin_dir]
-        file_location = "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb"
-        render :file =>  file_location, :locals => {:klass => @klass, :records => @records}
+        
+        if errors.size > 0
+          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb", 
+                 :locals => {:errors => errors}
+        else
+          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb", 
+                 :locals => {:klass => @klass, :records => @records}
+        end
       }
     end
   end
@@ -61,10 +69,11 @@ class AdminData::SearchController  < AdminData::BaseController
     [condition, {:search_term => "%#{search_term.downcase}%"}]
   end
 
-  def build_advance_search_conditions(klass,search_options)
-    return nil if search_options.blank?
+  def build_advance_search_conditions(klass, search_options)
+    return {:cond => '', :errors => []} if search_options.blank?
 
     attribute_conditions = []
+    errors = []
 
     search_options.each do |key,value|
       col1 = value[:col1]
@@ -105,29 +114,57 @@ class AdminData::SearchController  < AdminData::BaseController
         attribute_conditions << "#{table_name}.#{col1} IS NOT NULL"
 
       when 'is_on':
-        if (time_obj = AdminDataDateValidation.validate(col3))
+        time_obj = AdminDataDateValidation.validate(col3)
+        if time_obj
           attribute_conditions << ["#{table_name}.#{col1} >= ?",time_obj.beginning_of_day]
           attribute_conditions << ["#{table_name}.#{col1} < ?",time_obj.end_of_day]
+        else
+           errors << "#{col3} is not a valid date"
         end
 
       when 'is_on_or_before_date':
-        if (time_obj = AdminDataDateValidation.validate(col3))
+        time_obj = AdminDataDateValidation.validate(col3)
+        if time_obj 
           attribute_conditions << ["#{table_name}.#{col1} <= ?",time_obj.end_of_day]
+        else
+           errors << "#{col3} is not a valid date"
         end
 
       when 'is_on_or_after_date':
-        if time_obj = AdminDataDateValidation.validate(col3)
+        time_obj = AdminDataDateValidation.validate(col3)
+        if time_obj
           attribute_conditions << ["#{table_name}.#{col1} >= ?",time_obj.beginning_of_day]
+        else
+           errors << "#{col3} is not a valid date"
         end
 
       when 'is_equal_to':
-        attribute_conditions << ["#{table_name}.#{col1} = ?",col3.to_i] unless col3.blank?
+         unless col3.blank?
+            if is_integer?(col3) 
+               attribute_conditions << ["#{table_name}.#{col1} = ?",col3.to_i] 
+            else
+               errors << "#{col3} is not a valid integer"
+            end
+         end
 
       when 'greater_than':
-        attribute_conditions << ["#{table_name}.#{col1} > ?",col3.to_i] unless col3.blank?
+         unless col3.blank?
+            if is_integer?(col3)
+               attribute_conditions << ["#{table_name}.#{col1} > ?",col3.to_i] 
+            else
+               errors << "#{col3} is not a valid integer"
+            end
+         end
 
       when 'less_than':
-        attribute_conditions << ["#{table_name}.#{col1} < ?",col3.to_i] unless col3.blank?
+         unless col3.blank?
+            if is_integer?(col3)
+               attribute_conditions << ["#{table_name}.#{col1} < ?",col3.to_i] 
+            else
+               errors << "#{col3} is not a valid integer"
+            end
+         end
+
       else
          # it means user did not select anything in col2. Ignore it.
       end
@@ -135,7 +172,8 @@ class AdminData::SearchController  < AdminData::BaseController
     end # end of search_options loop
 
     # queries are joined by AND
-    klass.send(:merge_conditions, *attribute_conditions)
+    cond = klass.send(:merge_conditions, *attribute_conditions)
+    {:cond => cond, :errors => errors}
   end
 
   def table_name_and_attribute_name(klass,column)
@@ -149,6 +187,10 @@ class AdminData::SearchController  < AdminData::BaseController
         render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", :status => :not_found 
       end
     end
+  end
+
+  def is_integer?(input)
+     input.to_i.to_s == input
   end
 
 end
