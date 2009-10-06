@@ -1,3 +1,10 @@
+=== 0.0.15 2009-10-06
+
+* cache the list of models
+* advance search refactoring
+* jQuery UI datepicker for date field
+* advance search now shows validation error for integer and date fields
+
 === 0.0.14 2009-10-05
 
 * while editing match was being done for hard coded value id. Now it looks for klass.primary_key 
