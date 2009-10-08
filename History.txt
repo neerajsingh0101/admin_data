@@ -1,3 +1,8 @@
+=== 0.0.17 2009-10-08
+
+* drop down of klasses is now available at the center of home page
+* current model will be selected in the drop down  
+
 === 0.0.16 2009-10-07
 
 * form UI foreign keys are dropdown (display name attribute if it exists and id otherwise)
