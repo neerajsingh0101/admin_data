@@ -3,10 +3,16 @@
     <div class="secondary-navigation">
       <div class="clear"></div>
     </div>          
-    <div class="content">          
-       <h2 class="title">
-          Select a model from top right hand corner
-       </h2>
+    
+    <div class="content" style='padding:15px;'>          
+      <h3>Select a model</h3>
+      <p style='color:dimgray;'>
+        Note that this drop down is also available at top right corner of every page
+      </p>
+        <%= render '/admin_data/main/misc/drop_down_klasses', :drop_down_for_klasses => @drop_down_for_klasses %>
+      <div class="clear"></div>
     </div>
+
+  
   </div>
 </div>

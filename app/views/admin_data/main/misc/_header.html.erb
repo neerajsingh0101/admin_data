@@ -2,14 +2,9 @@
   <h1 class='logo'>
     <%= link_to 'admin_data', admin_data_index_path %>
   </h1>
-  
+
   <div id='model_drop_down'>
-    <select id='drop_down_value_klass'> 
-      <option></option>      
-      <% k = params[:klass] || '' %>
-      <%= options_for_select(drop_down_for_klasses, 
-                             "http://#{request.host_with_port}/admin_data/#{CGI.escape(k)}/search") %>
-    </select>
+    <%= render '/admin_data/main/misc/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
   </div>
 
   <div class='clear'></div>
