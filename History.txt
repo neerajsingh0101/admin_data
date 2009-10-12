@@ -1,3 +1,5 @@
+* changed urls to support models that override to_param to other than id
+
 === 0.0.17 2009-10-08
 
 * drop down of klasses is now available at the center of home page

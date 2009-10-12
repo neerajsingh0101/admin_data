@@ -22,7 +22,7 @@
         <td>
           <% if (column.name == klass.primary_key) %>
             <%= link_to(record.send(column.name), 
-                      admin_data_on_k_path(:klass => klass.name.underscore, :id => record.id)) %>
+                      admin_data_on_k_path(:klass => klass.name.underscore, :id => record)) %>
           <% else %>
             <%=h  admin_data_get_value_for_column(column,record) %>
           <% end %>  
