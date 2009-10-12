@@ -8,10 +8,14 @@ class Article < ActiveRecord::Base
 
   validates_presence_of :title,:body
 
+  def to_param
+    "#{id}-#{title.gsub(' ', '_').camelize}"
+  end
+
   private
 
   def set_body_html
     self.body_html = self.body
   end
-
+  
 end

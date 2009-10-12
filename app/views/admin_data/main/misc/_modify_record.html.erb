@@ -3,16 +3,16 @@
     <h3>Modify Record</h3>
     <p>
     <%= link_to 'Edit', edit_admin_data_on_k_path(:klass => klass.name.underscore, 
-                                                  :id => model.id) %> 
+                                                  :id => model) %> 
     </p>
     <p>
     <%= link_to 'Delete', del_admin_data_on_k_path(:klass => klass.name.underscore, 
-                                                      :id => model.id ) ,
+                                                   :id => model) ,
            { :confirm => ' You are deleing (not destorying) a record. Are you sure?', :method => :delete} %> 
     </p>
     <p>
     <%= link_to 'Destroy', admin_data_on_k_path(:klass => klass.name.underscore,
-                                                :id => model.id), 
+                                                :id => model), 
         { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
     </p>
   </div>

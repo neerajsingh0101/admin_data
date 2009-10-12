@@ -22,6 +22,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
                                                     :klass => 'article', 
                                                     :id => 1
 
+  should_route :get, '/admin_data/article/1',       :controller => 'admin_data/main', 
+                                                    :action => :show, 
+                                                    :klass => 'article', 
+                                                    :id => 1
+
   should_route :delete, '/admin_data/article/1',    :controller => 'admin_data/main', 
                                                     :action => :destroy,
                                                     :klass => 'article',
@@ -131,7 +136,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should 'have link to belongs_to association' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/article/#{@article.id}"
+       url = "/admin_data/article/#{@article.to_param}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end

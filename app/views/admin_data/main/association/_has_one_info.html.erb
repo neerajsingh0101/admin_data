@@ -8,7 +8,7 @@
         <%= link_to bt, 
                     admin_data_on_k_path(
                       :klass => AdminData::Util.get_class_name_for_belongs_to_class(model,bt), 
-                      :id => model.send(bt).id) %>        
+                      :id => model.send(bt)) %>        
       <% else %>
           <%= bt %>              
       <% end %>  
