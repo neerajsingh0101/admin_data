@@ -3,12 +3,12 @@
              :class => 'form search_form', 
              :id => 'advance_search_form') %>
 
-    <input type="hidden" name="klass" value="<%=@klass.to_s%>"></input>       
+    <input type="hidden" name="klass" value="<%=@klass.to_s%>"/>     
     <div id='advance_search' class='search_box'>
      <table id='advance_search_table' class='advtable'>
      </table>
      <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
-     <input type="submit" value="Search"></input>
+     <input type="submit" value="Search"/>
    </div>
 
 </form>   

@@ -22,11 +22,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
                                                     :klass => 'article', 
                                                     :id => 1
 
-  should_route :get, '/admin_data/article/1',       :controller => 'admin_data/main', 
-                                                    :action => :show, 
-                                                    :klass => 'article', 
-                                                    :id => 1
-
   should_route :delete, '/admin_data/article/1',    :controller => 'admin_data/main', 
                                                     :action => :destroy,
                                                     :klass => 'article',
