@@ -35,14 +35,16 @@ class AdminData::BaseController < ApplicationController
     unless defined? $admin_data_klasses
       model_dir = File.join(RAILS_ROOT,'app','models')
       model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
-      klasses = get_klass_names(model_names.sort)
-      $admin_data_klasses = remove_klasses_without_table(klasses)
+      klasses = get_klass_names(model_names)
+      $admin_data_klasses = remove_klasses_without_table(klasses).
+                                             sort_by {|r| r.name.underscore}
     end
     @klasses = $admin_data_klasses
   end
 
   def remove_klasses_without_table(klasses)
-    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && k.table_exists? }
+    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && 
+                                                              k.table_exists? }
   end
 
   def get_klass_names(model_names)
@@ -50,7 +52,9 @@ class AdminData::BaseController < ApplicationController
       class_name = model_name.sub(/\.rb$/,'').camelize
       begin
         # for models like app/models/foo/bar/baz.rb
-        klass = class_name.split('::').inject(Object){ |klass, part| klass.const_get(part) }
+         klass = class_name.split('::').inject(Object) do |klass, part| 
+            klass.const_get(part) 
+         end 
         output << klass
       rescue Exception => e
         Rails.logger.debug e.message
