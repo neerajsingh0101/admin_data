@@ -67,7 +67,7 @@ class AdminData::MainController  < AdminData::BaseController
     model_attrs = params[model_name_underscored]
     if @model.update_attributes(model_attrs)
       flash[:success] = "Record was updated"
-      redirect_to admin_data_on_k_path(:id => @model.id, :klass => @klass.name.underscore)
+      redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
     else
       render :action => 'edit'
     end
@@ -82,7 +82,7 @@ class AdminData::MainController  < AdminData::BaseController
       render :action => 'new'
     else
       flash[:success] = "Record was created"
-      redirect_to admin_data_on_k_path(:id => @model.id, :klass => @klass.name.underscore)
+      redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
     end
   end
 
