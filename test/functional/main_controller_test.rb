@@ -259,11 +259,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       grant_update_access
       post :update, { :klass => Article.name.underscore, 
-                      :id => @article.id, 
+                      :id => @article, 
                       :article => {:title => 'new title'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_on_k_path( :id => Article.last.id, 
+    should_redirect_to('show page') { admin_data_on_k_path( :id => Article.last, 
                                                             :klass => Article.name.underscore) }
     should_set_the_flash_to /Record was updated/
     should_not_change('article count') { Article.count }
@@ -305,7 +305,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
                       'article' => {:title => 'hello', :body => 'hello world'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last.id, 
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last, 
                                                            :klass => @article.class.name.underscore) }
     should_set_the_flash_to /Record was created/
       should_change('article count', :by => 1) { Article.count }
