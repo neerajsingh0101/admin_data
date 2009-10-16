@@ -94,6 +94,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have 5  models' do
       assert_equal 5, assigns(:klasses).size
     end
+    should 'have Home tab selected' do
+       assert_select('#main-navigation ul li.first.active')
+    end
   end
 
   context 'get show for article which has many comments' do
