@@ -1,3 +1,8 @@
+=== 0.0.18 2009-10-16
+
+* changed theme from warehouse to dark because the association info on the right 
+hand side was not appearing correctly
+* homepage should have main tab selected
 * changed urls to support models that override to_param to other than id
 * fixed the sorting order. model a, model B and model A/Q was being sorted
 as A,Q,B instead of A,B,Q.
