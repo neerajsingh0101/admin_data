@@ -44,7 +44,7 @@ class AdminData::BaseController < ApplicationController
 
   def remove_klasses_without_table(klasses)
     klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && 
-                                                              k.table_exists? }
+                                                              k.connection.table_exists?(k.table_name) }
   end
 
   def get_klass_names(model_names)
