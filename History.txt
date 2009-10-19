@@ -1,3 +1,6 @@
+* ability to pass :find_conditions to settings so that models with to_param method could
+override the sql that is built by admin_data
+
 === 0.0.18 2009-10-16
 
 * changed theme from warehouse to dark because the association info on the right 

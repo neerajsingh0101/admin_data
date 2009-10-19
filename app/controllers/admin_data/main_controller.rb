@@ -93,13 +93,20 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def get_model_and_verify_it
-    primary_key = @klass.primary_key
-    m = "find_by_#{primary_key}".intern
-    @model = @klass.send(m, params[:id])
-    if @model.blank?
+    primary_key = @klass.primary_key.intern
+    condition = {primary_key => params[:id]}
+
+    find_conditions_proc = AdminDataConfig.setting[:find_conditions]
+    find_conditions = find_conditions_proc.call(params)
+    if find_conditions && find_conditions.fetch(@klass.name.underscore)
+       condition = find_conditions.fetch(@klass.name.underscore).fetch(:conditions)
+    end
+
+    begin
+      @model = @klass.send('find', :first, :conditions => condition)
+    rescue RecordNotFound => e
       render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", :status => :not_found 
     end
   end
-
 
 end

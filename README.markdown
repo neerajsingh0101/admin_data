@@ -131,6 +131,32 @@ AdminDataConfig.set = {
 }
 </pre>
 
+## How do I handle to_param case
+
+I have a model called City which is defined like this.
+<pre>
+def to_param
+  self.permanent_name
+end
+</pre>
+
+This plugin will generate show method for city like this <tt>/admin_data/city/miami</tt> . The controller
+will execute the query assuming that id is 'miami' and the record will not be found. In such cases where
+<tt>to_param</tt> method of the model has been overriden pass another parameter to settings to let plugin
+know how to access record for the model. For example this problem can be solved like this.
+
+<pre>
+AdminDataConfig.set = {
+  :view_security_check => lambda {|controller| controller.send('logged_in?') },
+  :update_security_check => lambda {|controller| controller.send('admin_logged_in?') }
+  :find_conditions => Proc.new do |params| 
+    { City.name.underscore => {:conditions => { :permanent_name => params[:id]}}}
+  end
+}
+</pre>
+
+In the above case admin_data plugin will use the condition block that has been passed to build the query.
+
 
 ## Tested with
 
