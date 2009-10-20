@@ -41,7 +41,6 @@ class AdminData::MainController  < AdminData::BaseController
 
   def destroy
     @klass.send(:destroy, params[:id])
-    flash[:success] = 'Record was destroyed'
     redirect_to admin_data_search_path(:klass => @klass.name.underscore)
   end
 
