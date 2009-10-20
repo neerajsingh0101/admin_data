@@ -247,3 +247,10 @@ AdminDataConfig.set = {
 }
 </pre>
 
+## How to run tests for this plugin
+
+Just execute the following command. That's it.
+
+<pre>
+rake
+</pre>
