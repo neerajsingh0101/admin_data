@@ -189,6 +189,7 @@ Copyright (c) 2009 neerajdotname
 ## How do I handle to_param case
 
 I have a model called City which is defined like this.
+
 <pre>
 class City < ActiveRecord::Base
   def to_param
@@ -196,7 +197,6 @@ class City < ActiveRecord::Base
   end
 end
 </pre>
-
 
 This plugin will generate show method for city like this <tt>/admin_data/city/miami</tt> . 
 The controller will execute the query assuming that id is 'miami' and the record 
