@@ -1,4 +1,3 @@
-
 # admin_data
 
 ## Introduction
@@ -9,14 +8,15 @@ This is a plugin to manage your database records using browser.
 
 [http://www.neeraj.name/admin_data](http://www.neeraj.name/admin_data)
 
-Note that in the demo you will be accessing only 'read only' features. You will not be
-able to update/delete/create any record. 
+Note that in the demo you will be accessing only 'read only' features. You will
+not be able to update/delete/create any record. 
 
 ## Totally Non Intrusive
 
 * No change is required anywhere in your application.
 
-* All the features are provided without creating any new named_scope. No lingering named_scope in your app.
+* All the features are provided without creating any new named_scope. No 
+lingering named_scope in your app.  
 
 * Nothing is stored in session or in cookies.
 
@@ -24,26 +24,33 @@ able to update/delete/create any record.
 
 * Browse table records.
 
-* For each individual record a snapshot of all association records is shown. Associations that are supported are has_many, belongs_to and has_one. If an associated record is not present then there will be no link.
+* For each individual record a snapshot of all association records is shown. 
+Associations that are supported are has_many, belongs_to and has_one. If an 
+associated record is not present then there will be no link.
 
 * Supports name spaced models like Vehicle::Car and Vehicle::Engine.
 
 * Next to association a count of number of associated records is shown. 
 
-* Al the associated records are links so one can navigate from record to record. 
+* Al the associated records are links so one can navigate from record to record.
 
-* Quick search across all records in a table. Quick searches across all records and all columns which are
-either 'string' type or 'text' type.
+* Quick search across all records in a table. Quick searches across all records 
+and all columns which are either 'string' type or 'text' type.
 
-* Advance search for each field of each of the tables. [click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) to see the options that are supported. Different options appear for diffent data types. 
+* Advance search for each field of each of the tables. [click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) 
+to see the options that are supported. Different options appear for diffent 
+data types. 
 
-* Sort the result on any column in ascending or descending order for both quick and advance search.
+* Sort the result on any column in ascending or descending order for both quick 
+and advance search.
 
-* Browse migration records from schema_migrations table even though there is no corresponding model for this table.
+* Browse migration records from schema_migrations table even though there is no 
+corresponding model for this table.
 
 * Configure number of records to be shown in the list. Default value is 50.
 
-* For both viewing the page and updating a record, security check is enforced. More on this in next section.
+* For both viewing the page and updating a record, security check is enforced. 
+More on this in next section.
 
 * Add a new record (update security check enforced)
 
@@ -51,11 +58,14 @@ either 'string' type or 'text' type.
 
 * Delete an existing record (update security check enforced and no callbacks)
 
-* Destroy an existing record (update security check enforced and callbacks will be invoked)
+* Destroy an existing record (update security check enforced and callbacks will 
+be invoked)
 
-* Diagnostic test lists all the columns which are foreign keys but index is not defined on them.
+* Diagnostic test lists all the columns which are foreign keys but index is not 
+defined on them.
 
-* Plugin does not assume that all the tables have primary key as 'id'. It respects the primary_key set in the model.
+* Plugin does not assume that all the tables have primary key as 'id'. It 
+respects the primary_key set in the model.
 
 ## Requirements
 
@@ -75,7 +85,8 @@ that's it. Now visit http://localhost:3000/admin_data
 	
 ## Installation instruction if you are using Rails 2.2
 
-If you are using Rails 2.2 then you need to checkout older version of this plugin like this
+If you are using Rails 2.2 then you need to checkout older version of this 
+plugin like this
 
 <pre>
 	<code>
@@ -88,19 +99,23 @@ If you are using Rails 2.2 then you need to checkout older version of this plugi
 </pre>
 
 
-After the plugin has been copied to your vendor/plugins directory then you need to make certain
-changes to the config/routes.rb .
+After the plugin has been copied to your vendor/plugins directory then you need 
+to make certain changes to the config/routes.rb .
 
-After installing the plugin you need to put following lines of code in config/routes.rb  at the very top
-
-	AdminData::Routing.connect_with map. 
+After installing the plugin you need to put following lines of code in 
+config/routes.rb  at the very top
+<pre>
+AdminData::Routing.connect_with map. 
+</pre>
 
 After the lines have been added it might look like this
 
+<pre>
 	ActionController::Routing::Routes.draw do |map|
 	  AdminData::Routing.connect_with map
 	  # ... more routing information
 	end
+</pre>
 
 ## How to use it
 
@@ -108,9 +123,10 @@ After the lines have been added it might look like this
 
 ## Security check
 
-This plugin allows you to configure security check for both view and update access. Default security
-check is to allow both view and update access in development mode and restrict both view and update
-access in any other environment. Given below is the default security.
+This plugin allows you to configure security check for both view and update 
+access. Default security check is to allow both view and update access in 
+development mode and restrict both view and update access in any other 
+environment. Given below is the default security.
 
 <pre>
 AdminDataConfig.set = {
@@ -122,7 +138,8 @@ AdminDataConfig.set = {
 
 
 Given below is one way to ensure authentication in other environments. 
-Put the following lines of code in an initializer at <tt>~/config/initializers/admin_data_setting.rb</tt> .
+Put the following lines of code in an initializer at 
+<tt>~/config/initializers/admin_data_setting.rb</tt> .
 
 <pre>
 AdminDataConfig.set = {
@@ -130,39 +147,14 @@ AdminDataConfig.set = {
   :update_security_check => lambda {|controller| controller.send('admin_logged_in?') }
 }
 </pre>
-
-## How do I handle to_param case
-
-I have a model called City which is defined like this.
-<pre>
-def to_param
-  self.permanent_name
-end
-</pre>
-
-This plugin will generate show method for city like this <tt>/admin_data/city/miami</tt> . The controller
-will execute the query assuming that id is 'miami' and the record will not be found. In such cases where
-<tt>to_param</tt> method of the model has been overriden pass another parameter to settings to let plugin
-know how to access record for the model. For example this problem can be solved like this.
-
-<pre>
-AdminDataConfig.set = {
-  :view_security_check => lambda {|controller| controller.send('logged_in?') },
-  :update_security_check => lambda {|controller| controller.send('admin_logged_in?') }
-  :find_conditions => Proc.new do |params| 
-    { City.name.underscore => {:conditions => { :permanent_name => params[:id]}}}
-  end
-}
-</pre>
-
-In the above case admin_data plugin will use the condition block that has been passed to build the query.
 
 
 ## Tested with
 
 I have tested this plugin with MySQL and PostgreSQL. 
 
-Run all the tests by going to the plugin directory and executing <tt>rake</tt> . There are over 100 tests and all of them should pass.
+Run all the tests by going to the plugin directory and executing <tt>rake</tt> . 
+There are over 100 tests and all of them should pass.
 
 
 ## Feedback and bug report
@@ -190,4 +182,67 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 MIT
 
 Copyright (c) 2009 neerajdotname
+
+
+# Tips and Tricks
+
+## How do I handle to_param case
+
+I have a model called City which is defined like this.
+<pre>
+class City < ActiveRecord::Base
+  def to_param
+    self.permanent_name
+  end
+end
+</pre>
+
+This plugin will generate show method for city like this <tt>/admin_data/city/miami</tt> . 
+The controller will execute the query assuming that id is 'miami' and the record 
+will not be found. 
+
+We propose two ways of handling such cases. 
+
+### Solution 1: override City klass methods
+
+In this case two methods of the klass are overriden. Note that this is how
+rails scaffold generates code and this is the recommended way.
+
+<pre>
+class City < ActiveRecord::Base
+  
+  def to_param
+    self.permanent_name
+  end
+  
+  private
+
+  def City.find_one(id, options)
+    return super if id.is_a? Numeric
+    find_by_permanent_name(id)
+  end
+
+  def City.find_some(ids, options)
+    return super if ids.all? {|id| id.is_a? Numeric }
+    find_all_by_permanent_name(ids)
+  end
+
+end
+</pre>
+
+### Solution 2: pass additional option to AdminDataConfig
+
+In this case user can pass additional option called <tt>find_conditions</tt> to 
+AdminDataConfig. This option will tell the plugin how to build the select
+condition for that klass. 
+
+<pre>
+AdminDataConfig.set = {
+  :view_security_check => lambda {|controller| controller.send('logged_in?') },
+  :update_security_check => lambda {|controller| controller.send('admin_logged_in?') }
+  :find_conditions => Proc.new do |params| 
+    { City.name.underscore => {:conditions => { :permanent_name => params[:id]}}}
+  end
+}
+</pre>
 
