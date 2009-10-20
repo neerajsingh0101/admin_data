@@ -92,7 +92,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should_assign_to :klasses
     should 'have 5  models' do
-      assert_equal 5, assigns(:klasses).size
+      assert_equal 6, assigns(:klasses).size
     end
     should 'have Home tab selected' do
        assert_select('#main-navigation ul li.first.active')
@@ -117,6 +117,20 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       @engine = Vehicle::Engine.create(:car_id => @car.id, :cylinders => 4)
       get :show, {:id => @car.id, :klass => @car.class.name.underscore }
+    end
+    should_respond_with :success
+  end
+
+  context 'get show for city' do
+    setup do
+      AdminDataConfig.set = {
+      :find_conditions => Proc.new do |params| 
+         { City.name.underscore => {:conditions => { :permanent_name => params[:id]}}}
+      end
+      }
+       
+      @city = City.create(:name => 'miami')
+      get :show, {:id => @city.permanent_name, :klass => @city.class.name.underscore }
     end
     should_respond_with :success
   end
