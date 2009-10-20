@@ -197,6 +197,7 @@ class City < ActiveRecord::Base
 end
 </pre>
 
+
 This plugin will generate show method for city like this <tt>/admin_data/city/miami</tt> . 
 The controller will execute the query assuming that id is 'miami' and the record 
 will not be found. 
