@@ -98,7 +98,7 @@ class AdminData::MainController  < AdminData::BaseController
     find_conditions_proc = AdminDataConfig.setting[:find_conditions]
     if find_conditions_proc
       find_conditions = find_conditions_proc.call(params)
-      if find_conditions && find_conditions.fetch(@klass.name.underscore)
+      if find_conditions && find_conditions.has_key?(@klass.name.underscore)
          condition = find_conditions.fetch(@klass.name.underscore).fetch(:conditions)
       end
     end

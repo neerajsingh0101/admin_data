@@ -35,6 +35,12 @@ class CreateTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table :cities do |t|
+      t.string :name
+      t.string :permanent_name
+      t.timestamps
+    end
+
     create_table :engines do |t|
       t.integer :cylinders
       t.integer :car_id
