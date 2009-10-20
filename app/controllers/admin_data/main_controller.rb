@@ -37,7 +37,6 @@ class AdminData::MainController  < AdminData::BaseController
 
   def show
     @page_title = "#{@klass.name.underscore}:#{@model.id}"
-    render
   end
 
   def destroy
@@ -97,15 +96,17 @@ class AdminData::MainController  < AdminData::BaseController
     condition = {primary_key => params[:id]}
 
     find_conditions_proc = AdminDataConfig.setting[:find_conditions]
-    find_conditions = find_conditions_proc.call(params)
-    if find_conditions && find_conditions.fetch(@klass.name.underscore)
-       condition = find_conditions.fetch(@klass.name.underscore).fetch(:conditions)
+    if find_conditions_proc
+      find_conditions = find_conditions_proc.call(params)
+      if find_conditions && find_conditions.fetch(@klass.name.underscore)
+         condition = find_conditions.fetch(@klass.name.underscore).fetch(:conditions)
+      end
     end
 
-    begin
-      @model = @klass.send('find', :first, :conditions => condition)
-    rescue RecordNotFound => e
-      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", :status => :not_found 
+    @model = @klass.send('find', :first, :conditions => condition)
+    unless @model
+      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", 
+             :status => :not_found
     end
   end
 
