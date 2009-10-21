@@ -1,19 +1,21 @@
 <% if controller.send(:admin_data_is_allowed_to_update?) %>
   <div class="block">
     <h3>Modify Record</h3>
-    <p>
-    <%= link_to 'Edit', edit_admin_data_on_k_path(:klass => klass.name.underscore, 
-                                                  :id => model) %> 
-    </p>
-    <p>
-    <%= link_to 'Delete', del_admin_data_on_k_path(:klass => klass.name.underscore, 
-                                                   :id => model) ,
-           { :confirm => ' You are deleing (not destorying) a record. Are you sure?', :method => :delete} %> 
-    </p>
-    <p>
-    <%= link_to 'Destroy', admin_data_on_k_path(:klass => klass.name.underscore,
-                                                :id => model), 
-        { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
-    </p>
+    <div style='padding-left:15px'>
+      <p>
+      <%= link_to 'Edit', edit_admin_data_on_k_path(:klass => klass.name.underscore, 
+                                                    :id => model) %> 
+      </p>
+      <p>
+      <%= link_to 'Delete', del_admin_data_on_k_path(:klass => klass.name.underscore, 
+                                                    :id => model) ,
+            { :confirm => ' You are deleing (not destorying) a record. Are you sure?', :method => :delete} %> 
+      </p>
+      <p>
+      <%= link_to 'Destroy', admin_data_on_k_path(:klass => klass.name.underscore,
+                                                  :id => model), 
+          { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
+      </p>
+    </div>
   </div>
 <% end %>
