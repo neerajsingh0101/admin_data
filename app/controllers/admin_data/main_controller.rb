@@ -25,18 +25,20 @@ class AdminData::MainController  < AdminData::BaseController
       end
       add_index_statements.sort.each { |index| @indexes << index }
     end
+    respond_to {|format| format.html}
   end
 
   def all_models
-    render
+    respond_to {|format| format.html}
   end
 
   def index
-    render
+    respond_to {|format| format.html}
   end
 
   def show
     @page_title = "#{@klass.name.underscore}:#{@model.id}"
+    respond_to {|format| format.html}
   end
 
   def destroy
@@ -52,12 +54,13 @@ class AdminData::MainController  < AdminData::BaseController
 
   def edit
     @page_title = "edit #{@klass.name.underscore}:#{@model.id}"
-    render
+    respond_to {|format| format.html}
   end
 
   def new
     @page_title = "new #{@klass.name.underscore}"
     @model = @klass.send(:new)
+    respond_to {|format| format.html}
   end
 
   def update

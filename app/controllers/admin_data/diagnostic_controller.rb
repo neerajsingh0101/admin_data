@@ -4,7 +4,7 @@ class AdminData::DiagnosticController  < AdminData::BaseController
 
    def index
       @page_title = 'diagnostic'
-      render
+      respond_to {|format| format.html}
    end
 
    def missing_index
@@ -20,6 +20,7 @@ class AdminData::DiagnosticController  < AdminData::BaseController
           end
         end
       end
+      respond_to {|format| format.html}
    end
 
 end

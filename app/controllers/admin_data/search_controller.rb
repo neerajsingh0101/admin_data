@@ -25,6 +25,7 @@ class AdminData::SearchController  < AdminData::BaseController
                                   :order => order,
                                   :conditions => cond ) 
     end
+    respond_to {|format| format.html}
   end
 
   def advance_search
