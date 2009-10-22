@@ -81,41 +81,7 @@ ruby script/plugin install git://github.com/neerajdotname/admin_data.git
   </code>
 </pre>  
 	
-that's it. Now visit http://localhost:3000/admin_data	
-	
-## Installation instruction if you are using Rails 2.2
-
-If you are using Rails 2.2 then you need to checkout older version of this 
-plugin like this
-
-<pre>
-	<code>
-	git clone git://github.com/neerajdotname/admin_data.git
-   	cd admin_data
-   	git co -b for_rails_2.2 origin/for_rails_2.2
-   	cd ..
-   	cp -rv admin_data my_app/vendor/plugins 
-   </code>
-</pre>
-
-
-After the plugin has been copied to your vendor/plugins directory then you need 
-to make certain changes to the config/routes.rb .
-
-After installing the plugin you need to put following lines of code in 
-config/routes.rb  at the very top
-<pre>
-AdminData::Routing.connect_with map. 
-</pre>
-
-After the lines have been added it might look like this
-
-<pre>
-	ActionController::Routing::Routes.draw do |map|
-	  AdminData::Routing.connect_with map
-	  # ... more routing information
-	end
-</pre>
+If you are using Rails 2.2 then find the instruction at the bottom of this page.
 
 ## How to use it
 
@@ -136,10 +102,9 @@ AdminDataConfig.set = {
 }
 </pre>
 
-
 Given below is one way to ensure authentication in other environments. 
 Put the following lines of code in an initializer at 
-<tt>~/config/initializers/admin_data_setting.rb</tt> .
+<tt>~/config/initializers/admin_data_settings.rb</tt> .
 
 <pre>
 AdminDataConfig.set = {
@@ -148,6 +113,8 @@ AdminDataConfig.set = {
 }
 </pre>
 
+In the above case <tt>application_controller.rb</tt> must have two method 
+<tt>logged_in?</tt> and <tt>admin_logged_in?</tt> .
 
 ## Tested with
 
@@ -253,4 +220,38 @@ Just execute the following command. That's it.
 
 <pre>
 rake
+</pre>
+
+## Installation instruction if you are using Rails 2.2
+
+If you are using Rails 2.2 then you need to checkout older version of this 
+plugin like this
+
+<pre>
+	<code>
+	git clone git://github.com/neerajdotname/admin_data.git
+   	cd admin_data
+   	git co -b for_rails_2.2 origin/for_rails_2.2
+   	cd ..
+   	cp -rv admin_data my_app/vendor/plugins 
+   </code>
+</pre>
+
+
+After the plugin has been copied to your vendor/plugins directory then you need 
+to make certain changes to the config/routes.rb .
+
+After installing the plugin you need to put following lines of code in 
+config/routes.rb  at the very top
+<pre>
+AdminData::Routing.connect_with map. 
+</pre>
+
+After the lines have been added it might look like this
+
+<pre>
+ActionController::Routing::Routes.draw do |map|
+  AdminData::Routing.connect_with map
+  # ... more routing information
+end
 </pre>
