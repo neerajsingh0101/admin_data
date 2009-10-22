@@ -137,3 +137,19 @@ table#view_table tr.highlight{
    font-size: 16px;
 }
 
+
+#noscript-warning {
+  background-color:#AE0000;
+  color:#FFFFFF;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:140%;
+  font-weight:bold;
+  left:0;
+  padding:5px 0;
+  position:fixed;
+  text-align:center;
+  top:0;
+  width:100%;
+  z-index:101;
+}
+
