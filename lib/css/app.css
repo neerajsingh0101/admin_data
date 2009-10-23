@@ -77,9 +77,11 @@ table#view_table td {
 	padding: 6px 6px 6px 12px;
 }
 
-table#view_table tr.highlight{
-  background-color: #D7FFFF;
+
+table#view_table tr:hover {
+  background: #FFFFC0;
 }
+
 
 .logo {float: left;}
 
