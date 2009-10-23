@@ -78,7 +78,7 @@ table#view_table td {
 }
 
 table#view_table tr.highlight{
-  background-color: yellow;
+  background-color: #D7FFFF;
 }
 
 .logo {float: left;}
