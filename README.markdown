@@ -138,6 +138,10 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 
 [http://github.com/neerajdotname/admin_data](http://github.com/neerajdotname/admin_data)
 
+## Metrics Summary
+
+[http://devver.net/caliper/project?repo=git://github.com/neerajdotname/admin_data.git](http://devver.net/caliper/project?repo=git://github.com/neerajdotname/admin_data.git)
+
 ## Contributors
 
 * [Alexey Borzenkov](http://github.com/snaury)
