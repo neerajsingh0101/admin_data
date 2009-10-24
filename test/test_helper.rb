@@ -1,8 +1,3 @@
-$:.unshift(File.join(File.dirname(__FILE__) + '..', 'lib'))
-$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app'))
-$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers'))
-$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers','admin_data'))
-
 module AdminData
 end
 
@@ -14,17 +9,11 @@ rails_root = File.join(File.dirname(__FILE__) , 'rails_root')
 require "#{rails_root}/config/environment.rb"
 
 #require all the lib items plugin needs
-f = File.join(File.dirname(__FILE__), '..', 'lib', 'admin_data', '*.rb')
-Dir.glob(f).each {|file| require file }
+Dir[File.join(File.dirname(__FILE__), '..', 'lib', 'admin_data', '*.rb')].each {|f| require f}
 
-
-#require validation code
-f = File.join(File.dirname(__FILE__), '..', 'lib', '*.rb')
-Dir.glob(f).each {|file| require file }
 
 #require all the controllers plugins needs
-f = File.join(File.dirname(__FILE__), '..', 'app', 'controllers','admin_data', '*.rb')
-Dir.glob(f).each {|controller| require controller }
+Dir[File.join(File.dirname(__FILE__), '..', 'app', 'controllers', 'admin_data', '*.rb')].each {|f| require f}
 
 # make sure that plugin views have access to helpers
 ActionView::Base.send :include, AdminData::Helpers
@@ -33,12 +22,7 @@ ActionView::Base.send :include, AdminData::Helpers
 require "#{rails_root}/../../config/routes.rb"
 
 
-#require all the controllers from the test controllers
-f = File.join(File.dirname(__FILE__), 'rails_root', 'app', 'controllers', '*.rb')
-Dir.glob(f).each {|controller| require controller }
-
-require 'test/unit'
-#require 'test_help'
+require 'test_help'
 silence_warnings { RAILS_ENV = ENV['RAILS_ENV'] }
 
 # Run the migrations
@@ -60,8 +44,7 @@ require 'flexmock'
 
 
 #require all factories
-f = File.join(File.dirname(__FILE__), 'factories', '*.rb')
-Dir.glob(f).each {|file| require file}
+Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
 
 AdminDataConfig.set = {
   :plugin_dir => File.join(File.dirname(__FILE__),'..'),
@@ -70,7 +53,7 @@ AdminDataConfig.set = {
   :update_security_check => lambda {|controller| return false },
 }
 
-class Test::Unit::TestCase
+class ActiveSupport::TestCase
 
   def revoke_read_only_access 
     AdminDataConfig.set=({:view_security_check => Proc.new { |controller| false } })
