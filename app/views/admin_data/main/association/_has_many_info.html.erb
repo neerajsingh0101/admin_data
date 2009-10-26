@@ -8,7 +8,7 @@
         <%= link_to label, admin_data_search_path(:klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 
                                                   :children => hm,
                                                   :base => klass.name.underscore, 
-                                                  :id => model.id) %>        
+                                                  :model_id => model.id) %>        
       <% else %>
         <%= label %>      
       <% end %>  

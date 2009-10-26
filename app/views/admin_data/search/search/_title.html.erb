@@ -1,8 +1,8 @@
 <h2 class='title'> 
 
   <% if params[:base] %>
-      <%= link_to params[:base].camelize + ' ID ' + params[:id], 
-        admin_data_on_k_path(:klass => params[:base], :id => params[:id]) %>
+      <%= link_to params[:base].camelize + ' ID ' + params[:model_id], 
+                  admin_data_on_k_path(:klass => params[:base], :id => params[:model_id]) %>
         has <%= pluralize(total_num_of_children, params[:klass]) %>
   <% elsif !params[:query].blank? || params[:adv_search] %>
     Search result: <%= pluralize(records.total_entries,'record') %> found

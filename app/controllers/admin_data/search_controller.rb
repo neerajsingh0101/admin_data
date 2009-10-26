@@ -10,7 +10,7 @@ class AdminData::SearchController  < AdminData::BaseController
     order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
 
     if params[:base]
-      model = params[:base].camelize.constantize.find(params[:id])
+      model = params[:base].camelize.constantize.find(params[:model_id])
       has_many_proxy = model.send(params[:children].intern)
       @total_num_of_children = has_many_proxy.send(:count)
       @records = has_many_proxy.send(  :paginate,

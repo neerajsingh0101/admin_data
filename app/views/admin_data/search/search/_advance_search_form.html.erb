@@ -1,9 +1,8 @@
-<%= form_tag("/admin_data/#{@klass.name.underscore}/advance_search",   
+<%= form_tag(admin_data_advance_search_path(:klass=>klass),   
              :method => 'get', 
              :class => 'form search_form', 
              :id => 'advance_search_form') %>
 
-    <input type="hidden" name="klass" value="<%=@klass.to_s%>"/>     
     <div id='advance_search' class='search_box'>
      <table id='advance_search_table' class='advtable'>
      </table>

@@ -1,8 +1,7 @@
-<%= form_tag("/admin_data/#{klass.name.underscore}/search",  :method => 'get',
-                                    :class => 'form search_form', 
-                                    :id => 'search') %>   
+<%= form_tag(admin_data_search_path(:klass=>klass),  :method => 'get',
+              :class => 'form search_form', 
+              :id => 'search') %>   
 
-  <input type="hidden" name="klass" value="<%=klass.to_s%>" />     
   <div class='search_box'>
     <div id='quick_search'>
       <div class='group'>

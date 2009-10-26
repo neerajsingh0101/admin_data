@@ -29,9 +29,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Vehicle::Door.delete_all
       @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
       @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
-      get :search, {  :base => @car.class.name.underscore, 
-                      :klass => @door1.class.name.underscore, 
-                      :id => @car.id, 
+      get :search, {  :klass => @door1.class.name.underscore, 
+                      :base => @car.class.name.underscore, 
+                      :model_id => @car.id, 
                       :children => 'doors'}
     end
     should_respond_with :success
@@ -53,9 +53,10 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
-      get :search, { :base => 'article',  :klass => Comment.name.underscore, 
-                                          :id => @article.id, 
-                                          :children => 'comments' }
+      get :search, { :klass => Comment.name.underscore, 
+                     :base => 'article',  
+                     :model_id => @article.id, 
+                     :children => 'comments' }
     end
     should_respond_with :success
     should_assign_to :records
@@ -118,7 +119,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                   :descendant => {:tag => 'a', :attributes => {:href => url}})
     end
     should 'have proper action name for search form' do
-      url = "/admin_data/vehicle/car/search"
+      url = admin_data_search_path(:klass=>Vehicle::Car)
       assert_tag( :tag => 'form',
                   :attributes => {:action => url})
     end
@@ -192,7 +193,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should_respond_with :success
     should_assign_to :records
     should 'have proper action for advance search form' do
-      url = "/admin_data/article/advance_search"
+      url = admin_data_advance_search_path(:klass=>Article)
       assert_tag( :tag => 'form',
                   :attributes => {:action => url})
     end
