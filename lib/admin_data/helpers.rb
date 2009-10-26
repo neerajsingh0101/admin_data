@@ -7,60 +7,56 @@ module AdminData::Helpers
 
   def admin_data_form_field(klass, model, col, f)
     html = []
+    column_value = model.send(col.name)
 
     if klass.serialized_attributes.has_key?(col.name)
-      html << %{ <i>Cannot edit serialized field.</i> }
-      unless model.send(col.name).blank?
-        html << %{ <i>Raw contents:</i><br/> }
-        html << model.send(col.name).inspect
-      end
-      return html.join
+      return get_serialized_value(html,column_value)
     end
 
-    uscore_name = klass.name.underscore
     if col.primary 
       html <<  model.new_record? ? '(auto)' : model.id
 
-    elsif reflection = klass.reflections.values.detect {|reflection| reflection.primary_key_name.to_sym == col.name.to_sym}
-      #foreign key
-      association_name = reflection.klass.columns.map(&:name).include?('name') ? :name : reflection.klass.primary_key
-      all_for_dropdown = reflection.klass.all(:order => "#{association_name} asc")
+    elsif reflection = klass.reflections.values.detect { |reflection| 
+                                             reflection.primary_key_name.to_sym == col.name.to_sym
+                                             }
+      ref_klass = reflection.klass
+      association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
+      all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
       html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
 
-    elsif col.type == :text
-      html << f.text_area(col.name, :rows => 6, :cols => 70)
+   else
+      case col.type
+      when :text
+         html << f.text_area(col.name, :rows => 6, :cols => 70)
+      when :datetime
+         if ['created_at', 'updated_at'].include?(col.name)
+            html <<  model.new_record? ? '(auto)' : column_value
+         else 
+            value = params[:action] == 'new' ? Time.now : column_value
+            year_value = value.year if value
+            html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
+            html << f.datetime_select(col.name, :discard_year => true) 
+         end
 
-    elsif col.type == :datetime && ['created_at', 'updated_at'].include?(col.name)
-      html <<  model.new_record? ? '(auto)' : model.send(col.name)
+      when :date
+         value = Time.now params[:action] == 'new' ? Time.now : column_value
+         year_value = value.year if value
+         html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
+         html << f.date_select(col.name)
 
-    elsif col.type == :datetime
-      value = model.send(col.name) 
-      value = Time.now if params[:action] == 'new'
-      year_value = value.year if value
-      html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
-      html << f.datetime_select(col.name, :discard_year => true) 
-    
-    elsif col.type == :date
-      value = model.send(col.name) 
-      value = Time.now if params[:action] == 'new'
-      year_value = value.year if value
-      html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
-      html << f.date_select(col.name)
-    
-    elsif col.type == :time
-      value = model.send(col.name) 
-      value = Time.now if params[:action] == 'new'
-      html << f.time_select(col.name, :discard_year => true) 
+      when :time
+         html << f.time_select(col.name, :discard_year => true) 
 
-    elsif col.type == :boolean
-      html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
+      when :boolean
+         html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
 
-    else
-      col_limit = col.limit || 255
-      size = (col_limit < 56) ? col_limit : 56
-      options = {:size => size, :class => 'nice-field'}
-      options[:maxlength] = col.limit if col.limit
-      html << f.text_field(col.name, options)
+      else
+         col_limit = col.limit || 255
+         size = (col_limit < 56) ? col_limit : 56
+         options = {:size => size, :class => 'nice-field'}
+         options[:maxlength] = col.limit if col.limit
+         html << f.text_field(col.name, options)
+      end
     end
   end
 
@@ -106,6 +102,17 @@ module AdminData::Helpers
     else
       value
     end
+  end
+
+  private
+
+  def get_serialized_value(html, column_value)
+    html << %{ <i>Cannot edit serialized field.</i> }
+    unless column_value.blank?
+      html << %{ <i>Raw contents:</i><br/> }
+      html << column_value.inspect
+    end
+    html.join
   end
 
 end
