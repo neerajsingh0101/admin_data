@@ -1,11 +1,12 @@
 class CreateTables < ActiveRecord::Migration
   def self.up
+
     create_table(:articles, :primary_key => 'article_id') do |t|
-      t.string :title ,:null => false
-      t.text :body, :null => false
-      t.text :body_html, :null => false
-      t.string :status, :default => 'draft'
-      t.datetime :published_at, :null => true
+      t.string :title ,           :null => false
+      t.text :body,               :null => false
+      t.text :body_html,          :null => false
+      t.string :status,           :default => 'draft'
+      t.datetime :published_at,   :null => true
       t.boolean :approved
       t.integer :hits_count
 
@@ -13,11 +14,11 @@ class CreateTables < ActiveRecord::Migration
     end
 
     create_table :comments do |t|
-      t.integer :article_id, :null => false
-      t.text :body, :null => false
-      t.text :body_html, :null => false
-      t.string :author_name, :null => false
-      t.string :author_website, :null => true
+      t.integer :article_id,      :null => false
+      t.text :body,               :null => false
+      t.text :body_html,          :null => false
+      t.string :author_name,      :null => false
+      t.string :author_website,   :null => true
       t.boolean :posted_by_admin, :default => false
 
       t.timestamps
@@ -52,5 +53,10 @@ class CreateTables < ActiveRecord::Migration
   def self.down
     drop_table :comments
     drop_table :articles
+    drop_table :cars
+    drop_table :doors
+    drop_table :cities
+    drop_table :engines
   end
+
 end
