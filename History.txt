@@ -1,3 +1,10 @@
+=== 0.0.22 2009-10-26
+
+* fixed adding rows on advanced search
+* consistenly use model_id for search and association parent objects
+* datetime/date/time fixes on edit and advanced search pages
+* added configuration to not use admin_data layout and use application one instead
+
 === 0.0.21 2009-10-26
 
 * fixed the formatting issue while displaying missing index in diagnostic section 
