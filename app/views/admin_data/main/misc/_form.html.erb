@@ -1,4 +1,11 @@
-<% @columns = params[:attrs].blank? ? @klass.columns : '' %>
+<% 
+@columns = if params[:attr].blank? 
+               @klass.columns
+            else
+               @klass.columns.find_all {|col| params[:attr] == col.name}
+            end
+%>
+
 <% @columns.each do |col| 
   col_limit = col.limit || 255 %>
   <div class='group'>

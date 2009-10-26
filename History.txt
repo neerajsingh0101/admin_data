@@ -1,6 +1,8 @@
 === 0.0.21 2009-10-26
 
 * fixed the formatting issue while displaying missing index in diagnostic section 
+* by passing additional parameter called 'attr' editing of a record would display
+only one field to avoid any accidental change.
 
 === 0.0.20 2009-10-22
 

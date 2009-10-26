@@ -67,6 +67,10 @@ defined on them.
 * Plugin does not assume that all the tables have primary key as 'id'. It 
 respects the primary_key set in the model.
 
+* While editing a record, form allows all the fields to be edited. The form can
+be restricted to allow editing of only one field. Look at the tips and trick 
+section at the bottom of README for more information.
+
 ## Requirements
 
 * Rails project must be using Rails 2.2 or higher.
@@ -225,6 +229,27 @@ Just execute the following command. That's it.
 <pre>
 rake
 </pre>
+
+## How to restrict editing of an record to only one element
+
+If you are editing the record of a model called 'record' then the
+url might look like this
+
+<pre>
+http://localhost:3000/admin_data/article/881/edit
+</pre>
+
+If you want to restrict the user to allow editing of only one field called title
+then pass aditional parameter like this.
+
+<pre>
+http://localhost:3000/admin_data/article/881/edit?attr=title
+</pre>
+
+Note that this is only preventive measure. If the user gets rid of 'attr' attribute
+then user will be able to edit any allowed field. Also on the controller side
+no check is done to make sure that only one attribute is being edited. Once again
+this is a good tool if you accidentally do not want to edit some other field.
 
 ## Installation instruction if you are using Rails 2.2
 

@@ -214,6 +214,20 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
   end
 
+  context 'get edit article with attr' do
+    setup do
+      get :edit, {:id => @article.id, :klass => @article.class.name, :attr => 'title' }
+    end
+
+    should 'have input field for title' do
+       assert_select('#article_title')
+    end
+
+    should 'not have input field for body' do
+       assert_select('#article_body', false)
+    end
+  end
+
   context 'get edit article' do
     setup do
       get :edit, {:id => @article.id, :klass => @article.class.name }
@@ -232,6 +246,14 @@ class AdminData::MainControllerTest < ActionController::TestCase
         assert_select "select[name='article[published_at(4i)]']"
         assert_select "select[name='article[published_at(5i)]']"
       end
+    end
+
+    should 'have input field for title' do
+       assert_select('#article_title')
+    end
+
+    should 'have input field for body' do
+       assert_select('#article_body')
     end
     
   end
