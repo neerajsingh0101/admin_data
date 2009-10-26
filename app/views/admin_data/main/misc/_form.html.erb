@@ -1,4 +1,5 @@
-<% klass.columns.each do |col| 
+<% @columns = params[:attrs].blank? ? @klass.columns : '' %>
+<% @columns.each do |col| 
   col_limit = col.limit || 255 %>
   <div class='group'>
     <div class='left'>
