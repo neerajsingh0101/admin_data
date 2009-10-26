@@ -50,27 +50,19 @@ class AdminData::Util
   end
 
   def self.has_many_what(klass)
-    klass.name.camelize.constantize.reflections.values.select do |value|
-      value.macro == :has_many
-    end.map(&:name).map(&:to_s)
+    associations_for(klass, :has_many).map(&:name).map(&:to_s)
   end
 
   def self.has_one_what(klass)
-    klass.name.camelize.constantize.reflections.values.select do |value|
-      value.macro == :has_one
-    end.map(&:name).map(&:to_s)
+    associations_for(klass, :has_one).map(&:name).map(&:to_s)
   end
 
   def self.belongs_to_what(klass)
-    klass.name.camelize.constantize.reflections.values.select do |value|
-      value.macro == :belongs_to
-    end.map(&:name).map(&:to_s)
+    associations_for(klass, :belongs_to).map(&:name).map(&:to_s)
   end
 
   def self.habtm_what(klass)
-    klass.name.camelize.constantize.reflections.values.select do |value|
-      value.macro == :has_and_belongs_to_many
-    end.map(&:name).map(&:to_s)
+    associations_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
   end
 
   def self.admin_data_association_info_size(klass)
@@ -100,6 +92,12 @@ class AdminData::Util
 
       selected_text = sortby == "#{name} asc" ? "selected='selected'" : ''
       result << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
+    end
+  end
+
+  def self.associations_for(klass, association_type)
+    klass.name.camelize.constantize.reflections.values.select do |value|
+      value.macro == association_type
     end
   end
 
