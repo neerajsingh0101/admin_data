@@ -44,7 +44,8 @@ AdminDataConfig.set = {
   :plugin_dir => File.join(RAILS_ROOT,'vendor','plugins','admin_data'),
   :will_paginate_per_page => 50,
   :view_security_check => lambda {|controller| return true if Rails.env.development? },
-  :update_security_check => lambda {|controller| return true if Rails.env.development? }
+  :update_security_check => lambda {|controller| return true if Rails.env.development? },
+  :use_admin_data_layout => true
 }
 
 require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','util.rb')
