@@ -24,28 +24,29 @@ module AdminData::Helpers
       all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
       html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
 
-   else
+    else
       case col.type
       when :text
          html << f.text_area(col.name, :rows => 6, :cols => 70)
+
       when :datetime
          if ['created_at', 'updated_at'].include?(col.name)
             html <<  model.new_record? ? '(auto)' : column_value
          else 
             value = params[:action] == 'new' ? Time.now : column_value
             year_value = value.year if value
-            html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
-            html << f.datetime_select(col.name, :discard_year => true) 
+            datetime_selects = f.datetime_select(col.name, :discard_year => true, :include_blank => true) 
+            html << datetime_selects.gsub('type="hidden"', 'type="text" size="4" class="nice-field"')
          end
 
       when :date
          value = Time.now params[:action] == 'new' ? Time.now : column_value
          year_value = value.year if value
-         html << text_field_tag("#{klass.name.underscore}[#{col.name}(1i)]", year_value, :class => 'nice-field')
-         html << f.date_select(col.name)
+         date_selects = f.date_select(col.name, :discard_year => true, :include_blank => true) 
+         html << date_selects.gsub('type="hidden"', 'type="text" size="4" class="nice-field"')
 
       when :time
-         html << f.time_select(col.name, :discard_year => true) 
+        html << f.time_select(col.name, :include_blank => true)
 
       when :boolean
          html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)

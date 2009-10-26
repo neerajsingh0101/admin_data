@@ -43,28 +43,111 @@ class HelperTest < ActionView::TestCase
     assert_equal [expected], output
   end
 
-  def test_admin_data_form_field_published_at
-    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999'))
-    col = Article.columns.detect {|col| col.name == 'published_at'}
-    expected_year_input = '<input> for year'
-    expected_dropdowns  = '<select> for month and <select> for day'
+  def test_admin_data_form_field_published_at_datetime_col
+    col = Article.columns_hash['published_at']
+    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999 1:23:45'))
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day and <select>s for time'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day and <select>s for time'
     flexmock(self).should_receive(:params).and_return({:action => 'edit'})
-    flexmock(self).should_receive(:text_field_tag).with('article[published_at(1i)]', 1999, :class => 'nice-field').and_return(expected_year_input)
-    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true}).and_return(expected_dropdowns)
+    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
     output = admin_data_form_field(Article, @article, col, @f)
-    assert_equal [expected_year_input, expected_dropdowns], output
+    assert_equal [expected_html], output
   end
 
-  def test_admin_data_form_field_published_at_uses_current_date_for_new
-    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999'))
-    col = Article.columns.detect {|col| col.name == 'published_at'}
+  def test_admin_data_form_field_published_at_uses_current_date_for_new_datetime_col
+    col = Article.columns_hash['published_at']
+    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999 1:23:45'))
     expected_year_input = '<input> for year'
-    expected_dropdowns  = '<select> for month and <select> for day'
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day and <select>s for time'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day and <select>s for time'
     flexmock(self).should_receive(:params).and_return({:action => 'new'})
-    flexmock(self).should_receive(:text_field_tag).with('article[published_at(1i)]', Time.now.year, :class => 'nice-field').and_return(expected_year_input)
-    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true}).and_return(expected_dropdowns)
+    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
     output = admin_data_form_field(Article, @article, col, @f)
-    assert_equal [expected_year_input, expected_dropdowns], output
+    assert_equal [expected_html], output
+  end
+
+  def test_admin_data_form_field_published_at_does_not_uses_current_date_when_empty_for_edit_datetime_col
+    col = Article.columns_hash['published_at']
+    @article = Factory(:article, :published_at => nil)
+    expected_year_input = 'blank year'
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day and <select>s for time'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day and <select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    @f.should_receive(:datetime_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_html], output
+  end
+
+  def test_admin_data_form_field_published_at_date_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:date)
+    @article = Factory(:article, :published_at => Date.parse('Aug 31, 1999'))
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    @f.should_receive(:date_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_html], output
+  end
+
+  def test_admin_data_form_field_published_at_uses_current_date_for_new_date_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:date)
+    @article = Factory(:article, :published_at => Time.parse('Aug 31, 1999'))
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day and <select>s for time'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day and <select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'new'})
+    @f.should_receive(:date_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_html], output
+  end
+
+  def test_admin_data_form_field_published_at_does_not_uses_current_date_when_empty_for_edit_date_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:date)
+    @article = Factory(:article, :published_at => nil)
+    initial_dropdowns  = '<input type="hidden">for year and <select>s for month and day and <select>s for time'
+    expected_html  = '<input type="text" size="4" class="nice-field">for year and <select>s for month and day and <select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    @f.should_receive(:date_select).with('published_at', {:discard_year => true, :include_blank => true}).and_return(initial_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_html], output
+  end
+
+  def test_admin_data_form_field_published_at_time_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:time)
+    @article = Factory(:article, :published_at => Time.parse('1:23:45'))
+    expected_year_input = '<input> for year'
+    expected_dropdowns  = '<select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    @f.should_receive(:time_select).with('published_at', {:include_blank => true}).and_return(expected_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_dropdowns], output
+  end
+
+  def test_admin_data_form_field_published_at_uses_current_date_for_new_time_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:time)
+    @article = Factory(:article, :published_at => Time.parse('1:23:45'))
+    expected_year_input = '<input> for year'
+    expected_dropdowns  = '<select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'new'})
+    @f.should_receive(:time_select).with('published_at', {:include_blank => true}).and_return(expected_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_dropdowns], output
+  end
+
+  def test_admin_data_form_field_published_at_does_not_uses_current_date_when_empty_for_edit_time_col
+    col = Article.columns_hash['published_at']
+    flexmock(col).should_receive(:type).and_return(:time)
+    @article = Factory(:article, :published_at => nil)
+    expected_year_input = 'blank year'
+    expected_dropdowns  = '<select>s for time'
+    flexmock(self).should_receive(:params).and_return({:action => 'edit'})
+    @f.should_receive(:time_select).with('published_at', {:include_blank => true}).and_return(expected_dropdowns)
+    output = admin_data_form_field(Article, @article, col, @f)
+    assert_equal [expected_dropdowns], output
   end
 
   def test_admin_data_form_field_foreign_key_article_id
