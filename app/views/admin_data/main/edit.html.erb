@@ -22,7 +22,10 @@
         <% form_for @klass.name.underscore.to_sym, @model, 
                     :url => admin_data_on_k_path(:klass => @klass.name, :id => @model), 
                     :html=> {:class => 'form', :method => :put} do |f| %>
-          <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
+
+                       
+               <%= render 'admin_data/main/misc/form', :klass => @klass, 
+                                                       :f => f %>
         <% end %>
       </div>
     </div>
