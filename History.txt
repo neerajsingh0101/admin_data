@@ -1,3 +1,7 @@
+=== 0.0.21 2009-10-26
+
+* fixed the formatting issue while displaying missing index in diagnostic section 
+
 === 0.0.20 2009-10-22
 
 * warning message if JavaScript is disabled

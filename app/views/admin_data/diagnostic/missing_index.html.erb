@@ -9,14 +9,20 @@
         <%= link_to 'Find missing database index', admin_data_diagnostic_missing_index_url %>
         <p>It is recommended that all foreign keys be indexed.</p>  
         <p>
-          Given below is the list of table and the foreign keys which do not have any index.
+          Given below is the migration code that should be performed to create index.  
         </p>
-        <% @indexes.each do |table, columns| 
-            columns.map do |column| %>
-              Table: <%= table %>
-              Column: <%= column %>
-            <% end %>
-        <% end %>
+        <table>
+          <% @indexes.each do |table, columns|
+               columns.map do |column| 
+          %>
+                 <tr>
+                   <td>
+                     add_index '<%=table%>','<%=column%>'
+                   </td>
+                 </tr>
+              <% end %>
+          <% end %>
+        </table>  
       </div>
     </div>
   </div>
