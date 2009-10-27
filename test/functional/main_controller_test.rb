@@ -56,22 +56,54 @@ class AdminData::MainControllerTest < ActionController::TestCase
                                                     :action => :table_structure,
                                                     :klass => 'article'
 
-  context 'testing filter ensure_is_allowed_to_update' do
+  context 'before filters' do
     setup do
-      @filter = @controller.class.before_filter.detect do |filter|
-        filter.kind_of?(ActionController::Filters::BeforeFilter) && 
-          filter.method == :ensure_is_allowed_to_update
+      @before_filters = @controller.class.before_filter.select do |filter|
+        filter.kind_of?(ActionController::Filters::BeforeFilter) 
       end
     end
-    should 'have filter called ensure_is_allowed_to_update' do
-      assert @filter
+    context 'ensure_is_allowed_to_view' do
+      setup do
+        @filter = @before_filters.detect do |filter|
+          filter.method == :ensure_is_allowed_to_view
+        end
+      end
+      should 'have filter called ensure_is_allowed_to_view' do
+        assert @filter
+        assert @filter.options.blank?
+      end
+      should 'be defined after get_class_from_params' do
+        the_three_filters = @before_filters.map(&:method).select do |method|
+          [:ensure_is_allowed_to_view, :get_class_from_params, :get_model_and_verify_it].include? method
+        end
+        assert_equal 3, the_three_filters.size
+        assert_equal :ensure_is_allowed_to_view, the_three_filters.last
+      end
     end
-    should 'have filter for actions' do
-      assert @filter.options[:only].include?('destroy')
-      assert @filter.options[:only].include?('del')
-      assert @filter.options[:only].include?('edit')
-      assert @filter.options[:only].include?('update')
-      assert @filter.options[:only].include?('create')
+
+    context 'ensure_is_allowed_to_update' do
+      setup do
+        @filter = @before_filters.detect do |filter|
+          filter.method == :ensure_is_allowed_to_update
+        end
+      end
+      should 'have filter called ensure_is_allowed_to_update' do
+        assert @filter
+      end
+      should 'have filter for actions' do
+        assert @filter.options[:only].include?('destroy')
+        assert @filter.options[:only].include?('del')
+        assert @filter.options[:only].include?('edit')
+        assert @filter.options[:only].include?('update')
+        assert @filter.options[:only].include?('create')
+      end
+      should 'be defined after get_class_from_params' do
+        the_three_filters = @before_filters.map(&:method).select do |method|
+          [:ensure_is_allowed_to_update, :get_class_from_params, :get_model_and_verify_it].include? method
+        end
+        assert_equal 3, the_three_filters.size
+        assert_equal :ensure_is_allowed_to_update, the_three_filters.last
+      end
     end
   end
 
@@ -396,6 +428,48 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :unauthorized
     should 'contain the  message' do
       assert_tag(:tag => 'h2', :content => 'not authorized')
+    end
+  end
+  
+  context 'fine grained access control' do
+    teardown do
+        AdminDataConfig.initialize_defaults
+    end
+    context 'allows view security check to access model' do
+      setup do
+        AdminDataConfig.set = {
+          :view_security_check => Proc.new { |controller| assert_equal(@article, controller.model); true } 
+        }
+        get :show, {:id => @article.id, :klass => Article.name.underscore } 
+      end
+      should_respond_with :success
+    end
+    context 'allows view security check to access klass' do
+      setup do
+        AdminDataConfig.set = {
+          :view_security_check => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
+        }
+        get :show, {:id => @article.id, :klass => Article.name.underscore } 
+      end
+      should_respond_with :success
+    end
+    context 'allows update security check to access model' do
+      setup do
+        AdminDataConfig.set = {
+          :update_security_check => Proc.new { |controller| assert_equal(@article, controller.model); true } 
+        }
+        get :edit, {:id => @article.id, :klass => Article.name.underscore } 
+      end
+      should_respond_with :success
+    end
+    context 'allows update security check to access klass' do
+      setup do
+        AdminDataConfig.set = {
+          :update_security_check => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
+        }
+        get :edit, {:id => @article.id, :klass => Article.name.underscore } 
+      end
+      should_respond_with :success
     end
   end
 

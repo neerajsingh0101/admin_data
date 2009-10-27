@@ -6,7 +6,7 @@ class AdminData::BaseController < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :ensure_is_allowed_to_view , :build_klasses, :build_drop_down_for_klasses
+  before_filter :build_klasses, :build_drop_down_for_klasses
 
   private
 

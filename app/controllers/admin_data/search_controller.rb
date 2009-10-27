@@ -3,6 +3,7 @@ class AdminData::SearchController  < AdminData::BaseController
   unloadable
 
   before_filter :get_class_from_params
+  before_filter :ensure_is_allowed_to_view
   before_filter :ensure_valid_children_klass, :only => [:search]
 
   def search
