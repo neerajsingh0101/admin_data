@@ -10,5 +10,16 @@ class AdminDataConfig
     self.setting ||= {} 
     self.setting.merge!(input)
   end
+  
+  def self.initialize_defaults
+    self.set = {
+      :plugin_dir             => File.expand_path(File.join(File.dirname(__FILE__),'..', '..')),
+      :will_paginate_per_page => 50,
+      :view_security_check    => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
+      :update_security_check  => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
+      :use_admin_data_layout  => true,
+      :find_conditions        => nil
+    }
+  end
 
 end

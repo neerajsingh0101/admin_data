@@ -11,15 +11,7 @@ require "#{rails_root}/config/environment.rb"
 #require all the lib items plugin needs
 Dir[File.join(File.dirname(__FILE__), '..', 'lib', 'admin_data', '*.rb')].each {|f| require f}
 
-
-AdminDataConfig.set = {
-  :plugin_dir => File.join(File.dirname(__FILE__),'..'),
-  :will_paginate_per_page => 50,
-  :view_security_check => lambda {|controller| return true },
-  :update_security_check => lambda {|controller| return false },
-  :use_admin_data_layout  => true
-}
-
+AdminDataConfig.initialize_defaults
 
 #require all the controllers plugins needs
 Dir[File.join(File.dirname(__FILE__), '..', 'app', 'controllers', 'admin_data', '*.rb')].each {|f| require f}
