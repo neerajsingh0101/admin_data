@@ -71,6 +71,10 @@ respects the primary_key set in the model.
 be restricted to allow editing of only one field. Look at the tips and trick 
 section at the bottom of README for more information.
 
+* Allows applications to override the AdminData UI so admin_data pages match 
+look and feel of the rest of your application.  Look at the tips and trick 
+section at the bottom of README for more information.
+
 ## Requirements
 
 * Rails project must be using Rails 2.2 or higher.
@@ -122,10 +126,10 @@ In the above case <tt>application_controller.rb</tt> must have two method
 
 ## Tested with
 
-I have tested this plugin with MySQL and PostgreSQL. 
+I have tested this plugin with MySQL, PostgreSQL and Oracle. 
 
 Run all the tests by going to the plugin directory and executing <tt>rake</tt> . 
-There are over 100 tests and all of them should pass.
+There are nearly 200 tests and all of them should pass.
 
 
 ## Feedback and bug report
@@ -283,4 +287,75 @@ ActionController::Routing::Routes.draw do |map|
   AdminData::Routing.connect_with map
   # ... more routing information
 end
+</pre>
+
+## Customizing the look and feel for admin_data pages
+
+For many cases the default look and feel of admin_data pages will work for you
+but there are several options for you when it doesn't
+
+### To use your application's layout for admin_data pages
+
+If you want admin_data pages to feel like a part of your application, 
+for instance including your header and footer then you can
+add the following setting in your
+<tt>config/initializers/admin_data_settings.rb</tt>.
+
+<pre>
+AdminDataConfig.set = {
+  :use_admin_data_layout  => false
+}
+</pre>
+
+To get the admin data styles and advanced search functionality make sure to add the following 
+include_tag commands to your layout files
+
+<pre>
+  <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/ui-lightness/ui.all.css" %> 
+  <%= AdminData::Util.stylesheet_link_tag('base','themes/drastic-dark/style','ui.selectmenu','app') %>
+
+  <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js') %>
+  <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js') %>
+  <%= AdminData::Util.javascript_include_tag('log', 'ui.selectmenu', 'app') %>
+  <%= AdminData::Util.javascript_include_tag('adv_search', 'jquery.form') %>
+</pre>
+
+### To change the way individual pages are rendered
+
+If you have certain styles you want to use or have the pages render very differently than what 
+admin_data provides then you can localize the erb files into your application and start editing 
+your copies.
+
+<pre>
+  rake admin_data:localize_views
+</pre>
+
+This will copy the views into your application's <tt>app/views/admin_data</tt> directory.  You own these
+copies and can do anything you like with them.
+
+Warning: When you upgrade the plugin it may break your erbs requiring you to re-edit them.
+
+### To customize edit fields for individual columns
+
+Perhaps your application has some non-standard Rails conventions that you'd like the admin_data edit forms
+to know about.  For example maybe all attributes in your models whose name ends with '_flag' should have a 
+dropdown with 'Yes' and 'No' (yes this is a real scenario that came from a legacy database that did not like 
+boolean columns). 
+
+You can override the <tt>admin_data_form_field</tt> helper method used by the edit views by adding something
+like what's below to <tt>app/helpers/admin_data_helper.rb</tt>.
+
+<pre>
+  # Methods added to this helper will override those defined in the admin_data plugin.
+  module AdminDataHelper
+    def admin_data_form_field(klass, model, col, f)
+      if col.name.match(/_flag$/) 
+        # columns names ending with '_flag'
+        f.select(col.name.to_sym, ['Yes', 'No'], {:include_blank => true}) 
+      else
+        # fall through to default admin_data handling
+        super
+      end
+    end
+  end
 </pre>
