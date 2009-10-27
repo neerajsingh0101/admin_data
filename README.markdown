@@ -100,7 +100,12 @@ If you are using Rails 2.2 then find the instruction at the bottom of this page.
 This plugin allows you to configure security check for both view and update 
 access. Default security check is to allow both view and update access in 
 development mode and restrict both view and update access in any other 
-environment. Given below is the default security.
+environment. 
+
+Given below are some example security rules you could use as a starting point
+for your application.  
+
+### Default security.
 
 <pre>
 AdminDataConfig.set = {
@@ -110,7 +115,8 @@ AdminDataConfig.set = {
 }
 </pre>
 
-Given below is one way to ensure authentication in other environments. 
+### Based on user role in the application
+ 
 Put the following lines of code in an initializer at 
 <tt>~/config/initializers/admin_data_settings.rb</tt> .
 
@@ -123,6 +129,29 @@ AdminDataConfig.set = {
 
 In the above case <tt>application_controller.rb</tt> must have two method 
 <tt>logged_in?</tt> and <tt>admin_logged_in?</tt> .
+
+### Based on the model being requested
+
+Let's say you only want users to be able to edit Users and Addresses (not any of the other models in your system) 
+and you also want to restrict updates to models that you've marked <tt>unlocked?</tt>.  
+
+Put the following lines of code in an initializer at 
+<tt>~/config/initializers/admin_data_settings.rb</tt> .
+
+<pre>
+VIEWABLE_CLASSES = [User, Address]
+
+AdminDataConfig.set = {
+  :view_security_check => lambda {|controller| VIEWABLE_CLASSES.include? controller.klass },
+  :update_security_check => lambda {|controller| VIEWABLE_CLASSES.include?(controller.klass) && 
+                                                 controller.model.unlocked? }
+}
+</pre>
+
+You are responsible for defining the <tt>VIEWABLE_CLASSES</tt> constant and the <tt>unlocked?</tt> method
+in your models.  AdminData will provide you with the <tt>model</tt> and <tt>klass</tt> methods on the
+controller it passes you.
+
 
 ## Tested with
 

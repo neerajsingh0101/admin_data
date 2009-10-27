@@ -24,6 +24,32 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                                                     :action => :advance_search,
                                                     :klass => 'article'
 
+  context 'before filters' do
+    setup do
+      @before_filters = @controller.class.before_filter.select do |filter|
+        filter.kind_of?(ActionController::Filters::BeforeFilter) 
+      end
+    end
+    context 'ensure_is_allowed_to_view' do
+      setup do
+        @filter = @before_filters.detect do |filter|
+          filter.method == :ensure_is_allowed_to_view
+        end
+      end
+      should 'have filter called ensure_is_allowed_to_view' do
+        assert @filter
+        assert @filter.options.blank?
+      end
+      should 'be defined after get_class_from_params' do
+        the_three_filters = @before_filters.map(&:method).select do |method|
+          [:ensure_is_allowed_to_view, :get_class_from_params].include? method
+        end
+        assert_equal 2, the_three_filters.size
+        assert_equal :ensure_is_allowed_to_view, the_three_filters.last
+      end
+    end
+  end
+  
   context 'get search car has_many association' do
     setup do
       Vehicle::Door.delete_all

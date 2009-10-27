@@ -19,6 +19,25 @@ class AdminData::DiagnosticControllerTest < ActionController::TestCase
   should_route :get, '/admin_data/missing_index', :controller => 'admin_data/diagnostic',
                                                   :action => :missing_index
 
+  context 'before filters' do
+    setup do
+      @before_filters = @controller.class.before_filter.select do |filter|
+        filter.kind_of?(ActionController::Filters::BeforeFilter) 
+      end
+    end
+    context 'ensure_is_allowed_to_view' do
+      setup do
+        @filter = @before_filters.detect do |filter|
+          filter.method == :ensure_is_allowed_to_view
+        end
+      end
+      should 'have filter called ensure_is_allowed_to_view' do
+        assert @filter
+        assert @filter.options.blank?
+      end
+    end
+  end
+
   context 'get diagnostic' do
     setup do
       get :index
