@@ -89,12 +89,23 @@ module AdminData::Helpers
     ''
   end
 
+  def admin_data_get_custom_value_for_column(column, model)
+    # some would say that if I use try method then I will not be raising exception and
+    # I agree. However in this case for clarity I would prefer to not to have try after each call
+    begin
+      AdminDataConfig.setting[:column_settings].fetch(model.class).fetch(column.name.intern).call(model)
+    rescue
+      model.send(column.name)
+    end
+  end
 
   # uses truncate method
   # options supports :limit which is applied if the column type is string or text
-  def admin_data_get_value_for_column(column, source, options = {})
+  def admin_data_get_value_for_column(column, model, options = {})
     options.reverse_merge!(:limit => 400)
-    value = source.send(column.name)
+
+    value = admin_data_get_custom_value_for_column(column, model)
+
     if column.type == :datetime
       value.strftime('%m/%d/%Y %H:%M:%S %p') unless value.blank?
     elsif column.type == :string || column.type == :text

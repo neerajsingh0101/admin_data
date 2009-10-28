@@ -97,6 +97,72 @@ If you are using Rails 2.2 then find the instruction at [wiki](http://wiki.githu
 http://localhost:3000/admin_data
 </pre>
 
+## Security check
+
+This plugin allows you to configure security check for both view and update 
+access. Default security check is to allow both view and update access in 
+development mode and restrict both view and update access in any other 
+environment. 
+
+Given below are some example security rules you could use as a starting point
+for your application.  
+
+## Customization Options
+
+Plugin allows user to customize the behavior through following options.
+
+<pre>
+AdminDataConfig.set = {
+  :will_paginate_per_page => 50,
+  :find_conditions => lambda {|params| ... }, 
+  :use_admin_data_layout  => false,
+  :column_settings => {}
+}
+</pre>
+
+Refer to 'tips and tricks' section at the bottom of this README to read detailed explanation
+of the each of the options. Here is a quick summary.
+
+* will_paginate: Change this setting if you want lesser or more number of records in the listing .
+* find_conditions: If one of your models has implemented <tt>to_param</tt> method then show method for 
+that model might or might not work. This option helps you to get around to that problem.
+* use_admin_data_layout: Change this setting if you want custom layout. 
+* column_settings: Use this option if you want to the value of a column of a model to rendered in a specific
+way .
+
+
+### Security
+
+Given below is the default security model.
+
+<pre>
+AdminDataConfig.set = {
+  :view_security_check => lambda {|controller| return true if Rails.env.development? },
+  :update_security_check => lambda {|controller| return true if Rails.env.development? }
+}
+</pre>
+
+You can override these two values by providing your own procs. These procs will have to both
+controller and the model so that you can have a really fine grained security model. Please
+refer to the security section of 'tips and tricks' at the bottom of this README page for
+some example code. 
+
+## How to cutomize options change security options
+
+Just create an initializer file named <tt>admin_data_settings.rb</tt> at <tt>config/initializers </tt>. 
+The full path to the file will be <tt>config/initializers/admin_data_settings.rb</tt> .
+
+In that file you can pass options like this.
+
+<pre>
+AdminDataConfig.set = {
+  :will_paginate_per_page => 100,
+  :view_security_check => lambda {|controller| return true if Rails.env.development? },
+  :update_security_check => lambda {|controller| return true if Rails.env.development? }
+}
+</pre>
+
+
 ## Tested with
 
 I have tested this plugin with MySQL, PostgreSQL and Oracle. 
@@ -133,3 +199,4 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 MIT
 
 Copyright (c) 2009 neerajdotname
+
