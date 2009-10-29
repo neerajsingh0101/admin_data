@@ -1,3 +1,7 @@
+=== 0.0.22 2009-10-29
+
+* advance search bug fix
+
 === 0.0.22 2009-10-26
 
 * fixed adding rows on advanced search
