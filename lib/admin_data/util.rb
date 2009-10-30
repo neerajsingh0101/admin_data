@@ -28,10 +28,10 @@ class AdminData::Util
   end
 
   def self.get_class_name_for_belongs_to_class(model, belongs_to_string)
-    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
-      value.macro == :belongs_to && value.name.to_s == belongs_to_string
-    end
-    data.klass if data
+    reflections = model.class.name.camelize.constantize.reflections
+    options = reflections.fetch(belongs_to_string.intern).send(:options)
+    return {:polymorphic => true} if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
+    {:klass_name => reflections[belongs_to_string.intern].klass.name }
   end
 
   def self.get_class_name_for_has_one_class(model, has_one_string)
