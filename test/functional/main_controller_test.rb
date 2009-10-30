@@ -131,6 +131,20 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
   end
 
+  context 'get show for article which belongs to tech_magazine' do
+    setup do
+      @article.magazine = TechMagazine.create
+      @article.save
+      get :show, {:id => @article.id, :klass => @article.class.name.underscore }
+    end
+    should_respond_with :success
+    should 'have association link for comments' do
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/comment/search?base=article#{s2}children=comments#{s2}model_id=#{@article.id}"
+       assert_tag(:tag => 'a', :attributes => {:href => url})
+    end
+  end
+
   context 'get show for article which has many comments' do
     setup do
       @comment1 = Factory(:comment, :article => @article)

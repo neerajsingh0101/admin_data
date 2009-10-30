@@ -3,6 +3,8 @@ class Article < ActiveRecord::Base
   set_primary_key 'article_id'
 
   has_many :comments, :dependent => :destroy
+  
+  belongs_to :magazine, :polymorphic => true
 
   before_save :set_body_html
 

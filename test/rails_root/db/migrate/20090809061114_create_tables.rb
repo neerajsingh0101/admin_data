@@ -9,7 +9,13 @@ class CreateTables < ActiveRecord::Migration
       t.datetime :published_at,   :null => true
       t.boolean :approved
       t.integer :hits_count
+      t.string :magazine_type
+      t.integer :magazine_id
 
+      t.timestamps
+    end
+
+    create_table :tech_magazines do |t|
       t.timestamps
     end
 
@@ -52,6 +58,7 @@ class CreateTables < ActiveRecord::Migration
 
   def self.down
     drop_table :comments
+    drop_table :tech_magaznines
     drop_table :articles
     drop_table :cars
     drop_table :doors

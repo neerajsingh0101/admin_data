@@ -12,13 +12,15 @@
 ActiveRecord::Schema.define(:version => 20090809061114) do
 
   create_table "articles", :primary_key => "article_id", :force => true do |t|
-    t.string   "title",                             :null => false
-    t.text     "body",                              :null => false
-    t.text     "body_html",                         :null => false
-    t.string   "status",       :default => "draft"
+    t.string   "title",                              :null => false
+    t.text     "body",                               :null => false
+    t.text     "body_html",                          :null => false
+    t.string   "status",        :default => "draft"
     t.datetime "published_at"
     t.boolean  "approved"
     t.integer  "hits_count"
+    t.string   "magazine_type"
+    t.integer  "magazine_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -26,6 +28,13 @@ ActiveRecord::Schema.define(:version => 20090809061114) do
   create_table "cars", :force => true do |t|
     t.integer  "year"
     t.string   "brand"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cities", :force => true do |t|
+    t.string   "name"
+    t.string   "permanent_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -51,6 +60,11 @@ ActiveRecord::Schema.define(:version => 20090809061114) do
   create_table "engines", :force => true do |t|
     t.integer  "cylinders"
     t.integer  "car_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tech_magazines", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
