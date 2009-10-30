@@ -2,15 +2,24 @@
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
   
-    <% AdminData::Util.belongs_to_what(klass).each do |bt| %>
+    <% AdminData::Util.belongs_to_what(klass).each do |bt| 
+       t = AdminData::Util.get_class_name_for_belongs_to_class(model,bt)
+       klass_name = t[:polymorphic] ? 'Polymorphic' : t[:klass_name]
+       belongs_to_record = model.send(bt)
+    %>
+
       &nbsp;      
-      <% if model.send(bt) %>
-         <%= link_to bt, admin_data_on_k_path(
-            :klass => AdminData::Util.get_class_name_for_belongs_to_class(model,bt).name.underscore, 
-            :id => model.send(bt)) %>        
-      <% else %>
+
+    <% if belongs_to_record && t[:polymorphic] %>
+         <%= link_to belongs_to_record.class.name, admin_data_on_k_path( :klass => belongs_to_record.class.name, 
+                                                                         :id => belongs_to_record) %>        
+      <% elsif belongs_to_record %>
+         <%= link_to klass_name, admin_data_on_k_path( :klass => klass_name, :id => model.send(bt)) %>        
+       <% else %>
           <%= bt %>              
+          <%= klass_name %>              
       <% end %>  
+
     <% end %>  
   </p> 
 <% end %>  
