@@ -123,8 +123,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should_respond_with :success
     should_assign_to :klasses
-    should 'have 5  models' do
-      assert_equal 6, assigns(:klasses).size
+    should 'have xx number of models' do
+      assert_equal 7, assigns(:klasses).size
     end
     should 'have Home tab selected' do
        assert_select('#main-navigation ul li.first.active')
@@ -140,7 +140,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/comment/search?base=article#{s2}children=comments#{s2}model_id=#{@article.id}"
+       url = "/admin_data/tech_magazine/#{@article.magazine.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -190,7 +190,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have belongs_to message' do
       assert_tag( :tag => 'p',
                   :attributes => {:class => 'belongs_to'},
-                  :descendant => {:tag => 'a', :child => /article/})
+                  :descendant => {:tag => 'a', :child => /Article/})
     end
     should 'have link to belongs_to association' do
        s2 = ERB::Util.html_escape('&')
@@ -208,7 +208,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have belongs_to message' do
       assert_tag( :tag => 'p',
                  :attributes => {:class => 'belongs_to'},
-                 :descendant => {:tag => 'a', :child => /car/})
+                 :descendant => {:tag => 'a', :child => /Vehicle::Car/})
     end
   end
 

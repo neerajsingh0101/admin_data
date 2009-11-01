@@ -19,10 +19,15 @@ module AdminData::Helpers
     elsif reflection = klass.reflections.values.detect { |reflection| 
                                              reflection.primary_key_name.to_sym == col.name.to_sym
                                              }
-      ref_klass = reflection.klass
-      association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
-      all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
-      html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
+         options = reflection.options                                    
+          if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
+            html << f.text_field(col.name)
+          else
+            ref_klass = reflection.klass
+            association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
+            all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
+            html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
+          end
 
     else
       case col.type

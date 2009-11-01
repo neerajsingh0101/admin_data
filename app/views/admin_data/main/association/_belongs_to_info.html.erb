@@ -11,10 +11,10 @@
       &nbsp;      
 
     <% if belongs_to_record && t[:polymorphic] %>
-         <%= link_to belongs_to_record.class.name, admin_data_on_k_path( :klass => belongs_to_record.class.name, 
+         <%= link_to belongs_to_record.class.name, admin_data_on_k_path( :klass => belongs_to_record.class.name.underscore, 
                                                                          :id => belongs_to_record) %>        
       <% elsif belongs_to_record %>
-         <%= link_to klass_name, admin_data_on_k_path( :klass => klass_name, :id => model.send(bt)) %>        
+         <%= link_to klass_name, admin_data_on_k_path( :klass => klass_name.underscore, :id => model.send(bt)) %>        
        <% else %>
           <%= bt %>              
           <%= klass_name %>              
