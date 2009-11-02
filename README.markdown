@@ -39,7 +39,7 @@ associated record is not present then there will be no link.
 * Quick search across all records in a table. Quick searches across all records 
 and all columns which are either 'string' type or 'text' type.
 
-* Advance search for each field of each of the tables. [click here](http://www.neeraj.name/admin_data/advance_search?klass=Article) 
+* Advance search for each field of each of the tables. [click here](http://demo.neeraj.name/admin_data/user/advance_search) 
 to see the options that are supported. Different options appear for diffent 
 data types. 
 
