@@ -77,4 +77,8 @@ end
 
 # to test helper tests
 require 'action_view/test_case' 
-require 'phocus' 
+begin
+  require 'phocus' 
+rescue LoadError
+  # it's alright if you don't have phocus
+end
