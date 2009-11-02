@@ -6,7 +6,7 @@ This is a plugin to manage your database records using browser.
 
 ## Live Demo
 
-[http://www.neeraj.name/admin_data](http://www.neeraj.name/admin_data)
+[http://demo.neeraj.name/admin_data](http://demo.neeraj.name/admin_data)
 
 Note that in the demo you will be accessing only 'read only' features. You will
 not be able to update/delete/create any record. 
