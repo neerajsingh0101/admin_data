@@ -1,4 +1,8 @@
-=== 0.0.22 2009-10-29
+=== 0.0.24 2009-11-03
+
+* advance search refactoring
+
+=== 0.0.23 2009-10-29
 
 * advance search bug fix
 
