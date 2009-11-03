@@ -77,11 +77,9 @@ table#view_table td {
 	padding: 6px 6px 6px 12px;
 }
 
-
 table#view_table tr:hover {
   background: #FFFFC0;
 }
-
 
 .logo {float: left;}
 
@@ -90,13 +88,10 @@ table#view_table tr:hover {
  margin: 10px;
 }
 
-
-#drop_down_value_klass {
+.drop_down_value_klass {
   width: 300px;
   font-size: 14px;
 }
-
-
 
 .klass_box { 
   margin:15px 0 15px 0;
@@ -110,7 +105,6 @@ table#view_table tr:hover {
 }
 
 .bigger_120 {font-size: 120%;}
-
 
 #footer p {
   float:left;
