@@ -4,6 +4,11 @@ module AdminData::Chelper
     AdminDataConfig.setting[:will_paginate_per_page]
   end
 
+  def admin_data_is_allowed_to_view_model?
+    return true if AdminDataConfig.setting[:is_allowed_to_view_model].call(self)
+    false
+  end
+
   def admin_data_is_allowed_to_update?
     return true if Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_update].call(self)
     false
