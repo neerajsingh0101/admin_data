@@ -5,7 +5,12 @@ module AdminData::Chelper
   end
 
   def admin_data_is_allowed_to_update?
-    return true if Rails.env.development? || AdminDataConfig.setting[:update_security_check].call(self)
+    return true if Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_update].call(self)
+    false
+  end
+
+  def admin_data_is_allowed_to_update_model?
+    return true if Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_update_model].call(self)
     false
   end
 

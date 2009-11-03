@@ -32,15 +32,23 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
     context 'ensure_is_allowed_to_view' do
       setup do
-        @filter = @before_filters.detect do |filter|
-          filter.method == :ensure_is_allowed_to_view
-        end
+        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view }
       end
       should 'have filter called ensure_is_allowed_to_view' do
         assert @filter
         assert @filter.options.blank?
       end
     end
+    context 'ensure_is_allowed_to_view_model' do
+      setup do
+        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_model }
+      end
+      should 'have filter called ensure_is_allowed_to_view_model' do
+        assert @filter
+        assert @filter.options.blank?
+      end
+    end
+
   end
   
   context 'get search car has_many association' do
