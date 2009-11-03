@@ -70,12 +70,7 @@ defined on them.
 respects the primary_key set in the model.
 
 * While editing a record, form allows all the fields to be edited. The form can
-be restricted to allow editing of only one field. Look at the tips and trick 
-section at the bottom of README for more information.
-
-* Allows applications to override the AdminData UI so admin_data pages match 
-look and feel of the rest of your application.  Look at the tips and trick 
-section at the bottom of README for more information.
+be restricted to allow editing of only one field. 
 
 ## Requirements
 
