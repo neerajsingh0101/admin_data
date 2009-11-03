@@ -9,6 +9,7 @@ class AdminData::MainController  < AdminData::BaseController
   before_filter :get_model_and_verify_it, :only => [:destroy, :del, :edit, :update, :show]
   
   before_filter :ensure_is_allowed_to_view
+  before_filter :ensure_is_allowed_to_view_model, :except => [:all_models, :index]
   before_filter :ensure_is_allowed_to_update, 
                 :only => [:destroy, :del, :edit, :update, :create]
 

@@ -11,12 +11,21 @@ class AdminData::BaseController < ApplicationController
   private
 
   def ensure_is_allowed_to_view
-    return true if Rails.env.development? || AdminDataConfig.setting[:view_security_check].call(self)
+    return true if Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)
+    render :text => '<h2>not authorized</h2>', :status => :unauthorized
+  end
+
+  def ensure_is_allowed_to_view_model
+    return true if Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view_model].call(self)
     render :text => '<h2>not authorized</h2>', :status => :unauthorized
   end
 
   def ensure_is_allowed_to_update
     render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
+  end
+
+  def ensure_is_allowed_to_update_model
+    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_model?
   end
 
   def get_class_from_params
