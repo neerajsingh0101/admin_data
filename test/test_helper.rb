@@ -1,5 +1,13 @@
+$:.unshift(File.join(File.dirname(__FILE__) + '..', 'lib'))
+$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app'))
+$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers'))
+$:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers','admin_data'))
+
+
+
 module AdminData
 end
+
 
 ENV['RAILS_ENV'] = 'test'
 
@@ -10,6 +18,10 @@ require "#{rails_root}/config/environment.rb"
 
 #require all the lib items plugin needs
 Dir[File.join(File.dirname(__FILE__), '..', 'lib', 'admin_data', '*.rb')].each {|f| require f}
+
+#require validation code
+f = File.join(File.dirname(__FILE__), '..', 'lib', '*.rb')
+Dir.glob(f).each {|file| require file }
 
 AdminDataConfig.initialize_defaults
 
@@ -22,7 +34,11 @@ ActionView::Base.send :include, AdminData::Helpers
 #require plugin routes
 require "#{rails_root}/../../config/routes.rb"
 
+#require all the controllers from the test controllers
+f = File.join(File.dirname(__FILE__), 'rails_root', 'app', 'controllers', '*.rb')
+Dir.glob(f).each {|controller| require controller }
 
+require 'test/unit'
 require 'test_help'
 silence_warnings { RAILS_ENV = ENV['RAILS_ENV'] }
 

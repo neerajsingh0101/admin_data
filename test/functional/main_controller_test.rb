@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
 
 f = File.join(File.dirname(__FILE__),'..','..','app','views')
 AdminData::MainController.prepend_view_path(f)
@@ -72,13 +72,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
         assert @filter
         assert @filter.options.blank?
       end
-      should 'be defined after get_class_from_params' do
-        the_three_filters = @before_filters.map(&:method).select do |method|
-          [:ensure_is_allowed_to_view, :get_class_from_params, :get_model_and_verify_it].include? method
-        end
-        assert_equal 3, the_three_filters.size
-        assert_equal :ensure_is_allowed_to_view, the_three_filters.last
-      end
     end
 
     context 'ensure_is_allowed_to_update' do
@@ -96,13 +89,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
         assert @filter.options[:only].include?('edit')
         assert @filter.options[:only].include?('update')
         assert @filter.options[:only].include?('create')
-      end
-      should 'be defined after get_class_from_params' do
-        the_three_filters = @before_filters.map(&:method).select do |method|
-          [:ensure_is_allowed_to_update, :get_class_from_params, :get_model_and_verify_it].include? method
-        end
-        assert_equal 3, the_three_filters.size
-        assert_equal :ensure_is_allowed_to_update, the_three_filters.last
       end
     end
   end

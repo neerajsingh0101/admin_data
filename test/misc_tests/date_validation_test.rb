@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
 
 require File.expand_path(File.join(File.dirname(__FILE__), '../../../admin_data/lib/admin_data_date_validation'))
 
