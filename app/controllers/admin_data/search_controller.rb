@@ -100,7 +100,9 @@ class AdminData::SearchController  < AdminData::BaseController
 
       when 'does_not_contain':
         unless col3.blank?
-          attribute_conditions << ["#{table_name}.#{col1} NOT #{like_operator} ?","%#{col3}%"] 
+          q = "#{table_name}.#{col1} is null OR "
+          q << "#{table_name}.#{col1} NOT #{like_operator} ?"
+          attribute_conditions << [q, "%#{col3}%"] 
         end
 
       when 'is_false':

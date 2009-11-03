@@ -5,6 +5,7 @@ class CreateTables < ActiveRecord::Migration
       t.string :title ,           :null => false
       t.text :body,               :null => false
       t.text :body_html,          :null => false
+      t.text :short_desc
       t.string :status,           :default => 'draft'
       t.datetime :published_at,   :null => true
       t.boolean :approved

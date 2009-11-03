@@ -218,6 +218,28 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
+  context 'xhr advance_search not like' do
+    setup do
+      Article.delete_all
+      Factory(:article, :short_desc => 'ruby')
+      Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
+      xml_http_request  :post,
+                        :advance_search, {:klass => Article.name.underscore, 
+                                          :sortby => 'article_id desc',
+                                          :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                                      :col2 => 'does_not_contain', 
+                                                                      :col3 => 'ruby'} }
+                            }
+    end
+    should_respond_with :success
+    should 'contain text' do
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 2 records found/ )
+    end
+  end
+
   context 'xhr advance_search with 2 results' do
     setup do
       Article.delete_all
@@ -384,7 +406,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                               { '429440_row' => { :col1 => 'body', 
                                                   :col2 => 'does_not_contain', 
                                                   :col3 => 'python'}})
-        assert_equal "(articles.body NOT LIKE '%python%')", hash[:cond]
+        assert_equal "(articles.body is null OR articles.body NOT LIKE '%python%')", hash[:cond]
       end
     end
 
