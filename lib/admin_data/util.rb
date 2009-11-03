@@ -13,7 +13,7 @@ class AdminData::Util
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','css',"#{arg}.css"))
       sum << f.read
     end
-    ['<style>', data, '</style>'].join
+    ["<style type='text/css'>", data, '</style>'].join
   end
 
   def self.get_class_name_for_habtm_association(model, habtm_string)
