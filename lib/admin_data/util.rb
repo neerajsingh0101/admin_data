@@ -5,7 +5,7 @@ class AdminData::Util
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','js',"#{arg}.js"))
       sum << f.read
     end
-    ['<script>', data, '</script>'].join
+    ['<script type="text/javascript">', data, '</script>'].join
   end
 
   def self.stylesheet_link_tag(*args)
