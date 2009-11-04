@@ -160,6 +160,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
       get :show, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :success
+    should 'have one association link for engine' do
+       s2 = ERB::Util.html_escape('&')
+       url = "/admin_data/engine/#{@engine.id}"
+       assert_tag(:tag => 'a',:content => /Engine/, :attributes => {:href => url})
+    end
   end
 
   context 'get show for city' do
