@@ -1,5 +1,4 @@
 # admin_data
-
 ## Introduction
 
 This is a plugin to manage your database records using browser. 
