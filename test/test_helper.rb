@@ -67,19 +67,19 @@ Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
 class ActiveSupport::TestCase
 
   def revoke_read_only_access 
-    AdminDataConfig.set=({:view_security_check => Proc.new { |controller| false } })
+    AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| false } })
   end
 
   def grant_read_only_access 
-    AdminDataConfig.set=({:view_security_check => Proc.new { |controller| true } })
+    AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| true } })
   end
 
   def grant_update_access
-    AdminDataConfig.set=({:update_security_check => Proc.new { |controller| true } })
+    AdminDataConfig.set=({:is_allowed_to_update => Proc.new { |controller| true } })
   end
 
   def revoke_update_access
-    AdminDataConfig.set=({:update_security_check => Proc.new { |controller| false } })
+    AdminDataConfig.set=({:is_allowed_to_update => Proc.new { |controller| false } })
   end
 
   def show_response
