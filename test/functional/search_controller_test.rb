@@ -414,7 +414,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                               { '429440_row' => { :col1 => 'body', 
                                                   :col2 => 'does_not_contain', 
                                                   :col3 => 'python'}})
-        assert_equal "(articles.body is null OR articles.body NOT LIKE '%python%')", hash[:cond]
+        assert_equal "(articles.body IS NULL OR articles.body NOT LIKE '%python%')", hash[:cond]
       end
     end
 
