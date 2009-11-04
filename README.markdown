@@ -132,6 +132,8 @@ Report any bug at [http://github.com/neerajdotname/admin_data/issues](http://git
 
 * [Alex Rothenberg](http://github.com/alexrothenberg)
 
+* [Subba Rao Pasupuleti](http://github.com/subbarao)
+
 ## License
 
 MIT
