@@ -444,30 +444,12 @@ class AdminData::MainControllerTest < ActionController::TestCase
     teardown do
         AdminDataConfig.initialize_defaults
     end
-    context 'allows view security check to access model' do
-      setup do
-        AdminDataConfig.set = {
-          :is_allowed_to_view => Proc.new { |controller| assert_equal(@article, controller.model); true } 
-        }
-        get :show, {:id => @article.id, :klass => Article.name.underscore } 
-      end
-      should_respond_with :success
-    end
     context 'allows view security check to access klass' do
       setup do
         AdminDataConfig.set = {
-          :is_allowed_to_view => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
+          :is_allowed_to_view_model => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
         }
         get :show, {:id => @article.id, :klass => Article.name.underscore } 
-      end
-      should_respond_with :success
-    end
-    context 'allows update security check to access model' do
-      setup do
-        AdminDataConfig.set = {
-          :is_allowed_to_update => Proc.new { |controller| assert_equal(@article, controller.model); true } 
-        }
-        get :edit, {:id => @article.id, :klass => Article.name.underscore } 
       end
       should_respond_with :success
     end
