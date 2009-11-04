@@ -38,8 +38,8 @@ module Search
 
     def operand_required?
       operator =~ /(contains|is_exactly|does_not_contain|is_on
-                     |is_on_or_before_date|is_on_or_after_date
-                     |greater_than|less_than|is_equal_to)/
+      |is_on_or_before_date|is_on_or_after_date
+      |greater_than|less_than|is_equal_to)/
     end
 
     def attribute_conditions
@@ -97,9 +97,22 @@ module Search
 
   end
 
-  def build_advance_search_conditions(klass, options = {} )
-    options ||= {}
-    terms         = options.collect {  |key,value| Term.new(klass,value) }
+  def build_search_conditions( klass ,search_term )
+    return nil if search_term.blank?
+    str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
+    condition = str_columns.collect do |column|
+      "#{klass.table_name}.#{column.name} #{like_operator} :search_term"
+    end.join(" OR ")
+    [ condition , { :search_term => "%#{search_term}%" } ]
+  end
+
+  def like_operator
+    ActiveRecord::Base.connection.adapter_name == 'PostgreSQL' ? 'ILIKE' : 'LIKE'
+  end
+
+  def build_advance_search_conditions(klass, options )
+    values        = ( options.blank? ? [] : options.values )
+    terms         = values.collect {  | value | Term.new(klass,value) }
     valid_terms   = terms.select{ | t | t.valid? }
     errors        = (terms - valid_terms).collect { |t| t.error }
     conditions    = valid_terms.collect { |t| t.attribute_conditions }
