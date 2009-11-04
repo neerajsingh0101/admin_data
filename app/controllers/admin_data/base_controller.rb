@@ -8,15 +8,27 @@ class AdminData::BaseController < ApplicationController
 
   before_filter :build_klasses, :build_drop_down_for_klasses
 
+  attr_reader :klass
+  attr_reader :model
+
   private
 
   def ensure_is_allowed_to_view
-    return true if Rails.env.development? || AdminDataConfig.setting[:view_security_check].call(self)
-    render :text => '<h2>not authorized</h2>', :status => :unauthorized
+    unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)
+      render :text => '<h2>not authorized</h2>', :status => :unauthorized
+    end
+  end
+
+  def ensure_is_allowed_to_view_model
+    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_view_model?
   end
 
   def ensure_is_allowed_to_update
     render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
+  end
+
+  def ensure_is_allowed_to_update_model
+    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_model?
   end
 
   def get_class_from_params
@@ -36,8 +48,12 @@ class AdminData::BaseController < ApplicationController
       model_dir = File.join(RAILS_ROOT,'app','models')
       model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
       klasses = get_klass_names(model_names)
-      $admin_data_klasses = remove_klasses_without_table(klasses).
-                                             sort_by {|r| r.name.underscore}
+      filtered_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
+      klasses_with_security_clearance = filtered_klasses.select do |klass_local|
+         @klass = klass_local
+         admin_data_is_allowed_to_view_model?
+      end
+      $admin_data_klasses = klasses_with_security_clearance
     end
     @klasses = $admin_data_klasses
   end

@@ -64,15 +64,24 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     context 'ensure_is_allowed_to_view' do
       setup do
-        @filter = @before_filters.detect do |filter|
-          filter.method == :ensure_is_allowed_to_view
-        end
+        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view}
       end
       should 'have filter called ensure_is_allowed_to_view' do
         assert @filter
         assert @filter.options.blank?
       end
     end
+
+    context 'ensure_is_allowed_to_view_model' do
+      setup do
+        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_model}
+      end
+      should 'have filter called ensure_is_allowed_to_view_model' do
+        assert @filter.options[:except].include?('all_models')
+        assert @filter.options[:except].include?('index')
+      end
+    end
+
 
     context 'ensure_is_allowed_to_update' do
       setup do
@@ -435,37 +444,19 @@ class AdminData::MainControllerTest < ActionController::TestCase
     teardown do
         AdminDataConfig.initialize_defaults
     end
-    context 'allows view security check to access model' do
-      setup do
-        AdminDataConfig.set = {
-          :view_security_check => Proc.new { |controller| assert_equal(@article, controller.model); true } 
-        }
-        get :show, {:id => @article.id, :klass => Article.name.underscore } 
-      end
-      should_respond_with :success
-    end
     context 'allows view security check to access klass' do
       setup do
         AdminDataConfig.set = {
-          :view_security_check => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
+          :is_allowed_to_view_model => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
         }
         get :show, {:id => @article.id, :klass => Article.name.underscore } 
-      end
-      should_respond_with :success
-    end
-    context 'allows update security check to access model' do
-      setup do
-        AdminDataConfig.set = {
-          :update_security_check => Proc.new { |controller| assert_equal(@article, controller.model); true } 
-        }
-        get :edit, {:id => @article.id, :klass => Article.name.underscore } 
       end
       should_respond_with :success
     end
     context 'allows update security check to access klass' do
       setup do
         AdminDataConfig.set = {
-          :update_security_check => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
+          :is_allowed_to_update => Proc.new { |controller| assert_equal(Article, controller.klass); true } 
         }
         get :edit, {:id => @article.id, :klass => Article.name.underscore } 
       end
