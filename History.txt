@@ -1,3 +1,7 @@
+=== 0.0.26 2009-11-04
+
+* cleaning up History.txt file 
+
 === 0.0.25 2009-11-03
 
 * fix for issue #14 so that not like will also include records which are null
@@ -148,19 +152,3 @@ as A,Q,B instead of A,B,Q.
 === 0.0.1 2009-05-01
 
 * Initial release
-
-
-
-
-
-TODO write test for javascript
-TODO if an invalid date value is entered then show appropriate message
-TODO change the response type to be JSON
-
-
-TODO when a record is destroyed then flash message is not appearing [test it]
-
-TODO allow a way to update an attribute that is protected from mass assignment
-
-TODO write test for hbtm relationship
-TODO use metaplugin to get the information regarding columns
