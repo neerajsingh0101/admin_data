@@ -5,8 +5,7 @@ module AdminData::Chelper
   end
 
   def admin_data_is_allowed_to_view_model?
-    return true if AdminDataConfig.setting[:is_allowed_to_view_model].call(self)
-    false
+    AdminDataConfig.setting[:is_allowed_to_view_model].call(self)
   end
 
   def admin_data_is_allowed_to_update?
