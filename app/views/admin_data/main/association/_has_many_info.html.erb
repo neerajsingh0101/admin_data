@@ -2,7 +2,7 @@
   <p>
     <strong>has_many :</strong>
       <% AdminData::Util.has_many_what(klass).each do |hm| 
-          label = hm.classify + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
+          label = hm.camelize + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
       %>
       <% if AdminData::Util.has_many_count(model,hm) > 0 %>
         <%= link_to label, admin_data_search_path(:klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 

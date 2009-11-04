@@ -5,7 +5,7 @@
     <% AdminData::Util.has_one_what(klass).each do |bt| %>
       &nbsp;      
       <% if  model.send(bt) %>
-         <%= link_to bt.classify, admin_data_on_k_path( :klass => bt.underscore, :id => model.send(bt)) %>        
+         <%= link_to bt.camelize, admin_data_on_k_path( :klass => bt.underscore, :id => model.send(bt)) %>        
       <% else %>
           <%= bt %>              
       <% end %>  
