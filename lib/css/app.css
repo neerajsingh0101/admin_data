@@ -51,6 +51,11 @@ input[disabled], input[readonly], select[disabled], select[readonly], checkbox[d
  cursor: default;
 }
 
+input.col3 {
+  height:20px;
+  font-size: 16px;
+}
+
 span.searching_message{
   color: red;
   font-size: 25px;
