@@ -154,3 +154,16 @@ table#view_table tr:hover {
   z-index:101;
 }
 
+a:link, a:visited, a:active {
+  text-decoration: none;
+  color: #f03;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #f03;
+}
+
+#footer a, .group a, .pagination a {
+  color: #36393d;
+}

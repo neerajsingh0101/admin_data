@@ -1,5 +1,9 @@
 === 0.0.28 2009-11-11
 
+* better link color
+
+=== 0.0.28 2009-11-11
+
 * refactored the way advance search JavaScript code
 * for pretty urls like /42-SEO-friendly-title the show method should pickup 42 as id
 
