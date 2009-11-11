@@ -130,7 +130,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       @article.magazine = TechMagazine.create
       @article.save
-      get :show, {:id => @article.id, :klass => @article.class.name.underscore }
+      get :show, {:id => @article, :klass => @article.class.name.underscore }
     end
     should_respond_with :success
     should 'have association link for comments' do

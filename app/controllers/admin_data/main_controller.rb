@@ -99,7 +99,11 @@ class AdminData::MainController  < AdminData::BaseController
 
   def get_model_and_verify_it
     primary_key = @klass.primary_key.intern
-    condition = {primary_key => params[:id]}
+    conditional_id = params[:id] =~ /^(\d+)-.*/ ? params[:id].to_i : params[:id]
+    condition = {primary_key => conditional_id}
+
+    # see http://wiki.github.com/neerajdotname/admin_data/how-to-handle-to_param-case for
+    # more ways to customize the condition
 
     find_conditions_proc = AdminDataConfig.setting[:find_conditions]
     if find_conditions_proc
