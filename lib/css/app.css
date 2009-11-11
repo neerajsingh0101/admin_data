@@ -167,3 +167,7 @@ a:hover {
 #footer a, .group a, .pagination a {
   color: #36393d;
 }
+
+.association_info {
+  line-height: 20px;
+}

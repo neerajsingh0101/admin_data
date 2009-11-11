@@ -1,6 +1,6 @@
 <div class="block">
   <h3>Association Information</h3>
-  <div class='content'>
+  <div class='content association_info'>
     <% if AdminData::Util.admin_data_association_info_size(klass) %>
       <%= render 'admin_data/main/association/belongs_to_info' ,  :klass => klass, :model => model %>
       <%# FIXME has_one info breaking a few tests %>

@@ -1,3 +1,5 @@
+* has_many association_info were too close to each other
+
 === 0.0.28 2009-11-11
 
 * better link color
