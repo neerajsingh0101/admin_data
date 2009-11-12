@@ -1,4 +1,7 @@
+=== 0.0.28 2009-11-12
+
 * has_many association_info were too close to each other
+* fixing the issue where a class is used as a hash key. It breaks in development
 
 === 0.0.28 2009-11-11
 

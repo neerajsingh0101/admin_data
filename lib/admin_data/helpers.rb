@@ -93,7 +93,7 @@ module AdminData::Helpers
     # some would say that if I use try method then I will not be raising exception and
     # I agree. However in this case for clarity I would prefer to not to have try after each call
     begin
-      AdminDataConfig.setting[:column_settings].fetch(model.class).fetch(column.name.intern).call(model)
+      AdminDataConfig.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
     rescue
       model.send(column.name)
     end
