@@ -25,4 +25,8 @@ class AdminData::DiagnosticController  < AdminData::BaseController
       respond_to {|format| format.html}
    end
 
+   def validate_model
+     @page_title = 'validate model'
+   end
+
 end

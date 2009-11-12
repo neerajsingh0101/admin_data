@@ -171,3 +171,7 @@ a:hover {
 .association_info {
   line-height: 20px;
 }
+
+table#missing_index tr td {
+  height: 25px;
+}
