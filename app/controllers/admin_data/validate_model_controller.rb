@@ -64,7 +64,21 @@ class AdminData::ValidateModelController < AdminData::BaseController
 
     data = []
     File.open(bad_file, "r") do |f|
-      f.each_line { |line| data << "<p>#{line}</p>" }
+      f.each_line do |line| 
+         next if line.strip.blank?
+         data << "<p>" 
+         r = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
+         m = r.match(line) 
+         Rails.logger.info("line is:"+line)
+         Rails.logger.info(m.inspect)
+         output = render_to_string(:partial => 'bad', 
+                                   :layout => false, :locals => { 
+                                   :klasss => m[1],
+                                   :id => m[2],
+                                   :error => m[3]})
+         data << output
+         data << '</p>'
+      end
     end
 
     File.open(good_file, "r") do |f|

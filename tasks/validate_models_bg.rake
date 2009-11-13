@@ -11,7 +11,7 @@ namespace :admin_data do
       klass.paginated_each do |record|
         unless record.valid?
           a = []
-          a << klass.name.underscore
+          a << klass.name
           a << record.id
           a << record.errors.full_messages
           errors << a
