@@ -23,13 +23,18 @@
        <script type="text/javascript">jQuery.noConflict();</script>
     <% end %>
 
-    <%= AdminData::Util.javascript_include_tag('log', 'admin_data_js_util', 'ui.selectmenu', 'app') %>
+    <%= AdminData::Util.javascript_include_tag('vendor/log', 
+                                               'vendor/jquery.form', 
+                                               'admin_data_js_util', 
+                                               'vendor/ui.selectmenu', 
+                                               'validate_model/select_all', 
+                                               'validate_model/ajaxify_form', 
+                                               'app') %>
 
     <%# assert_tag is throwing a lot of warning with these inline javascripts.
         no need of these javascripts in test mode %>
     <% if params[:action] == 'advance_search' && !Rails.env.test? %>
       <%= AdminData::Util.javascript_include_tag('advance_search/adv_search', 
-                                                 'jquery.form', 
                                                  'advance_search/advance_search_structure', 
                                                  'advance_search/ajaxify_advance_search') %>
     <% end %>

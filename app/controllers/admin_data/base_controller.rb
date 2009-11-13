@@ -65,13 +65,14 @@ class AdminData::BaseController < ApplicationController
 
   def get_klass_names(model_names)
     model_names.inject([]) do |output, model_name|
-      class_name = model_name.sub(/\.rb$/,'').camelize
+      klass_name = model_name.sub(/\.rb$/,'').camelize
       begin
-        # for models like app/models/foo/bar/baz.rb
-         klass = class_name.split('::').inject(Object) do |klass, part| 
-            klass.const_get(part) 
-         end 
-        output << klass
+        #for models like app/models/foo/bar/baz.rb
+         #klass = class_name.split('::').inject(Object) do |klass, part| 
+            #klass.const_get(part) 
+         #end 
+        #output << klass
+        output << constantize_klass(klass_name)
       rescue Exception => e
         Rails.logger.debug e.message
       end

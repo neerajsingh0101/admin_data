@@ -1,5 +1,12 @@
 module AdminData::Chelper
 
+  def constantize_klass(klass_name)
+    # for models like app/models/foo/bar/baz.rb
+    klass_name.split('::').inject(Object) do |klass, part|
+      klass.const_get(part)
+    end
+  end
+
   def per_page
     AdminDataConfig.setting[:will_paginate_per_page]
   end

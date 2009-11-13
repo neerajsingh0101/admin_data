@@ -1,4 +1,4 @@
-class AdminData::DiagnosticController  < AdminData::BaseController 
+class AdminData::DiagnosticController < AdminData::BaseController 
 
    unloadable
 
@@ -23,10 +23,6 @@ class AdminData::DiagnosticController  < AdminData::BaseController
         end
       end
       respond_to {|format| format.html}
-   end
-
-   def validate_model
-     @page_title = 'validate model'
    end
 
 end

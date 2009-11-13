@@ -9,7 +9,11 @@ ActionController::Routing::Routes.draw do |map|
     admin_data.with_options :controller => 'diagnostic' do |m|
       m.diagnostic                  '/diagnostic',                    :action => 'index'
       m.diagnostic_missing_index    '/missing_index',                 :action => 'missing_index'
-      m.validate_model              '/validate_model',                :action => 'validate_model'
+    end
+
+    admin_data.with_options :controller => 'validate_model' do |m|
+      m.validate_model_index        '/validate_model',                         :action => 'index'
+      m.validate_model_validate     '/validate_model_validate',                :action => 'validate'
     end
 
     admin_data.with_options :controller => 'migration' do |m|
