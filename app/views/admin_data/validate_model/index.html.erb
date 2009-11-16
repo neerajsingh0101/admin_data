@@ -5,40 +5,37 @@
     </div>          
 
     <div class="content">          
-      <h2 class="title">Validate model</h2>
-      
       <div class='validate_model_umbrella'>
 
          <div class='lhs' style='float:left;width:200px;'>   
-      <div id='error' style='color:red;font-size:120%;'></div>
-      <form id="validate_model_form" method="post" style='padding:10px;'
-         action="/admin_data/validate_model_validate?tid=<%=Time.now.strftime('%Y%m%d%H%M%S')%>">
-         <%= check_box_tag 'validate_model_select_all' %>
-         <strong>
-           <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
-         </strong>  
-         <% $admin_data_klasses.each do |klass| %>
-            <p>
-              <%= check_box_tag klass.name, '1', false, :name => "model[#{klass.name.underscore}]" %>
-              <%= label_tag klass.name, nil, :id => klass.name.downcase.underscore %>
-            </p>
-         <% end %>   
-         <%= submit_tag('Start validation', :id => 'submit') %>
-      </form>
-   </div>
+            <h2 class="title">Validate model</h2>
+            <div id='error' style='color:red;font-size:120%;'></div>
+            <% tid = Time.now.strftime('%Y%m%d%H%M%S') %>
+            <div id='tid' style='display:none'><%=tid%></div>
+            <form id="validate_model_form" method="post" style='padding:10px;'
+               action="/admin_data/validate_model_validate?tid=<%=tid%>">
+               <%= check_box_tag 'validate_model_select_all' %>
+               <strong>
+               <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
+               </strong>  
+               <% $admin_data_klasses.each do |klass| %>
+                  <p>
+                  <%= check_box_tag klass.name, '1', false, :name => "model[#{klass.name.underscore}]" %>
+                  <%= label_tag klass.name, nil, :id => klass.name.downcase.underscore %>
+                  </p>
+               <% end %>   
+               <%= submit_tag('Start validation', :id => 'submit') %>
+            </form>
+         </div>
 
-   <div class='rhs' style='float:left;'>
-      <h2 id='validation_result' style='display:none;margin-left:0;'>Validation result</h2>
-      <div id='validate_model_rhs_data'>
+         <div class='rhs' style='float:left;'>
+            <h2 id='validation_result' style='display:none;margin-left:0;'>Validation result</h2>
+            <div id='validate_model_rhs_data'>
+            </div>
+         </div>
+
+         <div style='clear:both;'></div>
       </div>
-   </div>
-   <div style='clear:both;'></div>
-
-   </div>
-
-
-
-
     </div>
  </div>
 </div>

@@ -1,11 +1,14 @@
+require 'fileutils'
+
+
+
 namespace :admin_data do
   desc "Run model valiations"
   task :validate_models_bg => :environment do
-    tid = ENV['tid'] || Time.now.strftime('%Y%m%d%H%M%S')
-    #tid = '20091113100927'
-    klasses = ENV['klasses']
+    tid = ENV['TID'] 
+    klasses = ENV['KLASSES']
     klasses.split(',').each do |klasss|
-      klass = klasss.camelize.constantize 
+      klass = klasss.camelize.constantize
       puts "processing #{klass.name}"
       errors = []
       klass.paginated_each do |record|
@@ -26,6 +29,9 @@ namespace :admin_data do
         File.open(good_file, 'a') {|f| f.puts(s)}
       end
     end
+
+    processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
+    FileUtils.rm_r processing_file
 
   end
 end
