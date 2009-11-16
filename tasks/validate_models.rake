@@ -12,17 +12,22 @@ namespace :admin_data do
 
     Object.subclasses_of(ActiveRecord::Base).select { |c| c.base_class == c}.sort_by(&:name).each do |klass|
       next if klass.name == "CGI::Session::ActiveRecordStore::Session"
+      puts "processing #{klass.name}"
       invalid_count = 0
-      total = klass.count
-      chunk_size = 1000
-      (total / chunk_size + 1).times do |i|
-        chunk = klass.find(:all, :offset => (i * chunk_size), :limit => chunk_size)
-        chunk.reject(&:valid?).each do |record|
-          invalid_count += 1
-          puts "#{klass} #{record.id}: #{record.errors.full_messages.to_sentence}"
-        end rescue nil
+      begin
+        total = klass.count
+        chunk_size = 1000
+        (total / chunk_size + 1).times do |i|
+          chunk = klass.find(:all, :offset => (i * chunk_size), :limit => chunk_size)
+          chunk.reject(&:valid?).each do |record|
+            invalid_count += 1
+            puts "#{klass} #{record.id}: #{record.errors.full_messages.to_sentence}"
+          end rescue nil
+        end
+        puts "#{invalid_count} of #{total} #{klass.name.pluralize} are invalid." if invalid_count > 0
+      rescue Exception => e
+        puts "#{e.class}: #{e.message}#$/#{e.backtrace.join($/)}"
       end
-      puts "#{invalid_count} of #{total} #{klass.name.pluralize} are invalid." if invalid_count > 0
     end
   end
 end
