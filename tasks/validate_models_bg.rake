@@ -1,15 +1,14 @@
 require 'fileutils'
-
-
-
 namespace :admin_data do
   desc "Run model valiations"
   task :validate_models_bg => :environment do
-    tid = ENV['TID'] 
+    tid = ENV['TID']
     klasses = ENV['KLASSES']
     klasses.split(',').each do |klasss|
       klass = klasss.camelize.constantize
-      puts "processing #{klass.name}"
+      #processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
+      #File.open(processing_file, 'a') {|f| f.puts(klass.name) }
+      AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', klass.name)
       errors = []
       klass.paginated_each do |record|
         unless record.valid?
@@ -30,8 +29,7 @@ namespace :admin_data do
       end
     end
 
-    processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
-    FileUtils.rm_r processing_file
-
+    done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
+    File.open(done_file, 'a') {|f| f.puts('') }
   end
 end

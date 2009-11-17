@@ -12,15 +12,16 @@ class AdminData::ValidateModelController < AdminData::BaseController
   end
 
   def validate
-
     respond_to do |format|
       format.js do
-        if !params[:still_processing].blank? 
-            tid = params[:tid]
-            data = gather_data(tid)
-           processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
-           answer = File.exists?(processing_file) ? 'yes' : 'no' 
-          render :json => {:still_processing => answer, :data => data }
+        if !params[:still_processing].blank?
+          tid = params[:tid]
+          data = gather_data(tid)
+          done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
+          answer = File.exists?(done_file) ? 'no' : 'yes'
+          render :json => { :still_processing => answer, 
+                            :data => data, 
+                            :currently_processing_klass =>  currently_processing_klass(tid) }
         elsif params[:model].blank? || params[:model].empty?
           render :json => {:error => 'Please select at least one model' }
           return
@@ -29,7 +30,6 @@ class AdminData::ValidateModelController < AdminData::BaseController
           return
         else
           start_validation
-          data = gather_data(params[:tid])
           render :json => {:still_processing => 'yes' }
         end
       end
@@ -44,14 +44,17 @@ class AdminData::ValidateModelController < AdminData::BaseController
     FileUtils.rm_rf(f) if File.directory?(f)
     FileUtils.mkdir_p(f)
 
-    bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
-    File.open(bad_file, 'a') {|f| f.puts('') }
+    #bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'processing.txt')
+    #File.open(bad_file, 'a') {|f| f.puts('') }
+    AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', '')
 
-    bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'bad.txt')
-    File.open(bad_file, 'a') {|f| f.puts('') }
+    #bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'bad.txt')
+    #File.open(bad_file, 'a') {|f| f.puts('') }
+    AdminData::Util.write_to_validation_file(tid, 'bad.txt', 'a', '')
 
-    good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'good.txt')
-    File.open(good_file, 'a') {|f| f.puts('') }
+    #good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'good.txt')
+    #File.open(good_file, 'a') {|f| f.puts('') }
+    AdminData::Util.write_to_validation_file(tid, 'good.txt', 'a', '')
 
     klasses = params[:model].keys.join(',')
     call_rake('admin_data:validate_models_bg', {:tid => tid, :klasses => klasses} )
@@ -60,13 +63,17 @@ class AdminData::ValidateModelController < AdminData::BaseController
   def call_rake(task, options = {})
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
-    command =  "rake #{task} #{args.join(' ')} --trace 2>&1 >> #{Rails.root}/tmp/admin_data/rake.log &"
-    puts command
-    system(command)
+    command =  "rake #{task} #{args.join(' ')} &"
+    p1 = fork { system(command) }
+    Process.detach(p1)
+  end
+
+  def currently_processing_klass(tid)
+    processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'processing.txt')
+    File.readlines(processing_file).last
   end
 
   def gather_data(tid)
-    sleep 3
     good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')
     bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'bad.txt')
 
@@ -77,8 +84,6 @@ class AdminData::ValidateModelController < AdminData::BaseController
         data << "<p>"
         r = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
         m = r.match(line)
-        Rails.logger.info("line is:"+line)
-        Rails.logger.info(m.inspect)
         output = render_to_string(:partial => 'bad',
         :layout => false, :locals => {
           :klasss => m[1],
@@ -88,11 +93,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
         data << '</p>'
       end
     end
-
-    File.open(good_file, "r") do |f|
-      f.each_line { |line| data << "<p>#{line}</p>" }
-    end
-
+    File.open(good_file, "r") { |f| f.each_line { |line| data << "<p>#{line}</p>" } }
     data.join
   end
 

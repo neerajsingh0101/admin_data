@@ -1,5 +1,10 @@
 class AdminData::Util
 
+  def self.write_to_validation_file(tid, filename, mode, data)
+    file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , filename)
+    File.open(file, mode) {|f| f.puts(data) }
+  end
+
   def self.javascript_include_tag(*args)
     data = args.inject('') do |sum, arg|
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','js',"#{arg}.js"))
