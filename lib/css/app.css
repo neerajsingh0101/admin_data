@@ -175,3 +175,7 @@ a:hover {
 table#missing_index tr td {
   height: 25px;
 }
+
+#main .block .content #validate_model_rhs_data p {
+   font-size: 16px;
+}
