@@ -1,3 +1,9 @@
+=== 0.0.29 2009-11-18
+
+* rake task to validate all the models
+* ability to validate all the models using browser
+* increased the font size of overall app
+
 === 0.0.28 2009-11-12
 
 * has_many association_info were too close to each other

@@ -71,6 +71,8 @@ respects the primary_key set in the model.
 * While editing a record, form allows all the fields to be edited. The form can
 be restricted to allow editing of only one field. 
 
+* validate all the models through rake task as well using browser
+
 ## Requirements
 
 * Rails project must be using Rails 2.2 or higher.
