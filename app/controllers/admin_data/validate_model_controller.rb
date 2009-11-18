@@ -20,7 +20,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
           done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
           answer = File.exists?(done_file) ? 'no' : 'yes'
           render :json => { :still_processing => answer, 
-                            :data => data, 
+                            :data => data,
                             :currently_processing_klass =>  currently_processing_klass(tid) }
         elsif params[:model].blank? || params[:model].empty?
           render :json => {:error => 'Please select at least one model' }
@@ -30,7 +30,8 @@ class AdminData::ValidateModelController < AdminData::BaseController
           return
         else
           start_validation
-          render :json => {:still_processing => 'yes' }
+          base_url = request.protocol + request.host_with_port
+          render :json => {:still_processing => 'yes', :base_url => base_url }
         end
       end
     end
