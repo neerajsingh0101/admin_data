@@ -106,4 +106,8 @@ class AdminData::Util
     end
   end
 
+  def self.exception_info(e)
+    "#{e.class}: #{e.message}#$/#{e.backtrace.join($/)}"
+  end
+
 end

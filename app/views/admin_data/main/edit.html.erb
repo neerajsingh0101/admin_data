@@ -10,7 +10,6 @@
     Editing <%=@model.class.name%> id <%=@model.id%>
   </h2>        
   
-  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
 
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
@@ -18,10 +17,11 @@
     </div>         
 
     <div class="content">          
-      <div class="inner">
+      <div class="inner umbrella">
         <% form_for @klass.name.underscore.to_sym, @model, 
                     :url => admin_data_on_k_path(:klass => @klass.name, :id => @model), 
                     :html=> {:class => 'form', :method => :put} do |f| %>
+               <%= render 'admin_data/main/misc/flash_message', :model => @model %>
 
                        
                <%= render 'admin_data/main/misc/form', :klass => @klass, 
