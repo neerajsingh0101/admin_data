@@ -121,6 +121,12 @@ module AdminData::Helpers
     end
   end
 
+  def admin_data_get_label_values_pair_for(model)
+    model.class.columns.inject([]) do |sum, column|
+      sum << [column.name, h(admin_data_get_value_for_column(column, model, :limit => nil))]
+    end
+  end
+
   private
 
   def get_serialized_value(html, column_value)
