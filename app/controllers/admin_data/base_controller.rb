@@ -1,5 +1,7 @@
 class AdminData::BaseController < ApplicationController
 
+  unloadable
+
   helper_method :admin_data_is_allowed_to_update?
 
   layout 'admin_data' if AdminDataConfig.setting[:use_admin_data_layout]
