@@ -10,7 +10,12 @@
     </title>
     
     <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/ui-lightness/ui.all.css" %> 
-    <%= AdminData::Util.stylesheet_link_tag('base','themes/drastic-dark/style','ui.selectmenu','app') %>
+    <%= AdminData::Util.stylesheet_link_tag('base',
+                                            'themes/drastic-dark/style',
+                                            'ui.selectmenu',
+                                            'umbrella', 
+                                            'rounded', 
+                                            'app') %>
 
     <% if Rails.env.development? %>
        <script type="text/javascript">$ = 'foo';</script>

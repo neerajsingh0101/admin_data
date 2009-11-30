@@ -4,7 +4,6 @@
     <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
   <% end %>
 
-  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
 
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
@@ -13,11 +12,12 @@
     </div>          
 
     <div class="content">          
-      <div class="inner">
-        <h2>Create a new record</h2>
+      <div class="inner umbrella">
+        <h1>Create a new record</h1>
         <% form_for @klass.name.underscore.to_sym, @model, 
                     :url  => admin_data_on_k_index_path(:klass => @klass.name), 
                     :html => {:class => 'form', :method => :post} do |f| %>
+          <%= render 'admin_data/main/misc/flash_message', :model => @model %>
           <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
         <% end %>
       </div>

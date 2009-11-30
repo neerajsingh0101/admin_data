@@ -5,19 +5,13 @@
                @klass.columns.find_all {|col| params[:attr] == col.name}
             end
 %>
-
 <% @columns.each do |col| 
-  col_limit = col.limit || 255 %>
-  <div class='group'>
-    <div class='left'>
-      <strong><%= col.name %>:</strong>
-      (<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>)
-    </div>
-    <div class='right'>
-      <%= admin_data_form_field(klass, @model, col, f) %>
-    </div>
-    <div class='clear'></div>
-  </div>
+    col_limit = col.limit || 255 %>
+    <h2>
+      <%= col.name %>
+      <span>(<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>)</span>
+    </h2>
+    <%= admin_data_form_field(klass, @model, col, f) %>
 <% end %>
 
 <div class='group navform'>
