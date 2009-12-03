@@ -47,13 +47,13 @@ ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate("#{rails_root}/db/migrate")
 
 
-gem 'thoughtbot-shoulda','>= 2.10.2'
+gem 'shoulda','>= 2.10.2'
 require 'shoulda'
 
-gem 'mislav-will_paginate'
+gem 'will_paginate'
 require 'will_paginate'
 
-gem 'thoughtbot-factory_girl','>= 1.2.2'
+gem 'factory_girl','>= 1.2.2'
 require 'factory_girl'
 
 gem 'flexmock'

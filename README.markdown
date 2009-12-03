@@ -73,6 +73,8 @@ be restricted to allow editing of only one field.
 
 * validate all the models through rake task as well using browser
 
+* RSS feed for all the models
+
 ## Requirements
 
 * Rails project must be using Rails 2.2 or higher.
