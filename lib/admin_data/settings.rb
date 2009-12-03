@@ -7,6 +7,7 @@ class AdminDataConfig
                      plugin_dir            
                      will_paginate_per_page 
                      is_allowed_to_view 
+                     is_allowed_to_view_feed
                      is_allowed_to_view_model 
                      is_allowed_to_update
                      is_allowed_to_update_model
@@ -38,6 +39,9 @@ class AdminDataConfig
       :is_allowed_to_update_model   => lambda {|controller| return true },
       
       :use_admin_data_layout        => true,
+
+      :is_allowed_to_view_feed      => lambda {|controller|
+                                            returne true if Rails.env.development? || Rails.env.test?},
       
       :find_conditions              => nil
     }
