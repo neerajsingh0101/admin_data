@@ -190,7 +190,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have belongs_to message' do
       assert_tag( :tag => 'p',
                   :attributes => {:class => 'belongs_to'},
-                  :descendant => {:tag => 'a', :child => /Article/})
+                  :descendant => {:tag => 'a', :child => /article/})
     end
     should 'have link to belongs_to association' do
        s2 = ERB::Util.html_escape('&')
@@ -208,7 +208,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have belongs_to message' do
       assert_tag( :tag => 'p',
                  :attributes => {:class => 'belongs_to'},
-                 :descendant => {:tag => 'a', :child => /Vehicle::Car/})
+                 :descendant => {:tag => 'a', :child => /car/})
     end
   end
 

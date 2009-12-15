@@ -47,6 +47,7 @@ class AdminData::Util
   end
 
   def self.has_many_count(model, hm)
+    Rails.logger.debug "has_many_count: model is #{model.inspect} hm is #{hm.inspect}" if $debug_admin_data 
     model.send(hm.intern).count
   end
 

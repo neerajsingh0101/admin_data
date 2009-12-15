@@ -20,10 +20,9 @@ that one belongs_to relationship does not affect other relationships
          <%= link_to belongs_to_record.class.name.camelize, admin_data_on_k_path( :klass => belongs_to_record.class.name.underscore, 
                                                                          :id => belongs_to_record) %>        
       <% elsif belongs_to_record %>
-         <%= link_to klass_name, admin_data_on_k_path( :klass => klass_name.underscore, :id => model.send(bt)) %>        
+         <%= link_to bt, admin_data_on_k_path( :klass => klass_name.underscore, :id => model.send(bt)) %>        
        <% else %>
           <%= bt %>              
-          <%= klass_name %>              
       <% end %>  
 
    <% 

@@ -1,4 +1,10 @@
 
+=== 0.0.31 2009-12-15
+
+* association information is rescued so that show method works even if association info throws error
+* association info is displayed with belongs_to or has_many name instead of class name
+* debugging variable $debug_admin_data
+
 === 0.0.30 2009-12-02
 
 * RSS feed for all the models

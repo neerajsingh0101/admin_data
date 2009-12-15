@@ -43,3 +43,6 @@ require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_da
 AdminDataConfig.initialize_defaults
 
 require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','util.rb')
+
+
+$debug_admin_data = false
