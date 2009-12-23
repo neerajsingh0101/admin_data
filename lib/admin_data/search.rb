@@ -46,11 +46,11 @@ module Search
       return if valid? && operand_required? && operands.blank?
       case operator
       when 'contains':
-        ["#{sql_field_name} #{like_operator} ?","%#{operands}%"]
+        ["#{oraclize(sql_field_name)} #{like_operator} ?","%#{operands}%"]
       when 'is_exactly':
-        ["#{sql_field_name} = ?",operands]
+        ["#{oraclize(sql_field_name)} = ?",operands]
       when 'does_not_contain':
-        ["#{sql_field_name} IS NULL OR #{sql_field_name} NOT #{like_operator} ?","%#{operands}%"]
+        ["#{sql_field_name} IS NULL OR #{oraclize(sql_field_name)} NOT #{like_operator} ?","%#{operands}%"]
       when 'is_false':
         ["#{sql_field_name} = ?",false]
       when 'is_true':
@@ -74,6 +74,10 @@ module Search
       else
         # it means user did not select anything in operator. Ignore it.
       end
+    end
+
+    def oraclize(column_name)
+      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? "upper(#{column_name})" : column_name
     end
 
     def valid?
