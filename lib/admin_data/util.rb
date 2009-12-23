@@ -1,5 +1,31 @@
 class AdminData::Util
 
+  # klass_name = model_name.sub(/\.rb$/,'').camelize
+  # constantize_klass(klass_name)
+  def self.constantize_klass(klass_name)
+    klass_name.split('::').inject(Object) do |klass, part|
+      klass.const_get(part)
+    end
+  end
+
+  def self.columns_order(klass_s)
+    klass = self.constantize_klass(klass_s)
+    columns = klass.columns.map(&:name)
+    columns_symbol = columns.map(&:intern)
+
+    columns_order = AdminDataConfig.setting[:columns_order]
+    if columns_order && columns_order.has_key?(klass_s) && columns_order.fetch(klass_s)
+      primary_key = klass.send(:primary_key).intern
+      order = [primary_key] + columns_order.fetch(klass_s)
+      order.uniq!
+      sanitized_order = order - (order - columns_symbol)
+      sorted_columns = sanitized_order + (columns_symbol - sanitized_order)
+      sorted_columns.map(&:to_s)
+    else
+      columns
+    end
+  end
+
   def self.write_to_validation_file(tid, filename, mode, data)
     file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , filename)
     File.open(file, mode) {|f| f.puts(data) }
@@ -47,7 +73,7 @@ class AdminData::Util
   end
 
   def self.has_many_count(model, hm)
-    Rails.logger.debug "has_many_count: model is #{model.inspect} hm is #{hm.inspect}" if $debug_admin_data 
+    Rails.logger.debug "has_many_count: model is #{model.inspect} hm is #{hm.inspect}" if $debug_admin_data
     model.send(hm.intern).count
   end
 

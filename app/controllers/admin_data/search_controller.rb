@@ -39,7 +39,7 @@ class AdminData::SearchController  < AdminData::BaseController
     order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
     @records = @klass.paginate(  :page => params[:page],
                                  :per_page => per_page,
-                                 :order => params[:sortby],
+                                 :order => order,
                                  :conditions => cond )
     respond_to do |format|
       format.html { render }

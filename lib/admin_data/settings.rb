@@ -12,6 +12,7 @@ class AdminDataConfig
                      is_allowed_to_update
                      is_allowed_to_update_model
                      column_settings    
+                     columns_order
                      use_admin_data_layout ).collect(&:intern)
     
     extra_keys = input.keys - valid_keys
@@ -43,7 +44,9 @@ class AdminDataConfig
       :is_allowed_to_view_feed      => lambda {|controller|
                                             returne true if Rails.env.development? || Rails.env.test?},
       
-      :find_conditions              => nil
+      :find_conditions              => nil,
+
+      :columns_order                => nil                                      
     }
   end
 
