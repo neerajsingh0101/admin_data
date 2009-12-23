@@ -46,9 +46,9 @@ module Search
       return if valid? && operand_required? && operands.blank?
       case operator
       when 'contains':
-        ["#{oraclize(sql_field_name)} #{like_operator} ?","%#{operands}%"]
+        ["#{oraclize(sql_field_name)} #{like_operator} ?","%#{oraclize_term(operands)}%"]
       when 'is_exactly':
-        ["#{oraclize(sql_field_name)} = ?",operands]
+        ["#{oraclize(sql_field_name)} = ?",oraclize_term(operands)]
       when 'does_not_contain':
         ["#{sql_field_name} IS NULL OR #{oraclize(sql_field_name)} NOT #{like_operator} ?","%#{operands}%"]
       when 'is_false':
@@ -76,9 +76,6 @@ module Search
       end
     end
 
-    def oraclize(column_name)
-      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? "upper(#{column_name})" : column_name
-    end
 
     def valid?
       @error = nil
@@ -87,6 +84,23 @@ module Search
     end
 
     private
+
+    def oraclize(column_name)
+      self.class.oraclize(column_name)
+    end
+
+    def self.oraclize(column_name)
+      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? "upper(#{column_name})" : column_name
+    end
+
+    def oraclize_term(input)
+      self.class.oraclize_term(input)
+    end
+
+    def self.oraclize_term(input)
+      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? input.upcase : input
+    end
+
 
     def validate
       case operator
@@ -105,9 +119,11 @@ module Search
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     condition = str_columns.collect do |column|
-      "#{klass.table_name}.#{column.name} #{like_operator} :search_term"
+       table_column = "#{klass.table_name}.#{column.name}"
+       table_column = Search::Term.oraclize(table_column)
+      "#{table_column} #{like_operator} :search_term"
     end.join(" OR ")
-    [ condition , { :search_term => "%#{search_term}%" } ]
+    [ condition , { :search_term => "%#{Search::Term.oraclize_term(search_term)}%" } ]
   end
 
   def like_operator
