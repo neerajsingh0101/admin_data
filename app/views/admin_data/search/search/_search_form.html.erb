@@ -4,17 +4,12 @@
 
   <div class='search_box'>
     <div id='quick_search'>
-      <div class='group'>
-        <label class='label'>search keyword</label>
-        <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>"/>
-      </div>
-
-     <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
-
+        <label class='label' style='float:left;;padding-right:10px;'>search keyword</label>
+        <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>" style='float:left;'/>
+        <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
+        <div class='clear'></div>
+        <%= submit_tag 'Search', :name => nil, :disable_with => 'searching ...', :style => 'float:left;' %>
    </div>
-   <div style='margin-top:10px;'>
-     <%= submit_tag 'Search', :name => nil, :disable_with => 'searching ...' %>
-   </div>  
  </div>
 </form>
 <br />

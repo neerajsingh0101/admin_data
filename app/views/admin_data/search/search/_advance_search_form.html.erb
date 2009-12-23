@@ -6,7 +6,12 @@
     <div id='advance_search' class='search_box'>
      <table id='advance_search_table' class='advtable'>
      </table>
-     <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
+     <div class='group'>     
+         <label class='label'>sort by</label>
+         <select name='sortby' id='sortby' style='width:200px;'>
+            <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
+         </select>
+      </div> 
      <input type="submit" value="Search"/>
    </div>
 

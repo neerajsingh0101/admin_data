@@ -36,10 +36,11 @@ class AdminData::SearchController  < AdminData::BaseController
     @page_title = "Advance search #{@klass.name.underscore}"
     hash = build_advance_search_conditions(@klass, params[:adv_search])
     cond = hash[:cond]
+    order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
     @records = @klass.paginate(  :page => params[:page],
-    :per_page => per_page,
-    :order => params[:sortby],
-    :conditions => cond )
+                                 :per_page => per_page,
+                                 :order => params[:sortby],
+                                 :conditions => cond )
     respond_to do |format|
       format.html { render }
       format.js {

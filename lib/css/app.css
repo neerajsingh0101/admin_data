@@ -179,3 +179,5 @@ table#missing_index tr td {
 #main .block .content #validate_model_rhs_data p {
    font-size: 16px;
 }
+
+.clear {clear:both;}
