@@ -8,7 +8,11 @@ class AdminData::FeedController < AdminData::BaseController
     render :text => "usage: http://localhost:3000/admin_data/feed/user" and return if params[:klasss].blank?
     @klasss = params[:klasss]
 
-    @klass = @klasss.camelize.constantize
+    begin
+      @klass = @klasss.camelize.constantize
+    rescue NameError => e
+      render :text => "No constant was found with name #{params[:klasss]}" and return
+    end
   end
 
   private
