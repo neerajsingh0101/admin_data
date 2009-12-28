@@ -1,3 +1,7 @@
+=== 0.0.33 2009-12-27
+
+* added authentication for feed
+
 === 0.0.32 2009-12-23
 
 * the default search result for advance search should be primary key des

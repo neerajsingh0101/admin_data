@@ -15,11 +15,6 @@ class AdminData::BaseController < ApplicationController
 
   private
 
-  def ensure_is_allowed_to_view_feed
-    unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view_feed].call(self)
-      render :text => '<h2>not authorized</h2>', :status => :unauthorized
-    end
-  end
 
   def ensure_is_allowed_to_view
     unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)

@@ -5,7 +5,9 @@ xml.rss(:version=>"2.0"){
     xml.link(request.host_with_port)
     xml.description("feeds from AdminData #{@klasss}")
     xml.language('en-us')
-    @klass.send(:paginated_each) do |record|
+    # FIXME id is hardcoded user Klass.primary_key
+    h = {:order => 'id desc', :limit => 100}
+    @klass.find(:all, h).each do |record|
       xml.item do
         xml.title("#{@klasss} id: #{record.id}")
 

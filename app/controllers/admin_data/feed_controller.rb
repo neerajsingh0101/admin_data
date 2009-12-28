@@ -11,4 +11,21 @@ class AdminData::FeedController < AdminData::BaseController
     @klass = @klasss.camelize.constantize
   end
 
+  private
+
+  def ensure_is_allowed_to_view_feed
+    return if Rails.env.development? || Rails.env.test?
+    if AdminDataConfig.setting[:feed_authentication_user_id].blank? 
+      render :text => 'No user id has been supplied for feed' and return
+    end
+
+    if AdminDataConfig.setting[:feed_authentication_password].blank? 
+      render :text => 'No password has been supplied for feed' and return
+    end
+
+    authenticate_or_request_with_http_basic do |id, password|
+      id == AdminDataConfig.setting[:feed_authentication_user_id] && password == AdminDataConfig.setting[:feed_authentication_password]
+    end
+  end
+
 end
