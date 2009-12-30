@@ -29,10 +29,15 @@ table {
 
 .ram_drop_down {
 	font-size:15px;
-	width:180px;
+	width:280px;
 	padding:2px;
 	margin:2px;
 }
+
+.ram_drop_down option {
+   padding: 2px 5px;
+}
+
 .advtable td {
 	border-bottom:1px solid #F0F0EE;
 	padding:10px;

@@ -1,55 +1,57 @@
 module Search
 
+  class Dbbase
+    def initialize(operands, table_name, field_name)
+       @operands = operands
+       @table_name = table_name
+       @field_name = field_name
+    end
+    def like_operator
+      'LIKE'
+    end
+    def sql_field_name
+      "#{@table_name}.#{@field_name}"
+    end
+    def operands
+      @operands
+    end
+  end
+
+  class PostgresqlSpecific < Dbbase
+    def like_operator
+      'ILIKE'
+    end
+  end
+
+  class OracleSpecific < Dbbase
+    def sql_field_name
+      result = super
+      %w(contains is_exactly does_not_contain).include?(operator) ?  "upper(#{result})" : result
+    end
+    def operands
+      result = super
+      %w(contains is_exactly does_not_contain).include?(operator) ?  result.upcase : result
+    end
+  end
+
   class Term
 
-    attr_accessor :error, :table_name
-    attr_accessor :field, :operator, :operands
-
+    attr_accessor :error, :table_name, :field, :operator, :operands, :dbbase
 
     def initialize(klass, value, search_type)
       @table_name = klass.table_name
-      search_type == 'advance_search' ? compute_advance_search_fields(value) : compute_quick_search_fields(value)
-    end
+      compute_search_fields(value)
 
-    def compute_quick_search_fields(value)
-      compute_advance_search_fields(value)
-    end
-
-    def compute_advance_search_fields(value)
-      @field, @operator, @operands = value.values_at(:col1, :col2, :col3)
-      # field value is directly used in the sql statement. So it is important to sanitize it
-      @field      = @field.gsub(/\W/,'')
-      @operands   = (@operands.blank? ? @operands : @operands.downcase.strip)
-    end
-
-    def like_operator
-      ActiveRecord::Base.connection.adapter_name == 'PostgreSQL' ? 'ILIKE' : 'LIKE'
-    end
-
-    def sql_field_name
-       result = "#{table_name}.#{field}"
-       %w(contains is_exactly does_not_contain).include?(operator) ?  oraclize(result) : result
-    end
-
-    def operands
-       %w(contains is_exactly does_not_contain).include?(operator) ?  oraclize_term(@operands) : @operands
-    end
-
-    def values_after_cast
-      case operator
-      when /(is_on|is_on_or_before_date|is_on_or_after_date)/:
-        AdminDataDateValidation.validate(operands)
-      when /(is_equal_to|greater_than|less_than)/:
-        operands.to_i
+      adapter = ActiveRecord::Base.connection.adapter_name.downcase
+      if adapter =~ /postgresql/
+         self.dbbase = PostgresqlSpecific.new(@operands, table_name, field)
+      elsif adapter =~ /oracle/
+         self.dbbase = OracleSpecific.new(@operands, table_name, field)
       else
-        operands
+         self.dbbase = Dbbase.new(@operands, table_name, field)
       end
-    end
 
-    def operand_required?
-      operator =~ /(contains|is_exactly|does_not_contain|is_on
-      |is_on_or_before_date|is_on_or_after_date
-      |greater_than|less_than|is_equal_to)/
+      #raise dbbase.to_s
     end
 
     def attribute_condition
@@ -77,8 +79,8 @@ module Search
         ["#{sql_field_name} IS NOT NULL"]
 
       when 'is_on':
-        ["#{sql_field_name} >= ? AND #{sql_field_name} < ?",   values_after_cast.beginning_of_day, 
-                                                               values_after_cast.end_of_day]
+        ["#{sql_field_name} >= ? AND #{sql_field_name} < ?",   values_after_cast.beginning_of_day,
+        values_after_cast.end_of_day]
 
       when 'is_on_or_before_date':
         ["#{sql_field_name} <= ?",values_after_cast.end_of_day]
@@ -100,7 +102,6 @@ module Search
       end
     end
 
-
     def valid?
       @error = nil
       @error = validate
@@ -109,20 +110,38 @@ module Search
 
     private
 
-    def oraclize(column_name)
-      self.class.oraclize(column_name)
+    def like_operator
+       dbbase.like_operator
     end
 
-    def self.oraclize(column_name)
-      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? "upper(#{column_name})" : column_name
+    def sql_field_name
+       dbbase.sql_field_name
     end
 
-    def oraclize_term(input)
-      self.class.oraclize_term(input)
+    def operands
+       dbbase.operands
     end
 
-    def self.oraclize_term(input)
-      ActiveRecord::Base.connection.adapter_name.downcase =~ /oracle/ ? input.upcase : input
+    def operand_required?
+      operator =~ /(contains|is_exactly|does_not_contain|is_on |is_on_or_before_date|is_on_or_after_date |greater_than|less_than|is_equal_to)/
+    end
+
+    def compute_search_fields(value)
+      @field, @operator, @operands = value.values_at(:col1, :col2, :col3)
+      # field value is directly used in the sql statement. So it is important to sanitize it
+      @field      = @field.gsub(/\W/,'')
+      @operands   = (@operands.blank? ? @operands : @operands.downcase.strip)
+    end
+
+    def values_after_cast
+      case operator
+      when /(is_on|is_on_or_before_date|is_on_or_after_date)/:
+        AdminDataDateValidation.validate(operands)
+      when /(is_equal_to|greater_than|less_than)/:
+        operands.to_i
+      else
+        operands
+      end
     end
 
 
@@ -137,16 +156,17 @@ module Search
       end
     end
 
-  end
+  end # end of Term
+  
 
   def build_quick_search_conditions( klass, search_term )
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     conditions = str_columns.collect do |column|
-       t = Term.new(klass, {  :col1 => column.name, 
-                              :col2 => 'contains', 
-                              :col3 => search_term}, 'quick_search')
-       t.attribute_condition
+      t = Term.new(klass, {  :col1 => column.name,
+        :col2 => 'contains',
+      :col3 => search_term}, 'quick_search')
+      t.attribute_condition
     end
     AdminData::Util.or_merge_conditions(klass, *conditions)
   end
