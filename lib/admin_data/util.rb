@@ -1,5 +1,18 @@
 class AdminData::Util
 
+
+  # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions 
+  def self.or_merge_conditions(klass, *conditions)
+   segments = []
+   conditions.each do |condition|
+      unless condition.blank?
+         sql = klass.send(:sanitize_sql, condition)
+         segments << sql unless sql.blank?
+      end
+   end
+   "(#{segments.join(') OR (')})" unless segments.empty?
+  end
+
   # klass_name = model_name.sub(/\.rb$/,'').camelize
   # constantize_klass(klass_name)
   def self.constantize_klass(klass_name)
