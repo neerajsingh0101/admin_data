@@ -49,10 +49,10 @@ class AdminData::SearchController  < AdminData::BaseController
 
         if errors.size > 0
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
-                              :locals => {:errors => errors}
+                 :locals => {:errors => errors}
         else
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
-                              :locals => {:klass => @klass, :records => @records}
+                 :locals => {:klass => @klass, :records => @records}
         end
       }
     end
@@ -64,7 +64,8 @@ class AdminData::SearchController  < AdminData::BaseController
     if params[:base]
       model_klass = params[:base].camelize.constantize
       unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
-        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", :status => :not_found
+        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", 
+               :status => :not_found
       end
     end
   end
