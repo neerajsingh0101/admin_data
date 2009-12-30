@@ -4,7 +4,7 @@
     by Juan Maria Martinez Arce
        juan[at]insignia4u.com
 
-    light grey:                 #cfcfcf
+    light grey:                 #ededec
     medium grey:                #36393d
     dark grey:                  #1a1a1a
     interactive action yellow   #ffff88
@@ -45,7 +45,7 @@ a { -moz-outline: none; }
 
 body {
   color: #222;
-  background: #cfcfcf;
+  background: #ededec;
   font-family: helvetica, arial, sans-serif;
 }
 
@@ -213,7 +213,7 @@ hr {
 /* pagination */
 
 .pagination a, .pagination span {
-  background: #cfcfcf;
+  background: #ededec;
   -moz-border-radius: 3px;
   border: 1px solid #c1c1c1;
 }
@@ -255,11 +255,11 @@ hr {
 
 .form input.text_field, .form textarea.text_area {
   width: 100%;
-  border: 1px solid #cfcfcf;
+  border: 1px solid #ededec;
 }
 
 .form input.button {
-  background: #cfcfcf;
+  background: #ededec;
   -moz-border-radius: 5px;
   border: 1px solid #c1c1c1;
   padding: 2px 5px;

@@ -9,6 +9,8 @@
 
 .breadcrum {
   margin-bottom: 15px;
+  background: #fff;
+  padding: 10px 4px;
 }
 
 #quick_search_input { font-size:15px; }
@@ -186,3 +188,13 @@ table#missing_index tr td {
 }
 
 .clear {clear:both;}
+
+.rounded {
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari */
+}
+
+.powered_by {
+  font-family: Arial;
+  font-size: 12px;
+}
