@@ -1,10 +1,11 @@
 module Search
 
   class Dbbase
-    def initialize(operands, table_name, field_name)
+    def initialize(operands, table_name, field_name, operator)
        @operands = operands
        @table_name = table_name
        @field_name = field_name
+       @operator = operator
     end
     def like_operator
       'LIKE'
@@ -26,11 +27,11 @@ module Search
   class OracleSpecific < Dbbase
     def sql_field_name
       result = super
-      %w(contains is_exactly does_not_contain).include?(operator) ?  "upper(#{result})" : result
+      %w(contains is_exactly does_not_contain).include?(@operator) ?  "upper(#{result})" : result
     end
     def operands
       result = super
-      %w(contains is_exactly does_not_contain).include?(operator) ?  result.upcase : result
+      %w(contains is_exactly does_not_contain).include?(@operator) ?  result.upcase : result
     end
   end
 
@@ -42,16 +43,14 @@ module Search
       @table_name = klass.table_name
       compute_search_fields(value)
 
-      adapter = ActiveRecord::Base.connection.adapter_name.downcase
+      adapter = AdminDataConfig.setting[:adapter_name].downcase
       if adapter =~ /postgresql/
-         self.dbbase = PostgresqlSpecific.new(@operands, table_name, field)
+         self.dbbase = PostgresqlSpecific.new(@operands, table_name, field, operator)
       elsif adapter =~ /oracle/
-         self.dbbase = OracleSpecific.new(@operands, table_name, field)
+         self.dbbase = OracleSpecific.new(@operands, table_name, field, operator)
       else
-         self.dbbase = Dbbase.new(@operands, table_name, field)
+         self.dbbase = Dbbase.new(@operands, table_name, field, operator)
       end
-
-      #raise dbbase.to_s
     end
 
     def attribute_condition

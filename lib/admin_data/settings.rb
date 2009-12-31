@@ -21,6 +21,8 @@ class AdminDataConfig
     
     self.setting ||= {} 
     self.setting.merge!(input)
+
+    self.setting.merge!(:adapter_name =>  ActiveRecord::Base.connection.adapter_name)
   end
   
   def self.initialize_defaults
@@ -44,7 +46,7 @@ class AdminDataConfig
 
       :find_conditions              => nil,
 
-      :columns_order                => nil                                      
+      :columns_order                => nil
     }
   end
 

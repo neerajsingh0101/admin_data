@@ -116,7 +116,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'contain valid link at header breadcrum' do
       assert_tag( :tag => 'div',
-                  :attributes => {:class => 'breadcrum'},
+                  :attributes => {:class => 'breadcrum rounded'},
                   :descendant => {:tag => 'a', 
                                   :attributes => {:href => '/admin_data/comment/search'}})
     end
@@ -135,7 +135,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should 'contain proper link at header breadcum' do
        s = CGI.escape('vehicle/car')
        assert_tag(:tag => 'div', 
-                  :attributes => {:class => 'breadcrum'},
+                  :attributes => {:class => 'breadcrum rounded'},
                   :descendant => {:tag => 'a', 
                                   :attributes => {:href => "/admin_data/#{s}/search" }})
     end

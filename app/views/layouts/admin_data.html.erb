@@ -9,10 +9,11 @@
       admin_data
     </title>
     
-    <%= stylesheet_link_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/themes/ui-lightness/ui.all.css" %> 
-    <%= AdminData::Util.stylesheet_link_tag('base',
+    <%= AdminData::Util.stylesheet_link_tag(
+                                            'vendor/jquery-1.7.ui.core',
+                                            'vendor/jquery-1.7.ui.datepicker',
+                                            'base',
                                             'themes/drastic-dark/style',
-                                            'ui.selectmenu',
                                             'umbrella', 
                                             'rounded', 
                                             'app') %>
@@ -21,23 +22,21 @@
        <script type="text/javascript">$ = 'foo';</script>
     <% end %>
 
-    <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js') %>
-    <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js') %>
+    <!-- It is breaking the html markup and test is full of messages like 
+      ignoring attempt to close string with script Hence not including jquery.form in test -->
+    <%= AdminData::Util.javascript_include_tag('vendor/jquery-1.3.2.min',  
+                                               'vendor/jquery-ui-1.7.custom.min') unless Rails.env.test? %> 
 
     <% if Rails.env.development? %>
        <script type="text/javascript">jQuery.noConflict();</script>
     <% end %>
 
-    <!-- 
-      jquery.form is breaking the html markup and test is full of messages like 
-      ignoring attempt to close string with script
-      Hence not including jquery.form in test
-    -->
+    <!-- It is breaking the html markup and test is full of messages like 
+      ignoring attempt to close string with script Hence not including jquery.form in test -->
     <%= AdminData::Util.javascript_include_tag('vendor/jquery.form') unless Rails.env.test? %> 
 
     <%= AdminData::Util.javascript_include_tag('vendor/log', 
                                                'admin_data_js_util', 
-                                               'vendor/ui.selectmenu', 
                                                'validate_model/select_all', 
                                                'validate_model/ajaxify_form', 
                                                'app') %>
