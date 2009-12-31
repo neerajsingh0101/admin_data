@@ -11,9 +11,8 @@ class CreateTables < ActiveRecord::Migration
       t.boolean :approved
       t.integer :hits_count
       t.string :magazine_type
-      t.integer :magazine_id
-
       t.timestamps
+      t.integer :magazine_id # so that created_at and updated_at are not at the end
     end
 
     create_table :tech_magazines do |t|

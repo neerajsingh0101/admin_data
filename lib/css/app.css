@@ -9,6 +9,8 @@
 
 .breadcrum {
   margin-bottom: 15px;
+  background: #fff;
+  padding: 10px 4px;
 }
 
 #quick_search_input { font-size:15px; }
@@ -29,10 +31,15 @@ table {
 
 .ram_drop_down {
 	font-size:15px;
-	width:180px;
+	width:280px;
 	padding:2px;
 	margin:2px;
 }
+
+.ram_drop_down option {
+   padding: 2px 5px;
+}
+
 .advtable td {
 	border-bottom:1px solid #F0F0EE;
 	padding:10px;
@@ -86,7 +93,6 @@ table#view_table tr:hover {
   background: #FFFFC0;
 }
 
-.logo {float: left;}
 
 #model_drop_down {
  float: right;
@@ -96,7 +102,13 @@ table#view_table tr:hover {
 .drop_down_value_klass {
   width: 300px;
   font-size: 14px;
+  padding: 5px;
 }
+
+.drop_down_value_klass option {
+  padding: 2px;
+}
+
 
 .klass_box { 
   margin:15px 0 15px 0;
@@ -131,6 +143,7 @@ table#view_table tr:hover {
 
 #header {
   position: static; /* without this header does not show up in IE7 */
+  background: #474747;
 }
 
 .error {
@@ -181,3 +194,22 @@ table#missing_index tr td {
 }
 
 .clear {clear:both;}
+
+.rounded {
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari */
+}
+
+.powered_by {
+  font-family: Arial;
+  font-size: 12px;
+}
+
+#header h1.logo a:link, #header h1.logo a:visited {
+  float: left;
+  font: 45px Tahoma, Helvetica, Arial, Sans-Serif;
+  color: #222;
+  text-shadow: 0px 2px 3px #555;
+}
+
+

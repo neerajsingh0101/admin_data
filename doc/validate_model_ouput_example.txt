@@ -1,0 +1,26 @@
+Directory Structure
+-------------------
+
+RAILS_ROOT > tmp > admin_data > validate_model > 20091327095600 
+
+final.txt
+good.txt
+bad.txt
+
+
+
+======================================================================
+bad.txt
+-----------
+Comment | 7 | email is not valid 
+Article | 9 | title is required
+======================================================================
+
+======================================================================
+good.txt
+-----------
+Comment | 256 records: all valid
+Article | 34 records:  all valid
+======================================================================
+
+

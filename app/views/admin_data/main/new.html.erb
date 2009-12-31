@@ -4,14 +4,13 @@
     <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
   <% end %>
 
-
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
       <%= render 'admin_data/main/misc/secondary_navigation', :klass => @klass %>
       <div class="clear"></div>
     </div>          
 
-    <div class="content">          
+    <div class="content rounded">          
       <div class="inner umbrella">
         <h1>Create a new record</h1>
         <% form_for @klass.name.underscore.to_sym, @model, 

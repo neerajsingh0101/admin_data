@@ -1,5 +1,17 @@
 class AdminData::Util
 
+  # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions 
+  def self.or_merge_conditions(klass, *conditions)
+   segments = []
+   conditions.each do |condition|
+      unless condition.blank?
+         sql = klass.send(:sanitize_sql, condition)
+         segments << sql unless sql.blank?
+      end
+   end
+   "(#{segments.join(') OR (')})" unless segments.empty?
+  end
+
   # klass_name = model_name.sub(/\.rb$/,'').camelize
   # constantize_klass(klass_name)
   def self.constantize_klass(klass_name)
@@ -14,6 +26,7 @@ class AdminData::Util
     columns_symbol = columns.map(&:intern)
 
     columns_order = AdminDataConfig.setting[:columns_order]
+
     if columns_order && columns_order.has_key?(klass_s) && columns_order.fetch(klass_s)
       primary_key = klass.send(:primary_key).intern
       order = [primary_key] + columns_order.fetch(klass_s)
@@ -22,7 +35,14 @@ class AdminData::Util
       sorted_columns = sanitized_order + (columns_symbol - sanitized_order)
       sorted_columns.map(&:to_s)
     else
-      columns
+      if columns_symbol.include? :created_at
+        columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
+      end
+
+      if columns_symbol.include? :updated_at
+        columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
+      end
+      columns_symbol.map(&:to_s)
     end
   end
 
@@ -115,7 +135,7 @@ class AdminData::Util
     end
   end
 
-  def self.build_sort_options(klass,sortby)
+  def self.build_sort_options(klass, sortby)
     klass.columns.inject([]) do |result,column|
       name = column.name
 
