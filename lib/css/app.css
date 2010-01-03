@@ -96,7 +96,7 @@ table#view_table tr:hover {
 
 #model_drop_down {
  float: right;
- margin: 10px;
+ margin: 0 10px;
 }
 
 .drop_down_value_klass {
@@ -141,16 +141,10 @@ table#view_table tr:hover {
   float:left;
 }
 
-#header {
-  position: static; /* without this header does not show up in IE7 */
-  background: #474747;
-}
-
 .error {
    color: red;
    font-size: 16px;
 }
-
 
 #noscript-warning {
   background-color:#AE0000;
@@ -170,6 +164,8 @@ table#view_table tr:hover {
 a:link, a:visited, a:active {
   text-decoration: none;
   color: #f03;
+  color: #003366;
+  color: green;
 }
 
 a:hover {
@@ -205,11 +201,13 @@ table#missing_index tr td {
   font-size: 12px;
 }
 
+/*
 #header h1.logo a:link, #header h1.logo a:visited {
   float: left;
   font: 45px Tahoma, Helvetica, Arial, Sans-Serif;
   color: #222;
   text-shadow: 0px 2px 3px #555;
 }
+  */
 
 

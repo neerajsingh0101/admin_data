@@ -16,6 +16,7 @@
                                             'themes/drastic-dark/style',
                                             'umbrella', 
                                             'rounded', 
+                                            'header', 
                                             'app') %>
 
     <% if Rails.env.development? %>
@@ -57,8 +58,8 @@
       <br />
       <br />
     </noscript>
+    <%= render 'admin_data/main/misc/header', :drop_down_for_klasses => @drop_down_for_klasses %>
     <div id="container">
-      <%= render 'admin_data/main/misc/header', :drop_down_for_klasses => @drop_down_for_klasses %>
       <div id="wrapper">
         <%= yield %>
         <div class="clear"></div>      

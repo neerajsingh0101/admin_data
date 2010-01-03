@@ -8,7 +8,6 @@ input.button { cursor: pointer; }
     -webkit-border-radius: 5px; /* Safari */
 }
 
-
 .flash .error {
    background: #c00;
    color: #fff;

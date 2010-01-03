@@ -1,14 +1,10 @@
 <div id="header">
-  <h1 class='logo'>
-    <%= link_to 'admin_data', admin_data_index_path %>
-  </h1>
+  <div id='iheader'>
 
-  <div id='model_drop_down'>
-    <%= render '/admin_data/main/misc/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
-  </div>
+    <div id='logo'>
+      <%= link_to 'admin_data', admin_data_index_path %>
+    </div>  
 
-  <div class='clear'></div>
-  <div id="main-navigation">
     <ul>
       <li class="first <%=admin_data_am_i_active(
                                                  ['main','all_models index show table_structure new create edit'],
@@ -22,6 +18,13 @@
         <%= link_to 'Diagnostic', admin_data_diagnostic_path %>
       </li>
     </ul>
-    <div class="clear"></div>
+
+    <div id='model_drop_down'>
+      <%= render '/admin_data/main/misc/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
+    </div>
+
   </div>
-</div>    
+  <div class='clear'></div>
+</div>
+
+<div class='clear'></div>
