@@ -51,7 +51,11 @@ module AdminData::Helpers
          html << date_selects.gsub('type="hidden"', 'type="text" size="4" class="nice-field"')
 
       when :time
-        html << f.time_select(col.name, :include_blank => true)
+        # time_select method of rails is buggy and is causing problem
+         # 1 error(s) on assignment of multiparameter attributes
+         #
+         # will try again this method with Rails 3
+        #html << f.time_select(col.name, :include_blank => true, :include_seconds => true)
 
       when :boolean
          html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
