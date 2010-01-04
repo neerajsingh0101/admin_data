@@ -40,7 +40,7 @@ module AdminData::Helpers
          else 
             value = params[:action] == 'new' ? Time.now : column_value
             year_value = value.year if value
-            datetime_selects = f.datetime_select(col.name, :discard_year => true, :include_blank => true) 
+            datetime_selects = f.datetime_select(col.name, :include_blank => true) 
             html << datetime_selects.gsub('type="hidden"', 'type="text" size="4" class="nice-field"')
          end
 
