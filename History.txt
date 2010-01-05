@@ -1,3 +1,7 @@
+=== 0.0.35 2010-01-05
+
+* If invalid children value is passed in apply rescue
+
 === 0.0.34 2010-01-04
 
 * updated README

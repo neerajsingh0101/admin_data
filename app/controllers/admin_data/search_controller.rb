@@ -62,7 +62,12 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def ensure_valid_children_klass
     if params[:base]
-      model_klass = params[:base].camelize.constantize
+       begin
+         model_klass = params[:base].camelize.constantize
+       rescue NameError => e #incase params[:base] is junk value
+          render :text => "#{params[:base]} is an invalid value", :status => :not_found
+          return
+       end
       unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
         render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", 
                :status => :not_found
