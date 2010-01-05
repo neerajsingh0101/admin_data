@@ -19,6 +19,10 @@ module AdminData::Helpers
     elsif reflection = klass.reflections.values.detect { |reflection| 
                                              reflection.primary_key_name.to_sym == col.name.to_sym
                                              }
+
+      # in some edge cases following code throws exception. I am working on it.
+      # In the meantime I am putting a rescue block
+      begin
          options = reflection.options                                    
           if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
             html << f.text_field(col.name)
@@ -28,6 +32,11 @@ module AdminData::Helpers
             all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
             html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true) 
           end
+      rescue Exception => e
+        Rails.logger.info AdminData::Util.exception_info(e)
+        'could not retrieve' # returning nil
+      end
+
 
     else
       case col.type
