@@ -8,13 +8,12 @@ class AdminData::BaseController < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :build_klasses, :build_drop_down_for_klasses
+  before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter
 
   attr_reader :klass
   attr_reader :model
 
   private
-
 
   def ensure_is_allowed_to_view
     unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)
@@ -82,6 +81,15 @@ class AdminData::BaseController < ApplicationController
     @drop_down_for_klasses = @klasses.inject([]) do |result,klass|
       result << [klass.name.underscore, admin_data_search_url(:klass => klass.name.underscore)]
     end
+  end
+
+  def check_page_parameter
+   # Got hoptoad error because of url like http://localhost:3000/admin_data/User/advance_search?page=http://201.134.249.164/intranet/on.txt?
+   if params[:page].blank? || (params[:page] =~ /\A\d+\z/)
+      # proceed
+   else
+      render :text => 'Invalid params[:page]', :status => :unprocessable_entity 
+   end
   end
 
 end
