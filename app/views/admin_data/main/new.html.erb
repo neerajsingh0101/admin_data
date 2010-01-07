@@ -6,7 +6,7 @@
 
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
-      <%= render 'admin_data/main/misc/secondary_navigation', :klass => @klass %>
+      <%= render 'admin_data/shared/secondary_navigation', :klass => @klass %>
       <div class="clear"></div>
     </div>          
 
@@ -16,7 +16,7 @@
         <% form_for @klass.name.underscore.to_sym, @model, 
                     :url  => admin_data_on_k_index_path(:klass => @klass.name), 
                     :html => {:class => 'form', :method => :post} do |f| %>
-          <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+          <%= render 'admin_data/shared/flash_message', :model => @model %>
           <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
         <% end %>
       </div>

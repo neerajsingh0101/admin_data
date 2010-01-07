@@ -7,9 +7,9 @@ class AdminData::SearchController  < AdminData::BaseController
   before_filter :get_class_from_params
   before_filter :ensure_is_allowed_to_view
   before_filter :ensure_is_allowed_to_view_model
-  before_filter :ensure_valid_children_klass, :only => [:search]
+  before_filter :ensure_valid_children_klass, :only => [:quick_search]
 
-  def search
+  def quick_search
     @page_title = "Search #{@klass.name.underscore}"
     order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
 
@@ -71,6 +71,7 @@ class AdminData::SearchController  < AdminData::BaseController
       unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
         render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", 
                :status => :not_found
+        return
       end
     end
   end

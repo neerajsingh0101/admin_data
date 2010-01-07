@@ -1,7 +1,7 @@
 module AdminData::Helpers
 
   def breadcrum(&block)
-    partial_value = render(:partial => '/admin_data/main/misc/breadcrum', :locals => {:data => capture(&block)}) 
+    partial_value = render(:partial => '/admin_data/shared/breadcrum', :locals => {:data => capture(&block)}) 
     concat(partial_value)
   end
 

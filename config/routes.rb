@@ -8,12 +8,12 @@ ActionController::Routing::Routes.draw do |map|
 
     admin_data.with_options :controller => 'diagnostic' do |m|
       m.diagnostic                  '/diagnostic',                      :action => 'index'
-      m.diagnostic_missing_index    '/missing_index',                   :action => 'missing_index'
+      m.diagnostic_missing_index    '/diagnostic/missing_index',        :action => 'missing_index'
     end
 
     admin_data.with_options :controller => 'validate_model' do |m|
-      m.validate_model_index        '/validate_model',                  :action => 'index'
-      m.validate_model_validate     '/validate_model_validate',         :action => 'validate'
+      m.validate_model_index        '/diagnostic/validate',             :action => 'index'
+      m.validate_model_validate     '/diagnostic/validate_model',       :action => 'validate'
     end
 
     admin_data.with_options :controller => 'migration' do |m|
@@ -21,22 +21,22 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     admin_data.with_options :controller => 'feed' do |m|
-      m.feed                        '/feed/:klasss',                     :action => 'index', :format => :rss
+      m.feed                        '/feed/:klasss',                    :action => 'index', 
+                                                                        :format => :rss
     end
 
     admin_data.with_options :controller => 'search' do |m|
-      m.search                      '/:klass/search',                   :action => 'search'
-      m.advance_search              '/:klass/advance_search',           :action => 'advance_search'
+      m.search                      '/quick_search/:klass',             :action => 'quick_search'
+      m.advance_search              '/advance_search/:klass',           :action => 'advance_search'
     end
 
     admin_data.resources  :on_k,
                           :as => ':klass',
-                          :path_prefix => 'admin_data',
+                          :path_prefix => 'admin_data/klass',
                           :controller => 'main',
                           :member => {:del => :delete},
                           :collection => {:table_structure => :get}
 
   end
-
 
 end

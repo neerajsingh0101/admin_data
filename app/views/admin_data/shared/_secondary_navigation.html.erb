@@ -1,6 +1,6 @@
 <ul>
 
-  <li class="first <%=admin_data_am_i_active(['main','list'],['search','search'])%>">
+  <li class="first <%=admin_data_am_i_active(['main','list'],['search','quick_search'])%>">
     <%= link_to 'Quick Search',admin_data_search_path(:klass => klass.name.underscore) %> 
   </li>
   <li class="<%=admin_data_am_i_active(['search','advance_search'])%>">
@@ -11,7 +11,7 @@
   </li>
   
   <% if admin_data_is_allowed_to_update? %>
-    <li class="<%=admin_data_am_i_active(['main','new'])%>">
+     <li class=" <%=admin_data_am_i_active(['main','new'])%> <%=admin_data_am_i_active(['main','create'])%> ">
       <%= link_to '+Add New Record', new_admin_data_on_k_path(:klass => klass.name.underscore) %>
     </li>
   <% end %>  

@@ -15,14 +15,15 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/article/search',  :controller => 'admin_data/search',
-                                                    :action => :search,
-                                                    :klass => 'article'
+  should_route :get, '/admin_data/quick_search/article',  
+                                                   :controller => 'admin_data/search',
+                                                   :action => :quick_search,
+                                                   :klass => 'article'
 
-  should_route :get, '/admin_data/article/advance_search',  
-                                                    :controller => 'admin_data/search',
-                                                    :action => :advance_search,
-                                                    :klass => 'article'
+  should_route :get, '/admin_data/advance_search/article',  
+                                                   :controller => 'admin_data/search',
+                                                   :action => :advance_search,
+                                                   :klass => 'article'
 
   context 'before filters' do
     setup do
@@ -56,7 +57,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Vehicle::Door.delete_all
       @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
       @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id) 
-      get :search, {  :klass => @door1.class.name.underscore, 
+      get :quick_search, {  :klass => @door1.class.name.underscore, 
                       :base => @car.class.name.underscore, 
                       :model_id => @car.id, 
                       :children => 'doors'}
@@ -80,7 +81,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
-      get :search, { :klass => Comment.name.underscore, 
+      get :quick_search, { :klass => Comment.name.underscore, 
                      :base => 'article',  
                      :model_id => @article.id, 
                      :children => 'comments' }
@@ -99,9 +100,10 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   context 'get search for children but children class is wrong' do
     setup do
-      get :search, { :base => 'article',  :klass => 'comment', 
-                                          :model_id => @article.id, 
-                                          :children => 'wrong_children_name' }
+      get :quick_search, { :base => 'article',  
+                           :klass => 'comment', 
+                           :model_id => @article.id, 
+                           :children => 'wrong_children_name' }
     end
     should_respond_with :not_found
   end
@@ -111,17 +113,17 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       @comment = Factory(:comment)
       @comment = Factory(:comment)
-      get :search, {:klass => @comment.class.name.underscore}
+      get :quick_search, {:klass => @comment.class.name.underscore}
     end
     should_respond_with :success
     should 'contain valid link at header breadcrum' do
       assert_tag( :tag => 'div',
                   :attributes => {:class => 'breadcrum rounded'},
                   :descendant => {:tag => 'a', 
-                                  :attributes => {:href => '/admin_data/comment/search'}})
+                                  :attributes => {:href => '/admin_data/quick_search/comment'}})
     end
     should 'contain proper link at table listing' do
-      url = "/admin_data/comment/#{Comment.last.id}"
+      url = "/admin_data/klass/comment/#{Comment.last.id}"
       assert_tag( :tag => 'td', :descendant => {:tag => 'a', 
                                                 :attributes => {:href => url}})
     end
@@ -129,7 +131,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   context 'get search for car' do
     setup do
-      get :search, {:klass => @car.class.name.underscore}
+      get :quick_search, {:klass => @car.class.name.underscore}
     end
     should_respond_with :success
     should 'contain proper link at header breadcum' do
@@ -137,11 +139,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
        assert_tag(:tag => 'div', 
                   :attributes => {:class => 'breadcrum rounded'},
                   :descendant => {:tag => 'a', 
-                                  :attributes => {:href => "/admin_data/#{s}/search" }})
+                                  :attributes => {:href => "/admin_data/quick_search/#{s}" }})
     end
     should 'contain proper link at table listing' do
        s = CGI.escape("vehicle/car")
-       url = "/admin_data/#{s}/#{@car.class.last.id}"
+       url = "/admin_data/klass/#{s}/#{@car.class.last.id}"
        assert_tag(:tag => 'td',
                   :descendant => {:tag => 'a', :attributes => {:href => url}})
     end
@@ -162,7 +164,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   context 'get search with no search query' do
     setup do
-      get :search, {:klass => Article.name.underscore}
+      get :quick_search, {:klass => Article.name.underscore}
     end
     should_respond_with :success
     should_assign_to :records
@@ -175,7 +177,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :search, {:klass => 'Article', :query => 'python'}
+      get :quick_search, {:klass => 'Article', :query => 'python'}
     end
     should_respond_with :success
     should_assign_to :records
@@ -193,7 +195,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :search, {:klass => 'Article',  :query => 'python', 
+      get :quick_search, {:klass => 'Article',  :query => 'python', 
                                           :sortby => 'article_id desc'}
     end
     should_respond_with :success

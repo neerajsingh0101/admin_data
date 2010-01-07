@@ -4,11 +4,11 @@
     <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
   <% end %>
   
-  <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+  <%= render 'admin_data/shared/flash_message', :model => @model %>
   
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
-      <%= render 'admin_data/main/misc/secondary_navigation', :klass => @klass %>
+      <%= render 'admin_data/shared/secondary_navigation', :klass => @klass %>
       <div class="clear"></div>
     </div>          
     <div class="content rounded">          

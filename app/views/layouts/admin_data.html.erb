@@ -58,13 +58,13 @@
       <br />
       <br />
     </noscript>
-    <%= render 'admin_data/main/misc/header', :drop_down_for_klasses => @drop_down_for_klasses %>
+    <%= render 'admin_data/shared/header', :drop_down_for_klasses => @drop_down_for_klasses %>
     <div id="container">
       <div id="wrapper">
         <%= yield %>
         <div class="clear"></div>      
       </div>    
-      <%= render :partial => 'admin_data/main/misc/powered_by' %>
+      <%= render :partial => 'admin_data/shared/powered_by' %>
     </div>
   </body>
   

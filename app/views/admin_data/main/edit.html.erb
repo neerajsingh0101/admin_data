@@ -18,7 +18,7 @@
         <% form_for @klass.name.underscore.to_sym, @model, 
                     :url => admin_data_on_k_path(:klass => @klass.name, :id => @model), 
                     :html=> {:class => 'form', :method => :put} do |f| %>
-               <%= render 'admin_data/main/misc/flash_message', :model => @model %>
+               <%= render 'admin_data/shared/flash_message', :model => @model %>
 
                        
                <%= render 'admin_data/main/misc/form', :klass => @klass, 

@@ -2,5 +2,5 @@
    <option></option>      
    <% k = params[:klass] || '' %>
    <%= options_for_select(drop_down_for_klasses, 
-                        "http://#{request.host_with_port}/admin_data/#{CGI.escape(k)}/search") %>
+                        "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}") %>
 </select>
