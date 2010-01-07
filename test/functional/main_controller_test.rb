@@ -17,41 +17,46 @@ class AdminData::MainControllerTest < ActionController::TestCase
   should_route :get, '/admin_data',                 :controller => 'admin_data/main', 
                                                     :action => :all_models
 
-  should_route :get, '/admin_data/article/1',       :controller => 'admin_data/main', 
+  should_route :get, '/admin_data/klass/article/1', :controller => 'admin_data/main', 
                                                     :action => :show, 
                                                     :klass => 'article', 
                                                     :id => 1
 
-  should_route :delete, '/admin_data/article/1',    :controller => 'admin_data/main', 
+  should_route :delete, '/admin_data/klass/article/1',    
+                                                    :controller => 'admin_data/main', 
                                                     :action => :destroy,
                                                     :klass => 'article',
                                                     :id => 1
 
-  should_route :delete, '/admin_data/article/1/del',  
+  should_route :delete, '/admin_data/klass/article/1/del',  
                                                     :controller => 'admin_data/main', 
                                                     :action => :del,
                                                     :klass => 'article',
                                                     :id => 1
 
-  should_route :get, '/admin_data/article/1/edit',  :controller => 'admin_data/main', 
+  should_route :get, '/admin_data/klass/article/1/edit',  
+                                                    :controller => 'admin_data/main', 
                                                     :action => :edit,
                                                     :klass => 'article',
                                                     :id => 1
 
-  should_route :put, '/admin_data/article/1',       :controller => 'admin_data/main', 
+  should_route :put, '/admin_data/klass/article/1',       
+                                                    :controller => 'admin_data/main', 
                                                     :action => :update,
                                                     :klass => 'article',
                                                     :id => 1
 
-  should_route :get, '/admin_data/article/new',     :controller => 'admin_data/main', 
+  should_route :get, '/admin_data/klass/article/new',     
+                                                    :controller => 'admin_data/main', 
                                                     :action => :new,
                                                     :klass => 'article'
 
-  should_route :post, '/admin_data/article',        :controller => 'admin_data/main', 
+  should_route :post, '/admin_data/klass/article',        
+                                                    :controller => 'admin_data/main', 
                                                     :action => :create,
                                                     :klass => 'article'
 
-  should_route :get, '/admin_data/article/table_structure', 
+  should_route :get, '/admin_data/klass/article/table_structure', 
                                                     :controller => 'admin_data/main', 
                                                     :action => :table_structure,
                                                     :klass => 'article'
@@ -121,9 +126,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have xx number of models' do
       assert_equal 7, assigns(:klasses).size
     end
-    should 'have Home tab selected' do
-       assert_select('#main-navigation ul li.first.active')
-    end
+    #should 'have Home tab selected' do
+       #assert_select('#main-navigation ul li.first.active')
+    #end
   end
 
   context 'get show for article which belongs to tech_magazine' do
@@ -135,7 +140,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/tech_magazine/#{@article.magazine.id}"
+       url = "/admin_data/klass/tech_magazine/#{@article.magazine.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -149,7 +154,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/comment/search?base=article#{s2}children=comments#{s2}model_id=#{@article.id}"
+       url = "/admin_data/quick_search/comment?base=article#{s2}children=comments#{s2}model_id=#{@article.id}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -162,7 +167,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have one association link for engine' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/engine/#{@engine.id}"
+       url = "/admin_data/klass/engine/#{@engine.id}"
        assert_tag(:tag => 'a',:content => /Engine/, :attributes => {:href => url})
     end
   end
@@ -194,7 +199,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should 'have link to belongs_to association' do
        s2 = ERB::Util.html_escape('&')
-       url = "/admin_data/article/#{@article.to_param}"
+       url = "/admin_data/klass/article/#{@article.to_param}"
        assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
@@ -288,7 +293,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
     should "have dropdowns for published_at datetime column" do
       assert_select 'form' do
-        assert_select "input[type='text'][name='article[published_at(1i)]']"
+        assert_select "select[name='article[published_at(1i)]']"
+        assert_select "select[name='article[published_at(2i)]']"
+        assert_select "select[name='article[published_at(3i)]']"
         assert_select "select[name='article[published_at(4i)]']"
         assert_select "select[name='article[published_at(5i)]']"
       end
