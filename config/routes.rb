@@ -12,8 +12,8 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     admin_data.with_options :controller => 'validate_model' do |m|
-      m.validate_model_index        '/diagnostic/validate',             :action => 'index'
-      m.validate_model_validate     '/diagnostic/validate_model',       :action => 'validate'
+      m.validate                    '/diagnostic/validate',             :action => 'validate'
+      m.validate_model              '/diagnostic/validate_model',       :action => 'validate_model'
     end
 
     admin_data.with_options :controller => 'migration' do |m|

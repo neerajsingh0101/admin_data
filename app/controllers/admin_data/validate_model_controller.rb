@@ -6,12 +6,12 @@ class AdminData::ValidateModelController < AdminData::BaseController
 
   before_filter :ensure_is_allowed_to_view
 
-  def index
+  def validate
     @page_title = 'validate model'
     respond_to {|format| format.html}
   end
 
-  def validate
+  def validate_model
     respond_to do |format|
       format.js do
         if !params[:still_processing].blank?
@@ -57,6 +57,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
     command =  "rake #{task} #{args.join(' ')}"
+    Rails.logger.debug "command: #{command}"
     p1 = Process.fork { system(command) }
     Process.detach(p1)
   end

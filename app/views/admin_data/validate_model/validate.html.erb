@@ -10,14 +10,14 @@
             <% tid = Time.now.strftime('%Y%m%d%H%M%S') %>
             <div id='tid' style='display:none'><%=tid%></div>
             <form id="validate_model_form" method="post" style='padding:10px;'
-               action="/admin_data/validate_model_validate?tid=<%=tid%>">
+               action="/admin_data/diagnostic/validate_model?tid=<%=tid%>">
                <%= check_box_tag 'validate_model_select_all' %>
                <strong>
                <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
                </strong>  
                <% $admin_data_klasses.each do |klass| %>
                   <p>
-                  <%= check_box_tag klass.name, '1', false, :name => "model[#{klass.name.underscore}]" %>
+                  <%= check_box_tag klass.name, '1', false, :name => "model[#{klass.name}]" %>
                   <%= label_tag klass.name, nil, :id => klass.name.downcase.underscore %>
                   </p>
                <% end %>   

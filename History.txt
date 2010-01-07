@@ -1,3 +1,7 @@
+=== 0.0.36 2010-01-05
+
+* Fixing the online validation of models that have primary key not id
+
 === 0.0.35 2010-01-05
 
 * If invalid children value is passed in apply rescue
