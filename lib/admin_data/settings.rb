@@ -14,6 +14,7 @@ class AdminDataConfig
                      is_allowed_to_update_model
                      column_settings    
                      columns_order
+                     use_google_hosting_for_jquery
                      use_admin_data_layout ).collect(&:intern)
     
     extra_keys = input.keys - valid_keys
@@ -46,7 +47,10 @@ class AdminDataConfig
 
       :find_conditions              => nil,
 
+      :use_google_hosting_for_jquery => true,
+
       :columns_order                => nil
+
     }
   end
 
