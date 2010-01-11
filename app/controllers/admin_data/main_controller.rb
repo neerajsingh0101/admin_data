@@ -70,11 +70,18 @@ class AdminData::MainController  < AdminData::BaseController
   def update
     model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
+    respond_to do |format|
+
     if @model.update_attributes(model_attrs)
-      flash[:success] = "Record was updated"
-      redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+      format.html do 
+        flash[:success] = "Record was updated"
+        redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+      end
+      format.js { render :json => {:success => true}}
     else
-      render :action => 'edit'
+      format.html { render :action => 'edit' }
+      format.js { render :json => {:error => @model.errors.full_messages.join } }
+    end
     end
   end
 
@@ -83,11 +90,17 @@ class AdminData::MainController  < AdminData::BaseController
     model_attrs = params[model_name_underscored]
     @model = @klass.create(model_attrs)
 
-    if @model.errors.any?
-      render :action => 'new'
-    else
-      flash[:success] = "Record was created"
-      redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+    respond_to do |format|
+      if @model.errors.any?
+         format.html { render :action => 'new' }
+         format.js { render :json => {:error => @model.errors.full_messages.join() }}
+      else
+         format.html do 
+            flash[:success] = "Record was created"
+            redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore) 
+         end
+         format.js { render :json => {} }
+      end
     end
   end
 
