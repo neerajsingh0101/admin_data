@@ -6,13 +6,17 @@
     <div id='advance_search' class='search_box'>
      <table id='advance_search_table' class='advtable'>
      </table>
-     <div class='group'>     
-         <label class='label'>sort by</label>
-         <select name='sortby' id='sortby' style='width:200px;'>
-            <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
+
+      <div style='margin-top:6px;'>
+        <input type="submit" value="Search" style="margin-left:15px;font-size:17px;padding:4px;float:left;margin-right:20px;"/>
+        <div class='group' style='float:left;'>     
+         <div style='float:left;margin-right:5px;'>sort by</div>
+         <select name='sortby' id='sortby' style='width:200px; float:left;'>
+          <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
          </select>
+        </div> 
+        <div class='clear'></div>
       </div> 
-     <input type="submit" value="Search"/>
    </div>
 
 </form>   
