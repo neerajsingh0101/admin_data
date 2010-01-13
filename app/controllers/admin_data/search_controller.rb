@@ -8,6 +8,7 @@ class AdminData::SearchController  < AdminData::BaseController
   before_filter :ensure_is_allowed_to_view
   before_filter :ensure_is_allowed_to_view_model
   before_filter :ensure_valid_children_klass, :only => [:quick_search]
+  before_filter :ensure_is_authorized_for_update_opration, :only => [:advance_search]
 
   def quick_search
     @page_title = "Search #{@klass.name.underscore}"
@@ -32,27 +33,54 @@ class AdminData::SearchController  < AdminData::BaseController
     respond_to {|format| format.html}
   end
 
+  def handle_advance_search_action_type_delete
+    count = @klass.send(:count, @cond);
+    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
+      @klass.send(:delete, record)
+    end
+    @success_message = "#{count} record deleted "
+  end
+
+  def handle_advance_search_action_type_destroy
+   count = @klass.send(:count, @cond);
+   @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
+      record.destroy
+   end
+   @success_message = "#{count} record destroyed "
+  end
+
   def advance_search
     @page_title = "Advance search #{@klass.name.underscore}"
+    plugin_dir = AdminDataConfig.setting[:plugin_dir]
     hash = build_advance_search_conditions(@klass, params[:adv_search])
-    cond = hash[:cond]
-    order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
-    @records = @klass.paginate(  :page => params[:page],
-                                 :per_page => per_page,
-                                 :order => order,
-                                 :conditions => cond )
+    @cond = hash[:cond]
+    errors = hash[:errors]
+    @order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
+
+
     respond_to do |format|
       format.html { render }
       format.js {
-        errors = hash[:errors]
-        plugin_dir = AdminDataConfig.setting[:plugin_dir]
 
-        if hash[:errors].blank?
-          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
-                 :locals => {:klass => @klass, :records => @records}
-        else
+        if !hash[:errors].blank?
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
                  :locals => {:errors => errors}
+        else
+
+            if params[:admin_data_advance_search_action_type] == 'destroy'
+               handle_advance_search_action_type_destroy
+            elsif params[:admin_data_advance_search_action_type] == 'delete'
+               handle_advance_search_action_type_delete
+            else
+               @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
+            end
+
+            if @success_message
+               render :json => {:success => @success_message }
+            else
+               render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
+                        :locals => {:klass => @klass, :records => @records}
+            end
         end
       }
     end
@@ -73,6 +101,12 @@ class AdminData::SearchController  < AdminData::BaseController
                :status => :not_found
         return
       end
+    end
+  end
+
+  def ensure_is_authorized_for_update_opration
+    if %w(destroy delete).include? params[:admin_data_advance_search_action_type]
+      render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
     end
   end
 
