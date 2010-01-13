@@ -1,5 +1,7 @@
 require File.join(File.dirname(__FILE__) ,'..','..','..','lib','admin_data','search')
+
 class AdminData::SearchController  < AdminData::BaseController
+
   include Search
 
   unloadable
@@ -33,22 +35,6 @@ class AdminData::SearchController  < AdminData::BaseController
     respond_to {|format| format.html}
   end
 
-  def handle_advance_search_action_type_delete
-    count = @klass.send(:count, @cond);
-    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-      @klass.send(:delete, record)
-    end
-    @success_message = "#{count} record deleted "
-  end
-
-  def handle_advance_search_action_type_destroy
-   count = @klass.send(:count, @cond);
-   @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-      record.destroy
-   end
-   @success_message = "#{count} record destroyed "
-  end
-
   def advance_search
     @page_title = "Advance search #{@klass.name.underscore}"
     plugin_dir = AdminDataConfig.setting[:plugin_dir]
@@ -56,7 +42,6 @@ class AdminData::SearchController  < AdminData::BaseController
     @cond = hash[:cond]
     errors = hash[:errors]
     @order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
-
 
     respond_to do |format|
       format.html { render }
@@ -108,6 +93,22 @@ class AdminData::SearchController  < AdminData::BaseController
     if %w(destroy delete).include? params[:admin_data_advance_search_action_type]
       render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
     end
+  end
+
+  def handle_advance_search_action_type_delete
+    count = @klass.send(:count, @cond);
+    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
+      @klass.send(:delete, record)
+    end
+    @success_message = "#{count} record deleted "
+  end
+
+  def handle_advance_search_action_type_destroy
+   count = @klass.send(:count, @cond);
+   @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
+      record.destroy
+   end
+   @success_message = "#{count} record destroyed "
   end
 
 end
