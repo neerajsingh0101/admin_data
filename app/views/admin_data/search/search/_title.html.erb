@@ -1,4 +1,4 @@
-<h2 class='title'> 
+<h2 class='title' id='search_result_title'> 
 
   <% if params[:base] %>
       <%= link_to params[:base].camelize + ' ID ' + params[:model_id], 
@@ -12,3 +12,7 @@
   <% end %>  
 
 </h2>
+
+<div>
+  <%= link_to 'Delete All', '#', :id => 'advance_search_delete_all' %>
+</div>
