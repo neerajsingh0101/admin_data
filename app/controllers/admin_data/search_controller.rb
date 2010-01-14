@@ -104,7 +104,7 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def handle_advance_search_action_type_destroy
-   count = @klass.send(:count, @cond);
+   count = @klass.send(:count, :conditions => @cond);
    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
       record.destroy
    end

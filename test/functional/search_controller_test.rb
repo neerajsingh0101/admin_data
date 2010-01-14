@@ -12,6 +12,8 @@ AdminData::MainController.prepend_view_path(f)
 AdminData::SearchController.prepend_view_path(f)
 
 class AdminData::SearchControllerTest < ActionController::TestCase
+   
+   include FlexMock::TestCase
 
   def setup
     @controller = AdminData::SearchController.new
@@ -265,6 +267,46 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       assert_no_tag( :tag => 'a',
                   :attributes => {:id => 'advance_search_destroy_all'})
     end
+  end
+
+  context 'xhr advance_search with delete_all action' do
+    setup do
+      Article.delete_all
+      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
+      Factory(:article, :short_desc => 'ruby')
+      Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
+      flexmock(Article).new_instances.should_receive(:delete)
+      xml_http_request  :post,
+                        :advance_search, {:klass => Article.name.underscore, 
+                                          :sortby => 'article_id desc',
+                                          :admin_data_advance_search_action_type => 'delete',
+                                          :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                                      :col2 => 'does_not_contain', 
+                                                                      :col3 => 'ruby'} }
+                            }
+    end
+    should_respond_with :success
+  end
+
+  context 'xhr advance_search with destroy_all action' do
+    setup do
+      Article.delete_all
+      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
+      Factory(:article, :short_desc => 'ruby')
+      Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
+      flexmock(Article).new_instances.should_receive(:destroy)
+      xml_http_request  :post,
+                        :advance_search, {:klass => Article.name.underscore, 
+                                          :sortby => 'article_id desc',
+                                          :admin_data_advance_search_action_type => 'destroy',
+                                          :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                                      :col2 => 'does_not_contain', 
+                                                                      :col3 => 'ruby'} }
+                            }
+    end
+    should_respond_with :success
   end
 
   context 'xhr advance_search with does_not_contain' do
