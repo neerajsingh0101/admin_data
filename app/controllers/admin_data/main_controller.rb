@@ -118,11 +118,11 @@ class AdminData::MainController  < AdminData::BaseController
     # see http://wiki.github.com/neerajdotname/admin_data/how-to-handle-to_param-case for
     # more ways to customize the condition
 
-    find_conditions_proc = AdminDataConfig.setting[:find_conditions]
+    find_conditions_proc = AdminDataConfig.setting[:find_conditions][@klass.name] rescue nil
     if find_conditions_proc
       find_conditions = find_conditions_proc.call(params)
-      if find_conditions && find_conditions.has_key?(@klass.name.underscore)
-         condition = find_conditions.fetch(@klass.name.underscore).fetch(:conditions)
+      if find_conditions && find_conditions.has_key?(:conditions)
+         condition = find_conditions.fetch(:conditions)
       end
     end
 
