@@ -1,11 +1,9 @@
-# if user is authorized then delete all and destroy all link should appear
-# if user is not authorized then those links should not appear
-# make action = delete and make sure that delete method was invoked on those object
-# make action = destroy and make sure that destroy method was invoked on those object
 # add confirmation before deleting or destroying
 # update documentation with this new feature
 # update documentation with live demo and source code at top right corner
 # write a blog about act on result design pattern
+# write documentation about updating a user status with ajax request. put it under tips and tricks section.
+
 
 require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
 
@@ -61,7 +59,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   end
   
-  context 'get search car has_many association' do
+  context 'get quick_search with has_many association for a nested model' do
     setup do
       Vehicle::Door.delete_all
       @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id) 
@@ -86,7 +84,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search article has_many association' do
+  context 'get quick_search with has_many association for a non nested model' do
     setup do
       @comment1 = Factory(:comment, :article => @article)
       @comment2 = Factory(:comment, :article => @article)
@@ -107,7 +105,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search for children but children class is wrong' do
+  context 'get quick_search with wrong children class' do
     setup do
       get :quick_search, { :base => 'article',  
                            :klass => 'comment', 
@@ -118,7 +116,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
   end
 
   
-  context 'get search for comment' do
+  context 'get quick_search for a standard model' do
     setup do
       @comment = Factory(:comment)
       @comment = Factory(:comment)
@@ -138,7 +136,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search for car' do
+  context 'get quick_search for a nested model' do
     setup do
       get :quick_search, {:klass => @car.class.name.underscore}
     end
@@ -163,7 +161,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search with no klass param' do
+  context 'get quick_search with no klass param' do
     setup do
       assert_raises ActionController::RoutingError do
         get :search
@@ -171,7 +169,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search with no search query' do
+  context 'get quick_search with no search query' do
     setup do
       get :quick_search, {:klass => Article.name.underscore}
     end
@@ -179,7 +177,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should_assign_to :records
   end
 
-  context 'get search with search query default order' do
+  context 'get quick_search with search query with default order' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
@@ -197,15 +195,16 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'get search with search term with revert id order' do
+  context 'get quick_search with search term with reversed id order' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, {:klass => 'Article',  :query => 'python', 
-                                          :sortby => 'article_id desc'}
+      get :quick_search, { :klass => 'Article', 
+                           :query => 'python', 
+                           :sortby => 'article_id desc'}
     end
     should_respond_with :success
     should_assign_to :records
@@ -231,15 +230,16 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     should_respond_with :success
     should_not_assign_to :records
     should 'have proper action for advance search form' do
-      url = admin_data_advance_search_path(:klass=>Article)
+      url = admin_data_advance_search_path(:klass => Article)
       assert_tag( :tag => 'form',
                   :attributes => {:action => url})
     end
   end
 
-  context 'xhr advance_search not like' do
+  context 'xhr advance_search with does_not_contain' do
     setup do
       Article.delete_all
+      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return false} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       Factory(:article, :short_desc => nil)
@@ -257,9 +257,48 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                  :attributes => {:class => 'title'}, 
                  :content => /Search result: 2 records found/ )
     end
+    should 'not contain delete all link' do 
+      assert_no_tag( :tag => 'a',
+                  :attributes => {:id => 'advance_search_delete_all'})
+    end
+    should 'not contain destroy all link' do 
+      assert_no_tag( :tag => 'a',
+                  :attributes => {:id => 'advance_search_destroy_all'})
+    end
   end
 
-  context 'xhr advance_search with 2 results' do
+  context 'xhr advance_search with does_not_contain' do
+    setup do
+      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true } })
+      Article.delete_all
+      Factory(:article, :short_desc => 'ruby')
+      Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
+      xml_http_request  :post,
+                        :advance_search, {:klass => Article.name.underscore, 
+                                          :sortby => 'article_id desc',
+                                          :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                                      :col2 => 'does_not_contain', 
+                                                                      :col3 => 'ruby'} }
+                            }
+    end
+    should_respond_with :success
+    should 'contain search result' do
+      assert_tag(:tag => 'h2', 
+                 :attributes => {:class => 'title'}, 
+                 :content => /Search result: 2 records found/ )
+    end
+    should 'contain delete all link' do 
+      assert_tag( :tag => 'a',
+                  :attributes => {:id => 'advance_search_delete_all'})
+    end
+    should 'contain destroy all link' do 
+      assert_tag( :tag => 'a',
+                  :attributes => {:id => 'advance_search_destroy_all'})
+    end
+  end
+
+  context 'xhr advance_search with contains option with 2 records' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
@@ -306,7 +345,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'xhr advance_search with empty query term' do
+  context 'xhr advance_search with empty query term with contains option' do
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
