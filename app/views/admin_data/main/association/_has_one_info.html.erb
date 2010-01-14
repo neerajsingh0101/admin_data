@@ -1,14 +1,6 @@
 <% if AdminData::Util.has_one_what(klass).size > 0 %>
   <p>
     <strong>has_one :</strong> 
-
-    <% AdminData::Util.has_one_what(klass).each do |bt| %>
-      &nbsp;      
-      <% if  model.send(bt) %>
-         <%= link_to bt.camelize, admin_data_on_k_path( :klass => bt.underscore, :id => model.send(bt)) %>        
-      <% else %>
-          <%= bt %>              
-      <% end %>  
-    <% end %>  
+    <%= admin_data_has_one(model, klass) %>
   </p> 
 <% end %>  

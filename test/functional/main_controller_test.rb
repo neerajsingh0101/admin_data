@@ -138,6 +138,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
       get :show, {:id => @article, :klass => @article.class.name.underscore }
     end
     should_respond_with :success
+    should 'have belongs to association with magazine' do 
+      assert @article.magazine
+    end
     should 'have association link for comments' do
        s2 = ERB::Util.html_escape('&')
        url = "/admin_data/klass/tech_magazine/#{@article.magazine.id}"

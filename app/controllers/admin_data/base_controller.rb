@@ -52,8 +52,8 @@ class AdminData::BaseController < ApplicationController
       klasses = get_klass_names(model_names)
       filtered_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
       klasses_with_security_clearance = filtered_klasses.select do |klass_local|
-         @klass = klass_local
-         admin_data_is_allowed_to_view_model?
+        @klass = klass_local
+        admin_data_is_allowed_to_view_model?
       end
       $admin_data_klasses = klasses_with_security_clearance
     end

@@ -1,4 +1,3 @@
-# add confirmation before deleting or destroying
 # update documentation with this new feature
 # update documentation with live demo and source code at top right corner
 # write a blog about act on result design pattern
@@ -238,7 +237,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'xhr advance_search with does_not_contain' do
+  context 'xhr advance_search with does_not_contain first one' do
     setup do
       Article.delete_all
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return false} })

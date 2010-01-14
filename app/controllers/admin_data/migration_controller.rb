@@ -1,4 +1,4 @@
-class AdminData::MigrationController < AdminData::BaseController 
+class AdminData::MigrationController < AdminData::BaseController
 
   unloadable
 

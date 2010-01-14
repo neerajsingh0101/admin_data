@@ -1,6 +1,6 @@
 <div id="main">
 
-  <% breadcrum do %>
+  <% admin_data_breadcrum do %>
     <%= link_to @klass, admin_data_search_path(:klass => @klass.name.underscore) %> 
     >
     <%= link_to "ID #{@model.id}", ''%>  
@@ -9,7 +9,6 @@
   <h2 class="title">
     Editing <%=@model.class.name%> id <%=@model.id%>
   </h2>        
-  
 
   <div class="block" id="block-tables">
 

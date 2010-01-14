@@ -71,17 +71,16 @@ class AdminData::MainController  < AdminData::BaseController
     model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
     respond_to do |format|
-
-    if @model.update_attributes(model_attrs)
-      format.html do 
-        flash[:success] = "Record was updated"
-        redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+      if @model.update_attributes(model_attrs)
+        format.html do 
+          flash[:success] = "Record was updated"
+           redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+         end
+         format.js { render :json => {:success => true}}
+      else
+         format.html { render :action => 'edit' }
+         format.js { render :json => {:error => @model.errors.full_messages.join } }
       end
-      format.js { render :json => {:success => true}}
-    else
-      format.html { render :action => 'edit' }
-      format.js { render :json => {:error => @model.errors.full_messages.join } }
-    end
     end
   end
 
@@ -92,12 +91,12 @@ class AdminData::MainController  < AdminData::BaseController
 
     respond_to do |format|
       if @model.errors.any?
-         format.html { render :action => 'new' }
-         format.js { render :json => {:error => @model.errors.full_messages.join() }}
+        format.html { render :action => 'new' }
+        format.js { render :json => {:error => @model.errors.full_messages.join() }}
       else
          format.html do 
-            flash[:success] = "Record was created"
-            redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore) 
+           flash[:success] = "Record was created"
+           redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore) 
          end
          format.js { render :json => {} }
       end
@@ -115,9 +114,7 @@ class AdminData::MainController  < AdminData::BaseController
     conditional_id = params[:id] =~ /^(\d+)-.*/ ? params[:id].to_i : params[:id]
     condition = {primary_key => conditional_id}
 
-    # see http://wiki.github.com/neerajdotname/admin_data/how-to-handle-to_param-case for
-    # more ways to customize the condition
-
+    # http://neerajdotname.github.com/admin_data/#override_find_condition  
     find_conditions_proc = AdminDataConfig.setting[:find_conditions]
     if find_conditions_proc
       find_conditions = find_conditions_proc.call(params)

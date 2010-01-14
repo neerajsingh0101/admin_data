@@ -1,34 +1,7 @@
-<!--
-If there is bad data then belongs_to relationship might blow up. Make sure
-that one belongs_to relationship does not affect other relationships
--->
-
 <% if AdminData::Util.belongs_to_what(klass).size > 0 %>
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
-  
-    <% AdminData::Util.belongs_to_what(klass).each do |bt| 
-       begin
-       t = AdminData::Util.get_class_name_for_belongs_to_class(model,bt)
-       klass_name = t[:polymorphic] ? 'Polymorphic' : t[:klass_name]
-       belongs_to_record = model.send(bt)
-    %>
-
-      &nbsp;      
-
-    <% if belongs_to_record && t[:polymorphic] %>
-         <%= link_to belongs_to_record.class.name.camelize, admin_data_on_k_path( :klass => belongs_to_record.class.name.underscore, 
-                                                                         :id => belongs_to_record) %>        
-      <% elsif belongs_to_record %>
-         <%= link_to bt, admin_data_on_k_path( :klass => klass_name.underscore, :id => model.send(bt)) %>        
-       <% else %>
-          <%= bt %>              
-      <% end %>  
-
-   <% 
-     rescue => e
-        Rails.logger.info AdminData::Util.exception_info(e)
-     end
-    end %>  
+    &nbsp;      
+    <%= admin_data_belongs_to_data(model, klass) %>
   </p> 
 <% end %>  

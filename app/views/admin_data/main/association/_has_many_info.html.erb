@@ -1,24 +1,7 @@
-<% if AdminData::Util.has_many_what(klass).size > 0 
-%>
+<% if AdminData::Util.has_many_what(klass).size > 0 %>
   <p>
     <strong>has_many :</strong>
-      <% AdminData::Util.has_many_what(klass).each do |hm| 
-          begin
-            Rails.logger.debug "processing hm: #{hm.inspect}" if $debug_admin_data 
-            label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
-      %>
-            <% if AdminData::Util.has_many_count(model,hm) > 0 %>
-                <%= link_to label, admin_data_search_path(:klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 
-                                                  :children => hm,
-                                                  :base => klass.name.underscore, 
-                                                  :model_id => model.id) %>        
-            <% else %>
-              <%= label %>      
-            <% end %>  
-            &nbsp;
-        <% rescue => e 
-          Rails.logger.debug AdminData::Util.exception_info(e) %>
-        <% end %>  
-    <% end %>  
+    <%= admin_data_has_many_data(model, klass) %>
+    &nbsp;
   </p> 
 <% end %>  

@@ -51,21 +51,20 @@ class AdminData::SearchController  < AdminData::BaseController
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
                  :locals => {:errors => errors}
         else
+          if params[:admin_data_advance_search_action_type] == 'destroy'
+            handle_advance_search_action_type_destroy
+          elsif params[:admin_data_advance_search_action_type] == 'delete'
+            handle_advance_search_action_type_delete
+          else
+            @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
+          end
 
-            if params[:admin_data_advance_search_action_type] == 'destroy'
-               handle_advance_search_action_type_destroy
-            elsif params[:admin_data_advance_search_action_type] == 'delete'
-               handle_advance_search_action_type_delete
-            else
-               @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
-            end
-
-            if @success_message
-               render :json => {:success => @success_message }
-            else
-               render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
-                        :locals => {:klass => @klass, :records => @records}
-            end
+          if @success_message
+            render :json => {:success => @success_message }
+          else
+            render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
+                     :locals => {:klass => @klass, :records => @records}
+          end
         end
       }
     end
@@ -75,12 +74,12 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def ensure_valid_children_klass
     if params[:base]
-       begin
-         model_klass = params[:base].camelize.constantize
-       rescue NameError => e #incase params[:base] is junk value
-          render :text => "#{params[:base]} is an invalid value", :status => :not_found
-          return
-       end
+      begin
+        model_klass = params[:base].camelize.constantize
+      rescue NameError => e #incase params[:base] is junk value
+        render :text => "#{params[:base]} is an invalid value", :status => :not_found
+        return
+      end
       unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
         render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", 
                :status => :not_found
@@ -106,7 +105,7 @@ class AdminData::SearchController  < AdminData::BaseController
   def handle_advance_search_action_type_destroy
    count = @klass.send(:count, :conditions => @cond);
    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-      record.destroy
+     record.destroy
    end
    @success_message = "#{count} record destroyed "
   end
