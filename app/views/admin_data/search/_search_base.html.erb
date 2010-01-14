@@ -24,7 +24,9 @@
     <div class="content">          
       <div class='inner'>
         <div id='results'>
-          < render 'admin_data/search/search/listing', :klass => klass, :records => records >
+           <% if params[:action] == 'quick_search' || request.xhr? %>
+              <%= render 'admin_data/search/search/listing', :klass => klass, :records => records %>
+           <% end %>
         </div>
       </div>
     </div>

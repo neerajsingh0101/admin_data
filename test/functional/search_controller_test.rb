@@ -220,7 +220,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       get :advance_search, {:klass => Article.name.underscore}
     end
     should_respond_with :success
-    should_assign_to :records
+    should_not_assign_to :records
     should 'have proper action for advance search form' do
       url = admin_data_advance_search_path(:klass=>Article)
       assert_tag( :tag => 'form',
