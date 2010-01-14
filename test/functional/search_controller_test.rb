@@ -1,3 +1,12 @@
+# if user is authorized then delete all and destroy all link should appear
+# if user is not authorized then those links should not appear
+# make action = delete and make sure that delete method was invoked on those object
+# make action = destroy and make sure that destroy method was invoked on those object
+# add confirmation before deleting or destroying
+# update documentation with this new feature
+# update documentation with live demo and source code at top right corner
+# write a blog about act on result design pattern
+
 require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
 
 f = File.join(File.dirname(__FILE__),'..','..','app','views')
