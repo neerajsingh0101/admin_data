@@ -178,13 +178,12 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get show for city' do
     setup do
       AdminDataConfig.set = {
-      :find_conditions => Proc.new do |params| 
-         { City.name.underscore => {:conditions => { :permanent_name => params[:id]}}}
-      end
-      }
+      :find_conditions => { 'City' =>  lambda { |params| 
+         {:conditions => ["permanent_name =?", params[:id]] }
+      } } }
        
-      @city = City.create(:name => 'miami')
-      get :show, {:id => @city.permanent_name, :klass => @city.class.name.underscore }
+      @city = City.create(:name => 'New Delhi')
+      get :show, {:id => 'new-delhi', :klass => @city.class.name.underscore }
     end
     should_respond_with :success
   end
