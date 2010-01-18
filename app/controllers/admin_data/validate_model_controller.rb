@@ -14,7 +14,9 @@ class AdminData::ValidateModelController < AdminData::BaseController
   def validate_model
     respond_to do |format|
       format.js do
-        if !params[:still_processing].blank?
+        if params[:tid].blank?
+          render :json => {:error => 'Something went wrong. Please try again !!' }
+        elsif !params[:still_processing].blank?
           tid = params[:tid]
           data = gather_data(tid)
           done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
@@ -24,9 +26,6 @@ class AdminData::ValidateModelController < AdminData::BaseController
                             :currently_processing_klass =>  currently_processing_klass(tid) }
         elsif params[:model].blank? || params[:model].empty?
           render :json => {:error => 'Please select at least one model' }
-          return
-        elsif params[:tid].blank?
-          render :json => {:error => 'Something went wrong. Please try again !!' }
           return
         else
           start_validation
