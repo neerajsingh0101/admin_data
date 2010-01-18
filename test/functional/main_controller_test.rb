@@ -115,6 +115,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have text index' do
       assert_tag(:content => 'Index')
     end
+    should 'have table name' do
+       assert_tag(:tag => 'h1', :content => "Table name : articles", :attributes => {:class => 'table_name'})
+    end
   end
 
   context 'get all_models' do
