@@ -39,7 +39,8 @@
     <% end %>  
 
     <% if Rails.env.development? %>
-       <script type="text/javascript">jQuery.noConflict();</script>
+      <%= AdminData::Util.javascript_include_tag('vendor/jquery.lint') if false %> 
+      <script type="text/javascript">jQuery.noConflict();</script>
     <% end %>
 
     <!-- It is breaking the html markup and test is full of messages like 
