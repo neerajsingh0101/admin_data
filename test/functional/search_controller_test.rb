@@ -272,6 +272,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
       xml_http_request  :post,
                         :advance_search, {:klass => Article.name.underscore, 
                                           :sortby => 'article_id desc',
@@ -293,6 +294,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
+      Factory(:article, :short_desc => nil)
       xml_http_request  :post,
                         :advance_search, {:klass => Article.name.underscore, 
                                           :sortby => 'article_id desc',
