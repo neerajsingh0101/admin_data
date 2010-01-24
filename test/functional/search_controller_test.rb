@@ -12,8 +12,6 @@ AdminData::SearchController.prepend_view_path(f)
 
 class AdminData::SearchControllerTest < ActionController::TestCase
    
-   include FlexMock::TestCase
-
   def setup
     @controller = AdminData::SearchController.new
     @request = ActionController::TestRequest.new
@@ -274,8 +272,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
-      Factory(:article, :short_desc => nil)
-      flexmock(Article).new_instances.should_receive(:delete)
       xml_http_request  :post,
                         :advance_search, {:klass => Article.name.underscore, 
                                           :sortby => 'article_id desc',
@@ -286,6 +282,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                             }
     end
     should_respond_with :success
+    should 'have only one record' do
+      assert_equal 1, Article.count
+    end
   end
 
   context 'xhr advance_search with destroy_all action' do
@@ -294,8 +293,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
-      Factory(:article, :short_desc => nil)
-      flexmock(Article).new_instances.should_receive(:destroy)
       xml_http_request  :post,
                         :advance_search, {:klass => Article.name.underscore, 
                                           :sortby => 'article_id desc',
@@ -306,6 +303,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
                             }
     end
     should_respond_with :success
+    should 'have only one record' do
+      assert_equal 1, Article.count
+    end
   end
 
   context 'xhr advance_search with does_not_contain' do
