@@ -193,11 +193,12 @@ hr {
 
 .secondary-navigation {
   background: #36393d;
-  border-bottom-color: #1a1a1a;
+  border-bottom-color: #4F8AFF;
 }
 
 .secondary-navigation ul li.active, .secondary-navigation ul li.active a:hover {
-  background-color: #1a1a1a;
+  background: #1a1a1a;
+  background: #4F8AFF;
 }
 
 #footer .block {
