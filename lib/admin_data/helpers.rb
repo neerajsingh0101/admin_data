@@ -16,7 +16,7 @@ module AdminData::Helpers
   end
 
   def admin_data_has_many_data(model, klass)
-    AdminData::Util.has_many_what(klass).inject('') do |output, hm| 
+    array = AdminData::Util.has_many_what(klass).inject([]) do |output, hm| 
       begin
         Rails.logger.debug "processing hm: #{hm.inspect}" if $debug_admin_data 
         label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')' 
@@ -31,13 +31,13 @@ module AdminData::Helpers
       rescue => e 
         Rails.logger.debug AdminData::Util.exception_info(e)
       end
-      output << ', '
       output
     end  
+    array.join(', ')
   end
 
   def admin_data_belongs_to_data(model, klass)
-    AdminData::Util.belongs_to_what(klass).inject('') do |output, bt|
+    array = AdminData::Util.belongs_to_what(klass).inject([]) do |output, bt|
       begin
         t = AdminData::Util.get_class_name_for_belongs_to_class(model, bt)
         klass_name = t[:polymorphic] ? 'Polymorphic' : t[:klass_name]
@@ -55,9 +55,9 @@ module AdminData::Helpers
       rescue => e
         Rails.logger.info AdminData::Util.exception_info(e)
       end
-      output << ', '
       output
     end 
+    array.join(', ')
   end
 
   def admin_data_breadcrum(&block)
