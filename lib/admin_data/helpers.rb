@@ -31,6 +31,7 @@ module AdminData::Helpers
       rescue => e 
         Rails.logger.debug AdminData::Util.exception_info(e)
       end
+      output << ', '
       output
     end  
   end
@@ -54,6 +55,7 @@ module AdminData::Helpers
       rescue => e
         Rails.logger.info AdminData::Util.exception_info(e)
       end
+      output << ', '
       output
     end 
   end
