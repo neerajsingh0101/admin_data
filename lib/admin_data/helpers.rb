@@ -4,7 +4,7 @@ module AdminData::Helpers
     AdminData::Util.has_one_what(klass).inject('') do |output, ho|
       begin
         if model.send(ho)
-          output << link_to(ho.camelize, admin_data_on_k_path(:klass => ho.underscore, :id => model.send(ho)))
+          output << link_to(ho, admin_data_on_k_path(:klass => ho.underscore, :id => model.send(ho)))
         else
           output << ho
         end
@@ -44,7 +44,7 @@ module AdminData::Helpers
         belongs_to_record = model.send(bt)
 
         if belongs_to_record && t[:polymorphic] 
-          output << link_to(belongs_to_record.class.name.camelize, 
+          output << link_to(belongs_to_record.class.name, 
                             admin_data_on_k_path(:klass => belongs_to_record.class.name.underscore,
                                                  :id => belongs_to_record))
         elsif belongs_to_record
