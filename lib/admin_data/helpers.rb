@@ -180,7 +180,7 @@ def admin_data_get_value_for_column(column, model, options = {})
   value = admin_data_get_custom_value_for_column(column, model)
 
   if column.type == :datetime
-    value.strftime('%m/%d/%Y %H:%M:%S %p') unless value.blank?
+    value.strftime('%d-%B-%Y %H:%M:%S %p') unless value.blank?
   elsif column.type == :string || column.type == :text
     return value if options[:limit].blank?
     # truncate method fails in handling serialized array stored in string column
