@@ -14,7 +14,7 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def quick_search
     @page_title = "Search #{@klass.name.underscore}"
-    order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
+    @order = default_order
 
     if params[:base]
       model = params[:base].camelize.constantize.find(params[:model_id])
@@ -23,17 +23,18 @@ class AdminData::SearchController  < AdminData::BaseController
       @records = has_many_proxy.send(  :paginate,
                                        :page => params[:page],
                                        :per_page => per_page,
-                                       :order => order )
+                                       :order => @order )
     else
       params[:query] = params[:query].strip unless params[:query].blank?
       cond = build_quick_search_conditions(@klass, params[:query])
       @records = @klass.paginate(   :page => params[:page],
                                     :per_page => per_page,
-                                    :order => order,
+                                    :order => @order,
                                     :conditions => cond )
     end
     respond_to {|format| format.html}
   end
+
 
   def advance_search
     @page_title = "Advance search #{@klass.name.underscore}"
@@ -41,7 +42,7 @@ class AdminData::SearchController  < AdminData::BaseController
     hash = build_advance_search_conditions(@klass, params[:adv_search])
     @cond = hash[:cond]
     errors = hash[:errors]
-    @order = params[:sortby] || "#{@klass.send(:primary_key)} desc"
+    @order = default_order
 
     respond_to do |format|
       format.html { render }
@@ -56,7 +57,10 @@ class AdminData::SearchController  < AdminData::BaseController
           elsif params[:admin_data_advance_search_action_type] == 'delete'
             handle_advance_search_action_type_delete
           else
-            @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
+            @records = @klass.paginate(:page => params[:page], 
+                                       :per_page => per_page, 
+                                       :order => @order, 
+                                       :conditions => @cond )
           end
 
           if @success_message
@@ -108,6 +112,10 @@ class AdminData::SearchController  < AdminData::BaseController
      record.destroy
    end
    @success_message = "#{count} record destroyed "
+  end
+
+  def default_order
+    params[:sortby] || "#{@klass.send(:table_name)}.#{@klass.send(:primary_key)} desc"
   end
 
 end
