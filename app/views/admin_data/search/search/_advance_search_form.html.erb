@@ -1,3 +1,28 @@
+<style>
+   .sortby_umbrella { 
+      margin-top: 6px;
+   }
+   .submit_button {
+      margin-left: 15px;
+      font-size: 17px;
+      padding: 4px;
+      float: left;
+      margin-right: 20px;
+   }
+   .sortby_umbrella .group {
+      float: left;
+   }
+   .sortby_text { 
+      float: left;
+      margin-right: 5px;
+   }
+   #sortby { 
+      width: 200px; 
+      float: left;
+   }
+</style>
+
+
 <%= form_tag(admin_data_advance_search_path(:klass=>klass),   
              :method => 'get', 
              :class => 'form search_form', 
@@ -7,13 +32,13 @@
      <table id='advance_search_table' class='advtable'>
      </table>
 
-      <div style='margin-top:6px;'>
-        <input type="submit" value="Search" style="margin-left:15px;font-size:17px;padding:4px;float:left;margin-right:20px;"/>
-        <div class='group' style='float:left;'>     
-         <div style='float:left;margin-right:5px;'>sort by</div>
-         <select name='sortby' id='sortby' style='width:200px; float:left;'>
-           <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
-         </select>
+      <div class='sortby_umbrella'>
+        <input type="submit" value="Search" class='submit_button' />
+        <div class='group'>     
+          <div class='sortby_text'>sort by</div>
+          <select name='sortby' id='sortby'>
+            <%= AdminData::Util.build_sort_options(klass,params[:sortby]) %>
+          </select>
         </div> 
         <div class='clear'></div>
       </div> 
@@ -22,15 +47,9 @@
 </form>   
 
 <div style='display:none;' id='admin_data_table_structure_data'>
-  <% 
-    collection_of_colums = klass.columns.collect { |column| 
-      #JSLint complains if a hash has key named boolean. So I am changing the key to booleant  
-      column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
-      
-      "#{column.name}:'#{column_type}'" 
-    }  
-    collection_of_colums = collection_of_colums.join(',')
-    collection_of_colums = "[{#{collection_of_colums}}]"
-  %>
-  <%=collection_of_colums%>
+  <%=@collection_of_colums%>
 </div>
+
+<!--
+FIXME user metadata plugin
+-->

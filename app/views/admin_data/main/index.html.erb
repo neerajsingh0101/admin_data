@@ -4,12 +4,12 @@
       <h2 class="title">Models</h2>
       <div class="inner">
       <% @klasses.each do |klass| %>
-        <span class='klass_box'>
-          <%= link_to klass.name, admin_data_search_path(:klass => klass.name.underscore) %> 
+          <span class='klass_box'>
+            <%= link_to klass.name, admin_data_search_path(:klass => klass.name.underscore) %> 
+          </span>  
           <span class='klass_description'>
             (<%= pluralize(klass.send(:count),'record') %>)
           </span>
-        </span>            
       <% end %>
       </div>
     </div>

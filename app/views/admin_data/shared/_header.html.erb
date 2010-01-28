@@ -11,10 +11,12 @@
                                                  ['search','search advance_search'])%>">
         <%= link_to 'Home', admin_data_index_path %>
       </li>
+
       <li class="<%=admin_data_am_i_active(['migration','index'])%>">
         <%= link_to 'Migration Information', admin_data_migration_information_path %>
       </li>
-      <li class="<%=admin_data_am_i_active(['diagnostic','index missing_index'],['validate_model','index'   ])%>">
+
+      <li class="<%=admin_data_am_i_active(['diagnostic','index missing_index'],['validate_model','index'])%>">
         <%= link_to 'Diagnostic', admin_data_diagnostic_path %>
       </li>
     </ul>

@@ -1,15 +1,10 @@
 <% 
-@columns = if params[:attr].blank? 
-               @klass.columns
-            else
-               @klass.columns.find_all {|col| params[:attr] == col.name}
-            end
-%>
-<% @columns.each do |col| 
+@columns =  params[:attr].blank? ? @klass.columns : @klass.columns.find_all {|col| params[:attr] == col.name}
+@columns.each do |col| 
     col_limit = col.limit || 255 %>
-    <div style='margin-top:20px;padding-bottom:4px;'>
-      <span style='color:#222;font-size:15px;'><%= col.name %></span>
-      <span style='color:dimgray;'>[<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>]</span>
+    <div class='col_box'>
+      <span class='col_name'><%= col.name %></span>
+      <span class='col_type'>[<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>]</span>
     </div>
     <%= admin_data_form_field(klass, @model, col, f) %>
 <% end %>
@@ -17,3 +12,17 @@
 <div class='group navform' style='padding-top:10px;'>
   <%= f.submit('Save', :class => 'button', :disable_with => 'Please wait ...') %>
 </div>
+
+<style>
+   .col_name { 
+      color: #222;
+      font-size: 15px;
+   }
+   .col_type {
+      color: dimgray;
+   }
+   .col_box { 
+      margin-top: 20px;
+      padding-bottom: 4px;
+   }
+</style>   

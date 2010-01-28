@@ -1,6 +1,8 @@
 <select class='drop_down_value_klass'> 
-   <option></option>      
-   <% k = params[:klass] || '' %>
-   <%= options_for_select(drop_down_for_klasses, 
-                        "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}") %>
+   <option></option>
+
+   <% k = params[:klass] || '' 
+      url = "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}" %>
+
+   <%= options_for_select(drop_down_for_klasses, url) %> 
 </select>

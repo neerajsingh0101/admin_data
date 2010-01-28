@@ -1,3 +1,9 @@
+=== 0.0.37 2010-01-28
+
+* refactored the code to take inline style out to style section
+* moves a lot of ruby code from view to helpers and controllers
+* better indentation
+
 === 0.0.36 2010-01-05
 
 * Fixing the online validation of models that have primary key not id

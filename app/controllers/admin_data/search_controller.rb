@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__) ,'..','..','..','lib','admin_data','search')
+require File.join(File.dirname(__FILE__) , '..', '..', '..', 'lib', 'admin_data', 'search')
 
 class AdminData::SearchController  < AdminData::BaseController
 
@@ -11,6 +11,7 @@ class AdminData::SearchController  < AdminData::BaseController
   before_filter :ensure_is_allowed_to_view_model
   before_filter :ensure_valid_children_klass, :only => [:quick_search]
   before_filter :ensure_is_authorized_for_update_opration, :only => [:advance_search]
+  before_filter :set_collection_of_columns, :only => [:advance_search]
 
   def quick_search
     @page_title = "Search #{@klass.name.underscore}"
@@ -103,7 +104,7 @@ class AdminData::SearchController  < AdminData::BaseController
     @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
       @klass.send(:delete, record)
     end
-    @success_message = "#{count} record deleted "
+    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted "
   end
 
   def handle_advance_search_action_type_destroy
@@ -111,11 +112,21 @@ class AdminData::SearchController  < AdminData::BaseController
    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
      record.destroy
    end
-   @success_message = "#{count} record destroyed "
+   @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed "
   end
 
   def default_order
     params[:sortby] || "#{@klass.send(:table_name)}.#{@klass.send(:primary_key)} desc"
+  end
+
+  def set_collection_of_columns
+    collection_of_colums = @klass.columns.collect { |column| 
+      #JSLint complains if a hash has key named boolean. So I am changing the key to booleant  
+      column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
+      "#{column.name}:'#{column_type}'" 
+    }  
+    collection_of_colums = collection_of_colums.join(',')
+    @collection_of_colums = "[{#{collection_of_colums}}]"
   end
 
 end

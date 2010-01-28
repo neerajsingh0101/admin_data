@@ -1,5 +1,18 @@
+<style>
+   #search_result_title {
+      float: left;
+      margin-top: 5px; 
+      padding-top: 5px; 
+   }
+   .delete_destroy_box { 
+      float: left;
+      margin-top: 6px;
+      padding-top: 6px;
+      margin-left: 20px;
+   }
+</style>   
 <div>
-   <h2 class='title' id='search_result_title' style='float:left;margin-top:5px; padding-top:5px;'> 
+   <h2 class='title' id='search_result_title'> 
 
    <% if params[:base] %>
          <%= link_to params[:base].camelize + ' ID ' + params[:model_id], 
@@ -15,14 +28,14 @@
    </h2>
 
    <% if admin_data_is_allowed_to_update? && params[:action] == 'advance_search' %>
-     <div style='float:left;margin-top:6px;padding-top:6px;margin-left:20px;'>
-      <span style=''>
+     <div class='delete_destroy_box'>
+       <span style=''>
          <%= link_to 'Delete All', '#', :id => 'advance_search_delete_all' %>
-      </span>
-      |
-      <span> 
+       </span>
+       |
+       <span> 
          <%= link_to 'Destroy All', '#', :id => 'advance_search_destroy_all' %>
-      </span>
+       </span>
      </div>
    <% end %>
 

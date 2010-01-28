@@ -1,5 +1,10 @@
 class AdminData::Util
 
+  def self.pluralize(count, text)
+     return text if count <= 1
+     text + 's'
+  end
+
   # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions 
   def self.or_merge_conditions(klass, *conditions)
    s = ') OR ('

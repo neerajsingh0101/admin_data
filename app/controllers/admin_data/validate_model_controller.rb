@@ -69,20 +69,15 @@ class AdminData::ValidateModelController < AdminData::BaseController
   def gather_data(tid)
     good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')
     bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'bad.txt')
+    regex = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
 
     data = []
     File.open(bad_file, "r") do |f|
       f.each_line do |line|
         next if line.strip.blank?
-        data << "<p>"
-        r = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
-        m = r.match(line)
-        output = render_to_string(:partial => 'bad',
-        :layout => false, :locals => {
-          :klasss => m[1],
-          :id => m[2],
-        :error => m[3]})
-        data << output
+        data << '<p>'
+        m = regex.match(line)
+        data << admin_data_invalid_record_link(m[1], m[2], m[3])
         data << '</p>'
       end
     end

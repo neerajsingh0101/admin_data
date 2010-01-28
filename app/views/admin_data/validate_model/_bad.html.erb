@@ -1,6 +1,0 @@
-<% 
-record = klasss.camelize.constantize.send(:find,id) 
-tmp = admin_data_on_k_path(:klass => klasss.underscore, :id => record) 
-%>
-
-<%=link_to(klasss, tmp, :target => '_blank')%> | <%=id%> | <%=error%>

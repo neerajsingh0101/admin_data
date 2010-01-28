@@ -1,6 +1,5 @@
 module AdminData::Chelper
 
-
   def per_page
     AdminDataConfig.setting[:will_paginate_per_page]
   end

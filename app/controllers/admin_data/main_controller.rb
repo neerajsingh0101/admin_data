@@ -116,9 +116,8 @@ class AdminData::MainController  < AdminData::BaseController
 
     # http://neerajdotname.github.com/admin_data/#override_find_condition  
     find_conditions_proc = AdminDataConfig.setting[:find_conditions][@klass.name] rescue nil
-    if find_conditions_proc
-      find_conditions = find_conditions_proc.call(params)
-      if find_conditions && find_conditions.has_key?(:conditions)
+    if find_conditions_proc && find_conditions = find_conditions_proc.call(params)
+      if find_conditions.has_key?(:conditions)
          condition = find_conditions.fetch(:conditions)
       end
     end

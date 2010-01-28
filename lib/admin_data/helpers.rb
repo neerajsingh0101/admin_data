@@ -1,5 +1,15 @@
 module AdminData::Helpers
 
+  def admin_data_invalid_record_link(klassu, id, error)
+   record = klassu.camelize.constantize.send(:find, id) 
+   tmp = admin_data_on_k_path(:klass => klasss.underscore, :id => record) 
+   a = []
+   a << link_to(klasss, tmp, :target => '_blank') 
+   a << id
+   a << error
+   a.join(' | ')
+  end
+
   def admin_data_has_one(model, klass)
     AdminData::Util.has_one_what(klass).inject('') do |output, ho|
       begin
@@ -150,14 +160,11 @@ module AdminData::Helpers
    # admin_data_am_i_active(['main','index list'])
    # admin_data_am_i_active(['main','index list'],['search','advance_search'])
    def admin_data_am_i_active(*args)
-      flag = false
       args.each do |arg|
          controller_name = arg[0]
-         action_name = arg[1]
-         action_names = action_name.split
+         action_names = arg[1].split
          is_action_included = action_names.include?(params[:action])
-         flag = params[:controller] == "admin_data/#{controller_name}" && is_action_included
-         if flag
+         if params[:controller] == "admin_data/#{controller_name}" && is_action_included
             return 'active'
             break
          end
@@ -186,10 +193,9 @@ module AdminData::Helpers
          value.strftime('%d-%B-%Y %H:%M:%S %p') unless value.blank?
       elsif column.type == :string || column.type == :text
          return value if options[:limit].blank?
-         # truncate method fails in handling serialized array stored in string column
          begin
             truncate(value,:length => options[:limit])
-         rescue
+         rescue # truncate method fails in handling serialized array stored in string column
             '<actual data is not being shown because truncate method failed.>'
          end
       else
