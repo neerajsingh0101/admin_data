@@ -51,7 +51,7 @@ class AdminData::Util
 
   def self.javascript_include_tag(*args)
     data = args.inject('') do |sum, arg|
-      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','js',"#{arg}.js"))
+      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir], 'lib', 'js', "#{arg}.js"))
       sum << f.read
     end
     ['<script type="text/javascript">', data, '</script>'].join
@@ -59,7 +59,7 @@ class AdminData::Util
 
   def self.stylesheet_link_tag(*args)
     data = args.inject('') do |sum, arg|
-      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir],'lib','css',"#{arg}.css"))
+      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir], 'lib', 'css', "#{arg}.css"))
       sum << f.read
     end
     ["<style type='text/css'>", data, '</style>'].join
@@ -91,7 +91,6 @@ class AdminData::Util
   end
 
   def self.has_many_count(model, hm)
-    Rails.logger.debug "has_many_count: model is #{model.inspect} hm is #{hm.inspect}" if $debug_admin_data
     model.send(hm.intern).count
   end
 
