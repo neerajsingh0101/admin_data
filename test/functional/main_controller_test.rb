@@ -174,7 +174,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should 'have one association link for engine' do
        s2 = ERB::Util.html_escape('&')
        url = "/admin_data/klass/engine/#{@engine.id}"
-       assert_tag(:tag => 'a',:content => /Engine/, :attributes => {:href => url})
+       assert_tag(:tag => 'a', :content => /engine/, :attributes => {:href => url})
     end
   end
 
