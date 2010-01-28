@@ -143,75 +143,75 @@ module AdminData::Helpers
   end
 
 
-# using params[:controller]
-# Usage:
-#
-# admin_data_am_i_active(['main','index'])
-# admin_data_am_i_active(['main','index list'])
-# admin_data_am_i_active(['main','index list'],['search','advance_search'])
-def admin_data_am_i_active(*args)
-  flag = false
-  args.each do |arg|
-    controller_name = arg[0]
-    action_name = arg[1]
-    action_names = action_name.split
-    is_action_included = action_names.include?(params[:action])
-    flag = params[:controller] == "admin_data/#{controller_name}" && is_action_included
-    if flag
-      return 'active'
-      break
-    end
-  end
-  ''
-end
+   # using params[:controller]
+   # Usage:
+   #
+   # admin_data_am_i_active(['main','index'])
+   # admin_data_am_i_active(['main','index list'])
+   # admin_data_am_i_active(['main','index list'],['search','advance_search'])
+   def admin_data_am_i_active(*args)
+      flag = false
+      args.each do |arg|
+         controller_name = arg[0]
+         action_name = arg[1]
+         action_names = action_name.split
+         is_action_included = action_names.include?(params[:action])
+         flag = params[:controller] == "admin_data/#{controller_name}" && is_action_included
+         if flag
+            return 'active'
+            break
+         end
+      end
+      ''
+   end
 
-def admin_data_get_custom_value_for_column(column, model)
-  # some would say that if I use try method then I will not be raising exception and
-  # I agree. However in this case for clarity I would prefer to not to have try after each call
-  begin
-    AdminDataConfig.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
-  rescue
-    model.send(column.name)
-  end
-end
+   def admin_data_get_custom_value_for_column(column, model)
+      # some would say that if I use try method then I will not be raising exception and
+      # I agree. However in this case for clarity I would prefer to not to have try after each call
+      begin
+         AdminDataConfig.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
+      rescue
+         model.send(column.name)
+      end
+   end
 
-# uses truncate method
-# options supports :limit which is applied if the column type is string or text
-def admin_data_get_value_for_column(column, model, options = {})
-  options.reverse_merge!(:limit => 400)
+   # uses truncate method
+   # options supports :limit which is applied if the column type is string or text
+   def admin_data_get_value_for_column(column, model, options = {})
+      options.reverse_merge!(:limit => 400)
 
-  value = admin_data_get_custom_value_for_column(column, model)
+      value = admin_data_get_custom_value_for_column(column, model)
 
-  if column.type == :datetime
-    value.strftime('%d-%B-%Y %H:%M:%S %p') unless value.blank?
-  elsif column.type == :string || column.type == :text
-    return value if options[:limit].blank?
-    # truncate method fails in handling serialized array stored in string column
-    begin
-      truncate(value,:length => options[:limit])
-    rescue
-      '<actual data is not being shown because truncate method failed.>'
-    end
-  else
-    value
-  end
-end
+      if column.type == :datetime
+         value.strftime('%d-%B-%Y %H:%M:%S %p') unless value.blank?
+      elsif column.type == :string || column.type == :text
+         return value if options[:limit].blank?
+         # truncate method fails in handling serialized array stored in string column
+         begin
+            truncate(value,:length => options[:limit])
+         rescue
+            '<actual data is not being shown because truncate method failed.>'
+         end
+      else
+         value
+      end
+   end
 
-def admin_data_get_label_values_pair_for(model)
-  model.class.columns.inject([]) do |sum, column|
-    sum << [column.name, h(admin_data_get_value_for_column(column, model, :limit => nil))]
-  end
-end
+   def admin_data_get_label_values_pair_for(model)
+      model.class.columns.inject([]) do |sum, column|
+         sum << [column.name, h(admin_data_get_value_for_column(column, model, :limit => nil))]
+      end
+   end
 
-private
+   private
 
-def get_serialized_value(html, column_value)
-  html << %{ <i>Cannot edit serialized field.</i> }
-  unless column_value.blank?
-    html << %{ <i>Raw contents:</i><br/> }
-    html << column_value.inspect
-  end
-  html.join
-end
+   def get_serialized_value(html, column_value)
+      html << %{ <i>Cannot edit serialized field.</i> }
+      unless column_value.blank?
+         html << %{ <i>Raw contents:</i><br/> }
+         html << column_value.inspect
+      end
+      html.join
+   end
 
 end
