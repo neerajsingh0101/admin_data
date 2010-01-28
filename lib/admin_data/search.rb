@@ -7,12 +7,15 @@ module Search
        @field_name = field_name
        @operator = operator
     end
+
     def like_operator
       'LIKE'
     end
+    
     def sql_field_name
       "#{@table_name}.#{@field_name}"
     end
+    
     def operands
       @operands
     end
@@ -29,6 +32,7 @@ module Search
       result = super
       %w(contains is_exactly does_not_contain).include?(@operator) ?  "upper(#{result})" : result
     end
+    
     def operands
       result = super
       %w(contains is_exactly does_not_contain).include?(@operator) ?  result.upcase : result
@@ -143,7 +147,6 @@ module Search
       end
     end
 
-
     def validate
       case operator
       when /(is_on|is_on_or_before_date|is_on_or_after_date)/:
@@ -162,9 +165,9 @@ module Search
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     conditions = str_columns.collect do |column|
-      t = Term.new(klass, {  :col1 => column.name,
-        :col2 => 'contains',
-      :col3 => search_term}, 'quick_search')
+      t = Term.new(klass, {:col1 => column.name,
+                           :col2 => 'contains',
+                           :col3 => search_term}, 'quick_search')
       t.attribute_condition
     end
     AdminData::Util.or_merge_conditions(klass, *conditions)
