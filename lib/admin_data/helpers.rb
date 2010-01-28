@@ -18,10 +18,10 @@ module AdminData::Helpers
   def admin_data_has_many_data(model, klass)
     array = AdminData::Util.has_many_what(klass).inject([]) do |output, hm| 
       begin
-        Rails.logger.debug "processing hm: #{hm.inspect}" if $debug_admin_data 
         label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')' 
         if AdminData::Util.has_many_count(model,hm) > 0 
-          output << link_to(label, admin_data_search_path(:klass => AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore, 
+          has_many_klass_name = AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore 
+          output << link_to(label, admin_data_search_path(:klass => has_many_klass_name,
                                                           :children => hm,
                                                           :base => klass.name.underscore, 
                                                           :model_id => model.id))        
@@ -80,25 +80,29 @@ module AdminData::Helpers
       reflection.primary_key_name.to_sym == col.name.to_sym
     }
 
-    # in some edge cases following code throws exception. I am working on it.
-    # In the meantime I am putting a rescue block
-    begin
-      options = reflection.options
-      if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
-        html << f.text_field(col.name)
-      else
-        ref_klass = reflection.klass
-        association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
-        all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
-        html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true)
+      # in some edge cases following code throws exception. I am working on it.
+      # In the meantime I am putting a rescue block
+      begin
+         options = reflection.options
+         if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
+            html << f.text_field(col.name)
+         else
+            ref_klass = reflection.klass
+            association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
+            all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
+            html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true)
+         end
+      rescue Exception => e
+         Rails.logger.info AdminData::Util.exception_info(e)
+         'could not retrieve' # returning nil
       end
-    rescue Exception => e
-      Rails.logger.info AdminData::Util.exception_info(e)
-      'could not retrieve' # returning nil
+
+    else
+      handle_column_type(col, html, model, column_value, f)
     end
+  end
 
-
-  else
+  def handle_column_type(col, html, model, column_value, f)
     case col.type
     when :text
       html << f.text_area(col.name, :rows => 6, :cols => 70)
@@ -137,7 +141,6 @@ module AdminData::Helpers
       html << f.text_field(col.name, options)
     end
   end
-end
 
 
 # using params[:controller]
