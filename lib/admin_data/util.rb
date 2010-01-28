@@ -2,14 +2,11 @@ class AdminData::Util
 
   # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions 
   def self.or_merge_conditions(klass, *conditions)
-   segments = []
-   conditions.each do |condition|
-      unless condition.blank?
-         sql = klass.send(:sanitize_sql, condition)
-         segments << sql unless sql.blank?
-      end
-   end
-   "(#{segments.join(') OR (')})" unless segments.empty?
+   s = ') OR ('
+   cond = conditions.inject([]) do |sum, condition|
+      condition.blank? ? sum : sum << klass.send(:sanitize_sql, condition)
+   end.compact.join(s)
+   "(#{cond})" unless cond.blank?
   end
 
   # klass_name = model_name.sub(/\.rb$/,'').camelize
