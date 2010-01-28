@@ -18,7 +18,8 @@ class AdminData::SearchController  < AdminData::BaseController
     @order = default_order
 
     if params[:base]
-      model = params[:base].camelize.constantize.find(params[:model_id])
+      klass = AdminData::Util.camelize_constantize(params[:base])
+      model = klass.find(params[:model_id])
       has_many_proxy = model.send(params[:children].intern)
       @total_num_of_children = has_many_proxy.send(:count)
       @records = has_many_proxy.send(  :paginate,
@@ -52,25 +53,25 @@ class AdminData::SearchController  < AdminData::BaseController
         if !hash[:errors].blank?
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
                  :locals => {:errors => errors}
-        else
-          if params[:admin_data_advance_search_action_type] == 'destroy'
+          return
+        end
+         if params[:admin_data_advance_search_action_type] == 'destroy'
             handle_advance_search_action_type_destroy
-          elsif params[:admin_data_advance_search_action_type] == 'delete'
+         elsif params[:admin_data_advance_search_action_type] == 'delete'
             handle_advance_search_action_type_delete
-          else
+         else
             @records = @klass.paginate(:page => params[:page], 
-                                       :per_page => per_page, 
-                                       :order => @order, 
-                                       :conditions => @cond )
-          end
+                                    :per_page => per_page, 
+                                    :order => @order, 
+                                    :conditions => @cond )
+         end
 
-          if @success_message
+         if @success_message
             render :json => {:success => @success_message }
-          else
+         else
             render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
                      :locals => {:klass => @klass, :records => @records}
           end
-        end
       }
     end
   end
@@ -80,7 +81,7 @@ class AdminData::SearchController  < AdminData::BaseController
   def ensure_valid_children_klass
     if params[:base]
       begin
-        model_klass = params[:base].camelize.constantize
+        model_klass = AdminData::Util.camelize_constantize(params[:base])
       rescue NameError => e #incase params[:base] is junk value
         render :text => "#{params[:base]} is an invalid value", :status => :not_found
         return

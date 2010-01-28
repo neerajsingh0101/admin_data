@@ -35,7 +35,7 @@ class AdminData::BaseController < ApplicationController
 
   def get_class_from_params
     begin
-      @klass = params[:klass].camelize.constantize
+      @klass = AdminData::Util.camelize_constantize(params[:klass])
     rescue TypeError => e # in case no params[:klass] is supplied
       Rails.logger.debug 'no params[:klass] was supplied'
       redirect_to admin_data_index_path
@@ -84,12 +84,12 @@ class AdminData::BaseController < ApplicationController
   end
 
   def check_page_parameter
-   # Got hoptoad error because of url like http://localhost:3000/admin_data/User/advance_search?page=http://201.134.249.164/intranet/on.txt?
-   if params[:page].blank? || (params[:page] =~ /\A\d+\z/)
+    # Got hoptoad error because of url like http://localhost:3000/admin_data/User/advance_search?page=http://201.134.249.164/intranet/on.txt?
+    if params[:page].blank? || (params[:page] =~ /\A\d+\z/)
       # proceed
-   else
+    else
       render :text => 'Invalid params[:page]', :status => :unprocessable_entity 
-   end
+    end
   end
 
 end

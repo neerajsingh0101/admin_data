@@ -14,6 +14,11 @@ class AdminData::Util
    "(#{cond})" unless cond.blank?
   end
 
+  def self.camelize_constantize(klassu)
+     klasss = klassu.camelize
+     self.constantize_klass(klasss)
+  end
+
   # klass_name = model_name.sub(/\.rb$/,'').camelize
   # constantize_klass(klass_name)
   def self.constantize_klass(klass_name)
