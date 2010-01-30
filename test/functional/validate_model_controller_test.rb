@@ -42,8 +42,34 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
    end
    should_respond_with :success
   end
-  
 
+  context 'params[:tid] missing case' do
+     setup do
+         xml_http_request :post, :validate_model 
+     end
+     should_respond_with :success
+     should 'testing JSON output' do
+        o = JSON.parse(@response.body)
+        assert o.has_key?('error')
+        assert o.fetch('error') == 'Something went wrong. Please try again !!'
+     end
+  end
+
+  context 'params[:model] missing case' do
+     setup do
+         tid = Time.now.strftime('%Y%m%d%H%M%S')
+         xml_http_request :post, :validate_model, :tid => tid 
+     end
+     should_respond_with :success
+     should 'testing JSON output' do
+        o = JSON.parse(@response.body)
+        assert o.has_key?('error')
+        assert o.fetch('error') == 'Please select at least one model' 
+     end
+  end
+
+  
+#model[Car]	1
 #http://localhost:3000/admin_data/diagnostic/validate
 #tid	20100129173138
 #still_processing	yes

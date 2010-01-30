@@ -2,9 +2,9 @@ module AdminData::Helpers
 
   def admin_data_invalid_record_link(klassu, id, error)
    record = klassu.camelize.constantize.send(:find, id) 
-   tmp = admin_data_on_k_path(:klass => klasss.underscore, :id => record) 
+   tmp = admin_data_on_k_path(:klass => klassu, :id => record) 
    a = []
-   a << link_to(klasss, tmp, :target => '_blank') 
+   a << link_to(klassu.camelize, tmp, :target => '_blank') 
    a << id
    a << error
    a.join(' | ')

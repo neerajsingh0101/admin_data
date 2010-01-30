@@ -8,6 +8,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
 
   def validate
     @page_title = 'validate model'
+    @tid = Time.now.strftime('%Y%m%d%H%M%S')
     respond_to {|format| format.html}
   end
 
@@ -16,6 +17,12 @@ class AdminData::ValidateModelController < AdminData::BaseController
       format.js do
         if params[:tid].blank?
           render :json => {:error => 'Something went wrong. Please try again !!' }
+          return
+
+        elsif params[:model].blank? && params[:still_processing].blank?
+          render :json => {:error => 'Please select at least one model' }
+          return
+        
         elsif !params[:still_processing].blank?
           tid = params[:tid]
           data = gather_data(tid)
@@ -24,11 +31,10 @@ class AdminData::ValidateModelController < AdminData::BaseController
           render :json => { :still_processing => answer, 
                             :data => data,
                             :currently_processing_klass =>  currently_processing_klass(tid) }
-        elsif params[:model].blank? || params[:model].empty?
-          render :json => {:error => 'Please select at least one model' }
-          return
         else
-          start_validation
+          tid = params[:tid]
+          klasses = params[:model].keys.join(',')
+          start_validation_rake_task(tid, klasses)
           base_url = request.protocol + request.host_with_port
           render :json => {:still_processing => 'yes', :base_url => base_url }
         end
@@ -38,8 +44,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
 
   private
 
-  def start_validation
-    tid = params[:tid]
+  def start_validation_rake_task(tid, klasses)
     f = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid)
     FileUtils.rm_rf(f) if File.directory?(f)
     FileUtils.mkdir_p(f)
@@ -48,7 +53,6 @@ class AdminData::ValidateModelController < AdminData::BaseController
     AdminData::Util.write_to_validation_file(tid, 'bad.txt', 'a', '')
     AdminData::Util.write_to_validation_file(tid, 'good.txt', 'a', '')
 
-    klasses = params[:model].keys.join(',')
     call_rake('admin_data:validate_models_bg', {:tid => tid, :klasses => klasses} )
   end
 
@@ -77,7 +81,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
         next if line.strip.blank?
         data << '<p>'
         m = regex.match(line)
-        data << admin_data_invalid_record_link(m[1], m[2], m[3])
+        data << render_to_string(:partial => 'bad', :locals => {:klassu => m[1], :id => m[2], :error => m[3]}) 
         data << '</p>'
       end
     end

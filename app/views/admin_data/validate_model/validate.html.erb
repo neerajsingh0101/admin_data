@@ -1,24 +1,3 @@
-<style>
-   .lhs {
-      float: left;
-      width: 300px;
-   }
-   .rhs {
-      float: left;
-   }
-   #error {
-      color: red;
-      font-size: 120%;
-   }
-   #validate_model_form {
-      padding: 10px;
-   }
-   #validation_result {
-      display: none;
-      margin-left: 0;
-   }
-</style>   
-
 <div id="main">
   <div class="block" id="block-tables">
 
@@ -28,11 +7,11 @@
          <div class='lhs'>   
             <h2 class="title">Validate model</h2>
             <div id='error'></div>
-            <% tid = Time.now.strftime('%Y%m%d%H%M%S') %>
             
-            <div id='tid' style='display:none'><%=tid%></div>
+            <div id='tid' style='display:none'><%=@tid%></div>
 
-            <form id="validate_model_form" method="post" action="/admin_data/diagnostic/validate_model?tid=<%=tid%>">
+            <form id="validate_model_form" method="post" 
+                                           action="/admin_data/diagnostic/validate_model?tid=<%=@tid%>">
                <%= check_box_tag 'validate_model_select_all' %>
                <strong>
                <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
@@ -58,3 +37,25 @@
     </div>
  </div>
 </div>
+
+<style>
+   .lhs {
+      float: left;
+      width: 300px;
+   }
+   .rhs {
+      float: left;
+   }
+   #error {
+      color: red;
+      font-size: 120%;
+   }
+   #validate_model_form {
+      padding: 10px;
+   }
+   #validation_result {
+      display: none;
+      margin-left: 0;
+   }
+</style>   
+
