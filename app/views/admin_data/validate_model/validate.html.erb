@@ -10,8 +10,7 @@
             
             <div id='tid' style='display:none'><%=@tid%></div>
 
-            <form id="validate_model_form" method="post" 
-                                           action="/admin_data/diagnostic/validate_model?tid=<%=@tid%>">
+            <% form_tag "/admin_data/diagnostic/validate_model?tid=#{@tid}", :method => "post", :id => "validate_model_form" do |f| %>
                <%= check_box_tag 'validate_model_select_all' %>
                <strong>
                <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
@@ -23,7 +22,7 @@
                   </p>
                <% end %>   
                <%= submit_tag('Start validation', :id => 'submit') %>
-            </form>
+            <% end %>
          </div>
 
          <div class='rhs'>
