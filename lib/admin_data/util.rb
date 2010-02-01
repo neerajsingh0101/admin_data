@@ -7,6 +7,25 @@ class AdminData::Util
     end
   end
 
+  # using params[:controller]
+  # Usage:
+  #
+  # admin_data_am_i_active(['main','index'])
+  # admin_data_am_i_active(['main','index list'])
+  # admin_data_am_i_active(['main','index list'],['search','advance_search'])
+  def self.am_i_active(params, *args)
+    args.each do |arg|
+      controller_name = arg[0]
+      action_names = arg[1].split
+      is_action_included = action_names.include?(params[:action])
+      if params[:controller] == "admin_data/#{controller_name}" && is_action_included
+        return 'active'
+        break
+      end
+    end
+    ''
+  end
+
   def self.custom_value_for_column(column, model)
     # some would say that if I use try method then I will not be raising exception and
     # I agree. However in this case for clarity I would prefer to not to have try after each call

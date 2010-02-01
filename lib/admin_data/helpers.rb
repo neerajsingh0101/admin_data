@@ -161,27 +161,6 @@ module AdminData::Helpers
     end
   end
 
-
-  # using params[:controller]
-  # Usage:
-  #
-  # admin_data_am_i_active(['main','index'])
-  # admin_data_am_i_active(['main','index list'])
-  # admin_data_am_i_active(['main','index list'],['search','advance_search'])
-  def admin_data_am_i_active(*args)
-    args.each do |arg|
-      controller_name = arg[0]
-      action_names = arg[1].split
-      is_action_included = action_names.include?(params[:action])
-      if params[:controller] == "admin_data/#{controller_name}" && is_action_included
-        return 'active'
-        break
-      end
-    end
-    ''
-  end
-
-
   # uses truncate method
   # options supports :limit which is applied if the column type is string or text
   def admin_data_get_value_for_column(column, model, options = {})
