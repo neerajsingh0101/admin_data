@@ -26,30 +26,30 @@ class AdminData::Util
     end
   end
 
-  def self.columns_order(klass_s)
-    klass = self.constantize_klass(klass_s)
+  def self.columns_order(klasss)
+    klass = self.constantize_klass(klasss)
     columns = klass.columns.map(&:name)
     columns_symbol = columns.map(&:intern)
 
     columns_order = AdminDataConfig.setting[:columns_order]
 
-    if columns_order && columns_order.has_key?(klass_s) && columns_order.fetch(klass_s)
+    if columns_order && columns_order[klasss]
       primary_key = klass.send(:primary_key).intern
-      order = [primary_key] + columns_order.fetch(klass_s)
+      order = [primary_key] + columns_order.fetch(klasss)
       order.uniq!
       sanitized_order = order - (order - columns_symbol)
       sorted_columns = sanitized_order + (columns_symbol - sanitized_order)
-      sorted_columns.map(&:to_s)
-    else
-      if columns_symbol.include? :created_at
-        columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
-      end
-
-      if columns_symbol.include? :updated_at
-        columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
-      end
-      columns_symbol.map(&:to_s)
+      return sorted_columns.map(&:to_s)
     end
+
+    if columns_symbol.include? :created_at
+      columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
+    end
+
+    if columns_symbol.include? :updated_at
+      columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
+    end
+    columns_symbol.map(&:to_s)
   end
 
   def self.write_to_validation_file(tid, filename, mode, data)
