@@ -8,12 +8,17 @@ class AdminData::BaseController < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter
+  before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
 
   attr_reader :klass
   attr_reader :model
 
   private
+
+  def prepare_drop_down_klasses
+      k = params[:klass] || '' 
+      @drop_down_url = "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}"
+  end
 
   def ensure_is_allowed_to_view
     unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)
