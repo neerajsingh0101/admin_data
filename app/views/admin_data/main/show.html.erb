@@ -15,7 +15,7 @@
       <h2 class="title"></h2>
       <div class="inner">
         <table class="table with_border" cellspacing="3" cellpadding="3">
-          <% admin_data_get_label_values_pair_for(@model).each do |pair| %>
+          <% AdminData::Util.label_values_pair_for(@model, self).each do |pair| %>
             <tr>
               <td><%=pair[0]%></td>
               <td style='font-size:120%;'><%=pair[1]%></td>

@@ -1,5 +1,22 @@
 class AdminData::Util
 
+  def self.label_values_pair_for(model, view)
+    model.class.columns.inject([]) do |sum, column|
+      tmp = view.admin_data_get_value_for_column(column, model, :limit => nil)
+      sum << [column.name, view.send(:h,tmp)]
+    end
+  end
+
+  def self.custom_value_for_column(column, model)
+    # some would say that if I use try method then I will not be raising exception and
+    # I agree. However in this case for clarity I would prefer to not to have try after each call
+    begin
+      AdminDataConfig.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
+    rescue
+      model.send(column.name)
+    end
+  end
+
   def self.get_serialized_value(html, column_value)
     html << %{ <i>Cannot edit serialized field.</i> }
     unless column_value.blank?
