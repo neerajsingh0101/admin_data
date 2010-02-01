@@ -58,10 +58,9 @@ module AdminData::Helpers
 
         if belongs_to_record && t[:polymorphic]
           output << link_to(belongs_to_record.class.name,
-          admin_data_on_k_path(:klass => belongs_to_record.class.name.underscore,
-          :id => belongs_to_record))
+          admin_data_on_k_path(:klass => belongs_to_record.class.name.underscore, :id => belongs_to_record))
         elsif belongs_to_record
-          output << link_to(bt, admin_data_on_k_path(:klass => klass_name.underscore,:id => model.send(bt)))
+          output << link_to(bt, admin_data_on_k_path(:klass => klass_name.underscore, :id => model.send(bt)))
         else
           output << bt
         end
@@ -96,9 +95,6 @@ module AdminData::Helpers
     end
   end
 
-  def get_reflection_for_column(klass, col)
-    klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
-  end
 
   def admin_data_form_field_for_association_records(klass, col, f, html)
     begin
@@ -119,7 +115,6 @@ module AdminData::Helpers
       'could not retrieve' # returning nil
     end
   end
-
 
   def handle_column_type(col, html, model, column_value, f)
     case col.type
@@ -182,5 +177,8 @@ module AdminData::Helpers
     end
   end
 
+  def get_reflection_for_column(klass, col)
+    klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
+  end
 
 end
