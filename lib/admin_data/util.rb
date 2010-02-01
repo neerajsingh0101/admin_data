@@ -4,18 +4,18 @@ class AdminData::Util
     count > 1 ? text+'s' : text
   end
 
-  # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions 
+  # Rails method merge_conditions ANDs all the conditions. I need to ORs all the conditions
   def self.or_merge_conditions(klass, *conditions)
-   s = ') OR ('
-   cond = conditions.inject([]) do |sum, condition|
+    s = ') OR ('
+    cond = conditions.inject([]) do |sum, condition|
       condition.blank? ? sum : sum << klass.send(:sanitize_sql, condition)
-   end.compact.join(s)
-   "(#{cond})" unless cond.blank?
+    end.compact.join(s)
+    "(#{cond})" unless cond.blank?
   end
 
   def self.camelize_constantize(klassu)
-     klasss = klassu.camelize
-     self.constantize_klass(klasss)
+    klasss = klassu.camelize
+    self.constantize_klass(klasss)
   end
 
   # klass_name = model_name.sub(/\.rb$/,'').camelize
@@ -142,7 +142,7 @@ class AdminData::Util
   end
 
   def self.build_sort_options(klass, sortby)
-    klass.columns.inject([]) do |result,column|
+    klass.columns.inject([]) do |result, column|
       name = column.name
 
       selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''
