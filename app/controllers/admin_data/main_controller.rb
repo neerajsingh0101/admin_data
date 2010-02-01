@@ -58,18 +58,21 @@ class AdminData::MainController  < AdminData::BaseController
 
   def edit
     @page_title = "edit #{@klass.name.underscore}:#{@model.id}"
+    @columns = columns_list
     respond_to {|format| format.html}
   end
 
   def new
     @page_title = "new #{@klass.name.underscore}"
     @model = @klass.send(:new)
+    @columns = columns_list
     respond_to {|format| format.html}
   end
 
   def update
     model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
+    @columns = columns_list
     respond_to do |format|
       if @model.update_attributes(model_attrs)
         format.html do 
@@ -88,6 +91,7 @@ class AdminData::MainController  < AdminData::BaseController
     model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
     @model = @klass.create(model_attrs)
+    @columns = columns_list
 
     respond_to do |format|
       if @model.errors.any?
@@ -127,6 +131,10 @@ class AdminData::MainController  < AdminData::BaseController
       render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", 
              :status => :not_found
     end
+  end
+
+  def columns_list
+      params[:attr].blank? ? @klass.columns : @klass.columns.find_all {|col| params[:attr] == col.name}
   end
 
 end

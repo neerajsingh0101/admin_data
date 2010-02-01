@@ -18,7 +18,7 @@
           <% AdminData::Util.label_values_pair_for(@model, self).each do |pair| %>
             <tr>
               <td><%=pair[0]%></td>
-              <td style='font-size:120%;'><%=pair[1]%></td>
+              <td class='smaller'><%=pair[1]%></td>
             </tr>   
           <% end %>   
         </table>
@@ -35,5 +35,8 @@
 <style>
   #main {
    width:70%;
+  }
+  table.with_border td.smaller {
+   font-size: 120%;
   }
 </style>  

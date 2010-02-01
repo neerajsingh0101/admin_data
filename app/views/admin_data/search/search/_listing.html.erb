@@ -22,9 +22,8 @@
         <td>
           <% if (column == klass.primary_key) %>
             <%= link_to(record.send(column), admin_data_on_k_path(:klass => klass.name.underscore, :id => record)) %>
-         <% else
-            column_native = klass.send(:columns).select {|r| r.instance_variable_get('@name') == column}.first %>
-            <%=h  admin_data_get_value_for_column(column_native,record) %>
+         <% else %>
+            <%=h  admin_data_get_value_for_column(admin_data_column_native(klass, column), record) %>
           <% end %>  
         </td>
       <% end %>

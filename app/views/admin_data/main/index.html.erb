@@ -3,6 +3,7 @@
     <div class="content rounded">          
       <h2 class="title">Models</h2>
       <div class="inner">
+         
       <% @klasses.each do |klass| %>
           <span class='klass_box'>
             <%= link_to klass.name, admin_data_search_path(:klass => klass.name.underscore) %> 
@@ -11,6 +12,7 @@
             (<%= pluralize(klass.send(:count),'record') %>)
           </span>
       <% end %>
+
       </div>
     </div>
   </div>

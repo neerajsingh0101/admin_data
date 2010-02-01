@@ -1,5 +1,9 @@
 module AdminData::Helpers
 
+   def admin_data_column_native(klass, column)
+      klass.send(:columns).select {|r| r.instance_variable_get('@name') == column}.first 
+   end
+
   def admin_data_invalid_record_link(klassu, id, error)
     record = klassu.camelize.constantize.send(:find, id)
     tmp = admin_data_on_k_path(:klass => klassu, :id => record)
