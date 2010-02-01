@@ -13,6 +13,7 @@ class CreateTables < ActiveRecord::Migration
       t.string :magazine_type
       t.timestamps
       t.integer :magazine_id # so that created_at and updated_at are not at the end
+      t.text :data
     end
 
     create_table :tech_magazines do |t|

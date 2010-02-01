@@ -80,7 +80,7 @@ module AdminData::Helpers
     column_value = model.send(col.name)
 
     if klass.serialized_attributes.has_key?(col.name)
-      return get_serialized_value(html,column_value)
+      return AdminData::Util.get_serialized_value(html,column_value)
     end
 
     if col.primary
@@ -207,17 +207,6 @@ module AdminData::Helpers
       model.class.columns.inject([]) do |sum, column|
          sum << [column.name, h(admin_data_get_value_for_column(column, model, :limit => nil))]
       end
-   end
-
-   private
-
-   def get_serialized_value(html, column_value)
-      html << %{ <i>Cannot edit serialized field.</i> }
-      unless column_value.blank?
-         html << %{ <i>Raw contents:</i><br/> }
-         html << column_value.inspect
-      end
-      html.join
    end
 
 end

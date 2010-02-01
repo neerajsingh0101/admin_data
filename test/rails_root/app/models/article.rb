@@ -10,6 +10,8 @@ class Article < ActiveRecord::Base
 
   validates_presence_of :title,:body
 
+  serialize :data
+
   def to_param
     "#{id}-#{title.gsub(' ', '_').camelize}"
   end

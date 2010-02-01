@@ -272,7 +272,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'get edit article with attr' do
     setup do
-      get :edit, {:id => @article.id, :klass => @article.class.name, :attr => 'title' }
+      get :edit, {:id => @article.id, :klass => @article.class.name, :attr => 'title', :data => 'Hello World' }
     end
 
     should 'have input field for title' do

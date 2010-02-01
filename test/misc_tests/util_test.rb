@@ -24,7 +24,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
     end
     should 'have created_at and updated_at at the very end' do
       assert_equal %w(article_id title body body_html short_desc status published_at approved hits_count
-                      magazine_type magazine_id created_at updated_at
+                      magazine_type magazine_id data created_at updated_at
                      ), @output
     end
   end
@@ -36,7 +36,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
     end
     should 'have right order' do
       assert_equal %w(article_id body published_at title body_html short_desc status approved hits_count
-                      magazine_type created_at updated_at magazine_id
+                      magazine_type created_at updated_at magazine_id data
                      ), 
                   @output
     end
