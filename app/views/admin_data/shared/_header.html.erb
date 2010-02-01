@@ -6,9 +6,7 @@
     </div>  
 
     <ul>
-      <li class="first <%=AdminData::Util.am_i_active(params,
-                                                 ['main','all_models index show table_structure new create edit'],
-                                                 ['search','search advance_search'])%>">
+      <li class="first <%=AdminData::Util.am_i_active(params, ['main','all_models index show table_structure new create edit'], ['search','search advance_search'])%>">
         <%= link_to 'Home', admin_data_index_path %>
       </li>
 
