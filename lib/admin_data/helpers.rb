@@ -1,8 +1,29 @@
 module AdminData::Helpers
 
-   def admin_data_column_native(klass, column)
-      klass.send(:columns).select {|r| r.instance_variable_get('@name') == column}.first 
-   end
+  def search_result_title(total_num_of_children, records)
+    output = []
+    if params[:base]
+      label = params[:base].camelize + ' ID ' + params[:model_id]
+      output << link_to(label, admin_data_on_k_path(:klass => params[:base], :id => params[:model_id]))
+      output << 'has'
+      output << pluralize(total_num_of_children, params[:klass])
+
+    elsif !params[:query].blank? || params[:adv_search]
+      output << 'Search result:'
+      output << pluralize(records.total_entries, 'record')
+      output << 'found'
+
+    else
+      output << 'All '
+      output << params[:klass].camelize
+      output << 'records'
+    end
+    output.join(' ')
+  end
+
+  def admin_data_column_native(klass, column)
+    klass.send(:columns).select {|r| r.instance_variable_get('@name') == column}.first
+  end
 
   def admin_data_invalid_record_link(klassu, id, error)
     record = klassu.camelize.constantize.send(:find, id)
