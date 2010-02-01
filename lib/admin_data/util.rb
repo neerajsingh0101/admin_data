@@ -1,13 +1,13 @@
 class AdminData::Util
 
-   def self.get_serialized_value(html, column_value)
-      html << %{ <i>Cannot edit serialized field.</i> }
-      unless column_value.blank?
-         html << %{ <i>Raw contents:</i><br/> }
-         html << column_value.inspect
-      end
-      html.join
-   end
+  def self.get_serialized_value(html, column_value)
+    html << %{ <i>Cannot edit serialized field.</i> }
+    unless column_value.blank?
+      html << %{ <i>Raw contents:</i><br/> }
+      html << column_value.inspect
+    end
+    html.join
+  end
 
   def self.pluralize(count, text)
     count > 1 ? text+'s' : text
@@ -62,7 +62,7 @@ class AdminData::Util
   end
 
   def self.write_to_validation_file(tid, filename, mode, data)
-     raise 'boom'
+    raise 'boom'
     FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid))
     file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , filename)
     File.open(file, mode) {|f| f.puts(data) }
@@ -85,7 +85,7 @@ class AdminData::Util
   end
 
   #def self.get_class_name_for_habtm_association(model, habtm_string)
-    #model.class.reflections.values.detect {|reflection| reflection.name == habtm_string.to_sym}.klass
+  #model.class.reflections.values.detect {|reflection| reflection.name == habtm_string.to_sym}.klass
   #end
 
   def self.get_class_name_for_has_many_association(model, has_many_string)
@@ -102,8 +102,7 @@ class AdminData::Util
     {:klass_name => reflections[belongs_to_string.intern].klass.name }
   end
 
-  def self.get_class_name_for_has_one_class(model, has_one_string)
-     raise 'boom'
+  def self.get_class_name_for_has_one_association(model, has_one_string)
     data = model.class.name.camelize.constantize.reflections.values.detect do |value|
       value.macro == :has_one && value.name.to_s == has_one_string
     end
@@ -115,7 +114,7 @@ class AdminData::Util
   end
 
   #def self.habtm_count(model, habtm)
-    #has_many_count(model, habtm)
+  #has_many_count(model, habtm)
   #end
 
   def self.has_many_what(klass)

@@ -21,9 +21,10 @@ ActiveRecord::Schema.define(:version => 20090809061114) do
     t.boolean  "approved"
     t.integer  "hits_count"
     t.string   "magazine_type"
-    t.integer  "magazine_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "magazine_id"
+    t.text     "data"
   end
 
   create_table "cars", :force => true do |t|
