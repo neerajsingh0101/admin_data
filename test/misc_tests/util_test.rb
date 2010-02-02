@@ -4,6 +4,21 @@ require File.expand_path(File.join(File.dirname(__FILE__), '../../../admin_data/
 
 class AdminDataUtilTest < Test::Unit::TestCase
 
+  context 'writing to validation file test' do
+    setup do
+      tid = 123456
+      filename = 'testing.txt'
+      mode = 'a'
+      data = 'hello world'
+      @output = capture_stdout do 
+        AdminData::Util.write_to_validation_file(tid, filename, mode, data) 
+      end
+    end
+    should 'have written to file' do
+     assert_equal @output.string, 'hello world' 
+    end
+  end
+
   context 'has_one' do
     subject { AdminData::Util.has_one_what(Vehicle::Car) }
     setup { @instance = Vehicle::Car.create(:year => 2000, :brand => 'bmw') }
@@ -80,6 +95,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
       assert_equal ["articles.body_html LIKE ?", "%foo%"], @term.attribute_condition
     end
   end
+
 
 
 

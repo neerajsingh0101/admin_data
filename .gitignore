@@ -4,3 +4,4 @@ tmp/*
 *.swp
 *.db
 response.html
+test/rails_root/tmp
