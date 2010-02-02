@@ -35,7 +35,6 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_update_model
-    #FIXME 
     render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_model?
   end
 

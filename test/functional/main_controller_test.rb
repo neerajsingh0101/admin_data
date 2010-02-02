@@ -87,7 +87,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
       end
     end
 
-
     context 'ensure_is_allowed_to_update' do
       setup do
         @filter = @before_filters.detect do |filter|
@@ -105,7 +104,30 @@ class AdminData::MainControllerTest < ActionController::TestCase
         assert @filter.options[:only].include?('create')
       end
     end
+
+    context 'ensure_is_allowed_to_update_model' do
+      setup do
+        @filter = @before_filters.detect do |filter|
+          filter.method == :ensure_is_allowed_to_update_model
+        end
+      end
+      should 'have filter called ensure_is_allowed_to_update_model' do
+        assert @filter
+      end
+      should 'have filter for actions' do
+        assert @filter.options[:only].include?('destroy')
+        assert @filter.options[:only].include?('del')
+        assert @filter.options[:only].include?('edit')
+        assert @filter.options[:only].include?('update')
+        assert @filter.options[:only].include?('create')
+      end
+    end
+
+
   end
+
+
+
 
   context 'get table_structure' do
     setup do
