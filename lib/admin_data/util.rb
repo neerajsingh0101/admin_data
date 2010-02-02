@@ -120,10 +120,6 @@ class AdminData::Util
     ["<style type='text/css'>", data, '</style>'].join
   end
 
-  #def self.get_class_name_for_habtm_association(model, habtm_string)
-  #model.class.reflections.values.detect {|reflection| reflection.name == habtm_string.to_sym}.klass
-  #end
-
   def self.get_class_name_for_has_many_association(model, has_many_string)
     data = model.class.name.camelize.constantize.reflections.values.detect do |value|
       value.macro == :has_many && value.name.to_s == has_many_string
@@ -148,10 +144,6 @@ class AdminData::Util
   def self.has_many_count(model, hm)
     model.send(hm.intern).count
   end
-
-  #def self.habtm_count(model, habtm)
-  #has_many_count(model, habtm)
-  #end
 
   def self.has_many_what(klass)
     associations_for(klass, :has_many).map(&:name).map(&:to_s)
