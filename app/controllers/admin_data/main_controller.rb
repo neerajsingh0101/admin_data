@@ -36,11 +36,6 @@ class AdminData::MainController  < AdminData::BaseController
     respond_to {|format| format.html}
   end
 
-  def index
-    #FIXME
-    respond_to {|format| format.html}
-  end
-
   def show
     @page_title = "#{@klass.name.underscore}:#{@model.id}"
     respond_to {|format| format.html}
@@ -109,11 +104,6 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   private
-
-  def table_name_and_attribute_name(klass,column)
-    #FIXME
-    table_name_and_attribute_name =  klass.table_name+'.'+column.name
-  end
 
   def get_model_and_verify_it
     primary_key = @klass.primary_key.intern
