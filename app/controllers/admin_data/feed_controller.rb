@@ -5,7 +5,7 @@ class AdminData::FeedController < AdminData::BaseController
   before_filter :ensure_is_allowed_to_view_feed
 
   def index
-    raise 'boom'
+    #FIXME
     render :text => "usage: http://localhost:3000/admin_data/feed/user" and return if params[:klasss].blank?
     @klasss = params[:klasss]
 
@@ -19,7 +19,7 @@ class AdminData::FeedController < AdminData::BaseController
   private
 
   def ensure_is_allowed_to_view_feed
-    raise 'boom'
+    #FIXME no tests
     #FIXME remove conditions for test env
     return if Rails.env.development? || Rails.env.test?
     if AdminDataConfig.setting[:feed_authentication_user_id].blank?

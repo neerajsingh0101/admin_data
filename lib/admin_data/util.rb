@@ -98,7 +98,7 @@ class AdminData::Util
   end
 
   def self.write_to_validation_file(tid, filename, mode, data)
-    raise 'boom'
+    #FIXME
     FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid))
     file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , filename)
     File.open(file, mode) {|f| f.puts(data) }
