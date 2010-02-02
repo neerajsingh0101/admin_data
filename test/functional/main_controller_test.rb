@@ -123,11 +123,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
       end
     end
 
-
   end
-
-
-
 
   context 'get table_structure' do
     setup do
