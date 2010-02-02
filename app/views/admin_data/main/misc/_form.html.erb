@@ -1,7 +1,5 @@
-<% 
-@columns.each do |col| 
-   col_limit = col.limit || 255 
-%>
+<% @columns.each do |col| 
+   col_limit = col.limit || 255 %>
     <div class='col_box'>
       <span class='col_name'><%= col.name %></span>
       <span class='col_type'>[<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>]</span>
