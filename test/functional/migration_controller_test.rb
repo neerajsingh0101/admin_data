@@ -14,7 +14,7 @@ class AdminData::MigrationControllerTest < ActionController::TestCase
   end
 
   should_route :get, '/admin_data/migration',    :controller => 'admin_data/migration',
-                                                  :action => :index
+  :action => :index
 
   context 'get index' do
     setup do

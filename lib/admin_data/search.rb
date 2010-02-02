@@ -2,20 +2,20 @@ module Search
 
   class Dbbase
     def initialize(operands, table_name, field_name, operator)
-       @operands = operands
-       @table_name = table_name
-       @field_name = field_name
-       @operator = operator
+      @operands = operands
+      @table_name = table_name
+      @field_name = field_name
+      @operator = operator
     end
 
     def like_operator
       'LIKE'
     end
-    
+
     def sql_field_name
       "#{@table_name}.#{@field_name}"
     end
-    
+
     def operands
       @operands
     end
@@ -32,7 +32,7 @@ module Search
       result = super
       %w(contains is_exactly does_not_contain).include?(@operator) ?  "upper(#{result})" : result
     end
-    
+
     def operands
       result = super
       %w(contains is_exactly does_not_contain).include?(@operator) ?  result.upcase : result
@@ -49,11 +49,11 @@ module Search
 
       adapter = AdminDataConfig.setting[:adapter_name].downcase
       if adapter =~ /postgresql/
-         self.dbbase = PostgresqlSpecific.new(@operands, table_name, field, operator)
+        self.dbbase = PostgresqlSpecific.new(@operands, table_name, field, operator)
       elsif adapter =~ /oracle/
-         self.dbbase = OracleSpecific.new(@operands, table_name, field, operator)
+        self.dbbase = OracleSpecific.new(@operands, table_name, field, operator)
       else
-         self.dbbase = Dbbase.new(@operands, table_name, field, operator)
+        self.dbbase = Dbbase.new(@operands, table_name, field, operator)
       end
     end
 
@@ -114,15 +114,15 @@ module Search
     private
 
     def like_operator
-       dbbase.like_operator
+      dbbase.like_operator
     end
 
     def sql_field_name
-       dbbase.sql_field_name
+      dbbase.sql_field_name
     end
 
     def operands
-       dbbase.operands
+      dbbase.operands
     end
 
     def operand_required?
@@ -159,15 +159,15 @@ module Search
     end
 
   end # end of Term
-  
+
 
   def build_quick_search_conditions( klass, search_term )
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     conditions = str_columns.collect do |column|
       t = Term.new(klass, {:col1 => column.name,
-                           :col2 => 'contains',
-                           :col3 => search_term}, 'quick_search')
+        :col2 => 'contains',
+      :col3 => search_term}, 'quick_search')
       t.attribute_condition
     end
     AdminData::Util.or_merge_conditions(klass, *conditions)

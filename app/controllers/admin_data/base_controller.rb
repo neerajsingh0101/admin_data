@@ -16,8 +16,8 @@ class AdminData::BaseController < ApplicationController
   private
 
   def prepare_drop_down_klasses
-      k = params[:klass] || '' 
-      @drop_down_url = "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}"
+    k = params[:klass] || ''
+    @drop_down_url = "http://#{request.host_with_port}/admin_data/quick_search/#{CGI.escape(k)}"
   end
 
   def ensure_is_allowed_to_view
@@ -66,8 +66,8 @@ class AdminData::BaseController < ApplicationController
   end
 
   def remove_klasses_without_table(klasses)
-    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && 
-                                                              k.connection.table_exists?(k.table_name) }
+    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) &&
+    k.connection.table_exists?(k.table_name) }
   end
 
   def get_klass_names(model_names)
@@ -93,7 +93,7 @@ class AdminData::BaseController < ApplicationController
     if params[:page].blank? || (params[:page] =~ /\A\d+\z/)
       # proceed
     else
-      render :text => 'Invalid params[:page]', :status => :unprocessable_entity 
+      render :text => 'Invalid params[:page]', :status => :unprocessable_entity
     end
   end
 

@@ -22,15 +22,15 @@ class AdminData::ValidateModelController < AdminData::BaseController
         elsif params[:model].blank? && params[:still_processing].blank?
           render :json => {:error => 'Please select at least one model' }
           return
-        
+
         elsif !params[:still_processing].blank?
           tid = params[:tid]
           data = gather_data(tid)
           done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
           answer = File.exists?(done_file) ? 'no' : 'yes'
-          render :json => { :still_processing => answer, 
-                            :data => data,
-                            :currently_processing_klass =>  currently_processing_klass(tid) }
+          render :json => { :still_processing => answer,
+            :data => data,
+          :currently_processing_klass =>  currently_processing_klass(tid) }
         else
           tid = params[:tid]
           klasses = params[:model].keys.join(',')
@@ -81,7 +81,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
         next if line.strip.blank?
         data << '<p>'
         m = regex.match(line)
-        data << render_to_string(:partial => 'bad', :locals => {:klassu => m[1], :id => m[2], :error => m[3]}) 
+        data << render_to_string(:partial => 'bad', :locals => {:klassu => m[1], :id => m[2], :error => m[3]})
         data << '</p>'
       end
     end

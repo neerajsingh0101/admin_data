@@ -14,16 +14,16 @@ class AdminData::DiagnosticControllerTest < ActionController::TestCase
   end
 
   should_route :get, '/admin_data/diagnostic',     :controller => 'admin_data/diagnostic',
-                                                   :action => :index
+  :action => :index
 
-  should_route :get, '/admin_data/diagnostic/missing_index', 
-                                                   :controller => 'admin_data/diagnostic',
-                                                   :action => :missing_index
+  should_route :get, '/admin_data/diagnostic/missing_index',
+  :controller => 'admin_data/diagnostic',
+  :action => :missing_index
 
   context 'before filters' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
-        filter.kind_of?(ActionController::Filters::BeforeFilter) 
+        filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
     end
     context 'ensure_is_allowed_to_view' do

@@ -1,18 +1,18 @@
-class AdminData::MainController  < AdminData::BaseController 
+class AdminData::MainController  < AdminData::BaseController
 
   unloadable
 
   before_filter :get_class_from_params,
-                :only => [ :table_structure, :show, :destroy, :del,
-                           :edit,:new,:update, :create]
-  
+  :only => [ :table_structure, :show, :destroy, :del,
+  :edit,:new,:update, :create]
+
   before_filter :ensure_is_allowed_to_view
   before_filter :ensure_is_allowed_to_view_model, :except => [:all_models, :index]
 
   before_filter :get_model_and_verify_it, :only => [:destroy, :del, :edit, :update, :show]
-  
-  before_filter :ensure_is_allowed_to_update, 
-                :only => [:destroy, :del, :edit, :update, :create]
+
+  before_filter :ensure_is_allowed_to_update,
+  :only => [:destroy, :del, :edit, :update, :create]
 
 
   def table_structure
@@ -75,14 +75,14 @@ class AdminData::MainController  < AdminData::BaseController
     @columns = columns_list
     respond_to do |format|
       if @model.update_attributes(model_attrs)
-        format.html do 
+        format.html do
           flash[:success] = "Record was updated"
-           redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
-         end
-         format.js { render :json => {:success => true}}
+          redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+        end
+        format.js { render :json => {:success => true}}
       else
-         format.html { render :action => 'edit' }
-         format.js { render :json => {:error => @model.errors.full_messages.join } }
+        format.html { render :action => 'edit' }
+        format.js { render :json => {:error => @model.errors.full_messages.join } }
       end
     end
   end
@@ -98,11 +98,11 @@ class AdminData::MainController  < AdminData::BaseController
         format.html { render :action => 'new' }
         format.js { render :json => {:error => @model.errors.full_messages.join() }}
       else
-         format.html do 
-           flash[:success] = "Record was created"
-           redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore) 
-         end
-         format.js { render :json => {} }
+        format.html do
+          flash[:success] = "Record was created"
+          redirect_to admin_data_on_k_path(:id => @model, :klass => @klass.name.underscore)
+        end
+        format.js { render :json => {} }
       end
     end
   end
@@ -118,23 +118,23 @@ class AdminData::MainController  < AdminData::BaseController
     conditional_id = params[:id] =~ /^(\d+)-.*/ ? params[:id].to_i : params[:id]
     condition = {primary_key => conditional_id}
 
-    # http://neerajdotname.github.com/admin_data/#override_find_condition  
+    # http://neerajdotname.github.com/admin_data/#override_find_condition
     find_conditions_proc = AdminDataConfig.setting[:find_conditions][@klass.name] rescue nil
     if find_conditions_proc && find_conditions = find_conditions_proc.call(params)
       if find_conditions.has_key?(:conditions)
-         condition = find_conditions.fetch(:conditions)
+        condition = find_conditions.fetch(:conditions)
       end
     end
 
     @model = @klass.send('find', :first, :conditions => condition)
     unless @model
-      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", 
-             :status => :not_found
+      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>",
+      :status => :not_found
     end
   end
 
   def columns_list
-      params[:attr].blank? ? @klass.columns : @klass.columns.find_all {|col| params[:attr] == col.name}
+    params[:attr].blank? ? @klass.columns : @klass.columns.find_all {|col| params[:attr] == col.name}
   end
 
 end

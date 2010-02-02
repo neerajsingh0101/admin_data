@@ -66,11 +66,11 @@ Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
 
 class ActiveSupport::TestCase
 
-  def revoke_read_only_access 
+  def revoke_read_only_access
     AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| false } })
   end
 
-  def grant_read_only_access 
+  def grant_read_only_access
     AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| true } })
   end
 
@@ -92,9 +92,9 @@ class ActiveSupport::TestCase
 end
 
 # to test helper tests
-require 'action_view/test_case' 
+require 'action_view/test_case'
 begin
-  require 'phocus' 
+  require 'phocus'
 rescue LoadError
   # it's alright if you don't have phocus
 end

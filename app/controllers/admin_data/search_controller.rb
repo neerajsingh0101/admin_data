@@ -23,16 +23,16 @@ class AdminData::SearchController  < AdminData::BaseController
       has_many_proxy = model.send(params[:children].intern)
       @total_num_of_children = has_many_proxy.send(:count)
       @records = has_many_proxy.send(  :paginate,
-                                       :page => params[:page],
-                                       :per_page => per_page,
-                                       :order => @order )
+      :page => params[:page],
+      :per_page => per_page,
+      :order => @order )
     else
       params[:query] = params[:query].strip unless params[:query].blank?
       cond = build_quick_search_conditions(@klass, params[:query])
       @records = @klass.paginate(   :page => params[:page],
-                                    :per_page => per_page,
-                                    :order => @order,
-                                    :conditions => cond )
+      :per_page => per_page,
+      :order => @order,
+      :conditions => cond )
     end
     respond_to {|format| format.html}
   end
@@ -52,26 +52,26 @@ class AdminData::SearchController  < AdminData::BaseController
 
         if !hash[:errors].blank?
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
-                 :locals => {:errors => errors}
+          :locals => {:errors => errors}
           return
         end
-         if params[:admin_data_advance_search_action_type] == 'destroy'
-            handle_advance_search_action_type_destroy
-         elsif params[:admin_data_advance_search_action_type] == 'delete'
-            handle_advance_search_action_type_delete
-         else
-            @records = @klass.paginate(:page => params[:page], 
-                                    :per_page => per_page, 
-                                    :order => @order, 
-                                    :conditions => @cond )
-         end
+        if params[:admin_data_advance_search_action_type] == 'destroy'
+          handle_advance_search_action_type_destroy
+        elsif params[:admin_data_advance_search_action_type] == 'delete'
+          handle_advance_search_action_type_delete
+        else
+          @records = @klass.paginate(:page => params[:page],
+          :per_page => per_page,
+          :order => @order,
+          :conditions => @cond )
+        end
 
-         if @success_message
-            render :json => {:success => @success_message }
-         else
-            render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
-                     :locals => {:klass => @klass, :records => @records}
-          end
+        if @success_message
+          render :json => {:success => @success_message }
+        else
+          render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
+          :locals => {:klass => @klass, :records => @records}
+        end
       }
     end
   end
@@ -87,8 +87,8 @@ class AdminData::SearchController  < AdminData::BaseController
         return
       end
       unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
-        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>", 
-               :status => :not_found
+        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>",
+        :status => :not_found
         return
       end
     end
@@ -109,11 +109,11 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def handle_advance_search_action_type_destroy
-   count = @klass.send(:count, :conditions => @cond);
-   @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-     record.destroy
-   end
-   @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed "
+    count = @klass.send(:count, :conditions => @cond);
+    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
+      record.destroy
+    end
+    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed "
   end
 
   def default_order
@@ -121,11 +121,11 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def set_collection_of_columns
-    collection_of_colums = @klass.columns.collect { |column| 
-      #JSLint complains if a hash has key named boolean. So I am changing the key to booleant  
+    collection_of_colums = @klass.columns.collect { |column|
+      #JSLint complains if a hash has key named boolean. So I am changing the key to booleant
       column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
-      "#{column.name}:'#{column_type}'" 
-    }  
+      "#{column.name}:'#{column_type}'"
+    }
     collection_of_colums = collection_of_colums.join(',')
     @collection_of_colums = "[{#{collection_of_colums}}]"
   end
