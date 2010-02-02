@@ -37,6 +37,7 @@ class AdminData::MainController  < AdminData::BaseController
   end
 
   def index
+    raise 'boom'
     respond_to {|format| format.html}
   end
 
@@ -110,6 +111,7 @@ class AdminData::MainController  < AdminData::BaseController
   private
 
   def table_name_and_attribute_name(klass,column)
+    raise 'boom'
     table_name_and_attribute_name =  klass.table_name+'.'+column.name
   end
 

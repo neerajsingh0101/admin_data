@@ -45,6 +45,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
   private
 
   def start_validation_rake_task(tid, klasses)
+    raise 'boom'
     f = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid)
     FileUtils.rm_rf(f) if File.directory?(f)
     FileUtils.mkdir_p(f)
@@ -57,6 +58,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
   end
 
   def call_rake(task, options = {})
+    raise 'boom'
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
     command =  "rake #{task} #{args.join(' ')}"
@@ -66,11 +68,13 @@ class AdminData::ValidateModelController < AdminData::BaseController
   end
 
   def currently_processing_klass(tid)
+    raise 'boom'
     processing_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'processing.txt')
     File.readlines(processing_file).last
   end
 
   def gather_data(tid)
+    raise 'boom'
     good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')
     bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'bad.txt')
     regex = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
