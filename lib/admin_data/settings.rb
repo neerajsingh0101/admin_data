@@ -37,9 +37,9 @@ class AdminDataConfig
 
       :is_allowed_to_update         => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
 
-      :is_allowed_to_view_model     => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
+      :is_allowed_to_view_model     => lambda {|controller| return true  },
 
-      :is_allowed_to_update_model   => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
+      :is_allowed_to_update_model   => lambda {|controller| return true  },
 
       :use_admin_data_layout        => true,
 
