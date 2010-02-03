@@ -1,7 +1,7 @@
 xml.instruct! :xml, :version => "1.0"
 xml.rss(:version => "2.0" ){
   xml.channel{
-    xml.title("Feeds from AdminData #{@klass.name}")
+    xml.title("Feeds from admin_data #{@klass.name}")
     xml.link(request.host_with_port)
     xml.description("feeds from AdminData #{@klass.name}")
     xml.language('en-us')
