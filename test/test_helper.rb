@@ -4,7 +4,6 @@ $:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers'))
 $:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers','admin_data'))
 
 
-
 module AdminData
 end
 
@@ -67,25 +66,25 @@ Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
 class ActiveSupport::TestCase
 
   def revoke_read_only_access
-    AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| false } })
+    AdminDataConfig.set = ({:is_allowed_to_view => Proc.new { |controller| false } })
   end
 
   def grant_read_only_access
-    AdminDataConfig.set=({:is_allowed_to_view => Proc.new { |controller| true } })
+    AdminDataConfig.set = ({:is_allowed_to_view => Proc.new { |controller| true } })
   end
 
   def grant_update_access
-    AdminDataConfig.set=({:is_allowed_to_update => Proc.new { |controller| true } })
+    AdminDataConfig.set = ({:is_allowed_to_update => Proc.new { |controller| true } })
   end
 
   def revoke_update_access
-    AdminDataConfig.set=({:is_allowed_to_update => Proc.new { |controller| false } })
+    AdminDataConfig.set = ({:is_allowed_to_update => Proc.new { |controller| false } })
   end
 
   def show_response
     Dir.mkdir(File.join(RAILS_ROOT, 'tmp')) unless File.directory?(File.join(RAILS_ROOT,'tmp'))
     response_html = File.join(RAILS_ROOT, 'tmp', 'response.html')
-    File.open(response_html,'w') { |f| f.write(@response.body) }
+    File.open(response_html, 'w') { |f| f.write(@response.body) }
     system 'open ' + File.expand_path(response_html) rescue nil
   end
 
@@ -97,18 +96,4 @@ begin
   require 'phocus'
 rescue LoadError
   # it's alright if you don't have phocus
-end
-
-
-#http://thinkingdigitally.com/archive/capturing-output-from-puts-in-ruby/
-require 'stringio'
-module Kernel
-  def capture_stdout
-    out = StringIO.new
-    $stdout = out
-    yield
-    return out
-  ensure
-    $stdout = STDOUT
-  end
 end

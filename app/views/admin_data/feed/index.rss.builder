@@ -10,7 +10,7 @@ xml.rss(:version => "2.0" ){
       xml.item do
         xml.title("#{@klasss} id: #{record.id}")
 
-        desc = admin_data_get_label_values_pair_for(record).inject([]) do |sum, a|
+        desc = AdminData::Util.label_values_pair_for(record, self).inject([]) do |sum, a|
           sum << "<p>#{a[0]}: #{a[1]}</p>"
         end.join
 

@@ -1,6 +1,6 @@
-require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
+require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
-f = File.join(File.dirname(__FILE__),'..','..','app','views')
+f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 AdminData::DiagnosticController.prepend_view_path(f)
 
