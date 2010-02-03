@@ -14,9 +14,7 @@
     <div class="content rounded">          
       <h2 class="title"></h2>
       <div class="inner">
-
         <h1 class='table_name'>Table name : <%=@klass.send(:table_name)%></h1>
-      
         <h2>Columns</h2>
         <table class="table colorize">
           <tr>
@@ -26,12 +24,12 @@
             <th>Default</th>
           </tr>
           <% @klass.columns.each do |column| %>
-              <tr>
+            <tr>
               <td><%=column.name%></td>
               <td><%=column.type%></td>
               <td><%=column.null%></td>
               <td><%= AdminData::Util.string_representation_of_data(column.default) if column.has_default?%></td>
-              </tr>
+            </tr>
           <% end %>  
         </table>
 
@@ -44,9 +42,9 @@
               <th>Info</th>
             </tr>
             <% @indexes.each do |index| %>
-                <tr>
+              <tr>
                 <td><%= index %></td>
-                </tr>
+              </tr>
             <% end %>  
           </table>
         <% end %>

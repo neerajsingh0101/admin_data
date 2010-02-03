@@ -13,7 +13,7 @@
   </li>
   
   <% if admin_data_is_allowed_to_update? %>
-     <li class=" <%=AdminData::Util.am_i_active(params, ['main','new'])%> <%=AdminData::Util.am_i_active(params, ['main','create'])%> ">
+    <li class=" <%=AdminData::Util.am_i_active(params, ['main','new'])%> <%=AdminData::Util.am_i_active(params, ['main','create'])%> ">
       <%= link_to '+Add New Record', new_admin_data_on_k_path(:klass => klass.name.underscore) %>
     </li>
   <% end %>  

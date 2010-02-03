@@ -1,9 +1,9 @@
 <% if model && model.errors.any? %>
   <div class='flash rounded'>
     <div class='message error'>
-    <% model.errors.full_messages.each do |message| %>
-      <p><%=message%></p>
-    <% end %>  
+      <% model.errors.full_messages.each do |message| %>
+        <p><%=message%></p>
+      <% end %>  
     </div>
   </div>
 <% end %>  

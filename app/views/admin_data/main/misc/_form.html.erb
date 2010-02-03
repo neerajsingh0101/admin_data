@@ -1,10 +1,10 @@
 <% @columns.each do |col| 
-   col_limit = col.limit || 255 %>
-    <div class='col_box'>
-      <span class='col_name'><%= col.name %></span>
-      <span class='col_type'>[<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>]</span>
-    </div>
-    <%= admin_data_form_field(klass, @model, col, f) %>
+  col_limit = col.limit || 255 %>
+  <div class='col_box'>
+    <span class='col_name'><%= col.name %></span>
+    <span class='col_type'>[<%= col.type.to_s %><%= (col.type == 'string') ? col.limit : '' %>]</span>
+  </div>
+  <%= admin_data_form_field(klass, @model, col, f) %>
 <% end %>
 
 <div class='group navform' style='padding-top:10px;'>
@@ -12,15 +12,15 @@
 </div>
 
 <style>
-   .col_name { 
-      color: #222;
-      font-size: 15px;
-   }
-   .col_type {
-      color: dimgray;
-   }
-   .col_box { 
-      margin-top: 20px;
-      padding-bottom: 4px;
-   }
+  .col_name { 
+    color: #222;
+    font-size: 15px;
+  }
+  .col_type {
+    color: dimgray;
+  }
+  .col_box { 
+    margin-top: 20px;
+    padding-bottom: 4px;
+  }
 </style>   

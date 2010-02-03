@@ -1,24 +1,22 @@
 <div id="main">
   <div class="block" id="block-tables">
-    
     <div class="content rounded select_box">          
       <h2 style='margin-left:0;'>Select a model</h2>
       <p class='notice'>
         Note that this drop down is also available at top right corner of every page .
       </p>
-        <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => @drop_down_for_klasses %>
+      <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => @drop_down_for_klasses %>
       <div class="clear"></div>
     </div>
-  
   </div>
 </div>
 
 <style>
-   .select_box {
-      padding: 15px;
-   }
-   p.notice {
-      color: dimgray;
-      font-size:15px;
-   }
+  .select_box {
+    padding: 15px;
+  }
+  p.notice {
+    color: dimgray;
+    font-size:15px;
+  }
 </style>   
