@@ -6,16 +6,16 @@ class AdminDataUtilTest < Test::Unit::TestCase
 
   context 'writing to validation file test' do
     setup do
-      tid = 123456
+      tid = '123456'
       filename = 'testing.txt'
-      mode = 'a'
+      mode = 'w'
       data = 'hello world'
-      @output = capture_stdout do 
-        AdminData::Util.write_to_validation_file(tid, filename, mode, data) 
-      end
+      AdminData::Util.write_to_validation_file(tid, filename, mode, data) 
+      file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, filename)
+      @text = File.readlines(file)
     end
     should 'have written to file' do
-     assert_equal @output.string, 'hello world' 
+     assert_equal @text.last.strip, 'hello world' 
     end
   end
 
