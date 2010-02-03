@@ -22,17 +22,13 @@ class AdminData::SearchController  < AdminData::BaseController
       model = klass.find(params[:model_id])
       has_many_proxy = model.send(params[:children].intern)
       @total_num_of_children = has_many_proxy.send(:count)
-      @records = has_many_proxy.send(  :paginate,
-      :page => params[:page],
-      :per_page => per_page,
-      :order => @order )
+      h = { :page => params[:page], :per_page => per_page, :order => @order }
+      @records = has_many_proxy.send(:paginate, h)
     else
       params[:query] = params[:query].strip unless params[:query].blank?
       cond = build_quick_search_conditions(@klass, params[:query])
-      @records = @klass.paginate(   :page => params[:page],
-      :per_page => per_page,
-      :order => @order,
-      :conditions => cond )
+      h = { :page => params[:page], :per_page => per_page, :order => @order, :conditions => cond }
+      @records = @klass.paginate(h)
     end
     respond_to {|format| format.html}
   end
@@ -51,8 +47,7 @@ class AdminData::SearchController  < AdminData::BaseController
       format.js {
 
         if !hash[:errors].blank?
-          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb",
-          :locals => {:errors => errors}
+          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb", :locals => {:errors => errors}
           return
         end
         if params[:admin_data_advance_search_action_type] == 'destroy'
@@ -60,17 +55,13 @@ class AdminData::SearchController  < AdminData::BaseController
         elsif params[:admin_data_advance_search_action_type] == 'delete'
           handle_advance_search_action_type_delete
         else
-          @records = @klass.paginate(:page => params[:page],
-          :per_page => per_page,
-          :order => @order,
-          :conditions => @cond )
+          @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
         end
 
         if @success_message
           render :json => {:success => @success_message }
         else
-          render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb",
-          :locals => {:klass => @klass, :records => @records}
+          render   :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_listing.html.erb", :locals => {:klass => @klass, :records => @records}
         end
       }
     end

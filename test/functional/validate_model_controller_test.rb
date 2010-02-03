@@ -11,13 +11,9 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
     @response = ActionController::TestResponse.new
   end
 
-  should_route :get, '/admin_data/diagnostic/validate',
-  :controller => 'admin_data/validate_model',
-  :action => :validate
+  should_route :get, '/admin_data/diagnostic/validate', :controller => 'admin_data/validate_model', :action => :validate
 
-  should_route :get, '/admin_data/diagnostic/validate_model',
-  :controller => 'admin_data/validate_model',
-  :action => :validate_model
+  should_route :get, '/admin_data/diagnostic/validate_model', :controller => 'admin_data/validate_model', :action => :validate_model
 
   context 'before filters' do
     setup do
@@ -67,11 +63,5 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
       assert o.fetch('error') == 'Please select at least one model'
     end
   end
-
-
-  #model[Car]	1
-  #http://localhost:3000/admin_data/diagnostic/validate
-  #tid	20100129173138
-  #still_processing	yes
 
 end

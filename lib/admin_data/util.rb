@@ -104,6 +104,12 @@ class AdminData::Util
     File.open(file, mode) {|f| f.puts(data) }
   end
 
+  def self.read_validation_file(tid, filename)
+    #FIXME add test
+    file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, filename)
+    File.readlines(file).last
+  end
+
   def self.javascript_include_tag(*args)
     data = args.inject('') do |sum, arg|
       f = File.new(File.join(AdminDataConfig.setting[:plugin_dir], 'lib', 'js', "#{arg}.js"))

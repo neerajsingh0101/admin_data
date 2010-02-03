@@ -13,12 +13,9 @@ class AdminData::DiagnosticControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/diagnostic',     :controller => 'admin_data/diagnostic',
-  :action => :index
+  should_route :get, '/admin_data/diagnostic', :controller => 'admin_data/diagnostic', :action => :index
 
-  should_route :get, '/admin_data/diagnostic/missing_index',
-  :controller => 'admin_data/diagnostic',
-  :action => :missing_index
+  should_route :get, '/admin_data/diagnostic/missing_index', :controller => 'admin_data/diagnostic', :action => :missing_index
 
   context 'before filters' do
     setup do

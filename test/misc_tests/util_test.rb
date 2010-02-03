@@ -10,12 +10,12 @@ class AdminDataUtilTest < Test::Unit::TestCase
       filename = 'testing.txt'
       mode = 'w'
       data = 'hello world'
-      AdminData::Util.write_to_validation_file(tid, filename, mode, data) 
+      AdminData::Util.write_to_validation_file(tid, filename, mode, data)
       file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, filename)
       @text = File.readlines(file)
     end
     should 'have written to file' do
-     assert_equal @text.last.strip, 'hello world' 
+      assert_equal @text.last.strip, 'hello world'
     end
   end
 
@@ -95,8 +95,5 @@ class AdminDataUtilTest < Test::Unit::TestCase
       assert_equal ["articles.body_html LIKE ?", "%foo%"], @term.attribute_condition
     end
   end
-
-
-
 
 end
