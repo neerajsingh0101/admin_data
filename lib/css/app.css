@@ -197,3 +197,27 @@ table#missing_index tr td {
   font-size: 12px;
 }
 
+.submit_search { 
+  float: left;
+  border: 2px solid #127BC4;
+  color: #fff;
+  background: #4F8AFF;
+  padding: 3px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+.add_row_link, .remove_row {
+  font-size: 30px;
+  text-decoration: none;
+  border: 1px solid #127BC4;
+  color: #fff;
+  background: #4F8AFF;
+  padding: 0 3px;
+  margin: 0;
+}
+
+#advance_search_table a {
+  color: #fff;
+}
