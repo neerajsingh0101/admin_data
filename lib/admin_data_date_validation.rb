@@ -67,10 +67,6 @@ class AdminDataDateValidation
 
     # validate date values
     begin
-      # puts "yyyy is #{yyyy}"
-      # puts "mm is #{mm}"
-      # puts "dd is #{dd}"
-
       Date.new(yyyy,mm,dd)
     rescue  => e
       return false
