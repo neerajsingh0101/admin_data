@@ -6,8 +6,10 @@ require 'fileutils'
 namespace :admin_data do
   desc "Run model valiations"
   task :validate_models_bg => :environment do
+    usage = %Q{ rake admin_data:validate_models_bg RAILS_ENV='development' KLASSES='Country,EeeSociety,PhoneNumber,Website,Car,User' TID='20100107095100' }
+    usage = ' Usage: ' + usage
     tid = ENV['TID']
-    raise "tid is blank" if tid.blank?
+    raise "tid is blank. #{usage} " if tid.blank?
 
     klasses = ENV['KLASSES']
     klasses.split(',').each do |klasss|

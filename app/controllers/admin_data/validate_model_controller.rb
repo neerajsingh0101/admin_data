@@ -62,7 +62,8 @@ class AdminData::ValidateModelController < AdminData::BaseController
   def call_rake(task, options = {})
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
-    command =  "rake #{task} #{args.join(' ')}"
+    rake_command = AdminDataConfig.setting[:rake_command]
+    command =  "#{rake_command} #{task} #{args.join(' ')}"
     Rails.logger.debug "command: #{command}"
     p1 = Process.fork { system(command) }
     Process.detach(p1)
