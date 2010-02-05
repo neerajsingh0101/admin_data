@@ -1,6 +1,6 @@
-require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
+require File.join(File.dirname(__FILE__), '..', 'test_helper')
 
-f = File.join(File.dirname(__FILE__),'..','..','app','views')
+f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 
 class AdminData::MainControllerTest < ActionController::TestCase
@@ -12,6 +12,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     @article = Factory(:article)
     @car = Vehicle::Car.create(:year => 2000, :brand => 'bmw')
     grant_read_only_access
+    grant_update_access
   end
 
   should_route :get, '/admin_data', :controller => 'admin_data/main', :action => :all_models

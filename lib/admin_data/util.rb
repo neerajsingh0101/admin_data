@@ -1,5 +1,31 @@
 class AdminData::Util
 
+  def self.is_allowed_to_view_feed?
+    return true if Rails.env.development?
+    return true if Rails.env.test? #FIXME remove this line
+
+    if AdminDataConfig.setting[:feed_authentication_user_id].blank?
+      Rails.logger.info 'No user id has been supplied for feed'
+      return false
+    end
+
+    if AdminDataConfig.setting[:feed_authentication_password].blank?
+      Rails.logger.info 'No password has been supplied for feed'
+      return false
+    end
+
+    stored_userid = AdminDataConfig.setting[:feed_authentication_user_id]
+    stored_password = AdminDataConfig.setting[:feed_authentication_password]
+    self.perform_basic_authentication(stored_userid, stored_password)
+  end
+
+  def self.perform_basic_authentication(stored_userid, stored_password)
+    authenticate_or_request_with_http_basic do |input_userid, input_password|
+      (input_userid == stored_userid) && (input_password == stored_password)
+    end
+  end
+
+
   def self.label_values_pair_for(model, view)
     model.class.columns.inject([]) do |sum, column|
       tmp = view.admin_data_get_value_for_column(column, model, :limit => nil)

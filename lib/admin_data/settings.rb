@@ -34,9 +34,9 @@ class AdminDataConfig
 
       :will_paginate_per_page       => 50,
 
-      :is_allowed_to_view           => lambda {|controller| return true if Rails.env.development? || Rails.env.test?  },
+      :is_allowed_to_view           => lambda {|controller| return true if Rails.env.development? },
 
-      :is_allowed_to_update         => lambda {|controller| return true if Rails.env.development? || Rails.env.test? },
+      :is_allowed_to_update         => lambda {|controller| return true if Rails.env.development? },
 
       :is_allowed_to_view_model     => lambda {|controller| return true  },
 
