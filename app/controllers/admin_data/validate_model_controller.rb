@@ -6,9 +6,19 @@ class AdminData::ValidateModelController < AdminData::BaseController
 
   before_filter :ensure_is_allowed_to_view
 
+  def tid
+    @data = gather_data(params[:tid])
+    respond_to {|format| format.html}
+  end
+
   def validate
     @page_title = 'validate model'
     @tid = Time.now.strftime('%Y%m%d%H%M%S')
+
+    dir = Rails.root.join('tmp','admin_data', 'validate_model')
+    tids = Dir.chdir(dir) { Dir["*"] }
+    @tids = tids.sort!
+
     respond_to {|format| format.html}
   end
 

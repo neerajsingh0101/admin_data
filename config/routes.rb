@@ -14,6 +14,7 @@ ActionController::Routing::Routes.draw do |map|
     admin_data.with_options :controller => 'validate_model' do |m|
       m.validate                    '/diagnostic/validate',             :action => 'validate'
       m.validate_model              '/diagnostic/validate_model',       :action => 'validate_model'
+      m.tid                         '/diagnostic/tid/:tid',             :action => 'tid'
     end
 
     admin_data.with_options :controller => 'migration' do |m|

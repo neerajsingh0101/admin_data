@@ -93,16 +93,16 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def handle_advance_search_action_type_delete
     count = @klass.send(:count, @cond);
-    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-      @klass.send(:delete, record)
+    @klass.find_in_batches( :conditions => @cond ) do |group|
+      group.each {|record| @klass.send(:delete, record) }
     end
     @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted "
   end
 
   def handle_advance_search_action_type_destroy
     count = @klass.send(:count, :conditions => @cond);
-    @klass.paginated_each( :order => @order, :conditions => @cond ) do |record|
-      record.destroy
+    @klass.find_in_batches( :conditions => @cond ) do |group|
+      group.each {|record| record.destroy }
     end
     @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed "
   end

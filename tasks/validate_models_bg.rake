@@ -17,21 +17,23 @@ namespace :admin_data do
       klass = AdminData::Util.constantize_klass(klasss)
       name = klass.name
       raise 'name is blank' if name.blank?
-      
+
       AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', name)
       errors = []
       number_of_records = klass.send(:count)
       index = 0
-      klass.paginated_each(:order => klass.primary_key) do |record|
-        index = index + 1
-        s = "processed #{index} of #{number_of_records} #{name} records"
-        AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', s)
-        unless record.valid?
-          a = []
-          a << klass.name
-          a << record.id
-          a << record.errors.full_messages
-          errors << a
+      klass.find_in_batches(:order => klass.primary_key) do |group|
+        group.each do |record|
+          index = index + 1
+          s = "processed #{index} of #{number_of_records} #{name} records"
+          AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', s)
+          unless record.valid?
+            a = []
+            a << klass.name
+            a << record.id
+            a << record.errors.full_messages
+            errors << a
+          end
         end
       end
       if errors.any?
