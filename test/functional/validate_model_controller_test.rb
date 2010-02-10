@@ -15,52 +15,52 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
 
   should_route :get, '/admin_data/diagnostic/validate_model', :controller => 'admin_data/validate_model', :action => :validate_model
 
-  context 'before filters' do
+  context 'filters list' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
         filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
+      @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view }
     end
-    context 'ensure_is_allowed_to_view' do
-      setup do
-        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view }
-      end
-      should 'have filter called ensure_is_allowed_to_view' do
-        assert @filter
-        assert @filter.options.blank?
-      end
+    should 'have filter called ensure_is_allowed_to_view' do
+      assert @filter
+    end
+    should 'have no option for the filter' do
+      assert @filter.options.blank?
     end
   end
 
-  context 'get validate' do
+  context 'GET validate' do
     setup do
       get :validate
     end
     should_respond_with :success
   end
 
-  context 'params[:tid] missing case' do
-    setup do
-      xml_http_request :post, :validate_model
+  context 'POST validate params[:tid] missing case' do
+    context 'with params[:tid] missing' do
+      setup do
+        xml_http_request :post, :validate_model
+      end
+      should_respond_with :success
+      should 'testing JSON output' do
+        o = JSON.parse(@response.body)
+        assert o.has_key?('error')
+        assert o.fetch('error') == 'Something went wrong. Please try again !!'
+      end
     end
-    should_respond_with :success
-    should 'testing JSON output' do
-      o = JSON.parse(@response.body)
-      assert o.has_key?('error')
-      assert o.fetch('error') == 'Something went wrong. Please try again !!'
-    end
-  end
 
-  context 'params[:model] missing case' do
-    setup do
-      tid = Time.now.strftime('%Y%m%d%H%M%S')
-      xml_http_request :post, :validate_model, :tid => tid
-    end
-    should_respond_with :success
-    should 'testing JSON output' do
-      o = JSON.parse(@response.body)
-      assert o.has_key?('error')
-      assert o.fetch('error') == 'Please select at least one model'
+    context 'with params[:model] missing' do
+      setup do
+        tid = Time.now.strftime('%Y%m%d%H%M%S')
+        xml_http_request :post, :validate_model, :tid => tid
+      end
+      should_respond_with :success
+      should 'testing JSON output' do
+        o = JSON.parse(@response.body)
+        assert o.has_key?('error')
+        assert o.fetch('error') == 'Please select at least one model'
+      end
     end
   end
 

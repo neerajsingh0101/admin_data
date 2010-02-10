@@ -1,9 +1,3 @@
-# update documentation with this new feature
-# update documentation with live demo and source code at top right corner
-# write a blog about act on result design pattern
-# write documentation about updating a user status with ajax request. put it under tips and tricks section.
-
-
 require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
 
 f = File.join(File.dirname(__FILE__),'..','..','app','views')
@@ -25,184 +19,205 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   should_route :get, '/admin_data/advance_search/article', :controller => 'admin_data/search', :action => :advance_search, :klass => 'article'
 
-  context 'before filters' do
+  context 'filters list' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
         filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
     end
-    context 'ensure_is_allowed_to_view' do
+    context 'for ensure_is_allowed_to_view filter' do
       setup do
         @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view }
       end
       should 'have filter called ensure_is_allowed_to_view' do
         assert @filter
+      end
+      should 'have no options for the filter' do
         assert @filter.options.blank?
       end
     end
-    context 'ensure_is_allowed_to_view_model' do
+    context 'for ensure_is_allowed_to_view_model filter' do
       setup do
         @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_model }
       end
       should 'have filter called ensure_is_allowed_to_view_model' do
         assert @filter
+      end
+      should 'have no option for filter' do
         assert @filter.options.blank?
       end
     end
-
   end
 
-  context 'get quick_search with has_many association for a nested model' do
-    setup do
-      Vehicle::Door.delete_all
-      @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id)
-      @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id)
-      get :quick_search, {  :klass => @door1.class.name.underscore, :base => @car.class.name.underscore, :model_id => @car.id, :children => 'doors'}
+  context 'GET quick_search' do
+    context 'GET quick_search with wrong children class' do
+      setup do
+        get :quick_search, { :base => 'article', :klass => 'comment', :model_id => @article.id, :children => 'wrong_children_name' }
+      end
+      should_respond_with :not_found
     end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have 2 records' do
-      assert_equal 2, assigns(:records).size
-    end
-    should 'have 2 as total number of children' do
-      assert_equal 2, assigns(:total_num_of_children)
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /has 2/m)
-    end
-  end
 
-  context 'get quick_search with has_many association for a non nested model' do
-    setup do
-      @comment1 = Factory(:comment, :article => @article)
-      @comment2 = Factory(:comment, :article => @article)
-      get :quick_search, { :klass => Comment.name.underscore, :base => 'article', :model_id => @article.id, :children => 'comments' }
+    context 'with no klass param' do
+      setup do
+        assert_raises ActionController::RoutingError do
+          get :quick_search
+        end
+      end
     end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have 2 records' do
-      assert_equal 2, assigns(:records).size
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /has 2 comments/ )
-    end
-  end
 
-  context 'get quick_search with wrong children class' do
-    setup do
-      get :quick_search, { :base => 'article', :klass => 'comment', :model_id => @article.id, :children => 'wrong_children_name' }
+    context 'with no search query' do
+      setup do
+        get :quick_search, {:klass => Article.name.underscore}
+      end
+      should_respond_with :success
+      should_assign_to :records
     end
-    should_respond_with :not_found
-  end
+    context 'with has_many association' do
+      context 'for a nested model' do
+        setup do
+          Vehicle::Door.delete_all
+          @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id)
+          @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id)
+          get :quick_search, {  :klass => @door1.class.name.underscore, :base => @car.class.name.underscore, :model_id => @car.id, :children => 'doors'}
+        end
+        should_respond_with :success
+        should_assign_to :records
+        should 'have 2 records' do
+          assert_equal 2, assigns(:records).size
+        end
+        should 'have 2 as total number of children' do
+          assert_equal 2, assigns(:total_num_of_children)
+        end
+        should 'contain text' do
+          assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /has 2/m)
+        end
+      end
 
-
-  context 'get quick_search for a standard model' do
-    setup do
-      @comment = Factory(:comment)
-      @comment = Factory(:comment)
-      get :quick_search, {:klass => @comment.class.name.underscore}
-    end
-    should_respond_with :success
-    should 'contain valid link at header breadcrum' do
-      assert_tag( :tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/quick_search/comment'}})
-    end
-    should 'contain proper link at table listing' do
-      url = "/admin_data/klass/comment/#{Comment.last.id}"
-      assert_tag( :tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
-    end
-  end
-
-  context 'get quick_search for a nested model' do
-    setup do
-      get :quick_search, {:klass => @car.class.name.underscore}
-    end
-    should_respond_with :success
-    should 'contain proper link at header breadcum' do
-      s = CGI.escape('vehicle/car')
-      assert_tag(:tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/quick_search/#{s}" }})
-    end
-    should 'contain proper link at table listing' do
-      s = CGI.escape("vehicle/car")
-      url = "/admin_data/klass/#{s}/#{@car.class.last.id}"
-      assert_tag(:tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
-    end
-    should 'have proper action name for search form' do
-      url = admin_data_search_path(:klass=>Vehicle::Car)
-      assert_tag( :tag => 'form', :attributes => {:action => url})
-    end
-  end
-
-  context 'get quick_search with no klass param' do
-    setup do
-      assert_raises ActionController::RoutingError do
-        get :search
+      context 'for a standard model' do
+        setup do
+          @comment1 = Factory(:comment, :article => @article)
+          @comment2 = Factory(:comment, :article => @article)
+          get :quick_search, { :klass => Comment.name.underscore, :base => 'article', :model_id => @article.id, :children => 'comments' }
+        end
+        should_respond_with :success
+        should_assign_to :records
+        should 'have 2 records' do
+          assert_equal 2, assigns(:records).size
+        end
+        should 'contain text' do
+          assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /has 2 comments/ )
+        end
       end
     end
   end
 
-  context 'get quick_search with no search query' do
-    setup do
-      get :quick_search, {:klass => Article.name.underscore}
-    end
-    should_respond_with :success
-    should_assign_to :records
-  end
 
-  context 'get quick_search with search query with default order' do
-    setup do
-      Article.delete_all
-      @python_book = Factory(:article, :title => 'python')
-      @python_beginner_book = Factory(:article, :title => 'python for beginners')
-      @java_book = Factory(:article, :title => 'java')
-      @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, {:klass => 'Article', :query => 'python'}
+  context 'GET quick_search' do
+    context 'for a standard model' do
+      setup do
+        @comment = Factory(:comment)
+        @comment = Factory(:comment)
+        get :quick_search, {:klass => @comment.class.name.underscore}
+      end
+      should_respond_with :success
+      should 'contain valid link at header breadcrum' do
+        assert_tag( :tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/quick_search/comment'}})
+      end
+      should 'contain proper link at table listing' do
+        url = "/admin_data/klass/comment/#{Comment.last.id}"
+        assert_tag( :tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
+      end
     end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have only one record' do
-      assert_equal 2, assigns(:records).size
-      assert_equal @python_book.id, assigns(:records).last.id
-      assert_equal @python_beginner_book.id, assigns(:records).first.id
-    end
-  end
 
-  context 'get quick_search with search term with reversed id order' do
-    setup do
-      Article.delete_all
-      @python_book = Factory(:article, :title => 'python')
-      @python_beginner_book = Factory(:article, :title => 'python for beginners')
-      @java_book = Factory(:article, :title => 'java')
-      @clojure_book = Factory(:article, :title => 'clojure')
-      get :quick_search, { :klass => 'Article', :query => 'python', :sortby => 'article_id desc'}
-    end
-    should_respond_with :success
-    should_assign_to :records
-    should 'have only one record' do
-      assert_equal 2, assigns(:records).size
-      assert_equal @python_book.id, assigns(:records).last.id
-      assert_equal @python_beginner_book.id, assigns(:records).first.id
-    end
-  end
-
-  context 'get advance_search with no klass param' do
-    setup do
-      assert_raises ActionController::RoutingError do
-        get :advance_search
+    context 'for a nested model' do
+      setup do
+        get :quick_search, {:klass => @car.class.name.underscore}
+      end
+      should_respond_with :success
+      should 'contain proper link at header breadcum' do
+        s = CGI.escape('vehicle/car')
+        assert_tag(:tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/quick_search/#{s}" }})
+      end
+      should 'contain proper link at table listing' do
+        s = CGI.escape("vehicle/car")
+        url = "/admin_data/klass/#{s}/#{@car.class.last.id}"
+        assert_tag(:tag => 'td', :descendant => {:tag => 'a', :attributes => {:href => url}})
+      end
+      should 'have proper action name for search form' do
+        url = admin_data_search_path(:klass=>Vehicle::Car)
+        assert_tag( :tag => 'form', :attributes => {:action => url})
       end
     end
   end
 
-  context 'get advance_search with klass param' do
+
+
+  context 'GET quick_search with search term' do
     setup do
-      get :advance_search, {:klass => Article.name.underscore}
+      Article.delete_all
+      @python_beginner_book = Factory(:article, :title => 'python for beginners')
+      @python_book = Factory(:article, :title => 'python')
+      @java_book = Factory(:article, :title => 'java')
+      @clojure_book = Factory(:article, :title => 'clojure')
     end
-    should_respond_with :success
-    should_not_assign_to :records
-    should 'have proper action for advance search form' do
-      url = admin_data_advance_search_path(:klass => Article)
-      assert_tag( :tag => 'form', :attributes => {:action => url})
+    context 'with default order' do
+      setup do
+        get :quick_search, {:klass => 'Article', :query => 'python'}
+      end
+      should_respond_with :success
+      should_assign_to :records
+      should 'have only two records' do
+        assert_equal 2, assigns(:records).size
+      end
+      should 'have python beginner book as the first book' do
+        assert_equal @python_beginner_book.id, assigns(:records).last.id
+      end
+      should 'have python book as the last book' do
+        assert_equal @python_book.id, assigns(:records).first.id
+      end
+    end
+
+    context 'with article_id ascending order' do
+      setup do
+        get :quick_search, { :klass => 'Article', :query => 'python', :sortby => 'article_id asc'}
+      end
+      should_respond_with :success
+      should_assign_to :records
+      should 'have only two records' do
+        assert_equal 2, assigns(:records).size
+      end
+      should 'have python beginner book as the first book' do
+        assert_equal @python_beginner_book.id, assigns(:records).first.id
+      end
+      should 'have python book as the last book' do
+        assert_equal @python_book.id, assigns(:records).last.id
+      end
     end
   end
+
+
+  context 'GET advance_search' do
+    context 'with no klass param' do
+      setup do
+        assert_raises ActionController::RoutingError do
+          get :advance_search
+        end
+      end
+    end
+
+    context 'with klass param' do
+      setup do
+        get :advance_search, {:klass => Article.name.underscore}
+      end
+      should_respond_with :success
+      should_not_assign_to :records
+      should 'have proper action for advance search form' do
+        url = admin_data_advance_search_path(:klass => Article)
+        assert_tag( :tag => 'form', :attributes => {:action => url})
+      end
+    end
+  end
+
 
   context 'xhr advance_search with does_not_contain first one' do
     setup do
@@ -355,434 +370,412 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-  context 'build advance search conditions' do
+  context 'advance search conditions' do
     setup do
       @klass = Object.const_get('Article')
-    end
-
-    context 'col2 not null' do
-      should '' do
-        hash = @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => { :col1 => 'body', :col2 => 'is_not_null'}})
-        assert_equal '(articles.body IS NOT NULL)', hash[:cond]
+      @proc = Proc.new do
+        @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => @hash })
       end
     end
 
-    context 'col2 contains' do
-      should '' do
-        hash = @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => { :col1 => 'body', :col2 => 'contains', :col3 => 'python'}})
-        assert_equal "(articles.body LIKE '%python%')", hash[:cond]
+    context 'with col2 as null' do
+      should 'have sql as body is not null' do
+        @hash = { :col1 => 'body', :col2 => 'is_not_null'}
+        output = @proc.call
+        assert_equal '(articles.body IS NOT NULL)', output[:cond]
       end
     end
 
-    context 'col2 is exactly' do
-      should '' do
-        hash = @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => { :col1 => 'body', :col2 => 'is_exactly', :col3 => 'python'}})
-        assert_equal "(articles.body = 'python')", hash[:cond]
+    context 'with col2 contains' do
+      should 'have sql with like' do
+        @hash = { :col1 => 'body', :col2 => 'contains', :col3 => 'python'}
+        output = @proc.call
+        assert_equal "(articles.body LIKE '%python%')", output[:cond]
       end
     end
 
-    context 'does not conatin' do
-      should '' do
-        hash = @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => { :col1 => 'body', :col2 => 'does_not_contain', :col3 => 'python'}})
-        assert_equal "(articles.body IS NULL OR articles.body NOT LIKE '%python%')", hash[:cond]
+    context 'with col2 as exactly' do
+      should 'have sql as body equals' do
+        @hash = { :col1 => 'body', :col2 => 'is_exactly', :col3 => 'python'}
+        output = @proc.call
+        assert_equal "(articles.body = 'python')", output[:cond]
       end
     end
 
-    context 'is false' do
-      should '' do
-        hash = @controller.send(:build_advance_search_conditions, @klass, { '429440_row' => { :col1 => 'body', :col2 => 'is_false', :col3 => 'python'}})
-        assert_equal "(articles.body = 'f')", hash[:cond]
+    context 'with does not contain' do
+      should 'have sql as body is null or not like' do
+        @hash = { :col1 => 'body', :col2 => 'does_not_contain', :col3 => 'python'}
+        output = @proc.call
+        assert_equal "(articles.body IS NULL OR articles.body NOT LIKE '%python%')", output[:cond]
       end
     end
-  end #end of nested context
+
+    context 'with col2 as false' do
+      should 'have sql with body as false' do
+        @hash = { :col1 => 'body', :col2 => 'is_false', :col3 => 'python'}
+        output = @proc.call
+        assert_equal "(articles.body = 'f')", output[:cond]
+      end
+    end
+  end
 
 
-  context 'xhr advance_search contains +ve' do
+  context 'XHR advance_search' do
     setup do
       Article.delete_all
-      Factory(:article, :title => 'python')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'python'} } }
-      xml_http_request  :post, :advance_search, h
+      @proc = Proc.new do
+        @hash_big = { :klass => Article.name.underscore, :adv_search => {'2_row' => @hash } }
+      end
     end
-    should_respond_with :success
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+    context 'with col2 contains' do
+      setup do
+        Factory(:article, :title => 'python')
+        @hash = {:col1 => 'title', :col2 => 'contains', :col3 => 'python'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should_respond_with :success
+      should 'contain content' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-  end
 
-  context 'xhr advance_search contains -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :title => 'ruby')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => { :col1 => 'title', :col2 => 'contains', :col3 => 'python'} } }
-      xml_http_request :post, :advance_search, h
+    context 'with col2 contains with no search result' do
+      setup do
+        Factory(:article, :title => 'ruby')
+        @hash = { :col1 => 'title', :col2 => 'contains', :col3 => 'python'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
-    end
-  end
 
-  context 'xhr advance_search is exactly +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :title => 'python')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => { :col1 => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
-      xml_http_request :post, :advance_search, h
+    context 'with col2 is_exactly' do
+      setup do
+        Factory(:article, :title => 'python')
+        @hash = { :col1 => 'title', :col2 => 'is_exactly', :col3 => 'python'}
+        xml_http_request :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is exactly -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :title => 'python2')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'title', :col2 => 'is_exactly', :col3 => 'python'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_exactly negative case' do
+      setup do
+        Factory(:article, :title => 'ruby')
+        @hash = {:col1 => 'title', :col2 => 'is_exactly', :col3 => 'python'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :id => 'search_result_title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
+    context 'with col2 does_not_contain' do
+      setup do
+        Factory(:article, :title => 'python')
+        @hash = {:col1 => 'title', :col2 => 'does_not_contain', :col3 => 'ruby'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
+    end
 
-  context 'xhr advance_search does not contain +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :title => 'python')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'title', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 does_not_conatin negative case' do
+      setup do
+        Factory(:article, :title => 'ruby')
+        @hash = {:col1 => 'title', :col2 => 'does_not_contain', :col3 => 'ruby'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes =>{ :class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does not contain -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :title => 'python2')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'title', :col2 => 'does_not_contain', :col3 => 'py'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_false' do
+      setup do
+        Factory(:article, :approved => false)
+        @hash = {:col1 => 'approved', :col2 => 'is_false'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes =>{ :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is false +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :approved => false)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'approved', :col2 => 'is_false'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_false negative case' do
+      setup do
+        Factory(:article, :approved => true)
+        @hash = {:col1 => 'approved', :col2 => 'is_false'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does is false -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :approved => true)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'approved', :col2 => 'is_false'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_true' do
+      setup do
+        Factory(:article, :approved => true)
+        @hash = {:col1 => 'approved', :col2 => 'is_true'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
+    context 'with col2 is_true negative case' do
+      setup do
+        Factory(:article, :approved => false)
+        @hash = {:col1 => 'approved', :col2 => 'is_true'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 0 records found/ )
+      end
+    end
 
-  context 'xhr advance_search is true +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :approved => true)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'approved', :col2 => 'is_true'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_null' do
+      setup do
+        Factory(:article, :status => nil)
+        @hash = {:col1 => 'status', :col2 => 'is_null'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does is true -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :approved => false)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'approved', :col2 => 'is_true'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_null negative case' do
+      setup do
+        Factory(:article, :status => 'something')
+        @hash = {:col1 => 'status', :col2 => 'is_null'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
+    context 'with col2 is_not_null' do
+      setup do
+        Factory(:article, :status => 'something')
+        @hash = {:col1 => 'status', :col2 => 'is_not_null'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
+    end
 
-  context 'xhr advance_search is null +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :status => nil)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'status', :col2 => 'is_null'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_not_null negative case' do
+      setup do
+        Factory(:article, :status => nil)
+        @hash = {:col1 => 'status', :col2 => 'is_not_null'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does is null -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :status => 'something')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'status', :col2 => 'is_null'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_equal_to' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 100.to_s}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
+    context 'with col2 is_equal_to negative case' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 101.to_s}
+        xml_http_request :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
+      end
+    end
 
-  context 'xhr advance_search is not null +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :status => 'something')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'status', :col2 => 'is_not_null'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 greater_than' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 99.to_s}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does is not null -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :status => nil)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'status', :col2 => 'is_not_null'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 greater_than negative case' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 101.to_s}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
-
-  context 'xhr advance_search is equal to +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 100.to_s} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
-    end
-  end
-
-  context 'xhr advance_search does is equal to -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 101.to_s} } }
-      xml_http_request :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
-    end
-  end
-
-  context 'xhr advance_search greater than +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 99.to_s} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
 
-  context 'xhr advance_search does greater than -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 101.to_s} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 less_than' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 101.to_s}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 0 records found/ )
-    end
-  end
 
-  context 'xhr advance_search less than +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 101.to_s} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 less_than negative case' do
+      setup do
+        Factory(:article, :hits_count => 100)
+        @hash = {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 99.to_s}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search does less than -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :hits_count => 100)
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 99.to_s} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on' do
+      setup do
+        Factory(:article, :published_at => Time.now)
+        d = Time.now.strftime('%d-%B-%Y')
+        @hash = {:col1 => 'published_at', :col2 => 'is_on', :col3 => d}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes =>{ :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes => { :class => 'h2' }, :content => /Search result: 1 record found/ )
-    end
-  end
 
+    context 'with col2 is_on negative case' do
+      setup do
+        Factory(:article, :published_at => Time.now)
+        d = 1.year.ago.strftime('%d-%B-%Y')
+        @hash = {:col1 => 'published_at', :col2 => 'is_on', :col3 => d}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 0 records found/ )
+      end
+    end
 
-  context 'xhr advance_search is_on +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = Time.now.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on_or_after_date' do
+      setup do
+        Factory(:article, :published_at => Time.now)
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => 1.month.ago.strftime('%d-%B-%Y') }
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :descendant => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes =>{ :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is_on -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = 1.year.ago.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on_or_after_date negative case' do
+      setup do
+        Factory(:article, :published_at => Time.now)
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => 1.month.from_now.strftime('%d-%B-%Y') }
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_no_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is_on or after +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = 1.month.ago.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on_or_before_date' do
+      setup do
+        Factory(:article, :published_at => Time.now)
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => 1.month.from_now.strftime('%d-%B-%Y') }
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :descendant => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is_on or after -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = 1.year.from_now.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on_or_before_date negative case' do
+      setup do
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => 1.year.ago.strftime('%d-%B-%Y') }
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'does contain text' do
+        assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 0 records found/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title' }, :content => /Search result: 0 records found/ )
-    end
-  end
 
+    context 'with col2 is_on_or_before_date with invalid_date input' do
+      setup do
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => 'invalid_date'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
+      end
+    end
 
-  context 'xhr advance_search is_on or before +ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = 1.month.from_now.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_on_or_after_date with invalid_date input' do
+      setup do
+        @hash = {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => 'invalid_date'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
+      end
     end
-    should 'contain text' do
-      assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search is_on or before -ve' do
-    setup do
-      Article.delete_all
-      Factory(:article, :published_at => Time.now)
-      d = 1.year.ago.strftime('%d-%B-%Y')
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => d} } }
-      xml_http_request  :post, :advance_search, h
+    context 'is_on invalid date' do
+      setup do
+        @hash = {:col1 => 'published_at', :col2 => 'is_on', :col3 => 'invalid_date'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
+      end
     end
-    should 'does contain text' do
-      assert_no_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 1 record found/ )
-    end
-  end
 
-  context 'xhr advance_search invalid date for field is_on or before' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_before_date', :col3 => 'invalid_date'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 is_equal_to with invalid input' do
+      setup do
+        @hash = {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 'invalid_integer'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
+      end
     end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
-    end
-  end
 
-  context 'xhr advance_search invalid date for field is_on or after' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on_or_after_date', :col3 => 'invalid_date'} } }
-      xml_http_request  :post, :advance_search, h
+    context 'with col2 less_than invalid_integer' do
+      setup do
+        @hash = {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 'invalid_integer'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
+      end
     end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
-    end
-  end
 
+    context 'with col2 greater_than invalid integer' do
+      setup do
+        @hash = {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 'invalid_integer'}
+        xml_http_request  :post, :advance_search, @proc.call
+      end
+      should 'contain text' do
+        assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
+      end
+    end
 
-  context 'xhr advance_search invalid date for field is_on' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'published_at', :col2 => 'is_on', :col3 => 'invalid_date'} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid date/ )
-    end
-  end
-
-
-  context 'xhr advance_search invalid integer for field is_equal_to' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'is_equal_to', :col3 => 'invalid_integer'} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
-    end
-  end
-
-  context 'xhr advance_search invalid integer for field less_than' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'less_than', :col3 => 'invalid_integer'} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
-    end
-  end
-
-  context 'xhr advance_search invalid integer for field greater_than' do
-    setup do
-      h = { :klass => Article.name.underscore, :adv_search => {'2_row' => {:col1 => 'hits_count', :col2 => 'greater_than', :col3 => 'invalid_integer'} } }
-      xml_http_request  :post, :advance_search, h
-    end
-    should 'contain text' do
-      assert_tag(:tag => 'p', :attributes => {:class => 'error'}, :content => /is not a valid integer/ )
-    end
   end
 
 end

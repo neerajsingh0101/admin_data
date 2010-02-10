@@ -13,10 +13,9 @@ class AdminData::MigrationControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/migration',    :controller => 'admin_data/migration',
-  :action => :index
+  should_route :get, '/admin_data/migration',    :controller => 'admin_data/migration', :action => :index
 
-  context 'get index' do
+  context 'GET index' do
     setup do
       get :index
     end

@@ -15,7 +15,9 @@ class AdminData::ValidateModelController < AdminData::BaseController
     @page_title = 'validate model'
     @tid = Time.now.strftime('%Y%m%d%H%M%S')
 
+
     dir = Rails.root.join('tmp','admin_data', 'validate_model')
+    FileUtils.mkdir_p(dir)
     tids = Dir.chdir(dir) { Dir["*"] }
     @tids = tids.sort!
 

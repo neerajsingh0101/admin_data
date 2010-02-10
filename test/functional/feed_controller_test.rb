@@ -6,24 +6,22 @@ AdminData::FeedController.prepend_view_path(f)
 
 class AdminData::FeedControllerTest < ActionController::TestCase
 
-  context 'before filters' do
+  context 'filters list' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
         filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
+      @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_feed}
     end
-    context 'ensure_is_allowed_to_view_feed' do
-      setup do
-        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_feed}
-      end
-      should 'have filter called ensure_is_allowed_to_view_feed' do
-        assert @filter
-        assert @filter.options.blank?
-      end
+    should 'have filter called ensure_is_allowed_to_view_feed' do
+      assert @filter
+    end
+    should 'have no options for the filter' do
+      assert @filter.options.blank?
     end
   end
 
-  context 'get index' do
+  context 'GET index' do
     setup do
       Article.delete_all
       @article = Factory(:article)
@@ -39,8 +37,7 @@ class AdminData::FeedControllerTest < ActionController::TestCase
     end
     should 'have guid' do
       guid = @feed.css('channel item guid').text
-      r  = Regexp.new "/admin_data/klass/Article/#{@article.id}-"
-      assert r.match(guid) 
+      assert Regexp.new("/admin_data/klass/Article/#{@article.id}-").match(guid)
     end
   end
 

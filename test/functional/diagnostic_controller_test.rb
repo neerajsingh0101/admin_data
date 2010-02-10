@@ -17,36 +17,34 @@ class AdminData::DiagnosticControllerTest < ActionController::TestCase
 
   should_route :get, '/admin_data/diagnostic/missing_index', :controller => 'admin_data/diagnostic', :action => :missing_index
 
-  context 'before filters' do
+  context 'filters list' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
         filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
+      @filter = @before_filters.detect do |filter|
+        filter.method == :ensure_is_allowed_to_view
+      end
     end
-    context 'ensure_is_allowed_to_view' do
-      setup do
-        @filter = @before_filters.detect do |filter|
-          filter.method == :ensure_is_allowed_to_view
-        end
-      end
-      should 'have filter called ensure_is_allowed_to_view' do
-        assert @filter
-        assert @filter.options.blank?
-      end
+    should 'have filter called ensure_is_allowed_to_view' do
+      assert @filter
+    end
+    should 'have no options for ensure_is_allowed_to_view filter' do
+      assert @filter
     end
   end
 
-  context 'get diagnostic' do
+  context 'GET diagnostic' do
     setup do
       get :index
     end
     should_respond_with :success
-    should 'contain text Diagnostic test' do
+    should 'contain text' do
       assert_tag(:content => 'Diagnostic test')
     end
   end
 
-  context 'get missing_index' do
+  context 'GET missing_index' do
     setup do
       get :missing_index
     end
@@ -55,6 +53,5 @@ class AdminData::DiagnosticControllerTest < ActionController::TestCase
       assert_tag(:tag => 'p', :content => 'It is recommended that all foreign keys be indexed.')
     end
   end
-
 
 end

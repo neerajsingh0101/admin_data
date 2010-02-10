@@ -116,7 +116,7 @@ module AdminData::Helpers
     elsif get_reflection_for_column(klass, col)
       admin_data_form_field_for_association_records(klass, col, f, html)
     else
-      handle_column_type(col, html, model, column_value, f)
+      admin_data_handle_column_type(col, html, model, column_value, f)
     end
   end
 
@@ -141,7 +141,7 @@ module AdminData::Helpers
     end
   end
 
-  def handle_column_type(col, html, model, column_value, f)
+  def admin_data_handle_column_type(col, html, model, column_value, f)
     case col.type
     when :text
       html << f.text_area(col.name, :rows => 6, :cols => 70)

@@ -33,33 +33,40 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   should_route :get, '/admin_data/klass/article/table_structure', :controller => 'admin_data/main', :action => :table_structure, :klass => 'article'
 
-  context 'before filters' do
+  context 'filters list testing' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
         filter.kind_of?(ActionController::Filters::BeforeFilter)
       end
     end
-    context 'ensure_is_allowed_to_view' do
+    context 'for ensure_is_allowed_to_view filter' do
       setup do
         @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view}
       end
       should 'have filter called ensure_is_allowed_to_view' do
         assert @filter
+      end
+      should 'have no option for the filter' do
         assert @filter.options.blank?
       end
     end
 
-    context 'ensure_is_allowed_to_view_model' do
+    context 'for ensure_is_allowed_to_view_model filter' do
       setup do
         @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_model}
       end
       should 'have filter called ensure_is_allowed_to_view_model' do
+        assert @filter
+      end
+      should 'have except option for all_models' do
         assert @filter.options[:except].include?('all_models')
+      end
+      should 'have except option for index' do
         assert @filter.options[:except].include?('index')
       end
     end
 
-    context 'ensure_is_allowed_to_update' do
+    context 'for ensure_is_allowed_to_update filter' do
       setup do
         @filter = @before_filters.detect do |filter|
           filter.method == :ensure_is_allowed_to_update
@@ -68,16 +75,24 @@ class AdminData::MainControllerTest < ActionController::TestCase
       should 'have filter called ensure_is_allowed_to_update' do
         assert @filter
       end
-      should 'have filter for actions' do
+      should 'have only option for destroy' do
         assert @filter.options[:only].include?('destroy')
+      end
+      should 'have only option for del' do
         assert @filter.options[:only].include?('del')
+      end
+      should 'have only option for edit' do
         assert @filter.options[:only].include?('edit')
+      end
+      should 'have only option for update' do
         assert @filter.options[:only].include?('update')
+      end
+      should 'have only option for crate' do
         assert @filter.options[:only].include?('create')
       end
     end
 
-    context 'ensure_is_allowed_to_update_model' do
+    context 'for ensure_is_allowed_to_update_model filter' do
       setup do
         @filter = @before_filters.detect do |filter|
           filter.method == :ensure_is_allowed_to_update_model
@@ -86,11 +101,19 @@ class AdminData::MainControllerTest < ActionController::TestCase
       should 'have filter called ensure_is_allowed_to_update_model' do
         assert @filter
       end
-      should 'have filter for actions' do
+      should 'have only option for destroy' do
         assert @filter.options[:only].include?('destroy')
+      end
+      should 'have only option for del' do
         assert @filter.options[:only].include?('del')
+      end
+      should 'have only option for edit' do
         assert @filter.options[:only].include?('edit')
+      end
+      should 'have only option for update' do
         assert @filter.options[:only].include?('update')
+      end
+      should 'have only option for create' do
         assert @filter.options[:only].include?('create')
       end
     end

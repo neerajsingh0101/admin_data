@@ -3,7 +3,9 @@ class AdminDataConfig
   cattr_accessor :setting
 
   def self.set=(input = {})
-    valid_keys = %w( find_conditions
+    valid_keys =
+    %w(
+    find_conditions
     plugin_dir
     will_paginate_per_page
     is_allowed_to_view
@@ -15,8 +17,8 @@ class AdminDataConfig
     column_settings
     columns_order
     use_google_hosting_for_jquery
-    rake_command
-    use_admin_data_layout ).collect(&:intern)
+    rake_options
+    ).collect(&:intern)
 
     extra_keys = input.keys - valid_keys
     raise "Following options are not supported. #{extra_keys.inspect}" unless extra_keys.empty?
@@ -25,10 +27,18 @@ class AdminDataConfig
     self.setting.merge!(input)
 
     self.setting.merge!(:adapter_name =>  ActiveRecord::Base.connection.adapter_name)
+
+    unless self.setting[:rake_options].blank?
+      env = self.setting[:rake_options][:env]
+      if env.blank? || env.include?(Rails.env.intern)
+        self.setting[:rake_command] = self.setting[:rake_options][:command]
+      end
+    end
+
   end
 
   def self.initialize_defaults
-    self.set = {
+    self.setting = {
 
       :plugin_dir                   => File.expand_path(File.join(File.dirname(__FILE__), '..', '..')),
 
@@ -41,8 +51,6 @@ class AdminDataConfig
       :is_allowed_to_view_model     => lambda {|controller| return true  },
 
       :is_allowed_to_update_model   => lambda {|controller| return true  },
-
-      :use_admin_data_layout        => true,
 
       :find_conditions              => nil,
 

@@ -10,11 +10,6 @@
             
           <div id='tid' style='display:none'><%=@tid%></div>
 
-          <h3>Previous runs</h3>
-          <%@tids.each do |tid| %>
-            <%= link_to tid, "/admin_data/diagnostic/tid/#{tid}" %>
-            <br />
-          <% end %>  
 
           <% form_tag "/admin_data/diagnostic/validate_model?tid=#{@tid}", :method => "post", :id => "validate_model_form" do |f| %>
             <%= check_box_tag 'validate_model_select_all' %>
@@ -29,6 +24,12 @@
             <% end %>   
             <%= submit_tag('Start validation', :id => 'submit') %>
           <% end %>
+
+          <h3>Previous runs</h3>
+          <%@tids.each do |tid| %>
+            <p><%= link_to tid, "/admin_data/diagnostic/tid/#{tid}" %></p>
+          <% end %>
+
         </div>
 
         <div class='rhs'>

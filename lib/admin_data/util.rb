@@ -1,6 +1,6 @@
 class AdminData::Util
 
-  def self.is_allowed_to_view_feed?
+  def self.is_allowed_to_view_feed?(controller)
     return true if Rails.env.development?
     return true if Rails.env.test? #FIXME remove this line
 
@@ -16,11 +16,11 @@ class AdminData::Util
 
     stored_userid = AdminDataConfig.setting[:feed_authentication_user_id]
     stored_password = AdminDataConfig.setting[:feed_authentication_password]
-    self.perform_basic_authentication(stored_userid, stored_password)
+    self.perform_basic_authentication(stored_userid, stored_password, controller)
   end
 
-  def self.perform_basic_authentication(stored_userid, stored_password)
-    authenticate_or_request_with_http_basic do |input_userid, input_password|
+  def self.perform_basic_authentication(stored_userid, stored_password, controller)
+    controller.authenticate_or_request_with_http_basic do |input_userid, input_password|
       (input_userid == stored_userid) && (input_password == stored_password)
     end
   end

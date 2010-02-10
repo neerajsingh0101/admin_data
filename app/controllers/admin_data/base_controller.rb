@@ -4,7 +4,7 @@ class AdminData::BaseController < ApplicationController
 
   helper_method :admin_data_is_allowed_to_update?
 
-  layout 'admin_data' if AdminDataConfig.setting[:use_admin_data_layout]
+  layout 'admin_data'
 
   include AdminData::Chelper
 
@@ -21,9 +21,7 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_view
-    unless Rails.env.development? || AdminDataConfig.setting[:is_allowed_to_view].call(self)
-      render :text => '<h2>not authorized</h2>', :status => :unauthorized
-    end
+    render :text => '<h2>not authorized</h2>', :status => :unauthorized unless admin_data_is_allowed_to_view?
   end
 
   def ensure_is_allowed_to_view_model
@@ -39,7 +37,7 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_view_feed
-    render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_feed?
+    render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_feed?(self)
   end
 
 
