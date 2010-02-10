@@ -15,8 +15,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
     @page_title = 'validate model'
     @tid = Time.now.strftime('%Y%m%d%H%M%S')
 
-
-    dir = Rails.root.join('tmp','admin_data', 'validate_model')
+    dir = Rails.root.join('tmp', 'admin_data', 'validate_model')
     FileUtils.mkdir_p(dir)
     tids = Dir.chdir(dir) { Dir["*"] }
     @tids = tids.sort!
@@ -38,7 +37,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
         elsif !params[:still_processing].blank?
           tid = params[:tid]
           data = gather_data(tid)
-          done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , 'done.txt')
+          done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'done.txt')
           answer = File.exists?(done_file) ? 'no' : 'yes'
           h = {
             :still_processing => answer,
@@ -76,7 +75,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
     rake_command = AdminDataConfig.setting[:rake_command]
     command =  "#{rake_command} #{task} #{args.join(' ')}"
-    Rails.logger.debug "command: #{command}"
+    Rails.logger.info "command: #{command}"
     p1 = Process.fork { system(command) }
     Process.detach(p1)
   end
