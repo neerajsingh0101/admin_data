@@ -45,12 +45,14 @@ class AdminData::ValidateModelController < AdminData::BaseController
             :currently_processing_klass =>  AdminData::Util.read_validation_file(tid, 'processing.txt')
           }
           render :json => h
+          return
         else
           tid = params[:tid]
           klasses = params[:model].keys.join(',')
           start_validation_rake_task(tid, klasses)
           base_url = request.protocol + request.host_with_port
           render :json => {:still_processing => 'yes', :base_url => base_url }
+          return
         end
       end
     end
@@ -63,9 +65,10 @@ class AdminData::ValidateModelController < AdminData::BaseController
     FileUtils.rm_rf(f) if File.directory?(f)
     FileUtils.mkdir_p(f)
 
-    AdminData::Util.write_to_validation_file(tid, 'processing.txt', 'a', '')
-    AdminData::Util.write_to_validation_file(tid, 'bad.txt', 'a', '')
-    AdminData::Util.write_to_validation_file(tid, 'good.txt', 'a', '')
+    AdminData::Util.write_to_validation_file('', 'a', tid, 'processing.txt')
+    AdminData::Util.write_to_validation_file('', 'a', tid, 'bad.txt')
+    AdminData::Util.write_to_validation_file('', 'a', tid, 'good.txt')
+    AdminData::Util.write_to_validation_file('', 'a', tid, 'error.txt')
 
     call_rake('admin_data:validate_models_bg', {:tid => tid, :klasses => klasses} )
   end
@@ -77,10 +80,9 @@ class AdminData::ValidateModelController < AdminData::BaseController
     command =  "#{rake_command} #{task} #{args.join(' ')}"
     Rails.logger.info "command: #{command}"
     p1 = Process.fork { system(command) }
-    AdminData::Util.write_to_validation_file(options[:tid], 'pid.txt', 'a', p1.to_s)
+    AdminData::Util.write_to_validation_file(p1, 'a', options[:tid], 'pid.txt')
     Process.detach(p1)
   end
-
 
   def gather_data(tid)
     good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')

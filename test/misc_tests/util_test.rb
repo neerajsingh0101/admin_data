@@ -10,7 +10,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
       filename = 'testing.txt'
       mode = 'w'
       data = 'hello world'
-      AdminData::Util.write_to_validation_file(tid, filename, mode, data)
+      AdminData::Util.write_to_validation_file(data, mode, tid, filename)
       file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, filename)
       @text = File.readlines(file)
     end

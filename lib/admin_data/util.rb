@@ -123,11 +123,17 @@ class AdminData::Util
     columns_symbol.map(&:to_s)
   end
 
-  def self.write_to_validation_file(tid, filename, mode, data)
-    tid = tid.to_s
-    FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid))
-    file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid , filename)
-    File.open(file, mode) {|f| f.puts(data) }
+  def self.write_to_validation_file(data, mode, *args)
+    default = %w(tmp admin_data validate_model)
+    self.write_to_file(data, mode, (default + args))
+  end
+
+  # Usage: write 'hello world' to tmp/hello.txt file
+  # Util.write_to_file('hello world', 'a+', 'tmp', 'hello.txt')
+  def self.write_to_file(data, mode, *path)
+    path = File.expand_path(Rails.root.join(*path.flatten.compact))
+    FileUtils.mkdir_p(File.dirname(path))
+    File.open(path, mode) {|fh| fh.puts(data) }
   end
 
   def self.read_validation_file(tid, filename)
