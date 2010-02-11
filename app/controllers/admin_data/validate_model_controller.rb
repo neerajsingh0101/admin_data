@@ -77,6 +77,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
     command =  "#{rake_command} #{task} #{args.join(' ')}"
     Rails.logger.info "command: #{command}"
     p1 = Process.fork { system(command) }
+    AdminData::Util.write_to_validation_file(options[:tid], 'pid.txt', 'a', p1.to_s)
     Process.detach(p1)
   end
 
