@@ -16,6 +16,5 @@
   <li>[Subba Rao Pasupuleti](http://github.com/subbarao)</li>
 </ul>  
 
-MIT
 
-Copyright (c) 2009 neerajdotname
+Released under MIT License
