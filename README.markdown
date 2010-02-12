@@ -17,4 +17,7 @@
 </ul>  
 
 
-Released under MIT License
+Dual licensed under the MIT and GPL version 2 licenses.
+http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt
+http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt
+
