@@ -29,14 +29,14 @@ table {
 	font-size: 15px;
 }
 
-.ram_drop_down {
+#advance_search_table select {
 	font-size: 15px;
 	width: 280px;
 	padding: 2px;
 	margin: 2px;
 }
 
-.ram_drop_down option {
+#advance_search_table select option {
    padding: 2px 5px;
 }
 
