@@ -1,5 +1,3 @@
-# admin_data
-
 ## Live Demo
 
 [http://demo.neeraj.name/admin_data](http://demo.neeraj.name/admin_data)
