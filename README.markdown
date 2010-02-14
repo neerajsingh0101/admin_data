@@ -11,13 +11,12 @@
 
 ### Additional Contributors
 <ul>
-  <li>[Alexey Borzenkov](http://github.com/snaury)</li>
-  <li>[Alex Rothenberg](http://github.com/alexrothenberg)</li>
-  <li>[Subba Rao Pasupuleti](http://github.com/subbarao)</li>
+  <li> [Alexey Borzenkov](http://github.com/snaury) </li>
+  <li> [Alex Rothenberg](http://github.com/alexrothenberg) </li>
+  <li> [Subba Rao Pasupuleti](http://github.com/subbarao)   </li>
 </ul>  
 
 
-Dual licensed under the MIT and GPL version 2 licenses.
-http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt
-http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt
+Dual licensed under the [MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and [GPL version 2](http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) licenses.
+
 
