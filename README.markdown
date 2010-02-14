@@ -11,7 +11,9 @@
 
 ### Additional Contributors
 [Alexey Borzenkov](http://github.com/snaury)
+
 [Alex Rothenberg](http://github.com/alexrothenberg)
+
 [Subba Rao Pasupuleti](http://github.com/subbarao)
 
 
