@@ -92,7 +92,7 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def handle_advance_search_action_type_delete
-    count = @klass.send(:count, @cond);
+    count = @klass.send(:count, :conditions => @cond);
     @klass.find_in_batches( :conditions => @cond ) do |group|
       group.each {|record| @klass.send(:delete, record) }
     end
