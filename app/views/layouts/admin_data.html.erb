@@ -41,10 +41,11 @@
     <%= AdminData::Util.javascript_include_tag('vendor/jquery.form') unless Rails.env.test? %> 
 
     <%= AdminData::Util.javascript_include_tag('vendor/log', 
-                                               'admin_data_js_util', 
                                                'validate_model/select_all', 
                                                'validate_model/ajaxify_form', 
-                                               'app') %>
+                                               'misc/drop_down_change',
+                                               'misc/quick_search_input_focus',
+                                               'misc/js_util') %>
 
     <%# assert_tag is throwing a lot of warning with these inline javascripts.
         no need of these javascripts in test mode %>
@@ -55,6 +56,7 @@
                                                  'advance_search/ajaxify_advance_search',
                                                  'advance_search/act_on_result',
                                                  'advance_search/trigger_submit_on_domready',
+                                                 'advance_search/build_first_row',
                                                  'advance_search/event_bindings'
                                                 ) %>
     <% end %>
