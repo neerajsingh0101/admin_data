@@ -96,7 +96,7 @@ class AdminData::SearchController  < AdminData::BaseController
     @klass.find_in_batches( :conditions => @cond ) do |group|
       group.each {|record| @klass.send(:delete, record) }
     end
-    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted "
+    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted"
   end
 
   def handle_advance_search_action_type_destroy
@@ -104,7 +104,7 @@ class AdminData::SearchController  < AdminData::BaseController
     @klass.find_in_batches( :conditions => @cond ) do |group|
       group.each {|record| record.destroy }
     end
-    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed "
+    @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed"
   end
 
   def default_order

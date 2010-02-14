@@ -150,8 +150,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-
-
   context 'GET quick_search with search term' do
     setup do
       Article.delete_all
@@ -194,7 +192,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       end
     end
   end
-
 
   context 'GET advance_search' do
     context 'with no klass param' do
@@ -246,13 +243,22 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
-      Factory(:article, :short_desc => nil)
-      xml_http_request  :post,
-      :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :admin_data_advance_search_action_type => 'delete', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
+      so   = {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} }
+      h = { :klass => Article.name.underscore,
+        :sortby => 'article_id desc',
+      :admin_data_advance_search_action_type => 'delete', :adv_search => so }
+      xml_http_request  :post, :advance_search, h
+      @json = JSON.parse(@response.body)
     end
     should_respond_with :success
     should 'have only one record' do
       assert_equal 1, Article.count
+    end
+    should 'have success key in the response message' do
+      assert @json.has_key?('success')
+    end
+    should 'have success message in the response message' do
+      assert_equal @json.fetch('success'), '1 record deleted'
     end
   end
 
@@ -262,13 +268,19 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
-      Factory(:article, :short_desc => nil)
       xml_http_request  :post,
-      :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :admin_data_advance_search_action_type => 'destroy', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
+      :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :admin_data_advance_search_action_type => 'destroy', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} } }
+      @json = JSON.parse(@response.body)
     end
     should_respond_with :success
     should 'have only one record' do
       assert_equal 1, Article.count
+    end
+    should 'have success key in the response message' do
+      assert @json.has_key?('success')
+    end
+    should 'have success message in the response message' do
+      assert_equal @json.fetch('success'), '1 record destroyed'
     end
   end
 
@@ -338,7 +350,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     end
   end
 
-
   context 'xhr advance_search with empty col2' do
     setup do
       Article.delete_all
@@ -351,7 +362,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       assert_tag(:tag => 'h2', :attributes => {:class => 'title'}, :content => /Search result: 2 records found/ )
     end
   end
-
 
   context 'xhr advance_search with two search terms' do
     setup do
@@ -625,7 +635,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
         assert_tag( :tag => 'h2', :attributes => { :class => 'title'}, :content => /Search result: 0 records found/ )
       end
     end
-
 
     context 'with col2 less_than' do
       setup do

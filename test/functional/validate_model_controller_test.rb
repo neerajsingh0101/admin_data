@@ -41,12 +41,14 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
     context 'with params[:tid] missing' do
       setup do
         xml_http_request :post, :validate_model
+        @json = JSON.parse(@response.body)
       end
       should_respond_with :success
-      should 'testing JSON output' do
-        o = JSON.parse(@response.body)
-        assert o.has_key?('error')
-        assert o.fetch('error') == 'Something went wrong. Please try again !!'
+      should 'output should have error key' do
+        assert @json.has_key?('error')
+      end
+      should 'output should have error message' do
+        assert_equal 'Something went wrong. Please try again !!', @json.fetch('error')
       end
     end
 
@@ -54,12 +56,14 @@ class AdminData::ValidateModelControllerTest < ActionController::TestCase
       setup do
         tid = Time.now.strftime('%Y%m%d%H%M%S')
         xml_http_request :post, :validate_model, :tid => tid
+        @json = JSON.parse(@response.body)
       end
       should_respond_with :success
-      should 'testing JSON output' do
-        o = JSON.parse(@response.body)
-        assert o.has_key?('error')
-        assert o.fetch('error') == 'Please select at least one model'
+      should 'output should have error key' do
+        assert @json.has_key?('error')
+      end
+      should 'output should have error message' do
+        assert 'Please select at least one model', @json.fetch('error')
       end
     end
   end

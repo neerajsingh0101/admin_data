@@ -278,11 +278,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     setup do
       get :edit, {:id => @article.id, :klass => @article.class.name, :attr => 'title', :data => 'Hello World' }
     end
-
     should 'have input field for title' do
       assert_select('#article_title')
     end
-
     should 'not have input field for body' do
       assert_select('#article_body', false)
     end
@@ -412,7 +410,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_set_the_flash_to /Record was created/
     should_change('vehicle count', :by => 1) { Vehicle::Car.count }
   end
-
 
   context 'create failure' do
     setup do

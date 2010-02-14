@@ -15,7 +15,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
       @text = File.readlines(file)
     end
     should 'have written to file' do
-      assert_equal @text.last.strip, 'hello world'
+      assert_equal 'hello world', @text.last.strip 
     end
   end
 
@@ -25,7 +25,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
     should 'be engine' do
       assert subject
       assert subject.size,1
-      assert_equal subject[0], 'engine'
+      assert_equal 'engine', subject[0] 
     end
     should 'respond_to? has_one' do
       assert @instance.respond_to?(subject[0])
