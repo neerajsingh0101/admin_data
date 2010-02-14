@@ -17,6 +17,7 @@
 [Subba Rao Pasupuleti](http://github.com/subbarao)
 
 
+### License
 Dual licensed under the [MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and [GPL version 2](http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) licenses.
 
 
