@@ -40,11 +40,6 @@ class AdminData::BaseController < ApplicationController
     render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_feed?(self)
   end
 
-  def ensure_is_allowed_to_view_jstest
-    render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_jstest?
-  end
-
-
   def get_class_from_params
     begin
       @klass = AdminData::Util.camelize_constantize(params[:klass])

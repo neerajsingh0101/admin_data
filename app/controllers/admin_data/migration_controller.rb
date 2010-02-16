@@ -2,7 +2,7 @@ class AdminData::MigrationController < AdminData::BaseController
 
   unloadable
 
-  before_filter :ensure_is_allowed_to_view_jstest
+  before_filter :ensure_is_allowed_to_view
 
   def index
     @page_title = 'migration information'
