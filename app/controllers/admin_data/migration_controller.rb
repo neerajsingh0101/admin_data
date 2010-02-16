@@ -2,6 +2,8 @@ class AdminData::MigrationController < AdminData::BaseController
 
   unloadable
 
+  before_filter :ensure_is_allowed_to_view_jstest
+
   def index
     @page_title = 'migration information'
     m = 'select * from schema_migrations'

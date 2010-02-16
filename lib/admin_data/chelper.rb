@@ -24,6 +24,11 @@ module AdminData::Chelper
     AdminDataConfig.setting[:is_allowed_to_update_model].call(self)
   end
 
+  def admin_data_is_allowed_to_view_jstest?
+    return true if Rails.env.development?
+    AdminDataConfig.setting[:is_allowed_to_view_jstest].call(self)
+  end
+
   def admin_data_invalid_record_link(klassu, id, error)
     record = klassu.camelize.constantize.send(:find, id)
     tmp = admin_data_on_k_path(:klass => klasss.underscore, :id => record)
