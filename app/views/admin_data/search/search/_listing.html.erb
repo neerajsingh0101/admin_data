@@ -1,5 +1,6 @@
-<%= render 'admin_data/search/search/title',  :records => records, 
-                                              :total_num_of_children => @total_num_of_children %>
+<%= render :partial => 'admin_data/search/search/title', :locals => { 
+                                                            :records => records, 
+                                                            :total_num_of_children => @total_num_of_children } %>
 
 <div class="pagination">
   <%= will_paginate @records, :container => false, :params => {:klass => klass.name} %>
