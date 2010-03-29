@@ -1,9 +1,7 @@
 <div id="header">
-  <div id='iheader'>
-
-    <div id='logo'>
+    <h1>
       <%= link_to 'admin_data', admin_data_index_path %>
-    </div>  
+    </h1>  
 
     <ul>
       <li class="first <%=AdminData::Util.am_i_active(params, ['main','all_models index show table_structure new create edit'], ['search','search advance_search'])%>">
@@ -23,10 +21,6 @@
       <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
     </div>
 
-  </div>
-  
-  <div class='clear'></div>
+    <div class='clear'></div>
 
 </div>
-
-<div class='clear'></div>
