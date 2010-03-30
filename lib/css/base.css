@@ -33,27 +33,32 @@ body {
   padding-top: 0px;  
   margin-top: 0px;
   margin:0; 
+  background: #ddd;
+  float: left;
+  width: 100%;
+  font-size: 20px;
 }
 
 #header h1 {
   margin: 0;
   padding: 10px 0;  
-  font-size: 35px;
+  font-size: 40px;
   float: left;
-
   padding: 15px 45px 15px 10px;
   font-style: normal;
   font-weight: bold;
   text-transform: normal;
-  letter-spacing: -1px;
+  letter-spacing: 1px;
   line-height: 1.2em;
 }
 
 #header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
   text-decoration: none;
-  text-shadow: 4px 4px 1px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
   font-family: "Helvetica Neue Light","HelveticaNeue-Light","Helvetica Neue",Calibri,Helvetica,Arial;
+  color: #000;
 }
+
 
 #main {  
   width: 70%;
@@ -408,14 +413,6 @@ hr {
   color: #f0f0ee;
 }
 
-#header {
-  background: #36393d;
-}
-
-
-#header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
-  color: #FFF;
-}
 
 #user-navigation {
   top: auto;
@@ -771,12 +768,6 @@ input.button { cursor: pointer; }
    text-align: left;
 }
 
-#header {
-  float: left;
-  width: 100%;
-  background: #003366;
-  font-size: 20px;
-}
 
 #iheader {
   margin: 0 auto;
@@ -917,8 +908,9 @@ table#view_table tr:hover {
 
 
 #model_drop_down {
- float: right;
- margin: 0 50px;
+  position: absolute;
+  top: 10px;
+  right: 600px;
 }
 
 .drop_down_value_klass {
@@ -1046,3 +1038,34 @@ table#missing_index tr td {
   color: #fff;
 }
 
+ul#subnav {
+   background: #888;
+   display: inline;
+   padding: 10px 6px;
+   position: absolute;
+   text-align: right;
+   top: 0;
+   right: 200px;
+
+}
+
+ul#subnav li {
+  display: inline;
+  border: 0;
+  background: #888;
+}
+
+ul#subnav li a, ul#subnav li a:hover {
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 5px;
+  text-decoration: none;
+  background: #888;
+}
+
+ul#subnav li a:hover {
+  color: #fff;
+  text-decoration: underline;
+}

@@ -5,3 +5,4 @@ tmp/*
 *.db
 response.html
 test/rails_root/tmp
+tags
