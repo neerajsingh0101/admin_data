@@ -15,7 +15,7 @@
       <%= AdminData::Util.stylesheet_link_tag('vendor/jquery-ui-1.7.2.custom') %>
     <% end %>  
 
-    <%= AdminData::Util.stylesheet_link_tag( 'base', 'themes/drastic-dark/style', 'umbrella', 'rounded', 'header', 'app') %>
+    <%= AdminData::Util.stylesheet_link_tag('base') %>
 
     <% if AdminDataConfig.setting[:use_google_hosting_for_jquery] %>
       <%= javascript_include_tag('http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js') %>
