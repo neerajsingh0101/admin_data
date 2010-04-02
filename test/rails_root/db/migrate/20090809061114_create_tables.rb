@@ -2,11 +2,11 @@ class CreateTables < ActiveRecord::Migration
   def self.up
 
     create_table(:articles, :primary_key => 'article_id') do |t|
-      t.string :title ,           :null => false
+      t.string :title ,           :null => false, :limit => 200
       t.text :body,               :null => false
       t.text :body_html,          :null => false
       t.text :short_desc
-      t.string :status,           :default => 'draft'
+      t.string :status,           :default => 'draft', :limit => 50
       t.datetime :published_at,   :null => true
       t.boolean :approved
       t.integer :hits_count

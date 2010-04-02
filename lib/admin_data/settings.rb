@@ -19,6 +19,7 @@ class AdminDataConfig
     use_google_hosting_for_jquery
     rake_options
     drop_down_for_associations
+    ignore_column_limit
     ).collect(&:intern)
 
     extra_keys = input.keys - valid_keys
@@ -60,6 +61,8 @@ class AdminDataConfig
       :rake_command                 => 'rake',
 
       :drop_down_for_associations   => true,
+
+      :ignore_column_limit          => false,
 
       :columns_order                => nil
 

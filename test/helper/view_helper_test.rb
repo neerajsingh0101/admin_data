@@ -38,7 +38,7 @@ class ViewHelperTest < ActionView::TestCase
         article = Factory(:article)
         col = Article.columns.detect {|col| col.name == 'hits_count'}
         @expected = '<input> for hits_count'
-        @f.should_receive(:text_field).with('hits_count', {:class => "nice-field", :size => 56}).and_return(@expected)
+        @f.should_receive(:text_field).with('hits_count', {:class => "nice-field", :size => 60}).and_return(@expected)
         @output = admin_data_form_field(Article, article, col, @f)
       end
       should 'have input text' do

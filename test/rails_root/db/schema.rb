@@ -12,11 +12,11 @@
 ActiveRecord::Schema.define(:version => 20090809061114) do
 
   create_table "articles", :primary_key => "article_id", :force => true do |t|
-    t.string   "title",                              :null => false
+    t.string   "title",                              :null => false, :limit => 200
     t.text     "body",                               :null => false
     t.text     "body_html",                          :null => false
     t.text     "short_desc"
-    t.string   "status",        :default => "draft"
+    t.string   "status",        :default => "draft", :limit => 50
     t.datetime "published_at"
     t.boolean  "approved"
     t.integer  "hits_count"

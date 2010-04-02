@@ -128,7 +128,7 @@ module AdminData::Helpers
       # in some edge cases following code throws exception. investigating ..
       options = reflection.options
       if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
-        html << f.text_field(col.name)
+        build_text_field(html, f, col)
       else
         ref_klass = reflection.klass
         association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
@@ -173,12 +173,21 @@ module AdminData::Helpers
       html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
 
     else
-      col_limit = col.limit || 255
-      size = (col_limit < 56) ? col_limit : 56
-      options = {:size => size, :class => 'nice-field'}
-      options[:maxlength] = col.limit if col.limit
-      html << f.text_field(col.name, options)
+      build_text_field(html, f, col)
     end
+  end
+
+
+  def build_text_field(html, f, col)
+    options = {:class => 'nice-field'}
+    if AdminDataConfig.setting[:ignore_column_limit]
+      options[:size] = 60
+      options[:maxlength] = 255
+    else
+      options[:size] = (col && col.limit && col.limit < 60) ? col.limit : 60
+      options[:maxlength] = col.limit if col.limit
+    end
+    html << f.text_field(col.name, options)
   end
 
   # uses truncate method

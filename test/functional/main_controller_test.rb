@@ -287,33 +287,62 @@ class AdminData::MainControllerTest < ActionController::TestCase
   end
 
   context 'get edit article' do
-    setup do
-      get :edit, {:id => @article.id, :klass => @article.class.name }
-    end
-    should_respond_with :success
+    context 'with ignore column limit' do
+      setup do
+        AdminDataConfig.set = ({:ignore_column_limit => true})
+        get :edit, {:id => @article.id, :klass => @article.class.name }
+      end
+      teardown do
+        AdminDataConfig.set = ({:ignore_column_limit => false})
+      end
 
-    should "not have input for primary key" do
-      assert_select 'form' do
-        assert_select "input[name='comment[id]']", false
+      should 'have size 60 for title and maxlenght 255' do
+        assert_tag(:tag => 'input', :attributes => {:id=> 'article_title', :size => '60', :maxlength => '255'})
+      end
+
+      should 'have size 60 for status and maxlenght 200' do
+        assert_tag(:tag => 'input', :attributes => {:id=> 'article_status', :size => '60', :maxlength => '255'})
       end
     end
 
-    should "have dropdowns for published_at datetime column" do
-      assert_select 'form' do
-        assert_select "select[name='article[published_at(1i)]']"
-        assert_select "select[name='article[published_at(2i)]']"
-        assert_select "select[name='article[published_at(3i)]']"
-        assert_select "select[name='article[published_at(4i)]']"
-        assert_select "select[name='article[published_at(5i)]']"
+    context 'with enforced column limit' do
+
+      setup do
+        get :edit, {:id => @article.id, :klass => @article.class.name }
       end
-    end
+      should_respond_with :success
 
-    should 'have input field for title' do
-      assert_select('#article_title')
-    end
+      should "not have input for primary key" do
+        assert_select 'form' do
+          assert_select "input[name='comment[id]']", false
+        end
+      end
 
-    should 'have input field for body' do
-      assert_select('#article_body')
+      should "have dropdowns for published_at datetime column" do
+        assert_select 'form' do
+          assert_select "select[name='article[published_at(1i)]']"
+          assert_select "select[name='article[published_at(2i)]']"
+          assert_select "select[name='article[published_at(3i)]']"
+          assert_select "select[name='article[published_at(4i)]']"
+          assert_select "select[name='article[published_at(5i)]']"
+        end
+      end
+
+      should 'have input field for title' do
+        assert_select('#article_title')
+      end
+
+      should 'have size 60 for title and maxlenght 200' do
+        assert_tag(:tag => 'input', :attributes => {:id=> 'article_title', :size => '60', :maxlength => '200'})
+      end
+
+      should 'have size 60 for status and maxlenght 200' do
+        assert_tag(:tag => 'input', :attributes => {:id=> 'article_status', :size => '50', :maxlength => '50'})
+      end
+
+      should 'have input field for body' do
+        assert_select('#article_body')
+      end
     end
 
   end
