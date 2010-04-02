@@ -319,15 +319,37 @@ class AdminData::MainControllerTest < ActionController::TestCase
   end
 
   context 'get edit comment' do
-    setup do
-      @comment = Factory(:comment, :article => @article)
-      get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
-    end
-    should_respond_with :success
+    context 'without drop down for associations' do
+      setup do
+        AdminDataConfig.set = ({:drop_down_for_associations => false})
+        @comment = Factory(:comment, :article => @article)
+        get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
+        show_response
+      end
+      teardown do
+        AdminDataConfig.set = ({:drop_down_for_associations => true})
+      end
 
-    should "have dropdowns for belongs_to article" do
-      assert_select 'form' do
-        assert_select "select[name='comment[article_id]']"
+      should_respond_with :success
+
+      should "have input text field for belongs_to article" do
+        assert_select 'form' do
+          assert_tag(:tag => 'input', :attributes => {:id => 'comment_article_id', :name => 'comment[article_id]'})
+        end
+      end
+    end
+    context 'with drop down for associations' do
+      setup do
+        @comment = Factory(:comment, :article => @article)
+        get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
+      end
+
+      should_respond_with :success
+
+      should "have dropdowns for belongs_to article" do
+        assert_select 'form' do
+          assert_select "select[name='comment[article_id]']"
+        end
       end
     end
   end
