@@ -324,7 +324,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
         AdminDataConfig.set = ({:drop_down_for_associations => false})
         @comment = Factory(:comment, :article => @article)
         get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
-        show_response
       end
       teardown do
         AdminDataConfig.set = ({:drop_down_for_associations => true})
