@@ -6,6 +6,10 @@
 
 [http://neerajdotname.github.com/admin_data](http://neerajdotname.github.com/admin_data)
 
+## JavaScript Unit tests live result
+
+"http://demo.neeraj.name/admin_data/jstest":http://demo.neeraj.name/admin_data/jstest
+
 ## Additional Contributors
 [Alexey Borzenkov](http://github.com/snaury)
 
