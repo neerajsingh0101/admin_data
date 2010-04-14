@@ -1,5 +1,29 @@
 class AdminData::Util
 
+
+  def self.google_hosted_jquery_ui_css
+    if AdminDataConfig.setting[:use_google_hosting_for_jquery]
+      jquery_ui_css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css'
+      jquery_ui_theme_css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/blitzer/jquery-ui.css')
+      stylesheet_link_tag(jquery_ui_css, jquery_ui_theme_css)
+    else
+      stylesheet_link_tag('vendor/jquery-ui-1.7.2.custom')
+    end
+  end
+
+  def self.google_hosted_jquery
+    if AdminDataConfig.setting[:use_google_hosting_for_jquery]
+      jquery_min = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js'
+      jquery_ui_min = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js'
+      javascript_include_tag(jquery_min, jquery_ui_min)
+    elsif Rails.env.test?
+      #  It is breaking the html markup and test is full of messages like
+      #  ignoring attempt to close string with script Hence not including jquery.form in test
+    else
+      javascript_include_tag('vendor/jquery-1.4.1', 'vendor/jquery-ui-1.7.2.custom.min') %>
+    end
+  end
+
   def self.is_allowed_to_view_feed?(controller)
     return true if Rails.env.development?
     return true if Rails.env.test? #FIXME remove this line
