@@ -6,11 +6,11 @@
       <%= @page_title.blank? ? 'admin_data' : "#{@page_title} - admin_data" %>
     </title>
 
-    <%= AdminData::Util.google_hosted_jquery_ui_css %>
+    <%= AdminData::Util.google_hosted_jquery_ui_css(self) %>
 
     <%= AdminData::Util.stylesheet_link_tag('base') %>
 
-    <%= AdminData::Util.google_hosted_jquery %>
+    <%= AdminData::Util.google_hosted_jquery(self) %>
 
     <!-- It is breaking the html markup and test is full of messages 
           like ignoring attempt to close string with script Hence not including jquery.form in test -->
