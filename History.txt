@@ -1,3 +1,9 @@
+=== 2010-04-14
+
+* JavaScript code refactoring
+* More JavaScript code test
+* Moved functionalities from layout to helper
+
 === 0.0.37 2010-01-28
 
 * refactored the code to take inline style out to style section
