@@ -56,6 +56,9 @@ require 'factory_girl'
 gem 'flexmock'
 require 'flexmock'
 
+gem 'redgreen'
+require 'RedGreen'
+
 
 #require all factories
 puts 'loading all factories'

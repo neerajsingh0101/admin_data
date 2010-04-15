@@ -10,7 +10,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
     @article = Factory(:article)
-    @car = Vehicle::Car.create(:year => 2000, :brand => 'bmw')
+    @car = Factory(:car, :year => 2000, :brand => 'bmw')
     grant_read_only_access
     grant_update_access
   end
@@ -177,7 +177,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'get show for car' do
     setup do
-      @engine = Vehicle::Engine.create(:car_id => @car.id, :cylinders => 4)
+      @engine = Factory(:engine, :car => @car, :cylinders => 4)
       get :show, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :success

@@ -11,7 +11,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
     @article = Factory(:article)
-    @car = Vehicle::Car.create(:year => 2000, :brand => 'bmw')
+    @car = Factory(:car, :year => 2000, :brand => 'bmw')
     grant_read_only_access
   end
 
@@ -76,8 +76,8 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       context 'for a nested model' do
         setup do
           Vehicle::Door.delete_all
-          @door1 = Vehicle::Door.create(:color => 'black', :car_id => @car.id)
-          @door2 = Vehicle::Door.create(:color => 'green', :car_id => @car.id)
+          @door1 = Factory(:door, :color => 'black', :car => @car)
+          @door2 = Factory(:door, :color => 'green', :car => @car)
           get :quick_search, {  :klass => @door1.class.name.underscore, :base => @car.class.name.underscore, :model_id => @car.id, :children => 'doors'}
         end
         should_respond_with :success
