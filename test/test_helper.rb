@@ -3,10 +3,8 @@ $:.unshift(File.join(File.dirname(__FILE__) + '..', 'app'))
 $:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers'))
 $:.unshift(File.join(File.dirname(__FILE__) + '..', 'app','controllers','admin_data'))
 
-
 module AdminData
 end
-
 
 ENV['RAILS_ENV'] = 'test'
 
@@ -52,7 +50,7 @@ require 'shoulda'
 gem 'will_paginate'
 require 'will_paginate'
 
-gem 'factory_girl','>= 1.2.2'
+gem 'factory_girl','= 1.2.3'
 require 'factory_girl'
 
 gem 'flexmock'
@@ -60,6 +58,7 @@ require 'flexmock'
 
 
 #require all factories
+puts 'loading all factories'
 Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
 
 
