@@ -191,7 +191,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get show for city' do
     setup do
       AdminDataConfig.set = { :find_conditions => { 'City' =>  lambda { |params| {:conditions => ["permanent_name =?", params[:id]] } } } }
-      @city = City.create(:name => 'New Delhi')
+      @city = Factory(:city, :name => 'New Delhi')
       get :show, {:id => 'new-delhi', :klass => @city.class.name.underscore }
     end
     should_respond_with :success
@@ -215,7 +215,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'get show for door which belongs to another class' do
     setup do
-      @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
+      @door = Factory(:door, :color => 'blue', :car_id => @car.id)
       get :show, {:id => @door.id, :klass => @door.class.name.underscore }
     end
     should_respond_with :success
@@ -241,7 +241,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'destroy a car' do
     setup do
       grant_update_access
-      @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
+      @door = Factory(:door, :color => 'blue', :car => @car)
       delete :destroy, {:id => @car.id, :klass => @car.class.name.underscore}
     end
     should_respond_with :redirect
@@ -264,7 +264,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'delete a car' do
     setup do
       grant_update_access
-      @door = Vehicle::Door.create(:color => 'blue', :car_id => @car.id)
+      @door = Factory(:door, :color => 'blue', :car => @car)
       delete :del, {:id => @car.id, :klass => @car.class.name.underscore }
     end
     should_respond_with :redirect

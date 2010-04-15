@@ -50,7 +50,7 @@ require 'shoulda'
 gem 'will_paginate'
 require 'will_paginate'
 
-gem 'factory_girl','= 1.2.3'
+gem 'factory_girl','= 1.2.4'
 require 'factory_girl'
 
 gem 'flexmock'
@@ -59,11 +59,10 @@ require 'flexmock'
 gem 'redgreen'
 require 'RedGreen'
 
+# to test helper tests
+require 'action_view/test_case'
 
-#require all factories
-puts 'loading all factories'
-Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each {|f| require f}
-
+Dir[File.join(File.dirname(__FILE__), 'factories', '*.rb')].each { |f| require File.expand_path(f) }
 
 class ActiveSupport::TestCase
 
@@ -92,10 +91,3 @@ class ActiveSupport::TestCase
 
 end
 
-# to test helper tests
-require 'action_view/test_case'
-begin
-  require 'phocus'
-rescue LoadError
-  # it's alright if you don't have phocus
-end
