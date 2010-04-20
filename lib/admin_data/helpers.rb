@@ -135,6 +135,7 @@ module AdminData::Helpers
         all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
         html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true)
       end
+      html.join
     rescue Exception => e
       Rails.logger.info AdminData::Util.exception_info(e)
       'could not retrieve' # returning nil
@@ -175,6 +176,7 @@ module AdminData::Helpers
     else
       build_text_field(html, f, col)
     end
+    html.join
   end
 
 
@@ -188,6 +190,7 @@ module AdminData::Helpers
       options[:maxlength] = col.limit if col.limit
     end
     html << f.text_field(col.name, options)
+    html.join
   end
 
   # uses truncate method
