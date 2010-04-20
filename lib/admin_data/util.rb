@@ -136,14 +136,14 @@ class AdminData::Util
       sorted_columns = sanitized_order + (columns_symbol - sanitized_order)
       return sorted_columns.map(&:to_s)
     end
-
-    if columns_symbol.include? :created_at
-      columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
-    end
-
-    if columns_symbol.include? :updated_at
-      columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
-    end
+    
+    # if columns_symbol.include? :created_at
+    #   columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
+    # end
+    # 
+    # if columns_symbol.include? :updated_at
+    #   columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
+    # end
     columns_symbol.map(&:to_s)
   end
 
