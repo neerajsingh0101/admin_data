@@ -42,7 +42,7 @@ class ViewHelperTest < ActionView::TestCase
         @output = admin_data_form_field(Article, article, col, @f)
       end
       should 'have input text' do
-        assert_equal [@expected], @output
+        assert_equal @expected, @output
       end
     end
   end
@@ -58,7 +58,7 @@ class ViewHelperTest < ActionView::TestCase
       @output = admin_data_form_field(Article, @article, col, @f)
     end
     should 'have expected output' do
-      assert_equal [@expected_html], @output
+      assert_equal @expected_html, @output
     end
   end
 
@@ -74,7 +74,7 @@ class ViewHelperTest < ActionView::TestCase
       @output = admin_data_form_field(Article, @article, col, @f)
     end
     should 'have expected value' do
-      assert_equal [@expected_html], @output
+      assert_equal @expected_html, @output
     end
   end
 
@@ -90,7 +90,7 @@ class ViewHelperTest < ActionView::TestCase
       @output = admin_data_form_field(Comment, @comment, col, @f)
     end
     should 'have expected value' do
-      assert_equal [@expected], @output
+      assert_equal @expected, @output
     end
   end
 
