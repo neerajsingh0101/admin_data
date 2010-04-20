@@ -60,44 +60,44 @@ module Search
     def attribute_condition
       return if valid? && operand_required? && operands.blank?
       case operator
-      when 'contains':
+      when 'contains'
         ["#{sql_field_name} #{like_operator} ?","%#{operands}%"]
 
-      when 'is_exactly':
+      when 'is_exactly'
         ["#{sql_field_name} = ?", operands]
 
-      when 'does_not_contain':
+      when 'does_not_contain'
         ["#{sql_field_name} IS NULL OR #{sql_field_name} NOT #{like_operator} ?","%#{operands}%"]
 
-      when 'is_false':
+      when 'is_false'
         ["#{sql_field_name} = ?",false]
 
-      when 'is_true':
+      when 'is_true'
         ["#{sql_field_name} = ?",true]
 
-      when 'is_null':
+      when 'is_null'
         ["#{sql_field_name} IS NULL"]
 
-      when 'is_not_null':
+      when 'is_not_null'
         ["#{sql_field_name} IS NOT NULL"]
 
-      when 'is_on':
+      when 'is_on'
         ["#{sql_field_name} >= ? AND #{sql_field_name} < ?",   values_after_cast.beginning_of_day,
         values_after_cast.end_of_day]
 
-      when 'is_on_or_before_date':
+      when 'is_on_or_before_date'
         ["#{sql_field_name} <= ?",values_after_cast.end_of_day]
 
-      when 'is_on_or_after_date':
+      when 'is_on_or_after_date'
         ["#{sql_field_name} >= ?",values_after_cast.beginning_of_day]
 
-      when 'is_equal_to':
+      when 'is_equal_to'
         ["#{sql_field_name} = ?",values_after_cast]
 
-      when 'greater_than':
+      when 'greater_than'
         ["#{sql_field_name} > ?",values_after_cast]
 
-      when 'less_than':
+      when 'less_than'
         ["#{sql_field_name} < ?",values_after_cast]
 
       else
@@ -138,9 +138,9 @@ module Search
 
     def values_after_cast
       case operator
-      when /(is_on|is_on_or_before_date|is_on_or_after_date)/:
+      when /(is_on|is_on_or_before_date|is_on_or_after_date)/
         AdminDataDateValidation.validate(operands)
-      when /(is_equal_to|greater_than|less_than)/:
+      when /(is_equal_to|greater_than|less_than)/
         operands.to_i
       else
         operands
@@ -149,9 +149,9 @@ module Search
 
     def validate
       case operator
-      when /(is_on|is_on_or_before_date|is_on_or_after_date)/:
+      when /(is_on|is_on_or_before_date|is_on_or_after_date)/
         "#{operands} is not a valid date" unless AdminDataDateValidation.validate(operands)
-      when /(is_equal_to|greater_than|less_than)/:
+      when /(is_equal_to|greater_than|less_than)/
         unless operands.blank?
           "#{operands} is not a valid integer" unless operands =~ /^\d+$/
         end
