@@ -137,13 +137,15 @@ class AdminData::Util
       return sorted_columns.map(&:to_s)
     end
 
+    # created_at and updated_at should be at the very end
     if columns_symbol.include? :created_at
-      columns_symbol = (columns_symbol - [:created_at]) << [:created_at]
+      columns_symbol = (columns_symbol - [:created_at]) + [:created_at]
     end
 
     if columns_symbol.include? :updated_at
-      columns_symbol = (columns_symbol - [:updated_at]) << [:updated_at]
+      columns_symbol = (columns_symbol - [:updated_at]) + [:updated_at]
     end
+
     columns_symbol.map(&:to_s)
   end
 
