@@ -32,11 +32,13 @@ body {
   position: relative;
   padding-top: 0px;  
   margin-top: 0px;
+  margin-bottom: 15px;
   margin:0; 
   background: #ddd;
   float: left;
   width: 100%;
   font-size: 20px;
+  background-color: #D5E9F6;
 }
 
 #header h1 {
@@ -54,7 +56,6 @@ body {
 
 #header h1 a:link, #header h1 a:active, #header h1 a:hover, #header h1 a:visited {
   text-decoration: none;
-  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
   font-family: "Helvetica Neue Light","HelveticaNeue-Light","Helvetica Neue",Calibri,Helvetica,Arial;
   color: #000;
 }
@@ -997,10 +998,6 @@ table#missing_index tr td {
   height: 25px;
 }
 
-#main .block .content #validate_model_rhs_data p {
-   font-size: 16px;
-}
-
 .clear { clear: both; }
 
 .rounded {
@@ -1039,7 +1036,7 @@ table#missing_index tr td {
 }
 
 ul#subnav {
-   background: #888;
+   background: #fff9d8;
    display: inline;
    padding: 10px 6px;
    position: absolute;
@@ -1052,20 +1049,23 @@ ul#subnav {
 ul#subnav li {
   display: inline;
   border: 0;
-  background: #888;
 }
 
 ul#subnav li a, ul#subnav li a:hover {
   color: #000;
+  background-color: #fff9d8;
   font-size: 14px;
   font-weight: bold;
   margin-left: 10px;
   margin-right: 5px;
   text-decoration: none;
-  background: #888;
 }
 
 ul#subnav li a:hover {
-  color: #fff;
   text-decoration: underline;
+}
+
+
+.col_box {
+  border-top: 1px dotted #efefef;
 }

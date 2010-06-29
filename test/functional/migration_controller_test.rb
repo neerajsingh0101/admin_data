@@ -1,6 +1,8 @@
-require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
+pwd = File.dirname(__FILE__)
 
-f = File.join(File.dirname(__FILE__),'..','..','app','views')
+require File.join(pwd,'..', 'test_helper')
+
+f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 AdminData::MigrationController.prepend_view_path(f)
 

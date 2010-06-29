@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :articles
+  #map.resources :articles
 
 end
 

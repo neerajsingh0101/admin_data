@@ -36,7 +36,7 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def advance_search
     @page_title = "Advance search #{@klass.name.underscore}"
-    plugin_dir = AdminDataConfig.setting[:plugin_dir]
+    plugin_dir = AdminData::Config.setting[:plugin_dir]
     hash = build_advance_search_conditions(@klass, params[:adv_search])
     @cond = hash[:cond]
     errors = hash[:errors]

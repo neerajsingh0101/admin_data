@@ -6,17 +6,6 @@ ActionController::Routing::Routes.draw do |map|
       m.index                       '/',                                :action => 'all_models'
     end
 
-    admin_data.with_options :controller => 'diagnostic' do |m|
-      m.diagnostic                  '/diagnostic',                      :action => 'index'
-      m.diagnostic_missing_index    '/diagnostic/missing_index',        :action => 'missing_index'
-    end
-
-    admin_data.with_options :controller => 'validate_model' do |m|
-      m.validate                    '/diagnostic/validate',             :action => 'validate'
-      m.validate_model              '/diagnostic/validate_model',       :action => 'validate_model'
-      m.tid                         '/diagnostic/tid/:tid',             :action => 'tid'
-    end
-
     admin_data.with_options :controller => 'migration' do |m|
       m.migration_information       '/migration',                       :action => 'index'
       m.jstest                      '/jstest',                          :action => 'jstest'

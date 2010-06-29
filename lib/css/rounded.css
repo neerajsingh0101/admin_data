@@ -1,0 +1,18 @@
+input[type="button"] { cursor: pointer; }
+input.button { cursor: pointer; }
+
+.element { border: 1px solid red; }
+
+.rounded{
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari */
+}
+
+.flash .error {
+   background: #c00;
+   color: #fff;
+}
+
+.flash .message {
+   text-align: left;
+}

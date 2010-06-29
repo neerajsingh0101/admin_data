@@ -113,7 +113,7 @@ module AdminData::Helpers
     if col.primary
       html <<  model.new_record? ? '(auto)' : model.id
 
-    elsif get_reflection_for_column(klass, col) && AdminDataConfig.setting[:drop_down_for_associations]
+    elsif get_reflection_for_column(klass, col) && AdminData::Config.setting[:drop_down_for_associations]
       admin_data_form_field_for_association_records(klass, col, f, html)
     else
       admin_data_handle_column_type(col, html, model, column_value, f)
@@ -182,7 +182,7 @@ module AdminData::Helpers
 
   def build_text_field(html, f, col)
     options = {:class => 'nice-field'}
-    if AdminDataConfig.setting[:ignore_column_limit]
+    if AdminData::Config.setting[:ignore_column_limit]
       options[:size] = 60
       options[:maxlength] = 255
     else

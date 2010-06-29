@@ -15,5 +15,4 @@ Rails::Initializer.run do |config|
   }
 end
 
-# Dependencies.log_activity = true
 

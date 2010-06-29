@@ -111,7 +111,7 @@ class AdminData::MainController  < AdminData::BaseController
     condition = {primary_key => conditional_id}
 
     # http://neerajdotname.github.com/admin_data/#override_find_condition
-    find_conditions_proc = AdminDataConfig.setting[:find_conditions] ?  AdminDataConfig.setting[:find_conditions][@klass.name] : nil
+    find_conditions_proc = AdminData::Config.setting[:find_conditions] ?  AdminData::Config.setting[:find_conditions][@klass.name] : nil
     if find_conditions_proc && find_conditions = find_conditions_proc.call(params)
 
       if find_conditions.has_key?(:conditions)

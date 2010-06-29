@@ -1,19 +1,26 @@
+<%
+  @quick_search_tab_active = params[:action] == 'quick_search' ? 'active' : ''
+  @advance_search_tab_active = params[:action] == 'advance_search' ? 'active' : ''
+  @table_structure_tab_active = params[:action] == 'table_structure' ? 'active' : ''
+  @add_new_record_tab_active = %w(new create).include?(params[:action]) ? 'active' : ''
+%>
+
 <ul>
 
-  <li class="first <%=AdminData::Util.am_i_active(params, ['main','list'],['search','quick_search'])%>">
+  <li class="first <%=@quick_search_tab_active%>">
     <%= link_to 'Quick Search', admin_data_search_path(:klass => klass.name.underscore) %> 
   </li>
 
-  <li class="<%=AdminData::Util.am_i_active(params, ['search','advance_search'])%>">
+  <li class="<%=@advance_search_tab_active%>">
     <%= link_to 'Advance Search', admin_data_advance_search_path(:klass => klass.name.underscore)  %>
   </li>
 
-  <li class="<%=AdminData::Util.am_i_active(params, ['main','table_structure'])%>">
+  <li class="<%=@table_structure_tab_active%>">
     <%= link_to 'Table Structure', table_structure_admin_data_on_k_path(:klass => klass.name.underscore) %>
   </li>
   
   <% if admin_data_is_allowed_to_update? %>
-    <li class=" <%=AdminData::Util.am_i_active(params, ['main','new'])%> <%=AdminData::Util.am_i_active(params, ['main','create'])%> ">
+    <li class="<%=@add_new_record_tab_active%>"> 
       <%= link_to '+Add New Record', new_admin_data_on_k_path(:klass => klass.name.underscore) %>
     </li>
   <% end %>  

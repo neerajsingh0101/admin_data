@@ -1,4 +1,4 @@
-class AdminDataConfig
+class AdminData::Config
 
   cattr_accessor :setting
 
@@ -57,8 +57,6 @@ class AdminDataConfig
       :find_conditions              => nil,
 
       :use_google_hosting_for_jquery => true,
-
-      :rake_command                 => 'rake',
 
       :drop_down_for_associations   => true,
 

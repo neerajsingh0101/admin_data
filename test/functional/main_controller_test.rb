@@ -1,6 +1,8 @@
-require File.join(File.dirname(__FILE__), '..', 'test_helper')
+pwd = File.dirname(__FILE__)
 
-f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
+require File.join(pwd, '..', 'test_helper')
+
+f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 
 class AdminData::MainControllerTest < ActionController::TestCase
@@ -190,7 +192,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'get show for city' do
     setup do
-      AdminDataConfig.set = { :find_conditions => { 'City' =>  lambda { |params| {:conditions => ["permanent_name =?", params[:id]] } } } }
+      AdminData::Config.set = { :find_conditions => { 'City' =>  lambda { |params| {:conditions => ["permanent_name =?", params[:id]] } } } }
       @city = Factory(:city, :name => 'New Delhi')
       get :show, {:id => 'new-delhi', :klass => @city.class.name.underscore }
     end
@@ -289,11 +291,11 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get edit article' do
     context 'with ignore column limit' do
       setup do
-        AdminDataConfig.set = ({:ignore_column_limit => true})
+        AdminData::Config.set = ({:ignore_column_limit => true})
         get :edit, {:id => @article.id, :klass => @article.class.name }
       end
       teardown do
-        AdminDataConfig.set = ({:ignore_column_limit => false})
+        AdminData::Config.set = ({:ignore_column_limit => false})
       end
 
       should 'have size 60 for title and maxlenght 255' do
@@ -350,12 +352,12 @@ class AdminData::MainControllerTest < ActionController::TestCase
   context 'get edit comment' do
     context 'without drop down for associations' do
       setup do
-        AdminDataConfig.set = ({:drop_down_for_associations => false})
+        AdminData::Config.set = ({:drop_down_for_associations => false})
         @comment = Factory(:comment, :article => @article)
         get :edit, {:id => @comment.id, :klass => @comment.class.name.underscore }
       end
       teardown do
-        AdminDataConfig.set = ({:drop_down_for_associations => true})
+        AdminData::Config.set = ({:drop_down_for_associations => true})
       end
 
       should_respond_with :success
@@ -497,18 +499,18 @@ class AdminData::MainControllerTest < ActionController::TestCase
 
   context 'fine grained access control' do
     teardown do
-      AdminDataConfig.initialize_defaults
+      AdminData::Config.initialize_defaults
     end
     context 'allows view security check to access klass' do
       setup do
-        AdminDataConfig.set = { :is_allowed_to_view_model => Proc.new { |controller| assert_equal(Article, controller.klass); true } }
+        AdminData::Config.set = { :is_allowed_to_view_model => Proc.new { |controller| assert_equal(Article, controller.klass); true } }
         get :show, {:id => @article.id, :klass => Article.name.underscore }
       end
       should_respond_with :success
     end
     context 'allows update security check to access klass' do
       setup do
-        AdminDataConfig.set = { :is_allowed_to_update => Proc.new { |controller| assert_equal(Article, controller.klass); true } }
+        AdminData::Config.set = { :is_allowed_to_update => Proc.new { |controller| assert_equal(Article, controller.klass); true } }
         get :edit, {:id => @article.id, :klass => Article.name.underscore }
       end
       should_respond_with :success

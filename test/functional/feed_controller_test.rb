@@ -1,8 +1,10 @@
-require File.join(File.dirname(__FILE__) , '..', 'test_helper')
-require 'nokogiri'
+pwd = File.dirname(__FILE__)
+require File.join(pwd, '..', 'test_helper')
 
-f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
+f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::FeedController.prepend_view_path(f)
+
+require 'nokogiri'
 
 class AdminData::FeedControllerTest < ActionController::TestCase
 

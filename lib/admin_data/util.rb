@@ -1,8 +1,7 @@
 class AdminData::Util
 
-
   def self.google_hosted_jquery_ui_css(context)
-    if AdminDataConfig.setting[:use_google_hosting_for_jquery]
+    if AdminData::Config.setting[:use_google_hosting_for_jquery]
       jquery_ui_css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css'
       jquery_ui_theme_css = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/blitzer/jquery-ui.css'
       context.send(:stylesheet_link_tag, jquery_ui_css, jquery_ui_theme_css)
@@ -12,7 +11,7 @@ class AdminData::Util
   end
 
   def self.google_hosted_jquery(context)
-    if AdminDataConfig.setting[:use_google_hosting_for_jquery]
+    if AdminData::Config.setting[:use_google_hosting_for_jquery]
       jquery_min = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js'
       jquery_ui_min = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js'
       context.send(:javascript_include_tag, jquery_min, jquery_ui_min)
@@ -28,18 +27,18 @@ class AdminData::Util
     return true if Rails.env.development?
     return true if Rails.env.test? #FIXME remove this line
 
-    if AdminDataConfig.setting[:feed_authentication_user_id].blank?
+    if AdminData::Config.setting[:feed_authentication_user_id].blank?
       Rails.logger.info 'No user id has been supplied for feed'
       return false
     end
 
-    if AdminDataConfig.setting[:feed_authentication_password].blank?
+    if AdminData::Config.setting[:feed_authentication_password].blank?
       Rails.logger.info 'No password has been supplied for feed'
       return false
     end
 
-    stored_userid = AdminDataConfig.setting[:feed_authentication_user_id]
-    stored_password = AdminDataConfig.setting[:feed_authentication_password]
+    stored_userid = AdminData::Config.setting[:feed_authentication_user_id]
+    stored_password = AdminData::Config.setting[:feed_authentication_password]
     self.perform_basic_authentication(stored_userid, stored_password, controller)
   end
 
@@ -57,30 +56,11 @@ class AdminData::Util
     end
   end
 
-  # using params[:controller]
-  # Usage:
-  #
-  # admin_data_am_i_active(['main','index'])
-  # admin_data_am_i_active(['main','index list'])
-  # admin_data_am_i_active(['main','index list'],['search','advance_search'])
-  def self.am_i_active(params, *args)
-    args.each do |arg|
-      controller_name = arg[0]
-      action_names = arg[1].split
-      is_action_included = action_names.include?(params[:action])
-      if params[:controller] == "admin_data/#{controller_name}" && is_action_included
-        return 'active'
-        break
-      end
-    end
-    ''
-  end
-
   def self.custom_value_for_column(column, model)
     # some would say that if I use try method then I will not be raising exception and
     # I agree. However in this case for clarity I would prefer to not to have try after each call
     begin
-      AdminDataConfig.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
+      AdminData::Config.setting[:column_settings].fetch(model.class.name.to_s).fetch(column.name.intern).call(model)
     rescue
       model.send(column.name)
     end
@@ -126,7 +106,7 @@ class AdminData::Util
     columns = klass.columns.map(&:name)
     columns_symbol = columns.map(&:intern)
 
-    columns_order = AdminDataConfig.setting[:columns_order]
+    columns_order = AdminData::Config.setting[:columns_order]
 
     if columns_order && columns_order[klasss]
       primary_key = klass.send(:primary_key).intern
@@ -149,11 +129,6 @@ class AdminData::Util
     columns_symbol.map(&:to_s)
   end
 
-  def self.write_to_validation_file(data, mode, *args)
-    default = %w(tmp admin_data validate_model)
-    self.write_to_file(data, mode, (default + args))
-  end
-
   # Usage: write 'hello world' to tmp/hello.txt file
   # Util.write_to_file('hello world', 'a+', 'tmp', 'hello.txt')
   def self.write_to_file(data, mode, *path)
@@ -162,15 +137,9 @@ class AdminData::Util
     File.open(path, mode) {|fh| fh.puts(data) }
   end
 
-  def self.read_validation_file(tid, filename)
-    #FIXME add test
-    file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, filename)
-    File.readlines(file).last
-  end
-
   def self.javascript_include_tag(*args)
     data = args.inject('') do |sum, arg|
-      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir], 'lib', 'js', "#{arg}.js"))
+      f = File.new(File.join(AdminData::Config.setting[:plugin_dir], 'lib', 'js', "#{arg}.js"))
       sum << f.read
     end
     ['<script type="text/javascript">', data, '</script>'].join
@@ -178,7 +147,7 @@ class AdminData::Util
 
   def self.stylesheet_link_tag(*args)
     data = args.inject('') do |sum, arg|
-      f = File.new(File.join(AdminDataConfig.setting[:plugin_dir], 'lib', 'css', "#{arg}.css"))
+      f = File.new(File.join(AdminData::Config.setting[:plugin_dir], 'lib', 'css', "#{arg}.css"))
       sum << f.read
     end
     ["<style type='text/css'>", data, '</style>'].join

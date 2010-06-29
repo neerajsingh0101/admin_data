@@ -1,6 +1,8 @@
-require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
+pwd = File.dirname(__FILE__)
 
-f = File.join(File.dirname(__FILE__),'..','..','app','views')
+require File.join(pwd , '..', 'test_helper')
+
+f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 AdminData::SearchController.prepend_view_path(f)
 
@@ -219,7 +221,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
   context 'xhr advance_search with does_not_contain first one' do
     setup do
       Article.delete_all
-      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return false} })
+      AdminData::Config.set = ({ :is_allowed_to_update => lambda {|controller| return false} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       Factory(:article, :short_desc => nil)
@@ -240,7 +242,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
   context 'xhr advance_search with delete_all action' do
     setup do
       Article.delete_all
-      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
+      AdminData::Config.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       so   = {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} }
@@ -265,7 +267,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
   context 'xhr advance_search with destroy_all action' do
     setup do
       Article.delete_all
-      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
+      AdminData::Config.set = ({ :is_allowed_to_update => lambda {|controller| return true} })
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       xml_http_request  :post,
@@ -286,7 +288,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
 
   context 'xhr advance_search with does_not_contain' do
     setup do
-      AdminDataConfig.set = ({ :is_allowed_to_update => lambda {|controller| return true } })
+      AdminData::Config.set = ({ :is_allowed_to_update => lambda {|controller| return true } })
       Article.delete_all
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')

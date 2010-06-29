@@ -40,7 +40,7 @@ end
 ActionView::Base.send :include, AdminData::Helpers
 
 require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','settings.rb')
-AdminDataConfig.initialize_defaults
+AdminData::Config.initialize_defaults
 
 require File.join(RAILS_ROOT,'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','util.rb')
 
