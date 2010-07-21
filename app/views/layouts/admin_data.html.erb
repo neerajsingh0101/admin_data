@@ -6,21 +6,21 @@
       <%= @page_title.blank? ? 'admin_data' : "#{@page_title} - admin_data" %>
     </title>
 
-    <%= AdminData::Util.google_hosted_jquery_ui_css(self) %>
+    <%= AdminData::Util.google_hosted_jquery_ui_css(self).html_safe %>
 
-    <%= AdminData::Util.stylesheet_link_tag('base') %>
+    <%= AdminData::Util.stylesheet_link_tag('base').html_safe %>
 
-    <%= AdminData::Util.google_hosted_jquery(self) %>
+    <%= AdminData::Util.google_hosted_jquery(self).html_safe %>
 
     <!-- It is breaking the html markup and test is full of messages 
           like ignoring attempt to close string with script Hence not including jquery.form in test -->
-    <%= AdminData::Util.javascript_include_tag('vendor/jquery.form') unless Rails.env.test? %> 
+    <%= AdminData::Util.javascript_include_tag('vendor/jquery.form').html_safe unless Rails.env.test? %> 
 
     <%= AdminData::Util.javascript_include_tag('vendor/log', 
                                                'misc/drop_down_change',
                                                'misc/quick_search_input_focus',
                                                'advance_search/global_ajax_setting',
-                                               'misc/js_util') %>
+                                               'misc/js_util').html_safe %>
 
     <!-- assert_tag is throwing a lot of warning with these inline javascripts.  
     no need of these javascripts in test mode -->
@@ -33,7 +33,7 @@
                                                  'advance_search/build_first_row',
                                                  'advance_search/event_bindings',
                                                  'advance_search/trigger_submit_on_domready'
-                                                ) %>
+                                                ).html_safe %>
     <% end %>
   
   </head>
