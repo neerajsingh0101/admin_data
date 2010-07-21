@@ -3,7 +3,7 @@
     <span class='col_name'><%= col.name %></span>
     <span class='col_type'>[<%= col.type.to_s %>]</span>
   </div>
-  <%= admin_data_form_field(klass, @model, col, f) %>
+  <%= admin_data_form_field(klass, @model, col, f).html_safe %>
 <% end %>
 
 <div class='group navform' style='padding-top:10px;'>
