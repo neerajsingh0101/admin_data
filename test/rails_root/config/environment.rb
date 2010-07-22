@@ -9,7 +9,7 @@ Rails::Initializer.run do |config|
   config.cache_classes = false
   config.whiny_nils = true
   config.action_controller.session = {
-    :key    => 'shoulda_session',
+    :key    => 'admin_data_test_session',
     :secret => 'ceae6058a816b1446e09ce90d8372511'
   }
 end
