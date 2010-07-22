@@ -19,7 +19,6 @@ require "#{rails_root}/config/environment.rb"
 Dir[File.join(pwd, '..', 'lib', '**', '*.rb')].each {|f| require f}
 
 # initialize defaults
-# TODO change the name to AdminData::Config
 AdminData::Config.initialize_defaults
 
 #require all the controllers plugins needs

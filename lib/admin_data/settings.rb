@@ -28,8 +28,6 @@ class AdminData::Config
     self.setting ||= {}
     self.setting.merge!(input)
 
-    self.setting.merge!(:adapter_name =>  ActiveRecord::Base.connection.adapter_name)
-
     unless self.setting[:rake_options].blank?
       env = self.setting[:rake_options][:env]
       if env.blank? || env.include?(Rails.env.intern)
@@ -62,7 +60,9 @@ class AdminData::Config
 
       :ignore_column_limit          => false,
 
-      :columns_order                => nil
+      :columns_order                => nil,
+
+      :adapter_name                 =>  ActiveRecord::Base.connection.adapter_name
 
     }
   end
