@@ -159,6 +159,19 @@ class ViewHelperTest < ActionView::TestCase
       end
     end
 
+    context 'for text column which is serialized' do
+      setup do
+        column = Article.columns.select {|column| column.name.to_s == 'data'}.first
+        @article = Factory(:article, :data => { :key => 123456789 }.to_yaml)
+        options = {}
+
+        @output = admin_data_get_value_for_column(column,@article,{:limit => 15})
+      end
+      should 'show inspected value' do
+        assert_equal "{:key=>12345...", @output
+      end
+    end
+
   end
 
 end

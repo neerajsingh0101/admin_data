@@ -194,7 +194,8 @@ module AdminData::Helpers
   end
 
   # uses truncate method
-  # options supports :limit which is applied if the column type is string or text
+  # options supports :limit which is applied if the column type is string or text.
+  # calls the inspect method to convert to a string if the column is serialized.
   def admin_data_get_value_for_column(column, model, options = {})
     options.reverse_merge!(:limit => 400)
 
@@ -203,10 +204,11 @@ module AdminData::Helpers
     if column.type == :datetime
       value.strftime('%d-%B-%Y %H:%M:%S %p') unless value.blank?
     elsif column.type == :string || column.type == :text
+      value = value.inspect if model.class.serialized_attributes.keys.include?(column.name)
       return value if options[:limit].blank?
       begin
         truncate(value,:length => options[:limit])
-      rescue # truncate method fails in handling serialized array stored in string column
+      rescue # truncate method failed
         '<actual data is not being shown because truncate method failed.>'
       end
     else
