@@ -54,7 +54,7 @@ class AdminData::BaseController < ApplicationController
 
   def build_klasses
     unless defined? $admin_data_klasses
-      model_dir = File.join(RAILS_ROOT,'app','models')
+      model_dir = File.join(Rails.root,'app','models')
       model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
       klasses = get_klass_names(model_names)
       filtered_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}

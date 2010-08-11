@@ -37,7 +37,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
         elsif !params[:still_processing].blank?
           tid = params[:tid]
           data = gather_data(tid)
-          done_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'done.txt')
+          done_file = File.join(Rails.root, 'tmp', 'admin_data', 'validate_model', tid, 'done.txt')
           answer = File.exists?(done_file) ? 'no' : 'yes'
           h = {
             :still_processing => answer,
@@ -61,7 +61,7 @@ class AdminData::ValidateModelController < AdminData::BaseController
   private
 
   def start_validation_rake_task(tid, klasses)
-    f = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid)
+    f = File.join(Rails.root, 'tmp', 'admin_data', 'validate_model', tid)
     FileUtils.rm_rf(f) if File.directory?(f)
     FileUtils.mkdir_p(f)
 
@@ -85,8 +85,8 @@ class AdminData::ValidateModelController < AdminData::BaseController
   end
 
   def gather_data(tid)
-    good_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')
-    bad_file = File.join(RAILS_ROOT, 'tmp', 'admin_data', 'validate_model', tid, 'bad.txt')
+    good_file = File.join(Rails.root, 'tmp', 'admin_data', 'validate_model', tid, 'good.txt')
+    bad_file = File.join(Rails.root, 'tmp', 'admin_data', 'validate_model', tid, 'bad.txt')
     regex = /(\w+)\s+\|\s+(\d+)\s+\|\s+(.*)/
 
     data = []

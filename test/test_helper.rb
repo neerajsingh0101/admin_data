@@ -10,10 +10,10 @@ end
 
 ENV['RAILS_ENV'] = 'test'
 
-rails_root = File.join(pwd , 'rails_root')
+Rails.root = File.join(pwd , 'Rails.root')
 
 # start rails
-require "#{rails_root}/config/environment.rb"
+require "#{Rails.root}/config/environment.rb"
 
 #require all the lib files plugin needs
 Dir[File.join(pwd, '..', 'lib', '**', '*.rb')].each {|f| require f}
@@ -28,10 +28,10 @@ Dir[File.join(pwd, '..', 'app', 'controllers', 'admin_data', '*.rb')].each {|f| 
 ActionView::Base.send :include, AdminData::Helpers
 
 #require plugin routes
-require "#{rails_root}/../../config/routes.rb"
+require "#{Rails.root}/../../config/routes.rb"
 
 #require all the controllers from the test controllers
-#Dir[File.join(pwd, 'rails_root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
+#Dir[File.join(pwd, 'Rails.root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
 
 require 'test/unit'
 require 'test_help'
@@ -39,7 +39,7 @@ silence_warnings { RAILS_ENV = ENV['RAILS_ENV'] }
 
 # Run the migrations
 ActiveRecord::Migration.verbose = false
-ActiveRecord::Migrator.migrate("#{rails_root}/db/migrate")
+ActiveRecord::Migrator.migrate("#{Rails.root}/db/migrate")
 
 
 gem 'shoulda','>= 2.10.2'
@@ -81,8 +81,8 @@ class ActiveSupport::TestCase
   end
 
   def show_response
-    Dir.mkdir(File.join(RAILS_ROOT, 'tmp')) unless File.directory?(File.join(RAILS_ROOT, 'tmp'))
-    response_html = File.join(RAILS_ROOT, 'tmp', 'response.html')
+    Dir.mkdir(File.join(Rails.root, 'tmp')) unless File.directory?(File.join(Rails.root, 'tmp'))
+    response_html = File.join(Rails.root, 'tmp', 'response.html')
     File.open(response_html, 'w') { |f| f.write(@response.body) }
     system 'open ' + File.expand_path(response_html) rescue nil
   end
