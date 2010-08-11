@@ -10,10 +10,10 @@ end
 
 ENV['RAILS_ENV'] = 'test'
 
-Rails.root = File.join(pwd , 'Rails.root')
+rails_root = File.join(pwd , 'rails_root')
 
 # start rails
-require "#{Rails.root}/config/environment.rb"
+require "#{rails_root}/config/environment.rb"
 
 #require all the lib files plugin needs
 Dir[File.join(pwd, '..', 'lib', '**', '*.rb')].each {|f| require f}
@@ -28,10 +28,10 @@ Dir[File.join(pwd, '..', 'app', 'controllers', 'admin_data', '*.rb')].each {|f| 
 ActionView::Base.send :include, AdminData::Helpers
 
 #require plugin routes
-require "#{Rails.root}/../../config/routes.rb"
+require "#{rails_root}/../../config/routes.rb"
 
 #require all the controllers from the test controllers
-#Dir[File.join(pwd, 'Rails.root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
+#Dir[File.join(pwd, 'rails_root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
 
 require 'test/unit'
 require 'test_help'
