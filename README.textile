@@ -1,3 +1,5 @@
+h1. This plugin does not work with rails3 yet. I am working on it. Should be done shortly.
+
 h1. Live Demo
 
 "http://demo.neeraj.name/admin_data":http://demo.neeraj.name/admin_data
