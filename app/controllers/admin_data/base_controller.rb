@@ -64,6 +64,7 @@ class AdminData::BaseController < ApplicationController
       end
       #TODO remove global constant. it is not thread safe
       $admin_data_klasses = klasses_with_security_clearance
+      puts $admin_data_klasses.inspect
     end
     @klasses = $admin_data_klasses
   end
