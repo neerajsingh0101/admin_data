@@ -1,4 +1,4 @@
-h1. This plugin does not work with rails3 yet. I am working on it. Should be done shortly.
+h1. This plugin works with rails3. "More information is available here":http://neerajdotname.github.com/admin_data/#howtousethispluginwithrails3
 
 h1. Live Demo
 
