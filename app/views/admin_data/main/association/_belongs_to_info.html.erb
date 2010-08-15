@@ -2,6 +2,6 @@
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
     &nbsp;      
-    <%= admin_data_belongs_to_data(model, klass) %>
+    <%= admin_data_belongs_to_data(model, klass).html_safe %>
   </p> 
 <% end %>  

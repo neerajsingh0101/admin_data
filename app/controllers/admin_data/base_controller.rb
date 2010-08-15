@@ -8,7 +8,7 @@ class AdminData::BaseController < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
+  before_filter :rails3_hack, :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
 
   attr_reader :klass
   attr_reader :model
@@ -54,7 +54,7 @@ class AdminData::BaseController < ApplicationController
 
   def build_klasses
     unless defined? $admin_data_klasses
-      model_dir = File.join(Rails.root,'app','models')
+      model_dir = File.join(Rails.root, 'app', 'models')
       model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
       klasses = get_klass_names(model_names)
       filtered_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
@@ -63,6 +63,7 @@ class AdminData::BaseController < ApplicationController
         admin_data_is_allowed_to_view_model?
       end
       $admin_data_klasses = klasses_with_security_clearance
+      puts $admin_data_klasses.inspect
     end
     @klasses = $admin_data_klasses
   end
@@ -97,6 +98,11 @@ class AdminData::BaseController < ApplicationController
     else
       render :text => 'Invalid params[:page]', :status => :unprocessable_entity
     end
+  end
+
+  def rails3_hack
+    require_dependency File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
+    AdminData::Config.initialize_defaults
   end
 
 end

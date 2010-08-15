@@ -213,15 +213,15 @@ class AdminData::Util
   end
 
   def self.build_sort_options(klass, sortby)
-    klass.columns.inject([]) do |result, column|
+    klass.columns.inject('') do |result, column|
       name = column.name
 
-      selected_text = sortby == "#{name} desc" ? "selected='selected'" : ''
-      result << "<option value='#{name} desc' #{selected_text}>&nbsp;#{name} desc</option>"
+      selected_text = (sortby == "#{name} desc") ? "selected='selected'" : ''
+      result << "<option value='#{name} desc' #{selected_text}>#{name} desc</option>"
 
-      selected_text = sortby == "#{name} asc" ? "selected='selected'" : ''
-      result << "<option value='#{name} asc' #{selected_text}>&nbsp;#{name} asc</option>"
-    end
+      selected_text = (sortby == "#{name} asc") ? "selected='selected'" : ''
+      result << "<option value='#{name} asc' #{selected_text}>#{name} asc</option>"
+    end.html_safe
   end
 
   def self.associations_for(klass, association_type)

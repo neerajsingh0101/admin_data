@@ -133,7 +133,7 @@ module Search
       @field, @operator, @operands = value.values_at(:col1, :col2, :col3)
       # field value is directly used in the sql statement. So it is important to sanitize it
       @field      = @field.gsub(/\W/,'')
-      @operands   = (@operands.blank? ? @operands : @operands.downcase.strip)
+      @operands   = (@operands.blank? ? @operands : @operands.strip)
     end
 
     def values_after_cast
@@ -165,25 +165,23 @@ module Search
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     conditions = str_columns.collect do |column|
-      t = Term.new(klass, {:col1 => column.name,
-        :col2 => 'contains',
-      :col3 => search_term}, 'quick_search')
+      t = Term.new(klass, {:col1 => column.name, :col2 => 'contains', :col3 => search_term}, 'quick_search')
       t.attribute_condition
     end
     AdminData::Util.or_merge_conditions(klass, *conditions)
   end
 
-  def build_advance_search_conditions(klass, options )
+  def build_advance_search_conditions(klass, options)
     values        = ( options.blank? ? [] : options.values )
     terms         = values.collect {|value| Term.new(klass, value, 'advance_search') }
     valid_terms   = terms.select{ |t| t.valid? }
-
     errors        = (terms - valid_terms).collect { |t| t.error }
     return {:errors => errors} if errors.any?
 
-    conditions    = valid_terms.collect { |t| t.attribute_condition }
-    cond = klass.send(:merge_conditions, *conditions) # queries are joined by AND
-    { :cond => cond }
+    r = klass.unscoped
+    valid_terms.each { |t|  puts t.attribute_condition.inspect }
+    valid_terms.each { |t|  r = r.where(t.attribute_condition) }
+    { :cond => r }
   end
 
 end

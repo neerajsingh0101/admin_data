@@ -31,8 +31,8 @@ if load_will_paginate
   ActionView::Base.send :include, AdminData::Helpers
 
   require File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'compatibility.rb')
-  require File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
 
+  require File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
   AdminData::Config.initialize_defaults
 
   require File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data','util.rb')

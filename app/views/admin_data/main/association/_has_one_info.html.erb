@@ -1,6 +1,6 @@
 <% if AdminData::Util.has_one_what(klass).size > 0 %>
   <p>
     <strong>has_one :</strong> 
-    <%= admin_data_has_one(model, klass) %>
+    <%= admin_data_has_one(model, klass).html_safe %>
   </p> 
 <% end %>  

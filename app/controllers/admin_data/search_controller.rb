@@ -38,7 +38,7 @@ class AdminData::SearchController  < AdminData::BaseController
     @page_title = "Advance search #{@klass.name.underscore}"
     plugin_dir = AdminData::Config.setting[:plugin_dir]
     hash = build_advance_search_conditions(@klass, params[:adv_search])
-    @cond = hash[:cond]
+    relation = hash[:cond]
     errors = hash[:errors]
     @order = default_order
 
@@ -55,7 +55,7 @@ class AdminData::SearchController  < AdminData::BaseController
         elsif params[:admin_data_advance_search_action_type] == 'delete'
           handle_advance_search_action_type_delete
         else
-          @records = @klass.paginate(:page => params[:page], :per_page => per_page, :order => @order, :conditions => @cond )
+          @records = relation.order(@order).paginate(:page => params[:page], :per_page => per_page)
         end
 
         if @success_message

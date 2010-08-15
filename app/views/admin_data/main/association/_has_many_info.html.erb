@@ -1,7 +1,7 @@
 <% if AdminData::Util.has_many_what(klass).size > 0 %>
   <p>
     <strong>has_many :</strong>
-    <%= admin_data_has_many_data(model, klass) %>
+    <%= admin_data_has_many_data(model, klass).html_safe %>
     &nbsp;
   </p> 
 <% end %>  

@@ -98,8 +98,7 @@ module AdminData::Helpers
   end
 
   def admin_data_breadcrum(&block)
-    partial_value = render(:partial => '/admin_data/shared/breadcrum', :locals => {:data => capture(&block)})
-    concat(partial_value)
+    render(:partial => '/admin_data/shared/breadcrum', :locals => {:data => capture(&block)})
   end
 
   def admin_data_form_field(klass, model, col, f)
