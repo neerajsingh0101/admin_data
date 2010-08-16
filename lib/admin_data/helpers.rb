@@ -18,7 +18,7 @@ module AdminData::Helpers
       output << params[:klass].camelize
       output << 'records'
     end
-    output.join(' ')
+    output.join(' ').html_safe
   end
 
   def admin_data_column_native(klass, column)
