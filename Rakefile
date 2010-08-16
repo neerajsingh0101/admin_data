@@ -32,12 +32,13 @@ begin
     s.homepage = "http://github.com/neerajdotname/admin_data"
     s.authors = ['Neeraj Singh']
     s.files = FileList["[A-Z]*", "{app,config,lib,test}/**/*", 'init.rb']
+
     s.add_dependency 'will_paginate'
+
     s.add_development_dependency 'flexmock'
     s.add_development_dependency 'shoulda'
     s.add_development_dependency 'factory_girl'
     s.add_development_dependency 'nokogiri'
-    s.add_development_dependency 'will_paginate'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError => le
