@@ -23,7 +23,9 @@ else
   raise "Please see documentation at http://neerajdotname.github.com/admin_data to find out how to use this plugin with rails 2.3"
 end
 
+# move date_validation to inside admin_data
 require 'admin_data_date_validation'
+
 require 'admin_data/helpers'
 require 'admin_data/chelper'
 require 'admin_data/compatibility'
