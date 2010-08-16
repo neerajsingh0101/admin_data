@@ -20,7 +20,7 @@ end
 module AdminData
 end
 
-if load_will_paginate
+if load_will_paginate 
 
   if Rails.version < "2.2.0"
     raise %( admin_data only works with Rails 2.2 and higher)
