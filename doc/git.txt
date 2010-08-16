@@ -1,1 +1,0 @@
-git co gh-pages

@@ -14,8 +14,7 @@ module AdminData
     end
     
     rake_tasks do
-      load 'tasks/admin_data_tasks.rake'
-      load 'tasks/validate_models_bg.rake'
+      #
     end
   end
 end
