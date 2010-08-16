@@ -76,7 +76,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
           @comment2 = Factory(:comment, :article => @article)
           get :quick_search, { :klass => Comment.name.underscore, 
                                 :base => 'article', 
-                                :model_id => @article.id, 
+                                :model_id => @article.id.to_s, 
                                 :children => 'comments' }
         end
         should_respond_with :success
