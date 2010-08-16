@@ -68,7 +68,7 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have association link for comments' do
       s2 = ERB::Util.html_escape('&')
-      url = "/admin_data/quick_search/comment?base=article#{s2}children=comments#{s2}model_id=#{@article.id}"
+      url = "/admin_data/quick_search/comment?children=comments#{s2}model_id=#{@article.id}#{s2}base=article"
       assert_tag(:tag => 'a', :attributes => {:href => url})
     end
   end
