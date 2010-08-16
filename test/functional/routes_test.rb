@@ -4,6 +4,14 @@ require File.join(pwd, '..', 'test_helper')
 
 class AdminData::MainControllerTest < ActionController::TestCase
 
+  should route(:get, '/admin_data/quick_search/article').to(:controller => 'admin_data/search', 
+                                                            :action => :quick_search, 
+                                                            :klass => 'article')
+
+  should route(:get, '/admin_data/advance_search/article').to(:controller => 'admin_data/search', 
+                                                              :action => :advance_search, 
+                                                              :klass => 'article')
+
   should route(:get, '/admin_data/migration').to(:controller => 'admin_data/migration', 
                                                  :action => :index)
 

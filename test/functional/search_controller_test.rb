@@ -17,10 +17,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  should_route :get, '/admin_data/quick_search/article', :controller => 'admin_data/search', :action => :quick_search, :klass => 'article'
-
-  should_route :get, '/admin_data/advance_search/article', :controller => 'admin_data/search', :action => :advance_search, :klass => 'article'
-
   context 'filters list' do
     setup do
       @before_filters = @controller.class.before_filter.select do |filter|
