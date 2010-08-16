@@ -32,6 +32,8 @@ if load_will_paginate
   else
 
     require 'admin_data_date_validation'
+    require 'admin_data/helpers'
+    require 'admin_data/chelper'
 
     ActionView::Base.send :include, AdminData::Helpers
 

@@ -1,4 +1,4 @@
-require 'test/test_helper'
+require 'test_helper'
 
 class AdminData::AdminDataConfigTest < ActionController::TestCase
   context 'setting configuration parameters' do

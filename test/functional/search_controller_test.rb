@@ -1,7 +1,6 @@
+require 'test_helper'
+
 pwd = File.dirname(__FILE__)
-
-require File.join(pwd , '..', 'test_helper')
-
 f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 AdminData::SearchController.prepend_view_path(f)

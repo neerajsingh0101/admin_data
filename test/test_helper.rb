@@ -5,9 +5,6 @@ $:.unshift File.join(pwd + '..', 'app')
 $:.unshift File.join(pwd + '..', 'app', 'controllers')
 $:.unshift File.join(pwd + '..', 'app', 'controllers', 'admin_data')
 
-module AdminData
-end
-
 ENV['RAILS_ENV'] = 'test'
 
 rails_root = File.join(pwd , 'rails_root')
@@ -15,23 +12,9 @@ rails_root = File.join(pwd , 'rails_root')
 # start rails
 require "#{rails_root}/config/environment.rb"
 
-#require all the lib files plugin needs
-Dir[File.join(pwd, '..', 'lib', '**', '*.rb')].each {|f| require f}
-
-# initialize defaults
-AdminData::Config.initialize_defaults
-
-#require all the controllers plugins needs
+require 'admin_data'
 Dir[File.join(pwd, '..', 'app', 'controllers', 'admin_data', '*.rb')].each {|f| require f}
-
-# make sure that plugin views have access to helpers
-ActionView::Base.send :include, AdminData::Helpers
-
-#require plugin routes
 require "#{rails_root}/../../config/routes.rb"
-
-#require all the controllers from the test controllers
-#Dir[File.join(pwd, 'rails_root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
 
 require 'test/unit'
 require 'rails/test_help'

@@ -1,7 +1,8 @@
 pwd = File.dirname(__FILE__)
-
 require File.join(pwd, '..', 'test_helper')
+#require 'test_helper'
 
+pwd = File.dirname(__FILE__)
 f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 AdminData::MigrationController.prepend_view_path(f)

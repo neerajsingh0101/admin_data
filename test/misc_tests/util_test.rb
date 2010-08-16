@@ -1,6 +1,5 @@
-require File.join(File.dirname(__FILE__) ,'..', 'test_helper')
-
-require File.expand_path(File.join(File.dirname(__FILE__), '../../../admin_data/lib/admin_data/util.rb'))
+require 'test_helper'
+require 'admin_data/util'
 
 class AdminDataUtilTest < Test::Unit::TestCase
 
@@ -9,7 +8,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
     setup { @instance = Vehicle::Car.create(:year => 2000, :brand => 'bmw') }
     should 'be engine' do
       assert subject
-      assert subject.size,1
+      assert_equal 1, subject.size
       assert_equal 'engine', subject[0] 
     end
     should 'respond_to? has_one' do

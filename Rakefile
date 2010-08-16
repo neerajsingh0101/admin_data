@@ -7,7 +7,7 @@ task :default => :test
 
 desc 'Test admin_data plugin.'
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
+  t.libs << 'lib' << 'test'
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
 end
@@ -33,6 +33,10 @@ begin
     s.authors = ['Neeraj Singh']
     s.files = FileList["[A-Z]*", "{app,config,lib,test}/**/*", 'init.rb']
     s.add_dependency 'will_paginate'
+    s.add_development_dependency 'flexmock'
+    s.add_development_dependency 'shoulda'
+    s.add_development_dependency 'factory_girl'
+    s.add_development_dependency 'nokogiri'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError => le
