@@ -17,7 +17,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'AdminData'
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
+  rdoc.rdoc_files.include('README.textile')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
@@ -27,7 +27,7 @@ begin
   Jeweler::Tasks.new do |s|
     s.name = "admin_data"
     s.version = AdminData::VERSION
-    s.summary = s.description = "Dynamic scaffolding for Rails"
+    s.summary = s.description = "Manage database using browser"
     s.email = "neerajdotname@gmail.com"
     s.homepage = "http://github.com/neerajdotname/admin_data"
     s.authors = ['Neeraj Singh']

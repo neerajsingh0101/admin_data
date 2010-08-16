@@ -5,4 +5,6 @@ tmp/*
 *.db
 response.html
 test/rails_root/tmp/*.*
+test/rails_root/log/*.*
 tags
+pkg
