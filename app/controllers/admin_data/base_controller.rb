@@ -8,10 +8,9 @@ class AdminData::BaseController < ApplicationController
 
   include AdminData::Chelper
 
-  before_filter :rails3_hack, :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
+  before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
 
-  attr_reader :klass
-  attr_reader :model
+  attr_reader :klass, :model
 
   private
 
@@ -104,11 +103,6 @@ class AdminData::BaseController < ApplicationController
     else
       render :text => 'Invalid params[:page]', :status => :unprocessable_entity
     end
-  end
-
-  def rails3_hack
-    #require_dependency File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
-    #AdminData::Config.initialize_defaults
   end
 
 end
