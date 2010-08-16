@@ -4,16 +4,6 @@ require File.join(pwd, '..', 'test_helper')
 
 class AdminData::MainControllerTest < ActionController::TestCase
 
-  def setup
-    @controller = AdminData::MainController.new
-    @request = ActionController::TestRequest.new
-    @response = ActionController::TestResponse.new
-    @article = Factory(:article)
-    @car = Factory(:car, :year => 2000, :brand => 'bmw')
-    grant_read_only_access
-    grant_update_access
-  end
-
   should route(:get, '/admin_data').to(:controller => 'admin_data/main', 
                                        :action => :all_models)
 
