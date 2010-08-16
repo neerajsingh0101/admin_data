@@ -101,8 +101,8 @@ class AdminData::BaseController < ApplicationController
   end
 
   def rails3_hack
-    require_dependency File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
-    AdminData::Config.initialize_defaults
+    #require_dependency File.join(Rails.root, 'vendor', 'plugins', 'admin_data', 'lib', 'admin_data', 'settings.rb')
+    #AdminData::Config.initialize_defaults
   end
 
 end

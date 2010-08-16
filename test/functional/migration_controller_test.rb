@@ -1,6 +1,6 @@
 pwd = File.dirname(__FILE__)
 
-require File.join(pwd,'..', 'test_helper')
+require File.join(pwd, '..', 'test_helper')
 
 f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
@@ -14,8 +14,6 @@ class AdminData::MigrationControllerTest < ActionController::TestCase
     @response = ActionController::TestResponse.new
     grant_read_only_access
   end
-
-  should_route :get, '/admin_data/migration',    :controller => 'admin_data/migration', :action => :index
 
   context 'GET index' do
     setup do

@@ -4,6 +4,9 @@ require File.join(pwd, '..', 'test_helper')
 
 class AdminData::MainControllerTest < ActionController::TestCase
 
+  should route(:get, '/admin_data/migration').to(:controller => 'admin_data/migration', 
+                                                 :action => :index)
+
   should route(:get, '/admin_data').to(:controller => 'admin_data/main', 
                                        :action => :all_models)
 
