@@ -35,7 +35,6 @@ class AdminData::SearchController  < AdminData::BaseController
 
 
   def advance_search
-    debugger
     @page_title = "Advance search #{@klass.name.underscore}"
     plugin_dir = AdminData::Config.setting[:plugin_dir]
     hash = build_advance_search_conditions(@klass, params[:adv_search])
@@ -46,7 +45,6 @@ class AdminData::SearchController  < AdminData::BaseController
     respond_to do |format|
       format.html { render }
       format.js {
-        debugger
 
         if !hash[:errors].blank?
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb", :locals => {:errors => errors}

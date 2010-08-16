@@ -237,14 +237,12 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<shoulda>, [">= 0"])
       s.add_development_dependency(%q<factory_girl>, [">= 0"])
       s.add_development_dependency(%q<nokogiri>, [">= 0"])
-      s.add_development_dependency(%q<will_paginate>, [">= 0"])
     else
       s.add_dependency(%q<will_paginate>, [">= 0"])
       s.add_dependency(%q<flexmock>, [">= 0"])
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<factory_girl>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
-      s.add_dependency(%q<will_paginate>, [">= 0"])
     end
   else
     s.add_dependency(%q<will_paginate>, [">= 0"])
@@ -252,7 +250,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<shoulda>, [">= 0"])
     s.add_dependency(%q<factory_girl>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
-    s.add_dependency(%q<will_paginate>, [">= 0"])
   end
 end
 
