@@ -101,8 +101,8 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def handle_advance_search_action_type_destroy
-    count = @klass.send(:count, :conditions => @cond);
-    @klass.find_in_batches( :conditions => @cond ) do |group|
+    count = @relation.count
+    @relation.find_in_batches do |group|
       group.each {|record| record.destroy }
     end
     @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed"
