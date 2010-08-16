@@ -48,6 +48,14 @@ Dir[File.join(pwd, 'factories', '*.rb')].each { |f| require File.expand_path(f) 
 
 class ActiveSupport::TestCase
 
+  def revoke_read_only_access_for_feed
+    AdminData::Config.set = ({:is_allowed_to_view_feed => Proc.new { |controller| false } })
+  end
+
+  def grant_read_only_access_for_feed
+    AdminData::Config.set = ({:is_allowed_to_view_feed => Proc.new { |controller| true } })
+  end
+
   def revoke_read_only_access
     AdminData::Config.set = ({:is_allowed_to_view => Proc.new { |controller| false } })
   end

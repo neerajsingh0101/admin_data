@@ -4,25 +4,13 @@ require File.join(pwd, '..', 'test_helper')
 f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::FeedController.prepend_view_path(f)
 
+#TODO mention this dependency in gemspec
 require 'nokogiri'
 
 class AdminData::FeedControllerTest < ActionController::TestCase
 
-  context 'filters list' do
-    setup do
-      @before_filters = @controller.class.before_filter.select do |filter|
-        filter.kind_of?(ActionController::Filters::BeforeFilter)
-      end
-      @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_feed}
-    end
-    should 'have filter called ensure_is_allowed_to_view_feed' do
-      assert @filter
-    end
-    should 'have no options for the filter' do
-      assert @filter.options.blank?
-    end
-  end
-
+  #TODO write a test to check before_filter authorization. Testing will be a bit tricky since
+  #http_basic_authentication is done
   context 'GET index' do
     setup do
       Article.delete_all

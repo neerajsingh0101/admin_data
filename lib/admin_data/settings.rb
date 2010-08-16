@@ -9,6 +9,7 @@ class AdminData::Config
     plugin_dir
     will_paginate_per_page
     is_allowed_to_view
+    is_allowed_to_view_feed
     feed_authentication_user_id
     feed_authentication_password
     is_allowed_to_view_model

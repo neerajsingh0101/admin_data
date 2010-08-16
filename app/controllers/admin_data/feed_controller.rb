@@ -14,7 +14,4 @@ class AdminData::FeedController < AdminData::BaseController
     end
   end
 
-  private
-
-
 end
