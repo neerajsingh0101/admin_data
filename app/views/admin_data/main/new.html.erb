@@ -1,6 +1,6 @@
 <div id="main">
 
-  <% admin_data_breadcrum do %>
+  <%= admin_data_breadcrum do %>
     <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
   <% end %>
 
@@ -13,7 +13,7 @@
     <div class="content rounded">          
       <div class="inner umbrella">
         <h1>Create a new record</h1>
-        <% form_for @klass.name.underscore.to_sym, @model, :url  => admin_data_on_k_index_path(:klass => @klass.name), :html => {:class => 'form', :method => :post} do |f| %>
+        <%= form_for @model, :as => @klass.name.underscore.to_sym, :url  => admin_data_on_k_index_path(:klass => @klass.name), :html => {:class => 'form', :method => :post} do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>
           <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
         <% end %>
