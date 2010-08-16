@@ -20,3 +20,21 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+begin
+  require 'jeweler'
+  require './lib/admin_data/version'
+  Jeweler::Tasks.new do |s|
+    s.name = "admin_data"
+    s.version = AdminData::VERSION
+    s.summary = s.description = "Dynamic scaffolding for Rails"
+    s.email = "neerajdotname@gmail.com"
+    s.homepage = "http://github.com/neerajdotname/admin_data"
+    s.authors = ['Neeraj Singh']
+    s.files = FileList["[A-Z]*", "{app,config,lib,test}/**/*", 'init.rb']
+    s.add_dependency 'will_paginate'
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError => le
+  puts "Jeweler not available. Install it for jeweler-related tasks with: gem install jeweler: #{le.message}"
+end
