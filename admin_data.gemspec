@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
      "app/views/layouts/admin_data.html.erb",
      "config/routes.rb",
      "init.rb",
+     "lib/admin_data.rb",
      "lib/admin_data/chelper.rb",
      "lib/admin_data/compatibility.rb",
      "lib/admin_data/helpers.rb",
@@ -216,11 +217,23 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<will_paginate>, [">= 0"])
+      s.add_development_dependency(%q<flexmock>, [">= 0"])
+      s.add_development_dependency(%q<shoulda>, [">= 0"])
+      s.add_development_dependency(%q<factory_girl>, [">= 0"])
+      s.add_development_dependency(%q<nokogiri>, [">= 0"])
     else
       s.add_dependency(%q<will_paginate>, [">= 0"])
+      s.add_dependency(%q<flexmock>, [">= 0"])
+      s.add_dependency(%q<shoulda>, [">= 0"])
+      s.add_dependency(%q<factory_girl>, [">= 0"])
+      s.add_dependency(%q<nokogiri>, [">= 0"])
     end
   else
     s.add_dependency(%q<will_paginate>, [">= 0"])
+    s.add_dependency(%q<flexmock>, [">= 0"])
+    s.add_dependency(%q<shoulda>, [">= 0"])
+    s.add_dependency(%q<factory_girl>, [">= 0"])
+    s.add_dependency(%q<nokogiri>, [">= 0"])
   end
 end
 
