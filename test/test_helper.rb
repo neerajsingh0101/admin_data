@@ -34,28 +34,12 @@ require "#{rails_root}/../../config/routes.rb"
 #Dir[File.join(pwd, 'rails_root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
 
 require 'test/unit'
-require 'test_help'
+#require 'test_help'
 silence_warnings { RAILS_ENV = ENV['RAILS_ENV'] }
 
 # Run the migrations
 ActiveRecord::Migration.verbose = false
 ActiveRecord::Migrator.migrate("#{Rails.root}/db/migrate")
-
-
-gem 'shoulda','>= 2.10.2'
-require 'shoulda'
-
-gem 'will_paginate', '>= 2.3.11'
-require 'will_paginate'
-
-gem 'factory_girl', '= 1.2.4'
-require 'factory_girl'
-
-gem 'flexmock', '>= 0.8.6'
-require 'flexmock'
-
-gem 'redgreen', '>= 1.2.2'
-require 'RedGreen'
 
 # for helper tests
 require 'action_view/test_case'
