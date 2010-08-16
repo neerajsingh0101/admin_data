@@ -62,8 +62,8 @@ class AdminData::BaseController < ApplicationController
         @klass = klass_local
         admin_data_is_allowed_to_view_model?
       end
+      #TODO remove global constant. it is not thread safe
       $admin_data_klasses = klasses_with_security_clearance
-      puts $admin_data_klasses.inspect
     end
     @klasses = $admin_data_klasses
   end

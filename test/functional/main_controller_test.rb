@@ -103,7 +103,9 @@ class AdminData::MainControllerTest < ActionController::TestCase
     end
     should_respond_with :success
     should 'have belongs_to message' do
-      assert_tag( :tag => 'p', :attributes => {:class => 'belongs_to'}, :descendant => {:tag => 'a', :child => /article/})
+      assert_tag( :tag => 'p', 
+                 :attributes => {:class => 'belongs_to'}, 
+                 :descendant => {:tag => 'a', :child => /article/})
     end
     should 'have link to belongs_to association' do
       s2 = ERB::Util.html_escape('&')
@@ -120,8 +122,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
     should_respond_with :success
     should 'have belongs_to message' do
       assert_tag( :tag => 'p',
-      :attributes => {:class => 'belongs_to'},
-      :descendant => {:tag => 'a', :child => /car/})
+                  :attributes => {:class => 'belongs_to'},
+                  :descendant => {:tag => 'a', :child => /car/})
     end
   end
 
@@ -320,7 +322,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
       post :update, { :klass => Vehicle::Car.name.underscore, :id => @car.id, 'vehicle/car' => {:brand => 'honda'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, :klass => @car.class.name.underscore) }
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, 
+                                                           :klass => @car.class.name.underscore) }
     should_set_the_flash_to /Record was updated/
     should_not_change('car count') { Vehicle::Car.count }
   end
@@ -344,7 +347,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
       post :create, { :klass => Article.name.underscore, 'article' => {:title => 'hello', :body => 'hello world'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last, :klass => @article.class.name.underscore) }
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Article.last, 
+                                                           :klass => @article.class.name.underscore) }
     should_set_the_flash_to /Record was created/
     should_change('article count', :by => 1) { Article.count }
   end
@@ -355,7 +359,8 @@ class AdminData::MainControllerTest < ActionController::TestCase
       post :create, { :klass => Vehicle::Car.name.underscore, 'vehicle/car' => {:brand => 'hello'}}
     end
     should_respond_with :redirect
-    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, :klass => @car.class.name.underscore) }
+    should_redirect_to('show page') { admin_data_on_k_path(:id => Vehicle::Car.last.id, 
+                                                           :klass => @car.class.name.underscore) }
     should_set_the_flash_to /Record was created/
     should_change('vehicle count', :by => 1) { Vehicle::Car.count }
   end

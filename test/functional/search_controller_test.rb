@@ -17,40 +17,16 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     grant_read_only_access
   end
 
-  context 'filters list' do
-    setup do
-      @before_filters = @controller.class.before_filter.select do |filter|
-        filter.kind_of?(ActionController::Filters::BeforeFilter)
-      end
-    end
-    context 'for ensure_is_allowed_to_view filter' do
-      setup do
-        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view }
-      end
-      should 'have filter called ensure_is_allowed_to_view' do
-        assert @filter
-      end
-      should 'have no options for the filter' do
-        assert @filter.options.blank?
-      end
-    end
-    context 'for ensure_is_allowed_to_view_model filter' do
-      setup do
-        @filter = @before_filters.detect {|filter| filter.method == :ensure_is_allowed_to_view_model }
-      end
-      should 'have filter called ensure_is_allowed_to_view_model' do
-        assert @filter
-      end
-      should 'have no option for filter' do
-        assert @filter.options.blank?
-      end
-    end
-  end
+  # write filters test 
+
 
   context 'GET quick_search' do
     context 'GET quick_search with wrong children class' do
       setup do
-        get :quick_search, { :base => 'article', :klass => 'comment', :model_id => @article.id, :children => 'wrong_children_name' }
+        get :quick_search, {  :base => 'article', 
+                              :klass => 'comment',
+                              :model_id => @article.id, 
+                              :children => 'wrong_children_name' }
       end
       should_respond_with :not_found
     end
@@ -76,7 +52,10 @@ class AdminData::SearchControllerTest < ActionController::TestCase
           Vehicle::Door.delete_all
           @door1 = Factory(:door, :color => 'black', :car => @car)
           @door2 = Factory(:door, :color => 'green', :car => @car)
-          get :quick_search, {  :klass => @door1.class.name.underscore, :base => @car.class.name.underscore, :model_id => @car.id, :children => 'doors'}
+          get :quick_search, {  :klass => @door1.class.name.underscore, 
+                                :base => @car.class.name.underscore, 
+                                :model_id => @car.id, 
+                                :children => 'doors'}
         end
         should_respond_with :success
         should_assign_to :records
@@ -95,7 +74,10 @@ class AdminData::SearchControllerTest < ActionController::TestCase
         setup do
           @comment1 = Factory(:comment, :article => @article)
           @comment2 = Factory(:comment, :article => @article)
-          get :quick_search, { :klass => Comment.name.underscore, :base => 'article', :model_id => @article.id, :children => 'comments' }
+          get :quick_search, { :klass => Comment.name.underscore, 
+                                :base => 'article', 
+                                :model_id => @article.id, 
+                                :children => 'comments' }
         end
         should_respond_with :success
         should_assign_to :records
@@ -119,7 +101,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       end
       should_respond_with :success
       should 'contain valid link at header breadcrum' do
-        assert_tag( :tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => '/admin_data/quick_search/comment'}})
+        assert_tag( :tag => 'div', :attributes => {:class => 'breadcrum rounded'}, 
+                                    :descendant => {:tag => 'a', 
+                                                    :attributes => {:href => '/admin_data/quick_search/comment'}})
       end
       should 'contain proper link at table listing' do
         url = "/admin_data/klass/comment/#{Comment.last.id}"
@@ -134,7 +118,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       should_respond_with :success
       should 'contain proper link at header breadcum' do
         s = CGI.escape('vehicle/car')
-        assert_tag(:tag => 'div', :attributes => {:class => 'breadcrum rounded'}, :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/quick_search/#{s}" }})
+        assert_tag( :tag => 'div', 
+                    :attributes => {:class => 'breadcrum rounded'}, 
+                    :descendant => {:tag => 'a', :attributes => {:href => "/admin_data/quick_search/#{s}" }})
       end
       should 'contain proper link at table listing' do
         s = CGI.escape("vehicle/car")
@@ -221,7 +207,13 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       Factory(:article, :short_desc => nil)
-      xml_http_request  :post, :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :sortby => 'article_id desc', 
+                          :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                      :col2 => 'does_not_contain', 
+                                                      :col3 => 'ruby'} } }
     end
     should_respond_with :success
     should 'contain text' do
@@ -243,8 +235,9 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Factory(:article, :short_desc => 'rails')
       so   = {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} }
       h = { :klass => Article.name.underscore,
-        :sortby => 'article_id desc',
-      :admin_data_advance_search_action_type => 'delete', :adv_search => so }
+            :sortby => 'article_id desc',
+            :admin_data_advance_search_action_type => 'delete', 
+            :adv_search => so }
       xml_http_request  :post, :advance_search, h
       @json = JSON.parse(@response.body)
     end
@@ -256,7 +249,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       assert @json.has_key?('success')
     end
     should 'have success message in the response message' do
-      assert_equal @json.fetch('success'), '1 record deleted'
+      assert_equal '1 record deleted', @json.fetch('success')
     end
   end
 
@@ -267,7 +260,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       xml_http_request  :post,
-      :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :admin_data_advance_search_action_type => 'destroy', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} } }
+                        :advance_search, 
+                        {:klass => Article.name.underscore, 
+                        :sortby => 'article_id desc', 
+                        :admin_data_advance_search_action_type => 'destroy', 
+                        :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'contains', :col3 => 'ruby'} } }
       @json = JSON.parse(@response.body)
     end
     should_respond_with :success
@@ -278,7 +275,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       assert @json.has_key?('success')
     end
     should 'have success message in the response message' do
-      assert_equal @json.fetch('success'), '1 record destroyed'
+      assert_equal '1 record destroyed', @json.fetch('success')
     end
   end
 
@@ -289,7 +286,13 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Factory(:article, :short_desc => 'ruby')
       Factory(:article, :short_desc => 'rails')
       Factory(:article, :short_desc => nil)
-      xml_http_request  :post, :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'short_desc', :col2 => 'does_not_contain', :col3 => 'ruby'} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        {:klass => Article.name.underscore, 
+                        :sortby => 'article_id desc', 
+                        :adv_search => {'1_row' => {:col1 => 'short_desc', 
+                                                    :col2 => 'does_not_contain', 
+                                                    :col3 => 'ruby'} } }
     end
     should_respond_with :success
     should 'contain search result' do
@@ -310,7 +313,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request  :post, :advance_search, {:klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'python'} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        {:klass => Article.name.underscore, 
+                        :sortby => 'article_id desc', 
+                        :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'python'} } }
     end
     should_respond_with :success
     should 'contain text' do
@@ -325,7 +332,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request  :post, :advance_search, { :klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'clojure'} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :sortby => 'article_id desc', 
+                          :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'clojure'} } }
     end
     should_respond_with :success
     should 'contain text' do
@@ -340,7 +351,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure')
-      xml_http_request  :post, :advance_search, { :klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => ''} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :sortby => 'article_id desc', 
+                          :adv_search => {'1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => ''} } }
     end
     should_respond_with :success
     should 'contain text' do
@@ -353,7 +368,11 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
       @python_beginner_book = Factory(:article, :title => 'python for beginners')
-      xml_http_request  :post, :advance_search, { :klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => {'1_row' => {:col1 => 'title', :col2 => nil, :col3 => nil} } }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => Article.name.underscore, 
+                          :sortby => 'article_id desc', 
+                          :adv_search => {'1_row' => {:col1 => 'title', :col2 => nil, :col3 => nil} } }
     end
     should_respond_with :success
     should 'contain text' do
@@ -365,12 +384,18 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     setup do
       Article.delete_all
       @python_book = Factory(:article, :title => 'python')
-      @python_beginner_book = Factory(:article, :title => 'python for beginners',
-      :body => 'for beginners')
+      @python_beginner_book = Factory(:article, :title => 'python for beginners', :body => 'for beginners')
       @java_book = Factory(:article, :title => 'java')
       @clojure_book = Factory(:article, :title => 'clojure', :body => 'not for beginners')
-      adv_search = { '1_row' => {:col1 => 'title', :col2 => 'contains', :col3 => 'python'}, '2_row' => {:col1 => 'body', :col2 => 'contains', :col3 => 'beginners'} }
-      xml_http_request  :post, :advance_search, { :klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => adv_search }
+      adv_search = { '1_row' => { :col1 => 'title', 
+                                  :col2 => 'contains', 
+                                  :col3 => 'python'}, 
+                      '2_row' => {:col1 => 'body', 
+                                  :col2 => 'contains', 
+                                  :col3 => 'beginners'} }
+      xml_http_request  :post, 
+                        :advance_search, 
+                        { :klass => Article.name.underscore, :sortby => 'article_id desc', :adv_search => adv_search }
     end
     should_respond_with :success
     should 'contain text' do
