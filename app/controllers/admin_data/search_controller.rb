@@ -35,16 +35,18 @@ class AdminData::SearchController  < AdminData::BaseController
 
 
   def advance_search
+    debugger
     @page_title = "Advance search #{@klass.name.underscore}"
     plugin_dir = AdminData::Config.setting[:plugin_dir]
     hash = build_advance_search_conditions(@klass, params[:adv_search])
-    relation = hash[:cond]
+    @relation = hash[:cond]
     errors = hash[:errors]
     @order = default_order
 
     respond_to do |format|
       format.html { render }
       format.js {
+        debugger
 
         if !hash[:errors].blank?
           render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb", :locals => {:errors => errors}
@@ -55,7 +57,7 @@ class AdminData::SearchController  < AdminData::BaseController
         elsif params[:admin_data_advance_search_action_type] == 'delete'
           handle_advance_search_action_type_delete
         else
-          @records = relation.order(@order).paginate(:page => params[:page], :per_page => per_page)
+          @records = @relation.order(@order).paginate(:page => params[:page], :per_page => per_page)
         end
 
         if @success_message
@@ -93,10 +95,8 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def handle_advance_search_action_type_delete
-    count = @klass.send(:count, :conditions => @cond);
-    @klass.find_in_batches( :conditions => @cond ) do |group|
-      group.each {|record| @klass.send(:delete, record) }
-    end
+    count = @relation.count
+    @relation.delete_all
     @success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted"
   end
 
