@@ -415,39 +415,40 @@ class AdminData::SearchControllerTest < ActionController::TestCase
       should 'have sql as body is not null' do
         @hash = { :col1 => 'body', :col2 => 'is_not_null'}
         output = @proc.call
-        assert_equal '(articles.body IS NOT NULL)', output[:cond]
+        expected =  %Q{ SELECT "articles".* FROM "articles" WHERE (articles.body IS NOT NULL) }
+        assert_equal_sql expected, @proc.call[:cond].to_sql
       end
     end
 
     context 'with col2 contains' do
       should 'have sql with like' do
         @hash = { :col1 => 'body', :col2 => 'contains', :col3 => 'python'}
-        output = @proc.call
-        assert_equal "(articles.body LIKE '%python%')", output[:cond]
+        exptected =  "(articles.body LIKE '%python%')"
+        assert_equal_sql expected, @proc.call[:cond].to_sql
       end
     end
 
     context 'with col2 as exactly' do
       should 'have sql as body equals' do
         @hash = { :col1 => 'body', :col2 => 'is_exactly', :col3 => 'python'}
-        output = @proc.call
-        assert_equal "(articles.body = 'python')", output[:cond]
+        expected = %{ SELECT "articles".* FROM "articles" WHERE (articles.body = 'python') }
+        assert_equal_sql expected , @proc.call[:cond].to_sql
       end
     end
 
     context 'with does not contain' do
       should 'have sql as body is null or not like' do
         @hash = { :col1 => 'body', :col2 => 'does_not_contain', :col3 => 'python'}
-        output = @proc.call
-        assert_equal "(articles.body IS NULL OR articles.body NOT LIKE '%python%')", output[:cond]
+        expected =  %Q{SELECT "articles".* FROM "articles" WHERE (articles.body IS NULL OR articles.body NOT LIKE '%python%')}
+        assert_equal_sql expected, @proc.call[:cond].to_sql
       end
     end
 
     context 'with col2 as false' do
       should 'have sql with body as false' do
         @hash = { :col1 => 'body', :col2 => 'is_false', :col3 => 'python'}
-        output = @proc.call
-        assert_equal "(articles.body = 'f')", output[:cond]
+        expected =  %{ SELECT "articles".* FROM "articles" WHERE (articles.body = 'f') }
+        assert_equal_sql expected, @proc.call[:cond].to_sql
       end
     end
   end

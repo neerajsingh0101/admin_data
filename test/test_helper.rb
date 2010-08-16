@@ -6,7 +6,8 @@ $:.unshift File.expand_path("../../app", __FILE__)
 $:.unshift File.expand_path("../../app/controllers", __FILE__)
 $:.unshift File.expand_path("../../app/controllers/admin_data", __FILE__)
 
-puts $:
+$:.unshift File.expand_path("../../test/support", __FILE__)
+
 
 ENV['RAILS_ENV'] = 'test'
 
@@ -70,3 +71,4 @@ class ActiveSupport::TestCase
 
 end
 
+require 'assertions'
