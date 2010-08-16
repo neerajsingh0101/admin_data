@@ -423,7 +423,7 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     context 'with col2 contains' do
       should 'have sql with like' do
         @hash = { :col1 => 'body', :col2 => 'contains', :col3 => 'python'}
-        exptected =  "(articles.body LIKE '%python%')"
+        expected =  %{ SELECT "articles".* FROM "articles" WHERE (articles.body LIKE '%python%') }
         assert_equal_sql expected, @proc.call[:cond].to_sql
       end
     end
