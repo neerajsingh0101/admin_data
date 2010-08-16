@@ -17,23 +17,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
     grant_update_access
   end
 
-  should_route :get, '/admin_data', :controller => 'admin_data/main', :action => :all_models
-
-  should_route :get, '/admin_data/klass/article/1', :controller => 'admin_data/main', :action => :show, :klass => 'article', :id => 1
-
-  should_route :delete, '/admin_data/klass/article/1', :controller => 'admin_data/main', :action => :destroy, :klass => 'article', :id => 1
-
-  should_route :delete, '/admin_data/klass/article/1/del', :controller => 'admin_data/main', :action => :del, :klass => 'article', :id => 1
-
-  should_route :get, '/admin_data/klass/article/1/edit', :controller => 'admin_data/main', :action => :edit, :klass => 'article', :id => 1
-
-  should_route :put, '/admin_data/klass/article/1', :controller => 'admin_data/main', :action => :update, :klass => 'article', :id => 1
-
-  should_route :get, '/admin_data/klass/article/new', :controller => 'admin_data/main', :action => :new, :klass => 'article'
-
-  should_route :post, '/admin_data/klass/article', :controller => 'admin_data/main', :action => :create, :klass => 'article'
-
-  should_route :get, '/admin_data/klass/article/table_structure', :controller => 'admin_data/main', :action => :table_structure, :klass => 'article'
 
   context 'filters list testing' do
     setup do

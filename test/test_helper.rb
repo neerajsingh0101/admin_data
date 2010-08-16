@@ -34,7 +34,7 @@ require "#{rails_root}/../../config/routes.rb"
 #Dir[File.join(pwd, 'rails_root', 'app', 'controllers', '*.rb')].each {|controller| require controller }
 
 require 'test/unit'
-#require 'test_help'
+require 'rails/test_help'
 silence_warnings { RAILS_ENV = ENV['RAILS_ENV'] }
 
 # Run the migrations
