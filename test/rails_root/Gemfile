@@ -17,4 +17,5 @@ group :development, :test do
   gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails'
   gem 'flexmock'
   gem 'redgreen'
+  gem 'nokogiri'
 end
