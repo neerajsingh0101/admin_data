@@ -33,12 +33,12 @@ begin
     s.authors = ['Neeraj Singh']
     s.files = FileList["[A-Z]*", "{app,config,lib,test}/**/*", 'init.rb']
 
-    s.add_dependency 'will_paginate'
+    s.add_dependency('will_paginate', '>= 3.0.pre2')
 
-    s.add_development_dependency 'flexmock'
-    s.add_development_dependency 'shoulda'
-    s.add_development_dependency 'factory_girl'
-    s.add_development_dependency 'nokogiri'
+    s.add_development_dependency 'flexmock', '>= 0.8.7'
+    s.add_development_dependency 'shoulda', '>= 2.11.3'
+    s.add_development_dependency 'factory_girl_rails'
+    s.add_development_dependency 'nokogiri', '>= 1.4.3.1'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError => le
