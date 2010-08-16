@@ -37,6 +37,7 @@ begin
     s.add_development_dependency 'shoulda'
     s.add_development_dependency 'factory_girl'
     s.add_development_dependency 'nokogiri'
+    s.add_development_dependency 'will_paginate'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError => le
