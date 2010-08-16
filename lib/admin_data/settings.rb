@@ -63,7 +63,8 @@ class AdminData::Config
 
       :columns_order                => nil,
 
-      :adapter_name                 =>  ActiveRecord::Base.connection.adapter_name
+      #TODO fix below
+      :adapter_name                 =>   "SQLite" # ActiveRecord::Base.connection.adapter_name
 
     }
   end
