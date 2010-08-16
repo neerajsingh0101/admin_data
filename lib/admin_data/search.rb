@@ -179,7 +179,6 @@ module Search
     return {:errors => errors} if errors.any?
 
     r = klass.unscoped
-    valid_terms.each { |t|  puts t.attribute_condition.inspect }
     valid_terms.each { |t|  r = r.where(t.attribute_condition) }
     { :cond => r }
   end

@@ -18,4 +18,5 @@ group :development, :test do
   gem 'flexmock'
   gem 'redgreen'
   gem 'nokogiri'
+  gem 'json'
 end
