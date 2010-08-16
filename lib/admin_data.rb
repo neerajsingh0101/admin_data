@@ -20,29 +20,19 @@ end
 module AdminData
 end
 
-if load_will_paginate 
 
-  if Rails.version < "2.2.0"
-    raise %( admin_data only works with Rails 2.2 and higher)
-  elsif Rails.version > '2.2.0' && Rails.version < '2.3.0'
-    raise %( This version of admin_data only works with Rails 2.3 and higher. ) << 
-          %( You are using Rails 2.2 . Please read README on how to use this plugin with Rails 2.2')
-  elsif Rails.version >= '3.0'
-    require 'admin_data/railtie'
-  else
+if Rails.version >= '3.0'
+  require 'admin_data/railtie'
+else
+  raise "Please see documentation at http://neerajdotname.github.com/admin_data to find out how to use this plugin with rails 2.3"
+else
 
-    require 'admin_data_date_validation'
-    require 'admin_data/helpers'
-    require 'admin_data/chelper'
+require 'admin_data_date_validation'
+require 'admin_data/helpers'
+require 'admin_data/chelper'
+require 'admin_data/compatibility'
+require 'admin_data/settings'
+require 'admin_data/util'
 
-    ActionView::Base.send :include, AdminData::Helpers
-
-    require 'admin_data/compatibility'
-    require 'admin_data/settings'
-
-    AdminData::Config.initialize_defaults
-
-    require 'admin_data/util'
-
-  end
-end
+AdminData::Config.initialize_defaults
+ActionView::Base.send :include, AdminData::Helpers
