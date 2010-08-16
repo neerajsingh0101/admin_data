@@ -1,3 +1,1 @@
 require 'admin_data'
-
-
