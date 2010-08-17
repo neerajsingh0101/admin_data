@@ -1,3 +1,13 @@
+=== 2010-08-17 v1.0.3
+* added more tests 
+* fixed a bug related to :is_allowed_to_view_klass
+
+
+=== 2010-08-16
+* released as a gem
+* version 1.0.2
+* only works with rails3
+
 === 2010-04-14
 
 * JavaScript code refactoring
