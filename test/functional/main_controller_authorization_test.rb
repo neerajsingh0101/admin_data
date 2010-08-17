@@ -51,4 +51,46 @@ class AdminData::MainControllerAuthorizationTest < ActionController::TestCase
     end
   end
 
+  context 'is allowed to update' do
+    context 'for edit' do
+      setup do
+        AdminData::Config.set = { :is_allowed_to_update => lambda {|controller| false } }
+        get :edit, {:id => @article.id, :klass => @article.class.name, :attr => 'title', :data => 'Hello World' }
+      end
+      should_respond_with(401)
+    end
+
+    context 'for destroy' do
+      setup do
+        AdminData::Config.set = { :is_allowed_to_update => lambda {|controller| false } }
+        delete :destroy, {:id => @article.id, :klass => @article.class.name.underscore}
+      end
+      should_respond_with(401)
+    end
+
+    context 'for delete' do
+      setup do
+        AdminData::Config.set = { :is_allowed_to_update => lambda {|controller| false } }
+        delete :del, {:id => @article.id, :klass => @article.class.name.underscore }
+      end
+      should_respond_with(401)
+    end
+
+    context 'for update' do
+      setup do
+        AdminData::Config.set = { :is_allowed_to_update => lambda {|controller| false } }
+        post :update, { :klass => Article.name.underscore, :id => @article, :article => {:title => 'new title'}}
+      end
+      should_respond_with(401)
+    end
+
+    context 'for create' do
+      setup do
+        AdminData::Config.set = { :is_allowed_to_update => lambda {|controller| false } }
+        post :create, { :klass => Article.name.underscore, 'article' => {:title => 'hello', :body => 'hello world'}}
+      end
+      should_respond_with(401)
+    end
+  end
+
 end
