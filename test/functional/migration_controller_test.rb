@@ -1,6 +1,5 @@
 pwd = File.dirname(__FILE__)
 require File.join(pwd, '..', 'test_helper')
-#require 'test_helper'
 
 pwd = File.dirname(__FILE__)
 f = File.join(pwd, '..', '..', 'app', 'views')
@@ -13,11 +12,22 @@ class AdminData::MigrationControllerTest < ActionController::TestCase
     @controller = AdminData::MigrationController.new
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new
-    grant_read_only_access
+  end
+
+  context 'authorization check' do
+    setup do
+      revoke_read_only_access
+      get :index
+    end
+    should_respond_with(401)
+    should 'have text index' do 
+      assert_tag(:content => 'not authorized') 
+    end
   end
 
   context 'GET index' do
     setup do
+      grant_read_only_access
       get :index
     end
     should_respond_with :success
