@@ -1,7 +1,6 @@
 require 'test_helper'
 
-pwd = File.dirname(__FILE__)
-f = File.join(pwd, '..', '..', 'app', 'views')
+f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
 AdminData::FeedController.prepend_view_path(f)
 
 require 'nokogiri'

@@ -1,7 +1,6 @@
 require 'test_helper'
 
-pwd = File.dirname(__FILE__)
-f = File.join(pwd, '..', '..', 'app', 'views')
+f = File.join(File.dirname(__FILE__), '..', '..', 'app', 'views')
 AdminData::MainController.prepend_view_path(f)
 
 class AdminData::MainControllerAuthorizationTest < ActionController::TestCase

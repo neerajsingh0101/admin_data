@@ -1,6 +1,4 @@
-pwd = File.dirname(__FILE__)
-
-require File.join(pwd, '..', 'test_helper')
+require File.join( File.dirname(__FILE__), '..', 'test_helper')
 
 class AdminData::MainControllerTest < ActionController::TestCase
 

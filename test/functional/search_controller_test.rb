@@ -1,4 +1,3 @@
-
 require 'test_helper'
 
 pwd = File.dirname(__FILE__)
@@ -16,9 +15,6 @@ class AdminData::SearchControllerTest < ActionController::TestCase
     @car = Factory(:car, :year => 2000, :brand => 'bmw')
     grant_read_only_access
   end
-
-  # write filters test 
-
 
   context 'GET quick_search' do
     context 'GET quick_search with wrong children class' do
