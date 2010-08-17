@@ -9,9 +9,9 @@ module AdminData::Chelper
     AdminData::Config.setting[:is_allowed_to_view].call(self)
   end
 
-  def admin_data_is_allowed_to_view_model?
+  def admin_data_is_allowed_to_view_klass?
     return true if Rails.env.development?
-    AdminData::Config.setting[:is_allowed_to_view_model].call(self)
+    AdminData::Config.setting[:is_allowed_to_view_klass].call(self)
   end
 
   def admin_data_is_allowed_to_update?

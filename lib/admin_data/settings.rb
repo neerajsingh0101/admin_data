@@ -12,7 +12,7 @@ class AdminData::Config
     is_allowed_to_view_feed
     feed_authentication_user_id
     feed_authentication_password
-    is_allowed_to_view_model
+    is_allowed_to_view_klass
     is_allowed_to_update
     is_allowed_to_update_model
     column_settings
@@ -49,7 +49,7 @@ class AdminData::Config
 
       :is_allowed_to_update         => lambda {|controller| return true if Rails.env.development? },
 
-      :is_allowed_to_view_model     => lambda {|controller| return true  },
+      :is_allowed_to_view_klass     => lambda {|controller| return true  },
 
       :is_allowed_to_update_model   => lambda {|controller| return true  },
 

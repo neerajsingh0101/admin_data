@@ -16,8 +16,6 @@ class AdminData::MainControllerAuthorizationTest < ActionController::TestCase
     grant_update_access
   end
 
-  #TODO write tests for all before filters
-  
   context 'is not allowed to view' do
     setup do
       revoke_read_only_access
@@ -29,5 +27,28 @@ class AdminData::MainControllerAuthorizationTest < ActionController::TestCase
     end
   end
 
-end
+  context 'is allowed to view klass' do
+    context 'negative case' do
+      setup do
+        AdminData::Config.set = {
+          :is_allowed_to_view_klass => lambda {|controller| controller.instance_variable_get('@klass').name != 'Article' }
+        }
+        get :show, {:id => @article.id, :klass => Article.name.underscore }
+      end
+      should_respond_with(401)
+      should 'have text index' do
+        assert_tag(:content => 'not authorized')
+      end
+    end
+    context 'positive case' do
+      setup do
+        AdminData::Config.set = {
+          :is_allowed_to_view_klass => lambda {|controller| controller.instance_variable_get('@klass').name == 'Article' }
+        }
+        get :show, {:id => @article.id, :klass => Article.name.underscore }
+      end
+      should_respond_with :success
+    end
+  end
 
+end

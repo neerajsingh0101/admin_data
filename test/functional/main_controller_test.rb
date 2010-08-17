@@ -16,8 +16,6 @@ class AdminData::MainControllerTest < ActionController::TestCase
     grant_update_access
   end
 
-  #TODO write tests for all before filters
-
   context 'get table_structure' do
     setup do
       get :table_structure, {:klass => Article.name.underscore}
