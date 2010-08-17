@@ -22,9 +22,7 @@ class AdminData::MainControllerAuthorizationTest < ActionController::TestCase
       get :table_structure, {:klass => Article.name.underscore}
     end
     should_respond_with(401)
-    should 'have text index' do
-      assert_tag(:content => 'not authorized')
-    end
+    should 'have text index' { assert_tag(:content => 'not authorized') }
   end
 
   context 'is allowed to view klass' do

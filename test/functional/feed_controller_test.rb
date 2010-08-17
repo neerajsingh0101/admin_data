@@ -4,15 +4,27 @@ pwd = File.dirname(__FILE__)
 f = File.join(pwd, '..', '..', 'app', 'views')
 AdminData::FeedController.prepend_view_path(f)
 
-#TODO mention this dependency in gemspec
 require 'nokogiri'
 
 class AdminData::FeedControllerTest < ActionController::TestCase
 
-  #TODO write a test to check before_filter authorization. Testing will be a bit tricky since
-  #http_basic_authentication is done
+  context 'authorization' do
+    context 'failure' do
+      setup do
+        AdminData::Config.set = { :feed_authentication_user_id => 'hello', :feed_authentication_password => 'world' }
+        @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('bad_userid', 'bad_password')
+        get :index, :format => :rss, :klasss => 'article',
+        'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('bad_user', 'bad_password')
+      end
+      should_respond_with(401)
+    end
+  end
+
+
   context 'GET index' do
     setup do
+      AdminData::Config.set = { :feed_authentication_user_id => 'hello', :feed_authentication_password => 'world' }
+      @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('hello', 'world')
       Article.delete_all
       @article = Factory(:article)
       get :index, :format => :rss, :klasss => 'article'

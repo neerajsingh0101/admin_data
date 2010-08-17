@@ -149,6 +149,7 @@ Gem::Specification.new do |s|
      "test/rails_root/db/schema.rb",
      "test/rails_root/db/seeds.rb",
      "test/rails_root/db/test.sqlite3",
+     "test/rails_root/log/test.log",
      "test/rails_root/script/rails",
      "test/rails_root/test/performance/browsing_test.rb",
      "test/rails_root/test/test_helper.rb",

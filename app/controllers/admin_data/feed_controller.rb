@@ -14,4 +14,10 @@ class AdminData::FeedController < AdminData::BaseController
     end
   end
 
+  private
+
+  def ensure_is_allowed_to_view_feed
+    render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_feed?(self)
+  end
+
 end

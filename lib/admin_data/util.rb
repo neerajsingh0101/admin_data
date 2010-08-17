@@ -25,7 +25,6 @@ class AdminData::Util
 
   def self.is_allowed_to_view_feed?(controller)
     return true if Rails.env.development?
-    return true if Rails.env.test? #TODO FIXME remove this line
 
     if AdminData::Config.setting[:feed_authentication_user_id].blank?
       Rails.logger.info 'No user id has been supplied for feed'
