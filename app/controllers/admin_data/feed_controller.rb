@@ -5,7 +5,7 @@ class AdminData::FeedController < AdminData::BaseController
   before_filter :ensure_is_allowed_to_view_feed
 
   def index
-    render :text => "usage: http://localhost:3000/admin_data/feed/user" and return if params[:klasss].blank?
+    render :text => "Usage: http://localhost:3000/admin_data/feed/<model name>" and return if params[:klasss].blank?
 
     begin
       @klass = AdminData::Util.camelize_constantize(params[:klasss])

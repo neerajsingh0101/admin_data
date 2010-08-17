@@ -68,8 +68,7 @@ class AdminData::BaseController < ApplicationController
   end
 
   def remove_klasses_without_table(klasses)
-    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) &&
-    k.connection.table_exists?(k.table_name) }
+    klasses.select { |k| k.ancestors.include?(ActiveRecord::Base) && k.connection.table_exists?(k.table_name) }
   end
 
   def get_klass_names(model_names)
@@ -96,7 +95,8 @@ class AdminData::BaseController < ApplicationController
   end
 
   def check_page_parameter
-    # Got hoptoad error because of url like http://localhost:3000/admin_data/User/advance_search?page=http://201.134.249.164/intranet/on.txt?
+    # Got hoptoad error because of url like 
+    # http://localhost:3000/admin_data/User/advance_search?page=http://201.134.249.164/intranet/on.txt?
     if params[:page].blank? || (params[:page] =~ /\A\d+\z/)
       # proceed
     else
