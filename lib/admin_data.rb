@@ -15,9 +15,6 @@ end
 
 module AdminData
 end
-require 'admin_data/settings'
-AdminData::Config.initialize_defaults
-
 
 if Rails.version >= '3.0'
   require 'admin_data/railtie'
