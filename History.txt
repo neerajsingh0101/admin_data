@@ -1,3 +1,6 @@
+=== 2010-08-17 v1.0.5
+* fix for options defined in ~/config/initializers/admin_data_settings.rb not taking effect
+
 === 2010-08-17 v1.0.3
 * added more tests 
 * fixed a bug related to :is_allowed_to_view_klass
