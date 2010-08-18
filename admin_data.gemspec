@@ -55,7 +55,6 @@ Gem::Specification.new do |s|
      "app/views/admin_data/shared/_secondary_navigation.html.erb",
      "app/views/layouts/admin_data.html.erb",
      "config/routes.rb",
-     "init.rb",
      "lib/admin_data.rb",
      "lib/admin_data/chelper.rb",
      "lib/admin_data/compatibility.rb",

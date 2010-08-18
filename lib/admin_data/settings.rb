@@ -5,6 +5,7 @@ class AdminData::Config
   def self.set=(input = {})
     valid_keys =
     %w(
+    adapter_name
     find_conditions
     plugin_dir
     will_paginate_per_page
@@ -61,10 +62,7 @@ class AdminData::Config
 
       :ignore_column_limit          => false,
 
-      :columns_order                => nil,
-
-      #TODO fix below
-      :adapter_name                 =>   "SQLite" # ActiveRecord::Base.connection.adapter_name
+      :columns_order                => nil
 
     }
   end
