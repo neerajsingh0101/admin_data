@@ -1,4 +1,4 @@
-ActionController::Routing::Routes.draw do |map|
+Rails.application.routes.draw do |map|
 
   map.namespace(:admin_data) do |admin_data|
     
