@@ -8,6 +8,7 @@ AdminData::SearchController.prepend_view_path(f)
 class AdminData::SearchControllerTest < ActionController::TestCase
 
   def setup
+    AdminData::Config.set = { :adapter_name =>  ActiveRecord::Base.connection.adapter_name }
     @controller = AdminData::SearchController.new
     @request = ActionController::TestRequest.new
     @response = ActionController::TestResponse.new

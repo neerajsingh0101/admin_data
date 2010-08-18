@@ -72,3 +72,5 @@ class ActiveSupport::TestCase
 end
 
 require 'assertions'
+
+AdminData::Config.set = { :adapter_name =>  ActiveRecord::Base.connection.adapter_name }
