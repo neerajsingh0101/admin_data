@@ -9,8 +9,7 @@ module AdminData
   class Engine < Rails::Engine
 
     initializer "admin_data.setup" do
-      #AdminData::Config.initialize_defaults
-      ActionView::Base.send :include, AdminData::Helpers
+      #
     end
     
     rake_tasks do
