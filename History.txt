@@ -1,3 +1,6 @@
+=== 2010-08-17 v1.0.8
+* fix for deprecation warning in routes
+
 === 2010-08-17 v1.0.5
 * fix for options defined in ~/config/initializers/admin_data_settings.rb not taking effect
 
