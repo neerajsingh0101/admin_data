@@ -5,7 +5,7 @@ require 'rake/rdoctask'
 desc 'Default: run unit tests.'
 task :default => :test
 
-desc 'Test admin_data plugin.'
+desc 'Test admin_data gem.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib' << 'test'
   t.pattern = 'test/**/*_test.rb'
