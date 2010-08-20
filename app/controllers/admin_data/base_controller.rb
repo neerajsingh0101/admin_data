@@ -49,25 +49,30 @@ class AdminData::BaseController < ApplicationController
   end
 
   def build_klasses
-    $admin_data_klasses = _build_all_klasses unless defined? $admin_data_klasses
     # if is_allowed_to_view_klass option is passed then golbal constant can't be used since
     # list of klasses need to be built for each user. It will slow down the speed a bit since
     # every single the list needs to be built
     if AdminData::Config.setting[:is_allowed_to_view_klass]
       @klasses = _build_custom_klasses
     else
-      @klasses = $admin_data_klasses
+      @klasses = _build_all_klasses
     end
   end
 
   def _build_all_klasses
-    model_dir = File.join(Rails.root, 'app', 'models')
-    model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
-    klasses = get_klass_names(model_names)
-    remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
+    if defined? $admin_data_all_klasses
+      return $admin_data_all_klasses
+    else
+      puts 'building all'
+      model_dir = File.join(Rails.root, 'app', 'models')
+      model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
+      klasses = get_klass_names(model_names)
+      $admin_data_all_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
+    end
   end
 
   def _build_custom_klasses
+    puts 'building custom'
     _build_all_klasses.compact.select do |klass_local|
       @klass = klass_local
       admin_data_is_allowed_to_view_klass?
