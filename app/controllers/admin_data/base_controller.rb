@@ -31,8 +31,8 @@ class AdminData::BaseController < ApplicationController
     render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
   end
 
-  def ensure_is_allowed_to_update_model
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_model?
+  def ensure_is_allowed_to_update_klass
+    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_klass?
   end
 
 

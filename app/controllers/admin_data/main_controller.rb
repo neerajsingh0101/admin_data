@@ -12,7 +12,7 @@ class AdminData::MainController  < AdminData::BaseController
 
   before_filter :ensure_is_allowed_to_update, :only => [:destroy, :del, :edit, :update, :create]
 
-  before_filter :ensure_is_allowed_to_update_model, :only => [:destroy, :del, :edit, :update, :create]
+  before_filter :ensure_is_allowed_to_update_klass, :only => [:destroy, :del, :edit, :update, :create]
 
 
   def table_structure

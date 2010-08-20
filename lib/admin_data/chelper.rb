@@ -19,9 +19,9 @@ module AdminData::Chelper
     AdminData::Config.setting[:is_allowed_to_update].call(self)
   end
 
-  def admin_data_is_allowed_to_update_model?
+  def admin_data_is_allowed_to_update_klass?
     return true if Rails.env.development?
-    AdminData::Config.setting[:is_allowed_to_update_model].call(self)
+    AdminData::Config.setting[:is_allowed_to_update_klass].call(self)
   end
 
   def admin_data_invalid_record_link(klassu, id, error)

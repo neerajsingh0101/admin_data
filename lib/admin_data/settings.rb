@@ -9,13 +9,15 @@ class AdminData::Config
     find_conditions
     plugin_dir
     will_paginate_per_page
+    
     is_allowed_to_view
+    is_allowed_to_view_klass
+    is_allowed_to_update
+    is_allowed_to_update_klass
+
     is_allowed_to_view_feed
     feed_authentication_user_id
     feed_authentication_password
-    is_allowed_to_view_klass
-    is_allowed_to_update
-    is_allowed_to_update_model
     column_settings
     columns_order
     use_google_hosting_for_jquery
@@ -44,7 +46,7 @@ class AdminData::Config
 
       :is_allowed_to_view_klass     => lambda {|controller| return true  },
 
-      :is_allowed_to_update_model   => lambda {|controller| return true  },
+      :is_allowed_to_update_klass   => lambda {|controller| return true  },
 
       :find_conditions              => nil,
 
