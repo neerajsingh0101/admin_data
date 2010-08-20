@@ -19,7 +19,6 @@ class AdminData::Config
     column_settings
     columns_order
     use_google_hosting_for_jquery
-    rake_options
     drop_down_for_associations
     ignore_column_limit
     ).collect(&:intern)
@@ -29,13 +28,6 @@ class AdminData::Config
 
     self.setting ||= {}
     self.setting.merge!(input)
-
-    unless self.setting[:rake_options].blank?
-      env = self.setting[:rake_options][:env]
-      if env.blank? || env.include?(Rails.env.intern)
-        self.setting[:rake_command] = self.setting[:rake_options][:command]
-      end
-    end
 
   end
 
