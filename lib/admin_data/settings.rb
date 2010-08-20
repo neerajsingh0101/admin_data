@@ -44,7 +44,7 @@ class AdminData::Config
 
       :is_allowed_to_update         => lambda {|controller| return true if Rails.env.development? },
 
-      :is_allowed_to_view_klass     => lambda {|controller| return true  },
+      :is_allowed_to_view_klass     => nil, 
 
       :is_allowed_to_update_klass   => lambda {|controller| return true  },
 

@@ -10,7 +10,7 @@ module AdminData::Chelper
   end
 
   def admin_data_is_allowed_to_view_klass?
-    return true if Rails.env.development?
+    return true if Rails.env.development? || AdminData::Config.setting[:is_allowed_to_view_klass].blank?
     AdminData::Config.setting[:is_allowed_to_view_klass].call(self)
   end
 
