@@ -63,7 +63,6 @@ class AdminData::BaseController < ApplicationController
     if defined? $admin_data_all_klasses
       return $admin_data_all_klasses
     else
-      puts 'building all'
       model_dir = File.join(Rails.root, 'app', 'models')
       model_names = Dir.chdir(model_dir) { Dir["**/*.rb"] }
       klasses = get_klass_names(model_names)
@@ -72,7 +71,6 @@ class AdminData::BaseController < ApplicationController
   end
 
   def _build_custom_klasses
-    puts 'building custom'
     _build_all_klasses.compact.select do |klass_local|
       @klass = klass_local
       admin_data_is_allowed_to_view_klass?
