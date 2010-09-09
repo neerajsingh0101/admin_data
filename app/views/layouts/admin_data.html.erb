@@ -17,6 +17,7 @@
     <%= AdminData::Util.javascript_include_tag('vendor/jquery.form').html_safe unless Rails.env.test? %> 
 
     <%= AdminData::Util.javascript_include_tag('vendor/log', 
+                                               'vendor/rails',
                                                'misc/drop_down_change',
                                                'misc/quick_search_input_focus',
                                                'advance_search/global_ajax_setting',
@@ -35,6 +36,8 @@
                                                  'advance_search/trigger_submit_on_domready'
                                                 ).html_safe %>
     <% end %>
+
+    <%= csrf_meta_tag %>
   
   </head>
 
