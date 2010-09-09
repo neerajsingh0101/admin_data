@@ -1,3 +1,6 @@
+=== 2010-09-09 v1.0.10
+* fix for delete and destroy link
+
 === 2010-08-17 v1.0.8
 * fix for deprecation warning in routes
 

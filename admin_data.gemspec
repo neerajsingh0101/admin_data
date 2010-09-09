@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{admin_data}
-  s.version = "1.0.9"
+  s.version = "1.0.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-08-25}
+  s.date = %q{2010-09-09}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -99,6 +99,7 @@ Gem::Specification.new do |s|
      "lib/js/vendor/jquery.lint.js",
      "lib/js/vendor/log.js",
      "lib/js/vendor/qunit.js",
+     "lib/js/vendor/rails.js",
      "test/factories/article.rb",
      "test/factories/car.rb",
      "test/factories/city.rb",
@@ -149,7 +150,6 @@ Gem::Specification.new do |s|
      "test/rails_root/db/schema.rb",
      "test/rails_root/db/seeds.rb",
      "test/rails_root/db/test.sqlite3",
-     "test/rails_root/log/test.log",
      "test/rails_root/script/rails",
      "test/rails_root/test/performance/browsing_test.rb",
      "test/rails_root/test/test_helper.rb",
