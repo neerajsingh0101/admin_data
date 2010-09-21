@@ -1,4 +1,7 @@
-## This plugin works with both Rails 2.3.x and Rails 3. [More info about Rails3](http://neerajdotname.github.com/admin_data/#howtousethispluginwithrails3)
+
+# This plugin works with both Rails 2.3.x and Rails 3. 
+
+[More info about Rails3](http://neerajdotname.github.com/admin_data/#howtousethispluginwithrails3)
 
 ## [Live Demo](http://demo.neeraj.name/admin_data)
 

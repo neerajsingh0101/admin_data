@@ -6,3 +6,6 @@ tmp/*
 response.html
 test/rails_root/tmp
 tags
+pkg
+test/rails_root/.bundle
+test/rails_root/db/test.sqlite3
