@@ -1,11 +1,11 @@
 
 # This plugin works with both Rails 2.3.x and Rails 3. 
 
-[More info about Rails3](http://neerajdotname.github.com/admin_data/#howtousethispluginwithrails3)
+[More info about Rails3](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)
 
 ## [Live Demo](http://demo.neeraj.name/admin_data)
 
-## [Documentation](http://neerajdotname.github.com/admin_data)
+## [Documentation](http://github.com/neerajdotname/admin_data/wiki)
 
 ## [Source Code](http://github.com/neerajdotname/admin_data)
 
