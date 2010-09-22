@@ -1,5 +1,6 @@
+<%@records = @relation.order(@order).paginate(:page => params[:page]) if @records.nil?%>
 <%= render :partial => 'admin_data/search/search/title', :locals => { 
-                                                            :records => records, 
+                                                            :records => @records, 
                                                             :total_num_of_children => @total_num_of_children } %>
 
 <div class="pagination">
@@ -33,7 +34,7 @@
 </table>
 
 <div class="pagination">
-  <%= will_paginate records, :container => false, :params => {:klass => klass.name.underscore} %>
+  <%= will_paginate @records, :container => false, :params => {:klass => klass.name.underscore} %>
 </div>
 
 <div class='clear'></div>

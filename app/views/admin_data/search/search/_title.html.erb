@@ -1,6 +1,6 @@
 <div>
   <h2 class='title' id='search_result_title'> 
-    <%=search_result_title(total_num_of_children, records)%>
+    <%= search_result_title(total_num_of_children, records) %>
   </h2>
 
   <% if admin_data_is_allowed_to_update? && params[:action] == 'advance_search' %>
