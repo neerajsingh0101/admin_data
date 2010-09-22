@@ -14,7 +14,7 @@ end
 if Rails.version >= '3.0'
   require 'admin_data/railtie'
 else
-  raise "Please see documentation at http://github.com/neerajdotname/admin_data to find out how to use this gem with rails 2.3"
+  raise "Please see documentation at http://github.com/neerajdotname/admin_data/wiki to find out how to use this gem with rails 2.3.x"
 end
 
 # move date_validation to inside admin_data
