@@ -1,12 +1,4 @@
-begin
-  require 'will_paginate'
-rescue LoadError => e
-  $stderr.puts %(
-  *************************************************************************************************
-  * gem will_paginate is missing                                                                  *
-  *************************************************************************************************
-  )
-end
+require 'will_paginate'
 
 module AdminData
 end
