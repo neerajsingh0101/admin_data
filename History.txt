@@ -1,3 +1,9 @@
+=== 2010-09-22 v1.0.11
+* fix for pagination not working in chrome
+* css cleanup
+* JavaScript cleanup
+* bumped up jQuery from 1.4.1 to jQuery 1.4.2
+
 === 2010-09-09 v1.0.10
 * fix for delete and destroy link
 

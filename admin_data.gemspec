@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{admin_data}
-  s.version = "1.0.10"
+  s.version = "1.0.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-09-09}
+  s.date = %q{2010-09-22}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -65,15 +65,9 @@ Gem::Specification.new do |s|
      "lib/admin_data/util.rb",
      "lib/admin_data/version.rb",
      "lib/admin_data_date_validation.rb",
-     "lib/css/app.css",
      "lib/css/base.css",
-     "lib/css/header.css",
-     "lib/css/rounded.css",
-     "lib/css/themes/drastic-dark/style.css",
-     "lib/css/umbrella.css",
      "lib/css/vendor/jquery-ui-1.7.2.custom.css",
      "lib/js/advance_search/act_on_result.js",
-     "lib/js/advance_search/adv_search.js",
      "lib/js/advance_search/advance_search.js",
      "lib/js/advance_search/advance_search_structure.js",
      "lib/js/advance_search/ajaxify_advance_search.js",
@@ -89,10 +83,8 @@ Gem::Specification.new do |s|
      "lib/js/test/ajaxify_advance_search.js",
      "lib/js/test/build_first_row.js",
      "lib/js/test/event_bindings.js",
-     "lib/js/validate_model/ajaxify_form.js",
-     "lib/js/validate_model/select_all.js",
+     "lib/js/vendor/code.jquery.com jquery-1.4.2.js",
      "lib/js/vendor/jack.js",
-     "lib/js/vendor/jquery-1.4.1.js",
      "lib/js/vendor/jquery-ui-1.7.2.custom.min.js",
      "lib/js/vendor/jquery.ba-isjquery.js",
      "lib/js/vendor/jquery.form.js",
@@ -159,7 +151,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/neerajdotname/admin_data}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Manage database using browser}
   s.test_files = [
     "test/factories/article.rb",
@@ -214,7 +206,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<will_paginate>, [">= 3.0.pre2"])
       s.add_development_dependency(%q<flexmock>, [">= 0.8.7"])
       s.add_development_dependency(%q<shoulda>, [">= 2.11.3"])
