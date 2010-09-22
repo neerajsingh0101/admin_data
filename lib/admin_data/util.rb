@@ -12,14 +12,14 @@ class AdminData::Util
 
   def self.google_hosted_jquery(context)
     if AdminData::Config.setting[:use_google_hosting_for_jquery]
-      jquery_min = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js'
+      jquery_min = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js'
       jquery_ui_min = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js'
       context.send(:javascript_include_tag, jquery_min, jquery_ui_min)
     elsif Rails.env.test?
       #  It is breaking the html markup and test is full of messages like
       #  ignoring attempt to close string with script Hence not including jquery.form in test
     else
-      javascript_include_tag('vendor/jquery-1.4.1', 'vendor/jquery-ui-1.7.2.custom.min')
+      javascript_include_tag('vendor/jquery-1.4.2', 'vendor/jquery-ui-1.7.2.custom.min')
     end
   end
 
