@@ -148,7 +148,7 @@ module AdminData::Helpers
 
     when :datetime
       if ['created_at', 'updated_at'].include?(col.name)
-        html <<  model.new_record? ? '(auto)' : column_value
+        html <<  '(auto)'
       else
         value = params[:action] == 'new' ? Time.now : column_value
         year_value = value.year if value
