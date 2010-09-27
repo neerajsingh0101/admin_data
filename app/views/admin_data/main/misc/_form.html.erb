@@ -7,7 +7,12 @@
 <% end %>
 
 <div class='group navform' style='padding-top:10px;'>
-  <%= f.submit('Save', :class => 'button', :disable_with => 'Please wait ...') %>
+  <% if params[:action] == 'edit' || params[:action] == 'update' %>
+    <% label = 'Update' %>
+  <% else %>
+    <% label = 'Create' %>
+  <% end %>
+  <%= f.submit(label, :class => 'button', :disable_with => 'Please wait ...') %>
 </div>
 
 <style>
