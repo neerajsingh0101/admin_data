@@ -1,34 +1,29 @@
-Rails.application.routes.draw do |map|
+Rails.application.routes.draw do
 
-  map.namespace(:admin_data) do |admin_data|
-    
-    admin_data.with_options :controller => 'main' do |m|
-      m.index                       '/',                                :action => 'all_models'
-    end
+  namespace(:admin_data) do
 
-    admin_data.with_options :controller => 'migration' do |m|
-      m.migration_information       '/migration',                       :action => 'index'
-      m.jstest                      '/jstest',                          :action => 'jstest'
-    end
+    match '/' => "main#all_models", :as => :index
 
-    admin_data.with_options :controller => 'feed' do |m|
-      m.feed                        '/feed/:klasss',                    :action => 'index', 
-                                                                        :format => :rss
-    end
+    match '/migration' => "migration#index", :as => :migration_information
+    match '/jstest' => "migration#jstest", :as => :jstest
 
-    admin_data.with_options :controller => 'search' do |m|
-      m.search                      '/quick_search/:klass',             :action => 'quick_search'
-      m.advance_search              '/advance_search/:klass',           :action => 'advance_search'
-    end
+    match '/feed/:klasss' => "feed#index", :defaults => { :format =>'rss' }, :as => :feed
 
+    match '/quick_search/:klass' => "search#quick_search", :as => :search
+    match '/advance_search/:klass' => "search#advance_search", :as => :advance_search
+  end
 
-    admin_data.resources  :on_k,
-                          :as => ':klass',
-                          :path_prefix => 'admin_data/klass',
-                          :controller => 'main',
-                          :member => {:del => :delete},
-                          :collection => {:table_structure => :get}
+  scope '/admin_data' do
+    match '/klass/:klass/table_structure' => "admin_data/main#table_structure", :as => :table_structure_admin_data_on_k, :via => :get
+    match '/klass/(:klass(.:format))' => "admin_data/main#index", :as => :admin_data_on_k_index, :via => :get
+    match '/klass/(:klass(.:format))' => "admin_data/main#create", :as => :admin_data_on_k_index, :via => :post
 
+    match '/klass/:klass/new' => "admin_data/main#new", :as => :new_admin_data_on_k, :via => :get
+    match '/klass/:klass/:id/del' => "admin_data/main#del", :as => :del_admin_data_on_k, :via => :delete
+    match '/klass/:klass/:id/edit' => "admin_data/main#edit", :as => :edit_admin_data_on_k, :via => :get
+    match '/klass/:klass/:id' => "admin_data/main#show", :as => :admin_data_on_k, :via => :get
+    match '/klass/:klass/:id' => "admin_data/main#update", :as => :admin_data_on_k, :via => :put
+    match '/klass/:klass/:id' => "admin_data/main#destroy", :as => :admin_data_on_k, :via => :delete
   end
 
 end
