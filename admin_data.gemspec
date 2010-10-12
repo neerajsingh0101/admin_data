@@ -5,19 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{admin_data}
-  s.version = "1.0.11"
+  s.version = "1.0.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-09-22}
+  s.date = %q{2010-10-12}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
-    "README.textile"
+    "README.md"
   ]
   s.files = [
     "History.txt",
-     "README.textile",
+     "README.md",
      "Rakefile",
      "app/controllers/admin_data/base_controller.rb",
      "app/controllers/admin_data/feed_controller.rb",
@@ -83,124 +83,21 @@ Gem::Specification.new do |s|
      "lib/js/test/ajaxify_advance_search.js",
      "lib/js/test/build_first_row.js",
      "lib/js/test/event_bindings.js",
-     "lib/js/vendor/code.jquery.com jquery-1.4.2.js",
      "lib/js/vendor/jack.js",
+     "lib/js/vendor/jquery-1.4.2.js",
      "lib/js/vendor/jquery-ui-1.7.2.custom.min.js",
      "lib/js/vendor/jquery.ba-isjquery.js",
      "lib/js/vendor/jquery.form.js",
-     "lib/js/vendor/jquery.lint.js",
      "lib/js/vendor/log.js",
      "lib/js/vendor/qunit.js",
      "lib/js/vendor/rails.js",
-     "test/factories/article.rb",
-     "test/factories/car.rb",
-     "test/factories/city.rb",
-     "test/factories/comment.rb",
-     "test/factories/door.rb",
-     "test/factories/engine.rb",
-     "test/functional/base_controller_test.rb",
-     "test/functional/feed_controller_test.rb",
-     "test/functional/main_controller_authorization_test.rb",
-     "test/functional/main_controller_test.rb",
-     "test/functional/migration_controller_test.rb",
-     "test/functional/routes_test.rb",
-     "test/functional/search_controller_authorization_test.rb",
-     "test/functional/search_controller_test.rb",
-     "test/helper/view_helper_test.rb",
-     "test/misc_tests/date_validation_test.rb",
-     "test/misc_tests/settings_test.rb",
-     "test/misc_tests/util_test.rb",
-     "test/rails_root/Gemfile",
-     "test/rails_root/Gemfile.lock",
-     "test/rails_root/Rakefile",
-     "test/rails_root/app/controllers/application_controller.rb",
-     "test/rails_root/app/helpers/application_helper.rb",
-     "test/rails_root/app/models/article.rb",
-     "test/rails_root/app/models/city.rb",
-     "test/rails_root/app/models/comment.rb",
-     "test/rails_root/app/models/tech_magazine.rb",
-     "test/rails_root/app/models/vehicle/car.rb",
-     "test/rails_root/app/models/vehicle/door.rb",
-     "test/rails_root/app/models/vehicle/engine.rb",
-     "test/rails_root/app/views/layouts/application.html.erb",
-     "test/rails_root/config.ru",
-     "test/rails_root/config/application.rb",
-     "test/rails_root/config/boot.rb",
-     "test/rails_root/config/database.yml",
-     "test/rails_root/config/environment.rb",
-     "test/rails_root/config/environments/development.rb",
-     "test/rails_root/config/environments/production.rb",
-     "test/rails_root/config/environments/test.rb",
-     "test/rails_root/config/initializers/backtrace_silencers.rb",
-     "test/rails_root/config/initializers/inflections.rb",
-     "test/rails_root/config/initializers/mime_types.rb",
-     "test/rails_root/config/initializers/secret_token.rb",
-     "test/rails_root/config/initializers/session_store.rb",
-     "test/rails_root/config/locales/en.yml",
-     "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20090809061114_create_tables.rb",
-     "test/rails_root/db/schema.rb",
-     "test/rails_root/db/seeds.rb",
-     "test/rails_root/db/test.sqlite3",
-     "test/rails_root/script/rails",
-     "test/rails_root/test/performance/browsing_test.rb",
-     "test/rails_root/test/test_helper.rb",
-     "test/support/assertions.rb",
-     "test/test_helper.rb"
+     "test/rails_root/db/test.sqlite3"
   ]
   s.homepage = %q{http://github.com/neerajdotname/admin_data}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Manage database using browser}
-  s.test_files = [
-    "test/factories/article.rb",
-     "test/factories/car.rb",
-     "test/factories/city.rb",
-     "test/factories/comment.rb",
-     "test/factories/door.rb",
-     "test/factories/engine.rb",
-     "test/functional/base_controller_test.rb",
-     "test/functional/feed_controller_test.rb",
-     "test/functional/main_controller_authorization_test.rb",
-     "test/functional/main_controller_test.rb",
-     "test/functional/migration_controller_test.rb",
-     "test/functional/routes_test.rb",
-     "test/functional/search_controller_authorization_test.rb",
-     "test/functional/search_controller_test.rb",
-     "test/helper/view_helper_test.rb",
-     "test/misc_tests/date_validation_test.rb",
-     "test/misc_tests/settings_test.rb",
-     "test/misc_tests/util_test.rb",
-     "test/rails_root/app/controllers/application_controller.rb",
-     "test/rails_root/app/helpers/application_helper.rb",
-     "test/rails_root/app/models/article.rb",
-     "test/rails_root/app/models/city.rb",
-     "test/rails_root/app/models/comment.rb",
-     "test/rails_root/app/models/tech_magazine.rb",
-     "test/rails_root/app/models/vehicle/car.rb",
-     "test/rails_root/app/models/vehicle/door.rb",
-     "test/rails_root/app/models/vehicle/engine.rb",
-     "test/rails_root/config/application.rb",
-     "test/rails_root/config/boot.rb",
-     "test/rails_root/config/environment.rb",
-     "test/rails_root/config/environments/development.rb",
-     "test/rails_root/config/environments/production.rb",
-     "test/rails_root/config/environments/test.rb",
-     "test/rails_root/config/initializers/backtrace_silencers.rb",
-     "test/rails_root/config/initializers/inflections.rb",
-     "test/rails_root/config/initializers/mime_types.rb",
-     "test/rails_root/config/initializers/secret_token.rb",
-     "test/rails_root/config/initializers/session_store.rb",
-     "test/rails_root/config/routes.rb",
-     "test/rails_root/db/migrate/20090809061114_create_tables.rb",
-     "test/rails_root/db/schema.rb",
-     "test/rails_root/db/seeds.rb",
-     "test/rails_root/test/performance/browsing_test.rb",
-     "test/rails_root/test/test_helper.rb",
-     "test/support/assertions.rb",
-     "test/test_helper.rb"
-  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
