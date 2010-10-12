@@ -1,4 +1,4 @@
-# admin_data works with rails3. [More information is available here](http://neerajdotname.github.com/admin_data/#howtousethispluginwithrails3)#
+# admin_data works with rails3. [More information is available here](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)#
 
 #Live Demo#
 
