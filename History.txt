@@ -1,3 +1,6 @@
+=== 2010-10-12 v1.0.14
+* use the new way of routing. remove deprecation
+
 === 2010-09-22 v1.0.11
 * fix for pagination not working in chrome
 * css cleanup
