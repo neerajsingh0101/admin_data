@@ -90,8 +90,7 @@ Gem::Specification.new do |s|
      "lib/js/vendor/jquery.form.js",
      "lib/js/vendor/log.js",
      "lib/js/vendor/qunit.js",
-     "lib/js/vendor/rails.js",
-     "test/rails_root/db/test.sqlite3"
+     "lib/js/vendor/rails.js"
   ]
   s.homepage = %q{http://github.com/neerajdotname/admin_data}
   s.rdoc_options = ["--charset=UTF-8"]
