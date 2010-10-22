@@ -15,7 +15,8 @@ xml.rss(:version => "2.0" ){
         end.join
 
         xml.description(desc)
-        xml.pubDate(record.created_at.strftime("%a, %d %b %Y %H:%M:%S %z"))
+        d = record.respond_to?(:created_at) ?  record.created_at : Time.now
+        xml.pubDate(d.strftime("%a, %d %b %Y %H:%M:%S %z"))
         xml.link(admin_data_on_k_path(:id => record, :klass => @klass.name))
         xml.guid(admin_data_on_k_path(:id => record, :klass => @klass.name))
       end
