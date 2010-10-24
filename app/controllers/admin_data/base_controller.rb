@@ -20,19 +20,19 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_view
-    render :text => '<h2>not authorized</h2>', :status => :unauthorized unless admin_data_is_allowed_to_view?
+    render :text => '<h2>not authorized</h2>' unless admin_data_is_allowed_to_view?
   end
 
   def ensure_is_allowed_to_view_klass
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_view_klass?
+    render :text => 'not authorized' unless admin_data_is_allowed_to_view_klass?
   end
 
   def ensure_is_allowed_to_update
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
+    render :text => 'not authorized' unless admin_data_is_allowed_to_update?
   end
 
   def ensure_is_allowed_to_update_klass
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_klass?
+    render :text => 'not authorized' unless admin_data_is_allowed_to_update_klass?
   end
 
 

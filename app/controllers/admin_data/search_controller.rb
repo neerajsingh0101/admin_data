@@ -87,7 +87,7 @@ class AdminData::SearchController  < AdminData::BaseController
 
   def ensure_is_authorized_for_update_opration
     if %w(destroy delete).include? params[:admin_data_advance_search_action_type]
-      render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
+      render :text => 'not authorized' unless admin_data_is_allowed_to_update?
     end
   end
 
