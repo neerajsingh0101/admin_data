@@ -12,9 +12,7 @@
 
     <%= AdminData::Util.google_hosted_jquery(self).html_safe %>
 
-    <!-- It is breaking the html markup and test is full of messages 
-          like ignoring attempt to close string with script Hence not including jquery.form in test -->
-    <%= AdminData::Util.javascript_include_tag('vendor/jquery.form').html_safe unless Rails.env.test? %> 
+    <%= AdminData::Util.javascript_include_tag('vendor/jquery.form').html_safe %> 
 
     <%= AdminData::Util.javascript_include_tag('vendor/log', 
                                                'vendor/rails',
