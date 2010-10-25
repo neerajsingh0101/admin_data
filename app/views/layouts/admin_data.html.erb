@@ -21,9 +21,7 @@
                                                'advance_search/global_ajax_setting',
                                                'misc/js_util').html_safe %>
 
-    <!-- assert_tag is throwing a lot of warning with these inline javascripts.  
-    no need of these javascripts in test mode -->
-    <% if params[:action] == 'advance_search' && !Rails.env.test? %>
+    <% if params[:action] == 'advance_search' %>
       <%= AdminData::Util.javascript_include_tag(
                                                  'advance_search/advance_search', 
                                                  'advance_search/advance_search_structure', 
