@@ -22,10 +22,17 @@ body {
 #container {
   min-width: 940px;
   margin: 0 10px;
+  background: #B3D8EF;
+  background: #0f61a1;
+  background: #e4e4e4;
 }
 
-#header, #wrapper {
+#header {
   padding: 0 20px;
+}
+#wrapper {
+  padding: 0 20px;
+  margin: 0;
 }
 
 #header {
@@ -64,6 +71,8 @@ body {
 #main {  
   width: 70%;
   float: left;    
+  background: #fff;
+  padding: 0 20px;
 }
 
 .actions-bar {
@@ -110,7 +119,7 @@ body {
 }
 
 #wrapper {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 #main .block {
@@ -406,6 +415,11 @@ a { -moz-outline: none; }
 body {
   color: #222;
   background: #ededec;
+  background: #0F61FF;
+  background: #0072bc;
+  background: #fff;
+  background: #0f61a1;
+  background: #e4e4e4;
   font-family: helvetica, arial, sans-serif;
 }
 
@@ -911,7 +925,7 @@ table#view_table tr:hover {
 #model_drop_down {
   position: absolute;
   top: 10px;
-  right: 600px;
+  left: 100px;
 }
 
 .drop_down_value_klass {

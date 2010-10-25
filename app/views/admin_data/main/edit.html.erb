@@ -1,13 +1,12 @@
 <div id="main">
-  <%= admin_data_breadcrum do %>
-    <%= link_to @klass, admin_data_search_path(:klass => @klass.name.underscore) %> 
-    >
-    <%= link_to "ID #{@model.id}", ''%>  
-  <% end %>
-
-  <h2 class="title">
-    Editing <%=@model.class.name%> id <%=@model.id%>
-  </h2>        
+  <div>
+    <h1 style='float:left;font-weight:bold;font-size: 35px;'>
+      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>  
+      >
+      <%= link_to "ID #{@model.id}", ''%>  
+    </h1>
+    <div class='clear'></div>
+  </div>
 
   <div class="block" id="block-tables">
 

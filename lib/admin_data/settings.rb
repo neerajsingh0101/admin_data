@@ -5,6 +5,7 @@ class AdminData::Config
   def self.set=(input = {})
     valid_keys =
     %w(
+    app_name
     adapter_name
     find_conditions
     plugin_dir
@@ -36,6 +37,8 @@ class AdminData::Config
   def self.initialize_defaults
     self.setting = {
 
+      :app_name             => "admin_data",
+      # TODO get rid of plugin_dir
       :plugin_dir                   => File.expand_path(File.join(File.dirname(__FILE__), '..', '..')),
 
       :will_paginate_per_page       => 50,

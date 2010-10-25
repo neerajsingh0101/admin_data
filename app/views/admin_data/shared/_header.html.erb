@@ -1,17 +1,10 @@
 <div id="header">
-    <h1>
-      <%= link_to 'admin_data', admin_data_index_path %>
+    <h1> &nbsp;
     </h1>  
 
     <ul id='subnav'>
-      <li>
-        <%= link_to 'Home', admin_data_index_path %>
-      </li>
-
-      <li>
-        <%= link_to 'Migration Information', admin_data_migration_information_path %>
-      </li>
-
+      <li> <%= link_to 'Back to Site', '/' %> </li>
+      <li> <%= link_to AdminData::Config.setting[:app_name] , admin_data_index_path %> </li>
     </ul>
 
     <div id='model_drop_down'>

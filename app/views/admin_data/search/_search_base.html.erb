@@ -1,8 +1,12 @@
-<%= admin_data_breadcrum do %>
-  <%= link_to klass.name, admin_data_search_path(:klass => klass.name.underscore) %> 
-<% end %>  
-
 <div class="block" id="block-text">
+
+  <div>
+    <h1 style='float:left;font-weight:bold;font-size: 35px;'> Listing <%=klass.name%></h1>
+    <h3 style='float:left;margin:22px 0 0 10px;color:gray;'><%=total_records_info(klass)%></h3>
+    <div class='clear'></div>
+  </div>
+
+
   <div class="secondary-navigation">
     <%= render 'admin_data/shared/secondary_navigation', :klass => klass %>
     <div class="clear"></div>

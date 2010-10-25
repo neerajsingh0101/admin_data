@@ -1,5 +1,9 @@
 module AdminData::Helpers
 
+  def total_records_info(klass)
+    '(Total ' + pluralize(klass.count, 'record') + ' )'
+  end
+
   def search_result_title(total_num_of_children, records)
     output = []
     if params[:base]
