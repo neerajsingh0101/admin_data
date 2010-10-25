@@ -14,7 +14,6 @@ require 'admin_data_date_validation'
 
 require 'admin_data/helpers'
 require 'admin_data/chelper'
-require 'admin_data/compatibility'
 require 'admin_data/settings'
 require 'admin_data/util'
 
