@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-10-23}
+  s.date = %q{2010-10-25}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -57,7 +57,6 @@ Gem::Specification.new do |s|
      "config/routes.rb",
      "lib/admin_data.rb",
      "lib/admin_data/chelper.rb",
-     "lib/admin_data/compatibility.rb",
      "lib/admin_data/helpers.rb",
      "lib/admin_data/railtie.rb",
      "lib/admin_data/search.rb",
