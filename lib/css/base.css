@@ -1038,9 +1038,7 @@ table#missing_index tr td {
 .add_row_link, .remove_row {
   font-size: 30px;
   text-decoration: none;
-  border: 1px solid #127BC4;
   color: #fff;
-  background: #4F8AFF;
   padding: 0 3px;
   margin: 0;
 }
