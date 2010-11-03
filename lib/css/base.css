@@ -1081,3 +1081,8 @@ ul#subnav li a:hover {
 .col_box {
   border-top: 1px dotted #efefef;
 }
+
+#main .block .content p.error {
+  font-weight: bold;
+  font-size: 18px;
+}
