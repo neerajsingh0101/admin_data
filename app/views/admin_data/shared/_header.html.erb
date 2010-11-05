@@ -3,7 +3,10 @@
     </h1>  
 
     <ul id='subnav'>
-      <li> <%= link_to 'Back to Site', '/' %> </li>
+      <li> 
+      <% label = "Back to Site " + image_tag('https://github.com/neerajdotname/admin_data/raw/rails3_gem/public/images/site.png', :width => '12') %>
+        <%= link_to label.html_safe, '/' %> 
+      </li>
       <li> <%= link_to AdminData::Config.setting[:app_name] , admin_data_index_path %> </li>
     </ul>
 
