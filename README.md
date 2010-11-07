@@ -5,7 +5,7 @@
 
 [More info about Rails3](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)
 
-## [Live Demo](http://demo.neeraj.name/admin_data)
+## [Live Demo](http://admin-data-test.heroku.com/admin_data)
 
 ## [Documentation](http://github.com/neerajdotname/admin_data/wiki)
 
