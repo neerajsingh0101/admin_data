@@ -110,13 +110,13 @@ class AdminData::SearchController  < AdminData::BaseController
   end
 
   def set_collection_of_columns
-    collection_of_colums = @klass.columns.collect { |column|
+    collection_of_columns = @klass.columns.collect { |column|
       #JSLint complains if a hash has key named boolean. So I am changing the key to booleant
       column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
-      "#{column.name}:'#{column_type}'"
+      %Q{ "#{column.name}":"#{column_type}" }
     }
-    collection_of_colums = collection_of_colums.join(',')
-    @collection_of_colums = "[{#{collection_of_colums}}]"
+    collection_of_columns = collection_of_columns.join(',')
+    @collection_of_columns = "{#{collection_of_columns}}"
   end
 
 end
