@@ -1,4 +1,9 @@
 
+=== 2010-11-08 v1.0.18
+* disable the columns not being used
+* use parseJSON instead of eval
+* javascript variable declaration refactoring
+
 === 2010-10-12 v1.0.17
 * use image for advance search add and remove link
 * fix bug regarding "Destroy All"
