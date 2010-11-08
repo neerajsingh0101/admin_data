@@ -114,8 +114,7 @@ class AdminData::SearchController  < AdminData::BaseController
       #JSLint complains if a hash has key named boolean. So I am changing the key to booleant
       column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
       %Q{ "#{column.name}":"#{column_type}" }
-    }
-    collection_of_columns = collection_of_columns.join(',')
+    }.join(',')
     @collection_of_columns = "{#{collection_of_columns}}"
   end
 
