@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__) , '..', '..', '..', 'lib', 'admin_data', 'search')
 
-class AdminData::SearchController  < AdminData::BaseController
+class AdminData::SearchController < AdminData::BaseController
 
   include Search
 
