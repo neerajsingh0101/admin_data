@@ -9,6 +9,9 @@ class AdminData::FeedController < AdminData::BaseController
 
     begin
       @klass = AdminData::Util.camelize_constantize(params[:klasss])
+      @title = "Feeds from admin_data #{@klass.name}"
+      @description = "feeds from AdminData #{@klass.name}"
+      @records = @klass.find(:all, :order => "#{@klass.primary_key} desc", :limit => 100)
     rescue NameError => e
       render :text => "No constant was found with name #{params[:klasss]}" and return
     end
