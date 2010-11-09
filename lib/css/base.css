@@ -1094,3 +1094,15 @@ ul#subnav li a:hover {
   font-weight:bold;
   font-size: 35px;
 }
+
+.listing_klass {
+  float:left;
+  font-weight:bold;
+  font-size: 35px;
+}
+
+.total_records_info_klass {
+  float:left;
+  margin:22px 0 0 10px;
+  color:gray;
+}
