@@ -62,7 +62,8 @@ class AdminData::SearchController < AdminData::BaseController
         if @success_message
           render :json => {:success => @success_message }
         else
-          render :partial => "/admin_data/search/search/listing.html.erb", :locals => {:klass => @klass}, :layout => false
+          file = "/admin_data/search/search/listing.html.erb"
+          render :partial => file, :locals => {:klass => @klass}, :layout => false
         end
       }
     end
