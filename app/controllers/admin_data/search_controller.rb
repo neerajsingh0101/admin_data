@@ -41,6 +41,7 @@ class AdminData::SearchController < AdminData::BaseController
     @relation = hash[:cond]
     errors = hash[:errors]
     @order = default_order
+    @association_info = AdminData::Util.association_info_hash(@klass).to_json
 
     respond_to do |format|
       format.html { render }
