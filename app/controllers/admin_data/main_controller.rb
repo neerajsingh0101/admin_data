@@ -117,7 +117,7 @@ class AdminData::MainController  < AdminData::BaseController
 
     @model = @klass.send('find', :first, :conditions => condition)
     unless @model
-      render :text => "<h2>#{@klass.name} not found: #{params[:id]}</h2>", :status => :not_found
+      render :text => "#{@klass.name} not found: #{params[:id]}", :status => :not_found
     end
   end
 
