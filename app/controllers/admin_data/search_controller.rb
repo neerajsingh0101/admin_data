@@ -46,8 +46,9 @@ class AdminData::SearchController < AdminData::BaseController
       format.html { render }
       format.js {
 
-        if !hash[:errors].blank?
-          render :file =>  "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb", :locals => {:errors => errors}
+        unless hash[:errors].blank?
+          file = "#{plugin_dir}/app/views/admin_data/search/search/_errors.html.erb"
+          render :file =>  file, :locals => {:errors => errors}
           return
         end
         if params[:admin_data_advance_search_action_type] == 'destroy'
