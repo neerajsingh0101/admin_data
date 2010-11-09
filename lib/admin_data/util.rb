@@ -193,11 +193,25 @@ class AdminData::Util
     associations_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
   end
 
-  def self.admin_data_association_info_size(klass)
-    (belongs_to_what(klass).size > 0)  ||
-    (has_many_what(klass).size > 0) ||
-    (has_one_what(klass).size > 0) ||
-    (habtm_what(klass).size > 0)
+  def self.association_info_size(k)
+    belongs_to_what(k).any? || has_many_what(k).any? || has_one_what(k).any? || habtm_what(k).any?
+  end
+
+  def self.association_info_hash(k)
+    h = {}
+    if r = belongs_to_what(k)
+      h.merge!(:belongs_to => r ) if r.any?
+    end
+    if r = has_many_what(k)
+      h.merge!(:has_many => r ) if r.any?
+    end
+    if r = has_one_what(k)
+      h.merge!(:has_one => r ) if r.any?
+    end
+    if r = habtm_what(k)
+      h.merge!(:habtm => r ) if r.any?
+    end
+    h
   end
 
   def self.string_representation_of_data(value)
