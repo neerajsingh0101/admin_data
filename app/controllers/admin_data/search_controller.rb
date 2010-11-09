@@ -11,7 +11,7 @@ class AdminData::SearchController < AdminData::BaseController
   before_filter :ensure_is_allowed_to_view_klass
   before_filter :ensure_valid_children_klass, :only => [:quick_search]
   before_filter :ensure_is_authorized_for_update_opration, :only => [:advance_search]
-  before_filter :set_collection_of_columns, :only => [:advance_search]
+  before_filter :set_column_type_info, :only => [:advance_search]
 
   def quick_search
     @page_title = "Search #{@klass.name.underscore}"
@@ -109,13 +109,13 @@ class AdminData::SearchController < AdminData::BaseController
     params[:sortby] || "#{@klass.send(:table_name)}.#{@klass.send(:primary_key)} desc"
   end
 
-  def set_collection_of_columns
-    collection_of_columns = @klass.columns.collect { |column|
+  def set_column_type_info
+    column_type_info = @klass.columns.collect { |column|
       #JSLint complains if a hash has key named boolean. So I am changing the key to booleant
       column_type =  (column.type.to_s == 'boolean') ? 'booleant' : column.type.to_s
       %Q{ "#{column.name}":"#{column_type}" }
     }.join(',')
-    @collection_of_columns = "{#{collection_of_columns}}"
+    @column_type_info = "{#{column_type_info}}"
   end
 
 end
