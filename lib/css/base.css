@@ -1089,3 +1089,8 @@ ul#subnav li a:hover {
   font-weight: bold;
   font-size: 18px;
 }
+#main h2.search_path {
+  float:left;
+  font-weight:bold;
+  font-size: 35px;
+}
