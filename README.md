@@ -3,13 +3,16 @@
 * master branch hosts code where admin_data is a plugin and it works with Rails 2.3.x .
 * rails3_gem branch hosts code where admin_data is a gem and it works with Rails 3.x . 
 
-[More info about Rails3](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)
+[Installing in Rails3 project](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)
+[Installing in Rails 2.3.x project](https://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-2.3.x-project)
 
 ## [Live Demo](http://admin-data-test.heroku.com/admin_data)
 
 ## [Documentation](http://github.com/neerajdotname/admin_data/wiki)
 
-## [Source Code](http://github.com/neerajdotname/admin_data)
+## Source Code ##
+* admin_data works as a gem with Rails 3.x project. Source for that resides in master branch.
+* admin_data works as a plugin with Rails 2.3.x project. Source code for that resides in branch called [rails2](https://github.com/neerajdotname/admin_data/tree/rails2)
 
 #Test#
 
