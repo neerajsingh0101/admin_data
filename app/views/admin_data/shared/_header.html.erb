@@ -1,19 +1,20 @@
 <div id="header">
-    <h1> &nbsp;
-    </h1>  
+  <h1> &nbsp; </h1>  
 
-    <ul id='subnav'>
-      <li> 
+  <ul id='subnav'>
+    <li> 
       <% label = "Back to Site " + image_tag('https://github.com/neerajdotname/admin_data/raw/rails3_gem/public/images/site.png', :width => '12') %>
-        <%= link_to label.html_safe, '/' %> 
-      </li>
-      <li> <%= link_to AdminData::Config.setting[:app_name] , admin_data_index_path %> </li>
-    </ul>
+      <%= link_to label.html_safe, '/' %> 
+    </li>
+    <li> 
+      <%= link_to AdminData::Config.setting[:app_name] , admin_data_index_path %> 
+    </li>
+  </ul>
 
-    <div id='model_drop_down'>
-      <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
-    </div>
+  <div id='model_drop_down'>
+    <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
+  </div>
 
-    <div class='clear'></div>
+  <div class='clear'></div>
 
 </div>
