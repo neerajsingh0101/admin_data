@@ -1,3 +1,4 @@
+# admin_data #
 
 # This plugin works with both Rails 2.3.x and Rails 3.
 * [Installing in Rails3 project](http://github.com/neerajdotname/admin_data/wiki/Installing-admin_data-in-a-Rails-3-project)
