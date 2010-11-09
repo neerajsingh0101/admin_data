@@ -1,6 +1,6 @@
 <div id="main">
   <div>
-    <h1 style='float:left;font-weight:bold;font-size: 35px;'>
+    <h1 class='search_path'>
       <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>  
       >
       <%= link_to "ID #{@model.id}", ''%>  
@@ -32,5 +32,10 @@
 <style type="text/css">
   #main {
     width:70%;
+  }
+  #main h2.search_path {
+    float:left;
+    font-weight:bold;
+    font-size: 35px;
   }
 </style>  
