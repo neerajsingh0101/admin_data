@@ -49,7 +49,7 @@ class AdminData::BaseController < ApplicationController
   end
 
   def build_klasses
-    # if is_allowed_to_view_klass option is passed then golbal constant can't be used since
+    # if is_allowed_to_view_klass option is passed then global constant can't be used since
     # list of klasses need to be built for each user. It will slow down the speed a bit since
     # every single the list needs to be built
     if AdminData::Config.setting[:is_allowed_to_view_klass]
