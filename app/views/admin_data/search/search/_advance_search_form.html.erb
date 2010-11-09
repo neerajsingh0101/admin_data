@@ -22,14 +22,23 @@
 
 </form>   
 
-<div style='display:none;' id='admin_data_table_structure_data'>
-  <%=@collection_of_columns%>
+<div style='display:none;' id='primary_column_type_info'>
+  <%=@column_type_info%>
+</div>
+<div style='display:none;' id='association_info'>
+  <%=@association_info%>
 </div>
 
 <style>
    .sortby_umbrella { 
       margin-top: 6px;
    }
+   .sortby_umbrella .group {
+      padding-left: 20px;
+   } 
+   .sortby_umbrella .sortby_text {
+      font-size: 16px;
+   } 
    .submit_search {
       margin-left: 15px;
       margin-right: 20px;
