@@ -197,23 +197,6 @@ class AdminData::Util
     belongs_to_what(k).any? || has_many_what(k).any? || has_one_what(k).any? || habtm_what(k).any?
   end
 
-  def self.association_info_hash(k)
-    h = {}
-    if r = belongs_to_what(k)
-      h.merge!(:belongs_to => r ) if r.any?
-    end
-    if r = has_many_what(k)
-      h.merge!(:has_many => r ) if r.any?
-    end
-    if r = has_one_what(k)
-      h.merge!(:has_one => r ) if r.any?
-    end
-    if r = habtm_what(k)
-      h.merge!(:habtm => r ) if r.any?
-    end
-    h
-  end
-
   def self.string_representation_of_data(value)
     case value
     when BigDecimal
