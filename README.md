@@ -10,7 +10,7 @@
 
 ## Source Code ##
 * admin_data works as a gem with Rails 3.x project. Source for that resides in master branch.
-* admin_data works as a plugin with Rails 2.3.x project. Source code for that resides in branch called [rails2](https://github.com/neerajdotname/admin_data/tree/rails2)
+* admin_data works as a plugin with Rails 2.3.x project. Source code for that resides in branch called [rails2](https://github.com/neerajdotname/admin_data/tree/rails2) .
 
 #Test#
 
