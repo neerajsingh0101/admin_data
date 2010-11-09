@@ -20,7 +20,7 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_view
-    render :text => '<h2>not authorized</h2>' unless admin_data_is_allowed_to_view?
+    render :text => 'not authorized' unless admin_data_is_allowed_to_view?
   end
 
   def ensure_is_allowed_to_view_klass
