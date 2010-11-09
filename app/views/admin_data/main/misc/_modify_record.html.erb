@@ -1,6 +1,4 @@
 <% if controller.send(:admin_data_is_allowed_to_update?) %>
-  <% @help = link_to('[?]','http://neerajdotname.github.com/admin_data/#deletevs-destroy') %>
-  
   <div class="block rounded">
     <h3>Modify Record</h3>
     <div style='padding-left:15px'>
@@ -10,12 +8,10 @@
       <p>
         <%= link_to 'Delete', del_admin_data_on_k_path(:klass => klass.name.underscore, :id => model) ,
                { :confirm => ' You are deleting (not destroying) a record. Are you sure?', :method => :delete} %> 
-        <%= @help %>      
       </p>
       <p>
         <%= link_to "Destroy", admin_data_on_k_path(:klass => klass.name.underscore, :id => model), 
               { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
-        <%= @help %>      
       </p>
     </div>
   </div>
