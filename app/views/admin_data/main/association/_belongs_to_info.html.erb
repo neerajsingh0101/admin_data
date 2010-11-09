@@ -1,4 +1,4 @@
-<% if AdminData::Util.belongs_to_what(klass).size > 0 %>
+<% if AdminData::Util.belongs_to_what(klass).any? %>
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
     &nbsp;      

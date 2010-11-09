@@ -1,4 +1,4 @@
-<% if AdminData::Util.has_one_what(klass).size > 0 %>
+<% if AdminData::Util.has_one_what(klass).any? %>
   <p>
     <strong>has_one :</strong> 
     <%= admin_data_has_one(model, klass).html_safe %>
