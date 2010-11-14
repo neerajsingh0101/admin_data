@@ -1,0 +1,7 @@
+<% if AdminData::Util.habtm_what(klass).any? %>
+  <p>
+    <strong>has_and_belongs_to_many :</strong>
+    <%= admin_data_habtm_data(model, klass).html_safe %>
+    &nbsp;
+  </p> 
+<% end %>  

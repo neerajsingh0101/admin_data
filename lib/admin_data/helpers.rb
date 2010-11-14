@@ -100,6 +100,28 @@ module AdminData::Helpers
     end
     array.join(', ')
   end
+  
+  def admin_data_habtm_data(model, klass)
+    array = AdminData::Util.habtm_what(klass).inject([]) do |output, hm|
+      # same as admin_data_has_many_data()
+      begin
+        label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
+        if AdminData::Util.has_many_count(model,hm) > 0
+          has_many_klass_name = AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore
+          output << link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
+          :children => hm,
+          :base => klass.name.underscore,
+          :model_id => model.id))
+        else
+          output << label
+        end
+      rescue => e
+        Rails.logger.info AdminData::Util.exception_info(e)
+      end
+      output
+    end
+    array.join(', ')
+  end
 
   def admin_data_breadcrum(&block)
     render(:partial => '/admin_data/shared/breadcrum', :locals => {:data => capture(&block)})
