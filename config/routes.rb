@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
     match '/quick_search/:klass' => "search#quick_search", :as => :search
     match '/advance_search/:klass' => "search#advance_search", :as => :advance_search
+    
+    match '/public/*file' => "public#serve"
   end
 
   scope '/admin_data' do
