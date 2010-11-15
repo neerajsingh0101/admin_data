@@ -122,6 +122,14 @@ module AdminData::Helpers
     end
     array.join(', ')
   end
+  
+  def admin_data_habtm_values_for(model, klass)
+    assoc_klass = AdminData::Util.get_class_name_for_habtm_association(model, klass)
+    name = assoc_klass.columns.map(&:name).include?('name') ? :name : assoc_klass.primary_key
+    model.send(assoc_klass.table_name).map{ |e| 
+      link_to(e.send(name), admin_data_on_k_path(:klass => assoc_klass, :id => e.id))
+    }.join(", ").html_safe
+  end
 
   def admin_data_breadcrum(&block)
     render(:partial => '/admin_data/shared/breadcrum', :locals => {:data => capture(&block)})
