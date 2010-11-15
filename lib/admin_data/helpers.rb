@@ -102,16 +102,16 @@ module AdminData::Helpers
   end
   
   def admin_data_habtm_data(model, klass)
-    array = AdminData::Util.habtm_what(klass).inject([]) do |output, hm|
+    array = AdminData::Util.habtm_what(klass).inject([]) do |output, m|
       # same as admin_data_has_many_data()
       begin
-        label = hm + '(' + AdminData::Util.has_many_count(model,hm).to_s + ')'
-        if AdminData::Util.has_many_count(model,hm) > 0
-          has_many_klass_name = AdminData::Util.get_class_name_for_has_many_association(model,hm).name.underscore
+        label = m + '(' + AdminData::Util.habtm_count(model, m).to_s + ')'
+        if AdminData::Util.habtm_count(model, m) > 0 then
+          has_many_klass_name = AdminData::Util.get_class_name_for_habtm_association(model,m).name.underscore
           output << link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
-          :children => hm,
-          :base => klass.name.underscore,
-          :model_id => model.id))
+                      :children => m,
+                      :base => klass.name.underscore,
+                      :model_id => model.id))
         else
           output << label
         end
@@ -159,6 +159,31 @@ module AdminData::Helpers
         association_name = ref_klass.columns.map(&:name).include?('name') ? :name : ref_klass.primary_key
         all_for_dropdown = ref_klass.all(:order => "#{association_name} asc")
         html << f.collection_select(col.name, all_for_dropdown, :id, association_name, :include_blank => true)
+      end
+      html.join
+    rescue Exception => e
+      Rails.logger.info AdminData::Util.exception_info(e)
+      'could not retrieve' # returning nil
+    end
+  end
+  
+  def admin_data_form_field_for_habtm_records(klass, model, f, html)
+    begin
+      html = []
+      AdminData::Util.habtm_what(klass).each do |k|
+        assoc_klass = AdminData::Util.get_class_name_for_habtm_association(model, k)
+        
+        html << "<div class='col_box'>"
+        html << "  <span class='col_name'>#{assoc_klass.table_name}</span>"
+        html << "  <span class='col_type'>[integer]</span>"
+        html << "</div>"
+        
+        order_by = assoc_klass.columns.map(&:name).include?('name') ? :name : assoc_klass.primary_key
+        all = assoc_klass.all(:order => order_by)
+        selected = model.send(assoc_klass.table_name).map{|e| e.id}
+        html << f.collection_select(assoc_klass.table_name, all, :id, order_by, 
+              {:include_blank => false, :selected => selected}, 
+              {:multiple => true, :size => (all.count > 10 ? 8 : 4)})
       end
       html.join
     rescue Exception => e
