@@ -8,6 +8,12 @@
   </div>  
 <% end %>
 
+<% if AdminData::Util.habtm_what(klass).any? %>
+  <div class='data'>
+    <%= admin_data_form_field_for_habtm_records(klass, @model, f, '').html_safe %>
+  </div>
+<% end %>
+
 <div class='group navform' style='padding-top:10px;'>
   <% if params[:action] == 'edit' || params[:action] == 'update' %>
     <% label = 'Update' %>

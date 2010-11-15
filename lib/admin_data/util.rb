@@ -49,10 +49,22 @@ class AdminData::Util
 
 
   def self.label_values_pair_for(model, view)
-    model.class.columns.inject([]) do |sum, column|
+    data = model.class.columns.inject([]) do |sum, column|
       tmp = view.admin_data_get_value_for_column(column, model, :limit => nil)
       sum << [column.name, view.send(:h,tmp)]
     end
+    klass = model.class
+    if habtm_what(klass).any? then
+      # add has_and_belongs_to_many relationships
+      habtm_what(klass).each do |k|
+        assoc_klass = get_class_name_for_habtm_association(model, k)
+        name = assoc_klass.columns.map(&:name).include?('name') ? :name : assoc_klass.primary_key
+        data << [ assoc_klass.table_name, model.send(assoc_klass.table_name).map{ |e| 
+          view.link_to(e.send(name), view.admin_data_on_k_path(:klass => assoc_klass, :id => e.id))
+        }.join(", ").html_safe ]
+      end
+    end
+    data
   end
 
   def self.custom_value_for_column(column, model)
@@ -151,6 +163,13 @@ class AdminData::Util
     end
     data.join("\n")
   end
+  
+  def self.get_class_name_for_habtm_association(model, has_many_string)
+    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
+      value.macro == :has_and_belongs_to_many && value.name.to_s == has_many_string
+    end
+    data.klass if data # output of detect from hash is an array with key and value
+  end
 
   def self.get_class_name_for_has_many_association(model, has_many_string)
     data = model.class.name.camelize.constantize.reflections.values.detect do |value|
@@ -191,6 +210,10 @@ class AdminData::Util
 
   def self.habtm_what(klass)
     associations_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
+  end
+  
+  def self.habtm_count(model, m)
+    model.send(m.intern).count
   end
 
   def self.association_info_size(k)

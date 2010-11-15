@@ -69,6 +69,18 @@ class AdminData::MainController  < AdminData::BaseController
     model_name_underscored = @klass.name.underscore
     model_attrs = params[model_name_underscored]
     @columns = columns_list
+    
+    if AdminData::Util.habtm_what(@klass).any? then
+      AdminData::Util.habtm_what(klass).each do |k|
+        assoc_klass = AdminData::Util.get_class_name_for_habtm_association(model, k)
+        if model_attrs.include? assoc_klass.table_name then
+          model_attrs[assoc_klass.table_name].map! do |s|
+            assoc_klass.find(s.to_i)
+          end
+        end
+      end
+    end
+    
     respond_to do |format|
       if @model.update_attributes(model_attrs)
         format.html do
