@@ -51,7 +51,7 @@ class AdminData::Util
   def self.label_values_pair_for(model, view)
     data = model.class.columns.inject([]) do |sum, column|
       tmp = view.admin_data_get_value_for_column(column, model, :limit => nil)
-      sum << [column.name, view.send(:h,tmp)]
+      sum << [ column.name, (tmp.html_safe? ? tmp : view.send(:h,tmp)) ]
     end
     klass = model.class
     if habtm_what(klass).any? then
@@ -60,7 +60,10 @@ class AdminData::Util
         assoc_klass = get_class_name_for_habtm_association(model, k)
         name = assoc_klass.columns.map(&:name).include?('name') ? :name : assoc_klass.primary_key
         data << [ assoc_klass.table_name, model.send(assoc_klass.table_name).map{ |e| 
-          view.link_to(e.send(name), view.admin_data_on_k_path(:klass => assoc_klass, :id => e.id))
+          view.link_to(
+            e.send(name), 
+            view.admin_data_on_k_path(:klass => assoc_klass, 
+                                      :id => e.send(assoc_klass.primary_key)))
         }.join(", ").html_safe ]
       end
     end
