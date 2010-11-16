@@ -270,6 +270,21 @@ module AdminData::Helpers
         '<actual data is not being shown because truncate method failed.>'
       end
     else
+
+      # check for an associated class id and add it's name to the value
+      ar = model.class.reflections.values.detect{ |v| v.primary_key_name == column.name}
+      if not ar.nil? then
+        name = ar.klass.columns.map(&:name).include?('name') ? :name : ar.klass.primary_key
+        assoc = model.send(ar.name)
+        if not name.nil? then
+          value = ("#{value} (" + 
+                  link_to(
+                    assoc.send(name), 
+                    admin_data_on_k_path(:klass => ar.klass, 
+                                              :id => assoc.send(ar.klass.primary_key))) + ")").html_safe
+        end
+      end
+      
       value
     end
   end
