@@ -28,7 +28,7 @@ class AdminData::SearchController < AdminData::BaseController
       params[:query] = params[:query].strip unless params[:query].blank?
       cond = build_quick_search_conditions(@klass, params[:query])
       h = { :page => params[:page], :per_page => per_page, :order => @order, :conditions => cond }
-      @records = @klass.paginate(h)
+      @records = @klass.unscoped.paginate(h)
     end
     respond_to {|format| format.html}
   end
