@@ -34,11 +34,7 @@
           <% end %>  
         </td>
       <% end %>
-      <% if AdminData::Util.habtm_what(klass).any? %>
-        <% AdminData::Util.habtm_what(klass).each do |k| %>
-          <td> <%= admin_data_habtm_values_for(record, k) %> </td>
-        <% end %>
-      <% end %>
+      
     </tr>
   <% end %>  
 </table>
