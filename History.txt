@@ -1,4 +1,8 @@
 
+=== 2010-11-08 v1.0.19
+* used unscoped on the model to have basic search result always in the order user wants
+* remove inline css
+
 === 2010-11-08 v1.0.18
 * disable the columns not being used
 * use parseJSON instead of eval
