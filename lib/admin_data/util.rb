@@ -168,7 +168,8 @@ class AdminData::Util
   end
   
   def self.get_class_name_for_habtm_association(model, has_many_string)
-    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
+    klass = model.kind_of?(Class) ? model : model.class
+    data = klass.name.camelize.constantize.reflections.values.detect do |value|
       value.macro == :has_and_belongs_to_many && value.name.to_s == has_many_string
     end
     data.klass if data # output of detect from hash is an array with key and value
