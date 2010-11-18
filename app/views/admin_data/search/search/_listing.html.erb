@@ -15,11 +15,6 @@
       <% AdminData::Util.columns_order(klass.name).each do |column| %>
         <th> <%= column %> </th>
       <% end %>
-      <% if AdminData::Util.habtm_what(klass).any? %>
-        <% AdminData::Util.habtm_what(klass).each do |k| %>
-          <th> <%= k %> </th>
-        <% end %>
-      <% end %>
     </tr>
   </thead>
 
