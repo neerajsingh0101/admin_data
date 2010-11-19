@@ -79,8 +79,10 @@ class AdminData::SearchController < AdminData::BaseController
         render :text => "#{params[:base]} is an invalid value", :status => :not_found
         return
       end
-      unless AdminData::Util.has_many_what(model_klass).include?(params[:children])
-        render :text => "<h2>#{params[:children]} is not a valid has_many association</h2>",
+      if AdminData::Util.has_many_what(model_klass).include?(params[:children]) || AdminData::Util.habtm_what(model_klass).include?(params[:children])
+        #proceed
+      else
+        render :text => "#{params[:children]} is not a valid has_many association",
         :status => :not_found
         return
       end
