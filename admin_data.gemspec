@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{admin_data}
-  s.version = "1.0.19"
+  s.version = "1.0.20"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-11-17}
+  s.date = %q{2010-11-19}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -23,11 +23,13 @@ Gem::Specification.new do |s|
      "app/controllers/admin_data/feed_controller.rb",
      "app/controllers/admin_data/main_controller.rb",
      "app/controllers/admin_data/migration_controller.rb",
+     "app/controllers/admin_data/public_controller.rb",
      "app/controllers/admin_data/search_controller.rb",
      "app/views/admin_data/feed/index.rss.builder",
      "app/views/admin_data/main/all_models.html.erb",
      "app/views/admin_data/main/association/_association_info.html.erb",
      "app/views/admin_data/main/association/_belongs_to_info.html.erb",
+     "app/views/admin_data/main/association/_habtm_info.html.erb",
      "app/views/admin_data/main/association/_has_many_info.html.erb",
      "app/views/admin_data/main/association/_has_one_info.html.erb",
      "app/views/admin_data/main/edit.html.erb",

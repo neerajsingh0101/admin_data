@@ -1,3 +1,6 @@
+=== 2010-11-08 v1.0.20
+* support for habtm
+* do not get the list of nested models. It breaks routing. Comprehensive nested models fix coming soon.
 
 === 2010-11-08 v1.0.19
 * used unscoped on the model to have basic search result always in the order user wants
