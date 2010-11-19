@@ -23,7 +23,7 @@
       <% AdminData::Util.columns_order(klass.name).each do |column| %>
         <td>
           <% if (column == klass.primary_key) %>
-            <%= link_to(record.send(column), admin_data_on_k_path(:klass => klass.name.underscore, :id => record)) %>
+            <%= link_to(record.send(column), admin_data_path(:klass => klass.name.underscore, :id => record)) %>
          <% else %>
             <%=h  admin_data_get_value_for_column(admin_data_column_native(klass, column), record) %>
           <% end %>  

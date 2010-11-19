@@ -14,7 +14,7 @@
       <div class="inner umbrella">
         <h1>Create a new record</h1>
         <%= form_for @model,  :as => @klass.name.underscore.to_sym, 
-                              :url  => admin_data_on_k_index_path(:klass => @klass.name), 
+                              :url  => admin_data_index_path(:klass => @klass.name), 
                               :html => {:class => 'form', :method => :post} do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>
           <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>

@@ -16,12 +16,12 @@
   </li>
 
   <li class="<%=@table_structure_tab_active%>">
-    <%= link_to 'Table Structure', table_structure_admin_data_on_k_path(:klass => klass.name.underscore) %>
+    <%= link_to 'Table Structure', admin_data_table_structure_path(:klass => klass.name.underscore) %>
   </li>
   
   <% if admin_data_is_allowed_to_update? %>
     <li class="<%=@add_new_record_tab_active%>"> 
-      <%= link_to '+Add New Record', new_admin_data_on_k_path(:klass => klass.name.underscore) %>
+      <%= link_to '+Add New Record', admin_data_new_path(:klass => klass.name.underscore) %>
     </li>
   <% end %>  
   

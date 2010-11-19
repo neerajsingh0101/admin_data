@@ -44,3 +44,7 @@ begin
 rescue LoadError => le
   puts "Jeweler not available. Install it for jeweler-related tasks with: gem install jeweler: #{le.message}"
 end
+
+
+
+#TODO delete and destroy from show page do not provide any feedback

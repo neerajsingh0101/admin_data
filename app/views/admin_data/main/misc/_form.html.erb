@@ -8,7 +8,7 @@
   </div>  
 <% end %>
 
-<% if AdminData::Util.habtm_what(klass).any? %>
+<% if AdminData::ActiveRecordUtil.declared_habtm_association_names(klass).any? %>
   <div class='data'>
     <%= admin_data_form_field_for_habtm_records(klass, @model, f, '').html_safe %>
   </div>

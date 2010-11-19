@@ -79,11 +79,11 @@ class AdminData::SearchController < AdminData::BaseController
         render :text => "#{params[:base]} is an invalid value", :status => :not_found
         return
       end
-      if AdminData::Util.has_many_what(model_klass).include?(params[:children]) || AdminData::Util.habtm_what(model_klass).include?(params[:children])
+      #TODO write test for this condition
+      if AdminData::ActiveRecordUtil.declared_has_many_association_names(model_klass).include?(params[:children]) || AdminData::ActiveRecordUtil.declared_habtm_association_names(model_klass).include?(params[:children])
         #proceed
       else
-        render :text => "#{params[:children]} is not a valid has_many association",
-        :status => :not_found
+        render :text => "#{params[:children]} is not a valid has_many association", :status => :not_found
         return
       end
     end

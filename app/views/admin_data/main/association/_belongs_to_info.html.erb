@@ -1,4 +1,4 @@
-<% if AdminData::Util.belongs_to_what(klass).any? %>
+<% if AdminData::ActiveRecordUtil.declared_belongs_to_association_names(klass).any? %>
   <p class='belongs_to'>
     <strong>belongs_to :</strong> 
     &nbsp;      

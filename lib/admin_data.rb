@@ -15,7 +15,9 @@ require 'admin_data_date_validation'
 require 'admin_data/helpers'
 require 'admin_data/chelper'
 require 'admin_data/settings'
+require 'admin_data/extension'
 require 'admin_data/util'
+require 'admin_data/active_record_util'
 
 AdminData::Config.initialize_defaults
 ActionView::Base.send :include, AdminData::Helpers

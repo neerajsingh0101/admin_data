@@ -53,7 +53,8 @@ class AdminData::Util
       tmp = view.admin_data_get_value_for_column(column, model, :limit => nil)
       sum << [ column.name, (tmp.html_safe? ? tmp : view.send(:h,tmp)) ]
     end
-    data
+    extension = AdminData::Extension.show_info(model)
+    data + extension
   end
 
   def self.custom_value_for_column(column, model)
@@ -153,63 +154,6 @@ class AdminData::Util
     data.join("\n")
   end
   
-  def self.get_class_name_for_habtm_association(model, has_many_string)
-    klass = model.kind_of?(Class) ? model : model.class
-    data = klass.name.camelize.constantize.reflections.values.detect do |value|
-      value.macro == :has_and_belongs_to_many && value.name.to_s == has_many_string
-    end
-    data.klass if data # output of detect from hash is an array with key and value
-  end
-
-  def self.get_class_name_for_has_many_association(model, has_many_string)
-    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
-      value.macro == :has_many && value.name.to_s == has_many_string
-    end
-    data.klass if data # output of detect from hash is an array with key and value
-  end
-
-  def self.get_class_name_for_belongs_to_class(model, belongs_to_string)
-    reflections = model.class.name.camelize.constantize.reflections
-    options = reflections.fetch(belongs_to_string.intern).send(:options)
-    return {:polymorphic => true} if options.keys.include?(:polymorphic) && options.fetch(:polymorphic)
-    {:klass_name => reflections[belongs_to_string.intern].klass.name }
-  end
-
-  def self.get_class_name_for_has_one_association(model, has_one_string)
-    data = model.class.name.camelize.constantize.reflections.values.detect do |value|
-      value.macro == :has_one && value.name.to_s == has_one_string
-    end
-    data.klass if data
-  end
-
-  def self.has_many_count(model, hm)
-    model.send(hm.intern).count
-  end
-
-  def self.has_many_what(klass)
-    associations_for(klass, :has_many).map(&:name).map(&:to_s)
-  end
-
-  def self.has_one_what(klass)
-    associations_for(klass, :has_one).map(&:name).map(&:to_s)
-  end
-
-  def self.belongs_to_what(klass)
-    associations_for(klass, :belongs_to).map(&:name).map(&:to_s)
-  end
-
-  def self.habtm_what(klass)
-    associations_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
-  end
-  
-  def self.habtm_count(model, m)
-    model.send(m.intern).count
-  end
-
-  def self.association_info_size(k)
-    belongs_to_what(k).any? || has_many_what(k).any? || has_one_what(k).any? || habtm_what(k).any?
-  end
-
   def self.string_representation_of_data(value)
     case value
     when BigDecimal
