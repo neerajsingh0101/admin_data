@@ -243,6 +243,7 @@ module AdminData::Helpers
   # uses truncate method
   # options supports :limit which is applied if the column type is string or text.
   # calls the inspect method to convert to a string if the column is serialized.
+  # TODO rspec test limit option
   def admin_data_get_value_for_column(column, model, options = {})
     options.reverse_merge!(:limit => 400)
 
@@ -259,22 +260,7 @@ module AdminData::Helpers
         '<actual data is not being shown because truncate method failed.>'
       end
     else
-
-      # check for an associated class id and add it's name to the value
-      ar = model.class.reflections.values.detect{ |v| v.primary_key_name == column.name}
-      if not ar.nil? then
-        name = ar.klass.columns.map(&:name).include?('name') ? :name : ar.klass.primary_key
-        assoc = model.send(ar.name)
-        if not name.nil? then
-          value = ("#{value} (" +
-          link_to(
-          assoc.send(name),
-          admin_data_path(:klass => ar.klass,
-          :id => assoc.send(ar.klass.primary_key))) + ")").html_safe
-        end
-      end
-
-      value
+      value.inspect
     end
   end
 
