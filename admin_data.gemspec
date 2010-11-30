@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-11-27}
+  s.date = %q{2010-11-30}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -60,6 +60,7 @@ Gem::Specification.new do |s|
      "lib/admin_data.rb",
      "lib/admin_data/active_record_util.rb",
      "lib/admin_data/chelper.rb",
+     "lib/admin_data/config.rb",
      "lib/admin_data/extension.rb",
      "lib/admin_data/helpers.rb",
      "lib/admin_data/railtie.rb",
@@ -67,33 +68,7 @@ Gem::Specification.new do |s|
      "lib/admin_data/settings.rb",
      "lib/admin_data/util.rb",
      "lib/admin_data/version.rb",
-     "lib/admin_data_date_validation.rb",
-     "lib/css/base.css",
-     "lib/css/vendor/jquery-ui-1.7.2.custom.css",
-     "lib/js/advance_search/act_on_result.js",
-     "lib/js/advance_search/advance_search.js",
-     "lib/js/advance_search/advance_search_structure.js",
-     "lib/js/advance_search/ajaxify_advance_search.js",
-     "lib/js/advance_search/build_first_row.js",
-     "lib/js/advance_search/event_bindings.js",
-     "lib/js/advance_search/global_ajax_setting.js",
-     "lib/js/advance_search/trigger_submit_on_domready.js",
-     "lib/js/misc/drop_down_change.js",
-     "lib/js/misc/js_util.js",
-     "lib/js/misc/quick_search_input_focus.js",
-     "lib/js/test/act_on_result.js",
-     "lib/js/test/advance_search.js",
-     "lib/js/test/ajaxify_advance_search.js",
-     "lib/js/test/build_first_row.js",
-     "lib/js/test/event_bindings.js",
-     "lib/js/vendor/jack.js",
-     "lib/js/vendor/jquery-1.4.2.js",
-     "lib/js/vendor/jquery-ui-1.7.2.custom.min.js",
-     "lib/js/vendor/jquery.ba-isjquery.js",
-     "lib/js/vendor/jquery.form.js",
-     "lib/js/vendor/log.js",
-     "lib/js/vendor/qunit.js",
-     "lib/js/vendor/rails.js"
+     "lib/admin_data_date_validation.rb"
   ]
   s.homepage = %q{http://github.com/neerajdotname/admin_data}
   s.rdoc_options = ["--charset=UTF-8"]
