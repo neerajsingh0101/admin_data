@@ -5,7 +5,7 @@ AdminData.advanceSearch = {
 	buildFirstRow: function() {
 
 		var img = $('<img />', {
-			src: 'https://github.com/neerajdotname/admin_data/raw/master/public/images/add.png'
+			src: '/admin_data/public/images/add.png'
 		});
 
 		$('#advance_search_table').append(this.buildRow())
@@ -42,7 +42,7 @@ AdminData.advanceSearch = {
 
 	buildCol4: function() {
 		var img = $('<img />', {
-			src: 'https://github.com/neerajdotname/admin_data/raw/master/public/images/no.png'
+			src: '/admin_data/public/images/no.png'
 		});
 
 		return $('<td />').append($('<a />', {
