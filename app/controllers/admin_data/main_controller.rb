@@ -4,8 +4,6 @@ class AdminData::MainController  < AdminData::BaseController
 
   before_filter :get_class_from_params, :only => [ :table_structure, :show, :destroy, :del, :edit, :new, :update, :create]
 
-  before_filter :ensure_is_allowed_to_view
-
   before_filter :get_model_and_verify_it, :only => [:destroy, :del, :edit, :update, :show]
 
   before_filter :ensure_is_allowed_to_view_klass, :except => [:index]

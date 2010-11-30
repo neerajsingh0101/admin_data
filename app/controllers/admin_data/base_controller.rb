@@ -2,6 +2,8 @@ class AdminData::BaseController < ApplicationController
 
   unloadable
 
+  before_filter :ensure_is_allowed_to_view
+
   helper_method :admin_data_is_allowed_to_update?
 
   layout 'admin_data'

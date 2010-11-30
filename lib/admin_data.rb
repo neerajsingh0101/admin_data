@@ -1,6 +1,7 @@
 require 'will_paginate'
 
 module AdminData
+  LIBPATH = File.expand_path(::File.dirname(__FILE__)) + File::SEPARATOR   
 end
 
 if Rails.version >= '3.0'
