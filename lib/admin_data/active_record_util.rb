@@ -18,9 +18,9 @@ module AdminData
     end
 
     # returns declared association names like
-    # #=> [comments]
-    # #=> [positive_comments]
-    # #=> [negative_comments]
+    # #=> ['comments']
+    # #=> ['positive_comments']
+    # #=> ['negative_comments']
     def self.delcared_association_names_for(klass, association_type)
       klass.name.camelize.constantize.reflections.values.select do |value|
         value.macro == association_type
@@ -41,7 +41,8 @@ module AdminData
     #   has_many :comments
     # end
     #
-    # AdminData::ActiveRecordUtil.habtm_klass_for_association_name(User, 'comments') #=> Comment
+    # ActiveRecordUtil.klass_for_association_type_and_name(User, :has_many, 'comments') #=> Comment
+    #
     def self.klass_for_association_type_and_name(klass, association_type, association_name)
       data = klass.name.camelize.constantize.reflections.values.detect do |value|
         value.macro == association_type && value.name.to_s == association_name
