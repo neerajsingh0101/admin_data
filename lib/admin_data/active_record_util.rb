@@ -51,7 +51,8 @@ module AdminData
     # TODO test with polymorphic
 
 
-    def self.association_info_size(k)
+    # returns false if the given Klass has no association info. Otherwise returns true.
+    def self.has_association_info?(k)
       AdminData::ActiveRecordUtil.declared_belongs_to_association_names(k).any? ||
       AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||
       AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||

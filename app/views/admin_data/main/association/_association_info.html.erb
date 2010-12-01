@@ -1,10 +1,10 @@
 <div class="block rounded">
   <h3>Association Information</h3>
   <div class='content association_info'>
-    <% if AdminData::ActiveRecordUtil.association_info_size(klass) %>
+    <% if AdminData::ActiveRecordUtil.has_association_info?(klass) %>
       <%= render 'admin_data/main/association/belongs_to_info' ,  :klass => klass, :model => model %>
       <%= render 'admin_data/main/association/has_one_info',      :klass => klass, :model => model %>
-      <%= render 'admin_data/main/association/has_many_info' ,    :klass => klass, :model => model %> 
+      <%= render 'admin_data/main/association/has_many_info' ,    :klass => klass, :model => model %>
       <%= render 'admin_data/main/association/habtm_info' ,       :klass => klass, :model => model %>
     <% end %>
   </div>
