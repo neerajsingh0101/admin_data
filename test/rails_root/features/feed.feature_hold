@@ -1,0 +1,8 @@
+Feature: RSS feed availabilty for all the models
+
+  Scenario: RSS feed availability
+    Given a user exists
+    Given I am logged in through http basic authentication
+    Given I visit user feed page
+    Then show me the page
+    Then I should see "Feeds from admin_data User"

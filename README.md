@@ -14,7 +14,7 @@
 
 #Test#
 
-Test code currently resides in a different project [admin_data_test](http://github.com/neerajdotname/admin_data_test) . Test code should be merged into this project very soon.
+cd _test/rails_app_ and read the instructions mentioned at README.md there.
 
 
 ### License

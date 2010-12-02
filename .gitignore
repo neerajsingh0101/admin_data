@@ -4,8 +4,12 @@ tmp/*
 *.swp
 *.db
 response.html
-test/rails_root/tmp/*.*
-test/rails_root/log/*.*
 tags
 pkg
 .rvmrc
+
+test/rails_root/tmp/*.*
+test/rails_root/log/*.*
+test/rails_root/vendor/**/*.*
+test/rails_root/db/*.sqlite3
+test/rails_root/.rvmrc
