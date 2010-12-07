@@ -2,13 +2,13 @@ module AdminData
   class PublicController < ApplicationController
 
     def serve
+      path = File.join(AdminData.public_dir,params[:file]))
 
-      # validate filename with a white list
-      unless self.class.admin_data_assets.include? params[:file]
+      unless File.expanded_path(path) =~ /admin_data/
         render :nothing => true, :status => 404 and return
       end
 
-      opts = {:text => File.read(File.join(AdminData.public_dir,params[:file])), :cache => true}
+      opts = {:text => File.read(path), :cache => true}
 
       case params[:file]
       when /\.css$/i then opts[:content_type] = "text/css"
@@ -21,17 +21,5 @@ module AdminData
       render opts
     end
 
-    protected
-
-    # Cached list of all assets provided by admin_data
-    # It is used to ensure security in the serve method
-    def self.admin_data_assets
-      @admin_data_assets ||= (
-        Dir.glob(File.join(AdminData.public_dir, '**', '*')).map do |path|
-           # we want only relative paths
-           path.split(AdminData.public_dir, 2).last
-        end
-      )
-    end
   end
 end
