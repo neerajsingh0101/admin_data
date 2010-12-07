@@ -27,9 +27,9 @@ module AdminData
     # It is used to ensure security in the serve method
     def self.admin_data_assets
       @admin_data_assets ||= (
-        Dir.glob(File.join(AdminData.public_dir,'**','*')).map do |path|
+        Dir.glob(File.join(AdminData.public_dir, '**', '*')).map do |path|
            # we want only relative paths
-           path = path.split(AdminData.public_dir,2).last
+           path.split(AdminData.public_dir, 2).last
         end
       )
     end
