@@ -6,15 +6,15 @@
       <%= @page_title.blank? ? 'admin_data' : "#{@page_title} - admin_data" %>
     </title>
 
-    <%= AdminData::Util.google_hosted_jquery_ui_css(self).html_safe %>
+    <%= stylesheet_link_tag('vendor/jquery-ui-1.7.2.custom.css') %>
 
     <%= stylesheet_link_tag('base') %>
 
-    <%= AdminData::Util.google_hosted_jquery(self).html_safe %>
+    <%= javascript_include_tag('vendor/jquery-1.4.2.js', 'vendor/jquery-ui-1.7.2.custom.min.js') %>
 
-    <%= javascript_include_tag('vendor/jquery_form') %> 
+    <%= javascript_include_tag('vendor/jquery_form') %>
 
-    <%= javascript_include_tag('vendor/log', 
+    <%= javascript_include_tag('vendor/log',
                                                'vendor/rails',
                                                'misc/drop_down_change',
                                                'misc/quick_search_input_focus',
@@ -23,8 +23,8 @@
 
     <% if params[:action] == 'advance_search' %>
       <%= javascript_include_tag(
-                                                 'advance_search/advance_search', 
-                                                 'advance_search/advance_search_structure', 
+                                                 'advance_search/advance_search',
+                                                 'advance_search/advance_search_structure',
                                                  'advance_search/ajaxify_advance_search',
                                                  'advance_search/act_on_result',
                                                  'advance_search/build_first_row',
@@ -34,7 +34,7 @@
     <% end %>
 
     <%= csrf_meta_tag %>
-  
+
   </head>
 
   <body>
@@ -46,14 +46,14 @@
     <div>
       <%= render 'admin_data/shared/header', :drop_down_for_klasses => @drop_down_for_klasses %>
       <div class='clear'></div>
-    </div>  
+    </div>
     <div id="container">
       <div id="wrapper">
         <%= yield %>
-        <div class="clear"></div>      
-      </div>    
+        <div class="clear"></div>
+      </div>
       <%= render :partial => 'admin_data/shared/powered_by' %>
     </div>
   </body>
-  
+
 </html>

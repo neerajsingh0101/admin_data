@@ -1,0 +1,6 @@
+<% if AdminData::ActiveRecordUtil.declared_has_one_association_names(klass).any? %>
+  <p>
+    <strong>has_one :</strong>
+    <%= has_one(model, klass).html_safe %>
+  </p>
+<% end %>

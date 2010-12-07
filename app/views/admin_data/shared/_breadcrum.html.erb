@@ -1,10 +1,16 @@
 <div class='breadcrum rounded'>
-  <%= link_to 'Home',admin_data_index_path %>
-  
+  <%= link_to 'Home', admin_data_root_path %>
+
+  <% unless data.blank? %>
+    >
+  <% end %>
+
   <%= data %>
+
   <% if params[:klass] && !(params[:action] == 'show') %>
     <span class='description'>
-      (<%= pluralize(@klass.count, 'record') %> ) 
-    </span>  
-  <% end %>  
+      (<%= pluralize(@klass.count, 'record') %> )
+    </span>
+  <% end %>
+
 </div>

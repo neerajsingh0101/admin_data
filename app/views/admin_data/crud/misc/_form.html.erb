@@ -4,13 +4,13 @@
     <span class='col_type'>[<%= col.type.to_s %>]</span>
   </div>
   <div class='data'>
-    <%= admin_data_form_field(klass, @model, col, f).html_safe %>
-  </div>  
+    <%= form_field(klass, @model, col, f).html_safe %>
+  </div>
 <% end %>
 
 <% if AdminData::ActiveRecordUtil.declared_habtm_association_names(klass).any? %>
   <div class='data'>
-    <%= admin_data_form_field_for_habtm_records(klass, @model, f, '').html_safe %>
+    <%= form_field_for_habtm_records(klass, @model, f, '').html_safe %>
   </div>
 <% end %>
 
@@ -24,15 +24,15 @@
 </div>
 
 <style>
-  .col_name { 
+  .col_name {
     color: #222;
     font-size: 15px;
   }
   .col_type {
     color: dimgray;
   }
-  .col_box { 
+  .col_box {
     margin-top: 20px;
     padding-bottom: 4px;
   }
-</style>   
+</style>

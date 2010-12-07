@@ -2,25 +2,25 @@
 
   <div>
     <h1 class='search_path'>
-      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>  
+      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
       >
-      <%= link_to "ID #{@model.id}", ''%>  
+      <%= link_to "ID #{@model.id}", ''%>
     </h1>
     <div class='clear'></div>
   </div>
 
   <%= render 'admin_data/shared/flash_message', :model => @model %>
-  
+
   <div class="block" id="block-tables">
-    <div class="content rounded">          
+    <div class="content rounded">
       <div class="inner">
         <table class="table with_border" cellspacing="3" cellpadding="3">
           <% AdminData::Util.label_values_pair_for(@model, self).each do |pair| %>
             <tr>
               <td><%=pair[0]%></td>
               <td class='smaller'><%=pair[1]%></td>
-            </tr>   
-          <% end %>   
+            </tr>
+          <% end %>
         </table>
       </div>
     </div>
@@ -28,9 +28,9 @@
 </div>
 
 <div id="sidebar">
-  <%= render 'admin_data/main/association/association_info', :klass => @klass, :model => @model %>
-  <%= render 'admin_data/main/misc/modify_record', :model => @model, :klass => @klass %>
-</div> 
+  <%= render 'admin_data/crud/association/association_info', :klass => @klass, :model => @model %>
+  <%= render 'admin_data/crud/misc/modify_record', :model => @model, :klass => @klass %>
+</div>
 
 <style>
   #main {
@@ -39,4 +39,4 @@
   table.with_border td.smaller {
     font-size: 120%;
   }
-</style>  
+</style>

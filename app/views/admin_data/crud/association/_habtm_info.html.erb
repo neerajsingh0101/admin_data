@@ -1,7 +1,7 @@
 <% if AdminData::ActiveRecordUtil.declared_habtm_association_names(klass).any? %>
   <p>
     <strong>has_and_belongs_to_many :</strong>
-    <%= admin_data_habtm_data(model, klass).html_safe %>
+    <%= habtm_data(model, klass).html_safe %>
     &nbsp;
-  </p> 
-<% end %>  
+  </p>
+<% end %>

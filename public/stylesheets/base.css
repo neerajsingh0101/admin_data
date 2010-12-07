@@ -15,7 +15,7 @@ a img { border: none; }
 
 body {
   font-size: 15px;
-  font-family: sans-serif;  
+  font-family: sans-serif;
   background: #fff;
 }
 
@@ -37,10 +37,10 @@ body {
 
 #header {
   position: relative;
-  padding-top: 0px;  
+  padding-top: 0px;
   margin-top: 0px;
   margin-bottom: 15px;
-  margin:0; 
+  margin:0;
   background: #ddd;
   float: left;
   width: 100%;
@@ -50,7 +50,7 @@ body {
 
 #header h1 {
   margin: 0;
-  padding: 10px 0;  
+  padding: 10px 0;
   font-size: 40px;
   float: left;
   padding: 15px 45px 15px 10px;
@@ -68,9 +68,9 @@ body {
 }
 
 
-#main {  
+#main {
   width: 70%;
-  float: left;    
+  float: left;
   background: #fff;
   padding: 0 20px;
 }
@@ -91,10 +91,10 @@ body {
 
 #sidebar {
   width: 25%;
-  float: right;      
+  float: right;
 }
 
-#sidebar h3 {  
+#sidebar h3 {
   padding: 10px 15px;
   margin: 0;
   font-size: 13px;
@@ -128,7 +128,7 @@ body {
 }
 
 #main .block .content .inner {
-  padding: 0 15px 15px;  
+  padding: 0 15px 15px;
 }
 
 #main .main p.first {
@@ -138,7 +138,7 @@ body {
 #user-navigation {
   position: absolute;
   top: 0px;
-  right: 20px;  
+  right: 20px;
 }
 
 #main-navigation {
@@ -152,7 +152,7 @@ body {
 }
 
 #user-navigation ul li, #main-navigation ul li, .secondary-navigation ul li {
-  float: left;  
+  float: left;
 }
 
 #main-navigation ul li {
@@ -176,14 +176,14 @@ body {
 }
 
 .secondary-navigation {
-  font-size: 13px;  
+  font-size: 13px;
   border-bottom-width: 10px;
   border-bottom-style: solid;
 }
 
 .secondary-navigation ul li a {
   display: block;
-  padding: 10px 15px;  
+  padding: 10px 15px;
 }
 
 #footer {
@@ -194,7 +194,7 @@ body {
 
 .pagination a, .pagination span, .pagination em {
   padding: 2px 5px;
-  margin-right: 5px; 
+  margin-right: 5px;
   display: block;
   float: left;
   border-style: solid;
@@ -202,17 +202,17 @@ body {
 }
 
 .pagination em {
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 .pagination a {
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 /* tables */
 .table {
   width: 100%;
-  border-collapse: collapse;  
+  border-collapse: collapse;
   margin-bottom: 15px;
 }
 
@@ -227,7 +227,7 @@ body {
 }
 
 .table th.last {
-  width: 200px;  
+  width: 200px;
 }
 
 .table .checkbox {
@@ -295,7 +295,7 @@ input.checkbox {
 
 .form label.label {
   display: block;
-  padding-bottom: 2px;  
+  padding-bottom: 2px;
   font-weight: bold;
 }
 
@@ -327,7 +327,7 @@ ul.list li {
 }
 
 ul.list li .left {
-  float: left;  
+  float: left;
 }
 
 ul.list li .left .avatar {
@@ -350,7 +350,7 @@ ul.list li .item .avatar {
 
 #box {
   width: 500px;
-  margin: 50px auto;  
+  margin: 50px auto;
 }
 
 #box .block {
@@ -359,7 +359,7 @@ ul.list li .item .avatar {
 
 #box .block h2 {
   padding: 10px 15px;
-  margin: 0;  
+  margin: 0;
 }
 
 #box .block .content {
@@ -593,7 +593,7 @@ hr {
 /* tables */
 
 .table th {
-  background: #36393d;  
+  background: #36393d;
   color: #FFF;
 }
 
@@ -830,7 +830,7 @@ input.button { cursor: pointer; }
   padding-left:30px;
 }
 
-.search_form { 
+.search_form {
   margin:15px 5px 5px 5px;
   padding:5px;
 }
@@ -941,7 +941,7 @@ table#view_table tr:hover {
 }
 
 
-.klass_box { 
+.klass_box {
   margin: 15px 0 15px 0;
   padding: 15px 20px 15px 0;
   line-height: 40px;
@@ -1024,7 +1024,7 @@ table#missing_index tr td {
   font-size: 12px;
 }
 
-.submit_search { 
+.submit_search {
     -moz-border-radius: 5px; /* Firefox */
     -webkit-border-radius: 5px; /* Safari */
   float: left;
@@ -1106,3 +1106,4 @@ ul#subnav li a:hover {
   margin:22px 0 0 10px;
   color:gray;
 }
+

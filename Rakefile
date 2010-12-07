@@ -17,7 +17,7 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'AdminData'
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.textile')
+  rdoc.rdoc_files.include('README.md')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
@@ -31,7 +31,7 @@ begin
     s.email = "neerajdotname@gmail.com"
     s.homepage = "http://github.com/neerajdotname/admin_data"
     s.authors = ['Neeraj Singh']
-    s.files = FileList["[A-Z]*", "{app,config,lib,test}/**/*", 'init.rb']
+    s.files = FileList["[A-Z]*", "{app,config,lib}/**/*", 'init.rb']
 
     s.add_dependency('will_paginate', '>= 3.0.pre2')
 

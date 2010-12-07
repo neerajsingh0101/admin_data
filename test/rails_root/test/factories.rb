@@ -19,3 +19,12 @@ Factory.define :club do |f|
   f.name 'sun-shine club'
   f.association :user
 end
+
+Factory.define :newspaper do |f|
+  f.paper_id 'dc_express'
+  f.name 'DC Express'
+end
+
+Factory.define :city do |f|
+  f.name 'seattle'
+end

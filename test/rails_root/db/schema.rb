@@ -12,6 +12,13 @@
 
 ActiveRecord::Schema.define(:version => 20091030202259) do
 
+  create_table "cities", :force => true do |t|
+    t.string   "name"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "clubs", :force => true do |t|
     t.string "name"
   end
@@ -19,6 +26,11 @@ ActiveRecord::Schema.define(:version => 20091030202259) do
   create_table "clubs_users", :id => false, :force => true do |t|
     t.integer "user_id", :null => false
     t.integer "club_id", :null => false
+  end
+
+  create_table "papers", :id => false, :force => true do |t|
+    t.string "paper_id", :null => false
+    t.string "name"
   end
 
   create_table "phone_numbers", :force => true do |t|
@@ -43,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20091030202259) do
   create_table "websites", :force => true do |t|
     t.string   "url"
     t.integer  "user_id"
+    t.string   "dns_provider", :default => "yahoo"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

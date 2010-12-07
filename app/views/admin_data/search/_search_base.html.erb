@@ -10,21 +10,21 @@
   <div class="secondary-navigation">
     <%= render 'admin_data/shared/secondary_navigation', :klass => klass %>
     <div class="clear"></div>
-  </div>          
+  </div>
 
-  <div class="content">         
+  <div class="content">
     <% if advance_search %>
       <%= render 'admin_data/search/search/advance_search_form', :klass => klass %>
     <% else %>
       <%= render 'admin_data/search/search/search_form', :klass => klass %>
-    <% end %>  
+    <% end %>
   </div>
 
   <div class='clear'></div>
 
-  <div class='main2 rounded'> 
+  <div class='main2 rounded'>
     <div class="block" id="block-tables">
-      <div class="content">          
+      <div class="content">
         <div class='inner'>
           <div id='results'>
             <% if params[:action] == 'quick_search' %>

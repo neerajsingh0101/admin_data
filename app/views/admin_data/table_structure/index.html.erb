@@ -1,17 +1,17 @@
 <div id="main">
 
-  <%= admin_data_breadcrum do %>
-    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
+  <%= breadcrum do %>
+    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
   <% end %>
-  
+
   <%= render 'admin_data/shared/flash_message', :model => @model %>
-  
+
   <div class="block" id="block-tables">
     <div class="secondary-navigation">
       <%= render 'admin_data/shared/secondary_navigation', :klass => @klass %>
       <div class="clear"></div>
-    </div>          
-    <div class="content rounded">          
+    </div>
+    <div class="content rounded">
       <h2 class="title"></h2>
       <div class="inner">
         <h1 class='table_name'>Table name : <%=@klass.send(:table_name)%></h1>
@@ -29,13 +29,13 @@
               <td><%=column.null%></td>
               <td><%= AdminData::Util.string_representation_of_data(column.default) if column.has_default?%></td>
             </tr>
-          <% end %>  
+          <% end %>
         </table>
 
-        <h2>Index</h2>            
+        <h2>Index</h2>
         <% if @indexes.size == 0 %>
           <p>No index was found </p>
-        <% else %>  
+        <% else %>
           <table class="table colorize">
             <tr>
               <th>Info</th>
@@ -44,10 +44,10 @@
               <tr>
                 <td><%= index %></td>
               </tr>
-            <% end %>  
+            <% end %>
           </table>
         <% end %>
-        
+
       </div>
     </div>
   </div>

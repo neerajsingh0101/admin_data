@@ -1,15 +1,11 @@
-
 require File.join(AdminData::LIBPATH, 'admin_data', 'search')
 
 module AdminData
-  class SearchController < BaseController
+  class SearchController < ApplicationController
 
     include Search
 
-    unloadable
-
     before_filter :get_class_from_params
-    before_filter :ensure_is_allowed_to_view_klass
     before_filter :ensure_valid_children_klass, :only => [:quick_search]
     before_filter :ensure_is_authorized_for_update_opration, :only => [:advance_search]
     before_filter :set_column_type_info, :only => [:advance_search]
@@ -79,7 +75,6 @@ module AdminData
           render :text => "#{params[:base]} is an invalid value", :status => :not_found
           return
         end
-        #TODO write test for this condition
         if ActiveRecordUtil.declared_has_many_association_names(model_klass).include?(params[:children]) || ActiveRecordUtil.declared_habtm_association_names(model_klass).include?(params[:children])
           #proceed
         else
@@ -91,7 +86,7 @@ module AdminData
 
     def ensure_is_authorized_for_update_opration
       if %w(destroy delete).include? params[:admin_data_advance_search_action_type]
-        render :text => 'not authorized' unless admin_data_is_allowed_to_update?
+        render :text => 'not authorized' unless is_allowed_to_update?
       end
     end
 

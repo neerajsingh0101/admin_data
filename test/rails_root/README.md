@@ -5,3 +5,7 @@
 * rake db:migrate
 * rake db:test:prepare
 * bundle exec cucumber
+
+
+#TODO add test for delete a record
+## TODO add test for destroy a record

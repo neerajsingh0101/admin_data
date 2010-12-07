@@ -1,15 +1,15 @@
 <div id="main">
   <div class="block" id="block-tables">
-    <div class="content rounded">          
+    <div class="content rounded">
       <h2 class="title">Migration Information from schema_migrations table</h2>
       <div class="inner">
         <table class="table colorize">
-          <tr>             
+          <tr>
             <th class='first last'>version</th>
           </tr>
           <% @data.each do |record| %>
             <tr><td><%=record.values.first%></td></tr>
-          <% end %>  
+          <% end %>
         </table>
       </div>
       <div class="clear"></div>

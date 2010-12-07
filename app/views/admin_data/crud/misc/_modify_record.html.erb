@@ -1,16 +1,16 @@
-<% if controller.send(:admin_data_is_allowed_to_update?) %>
+<% if controller.send(:is_allowed_to_update?) %>
   <div class="block rounded">
     <h3>Modify Record</h3>
     <div style='padding-left:15px'>
       <p>
-        <%= link_to 'Edit', admin_data_edit_path(:klass => klass.name.underscore, :id => model) %> 
+        <%= link_to 'Edit', admin_data_edit_path(:klass => klass.name.underscore, :id => model) %>
       </p>
       <p>
         <%= link_to 'Delete', admin_data_del_path(:klass => klass.name.underscore, :id => model) ,
-               { :confirm => ' You are deleting (not destroying) a record. Are you sure?', :method => :delete} %> 
+               { :confirm => ' You are deleting (not destroying) a record. Are you sure?', :method => :delete} %>
       </p>
       <p>
-        <%= link_to "Destroy", admin_data_path(:klass => klass.name.underscore, :id => model), 
+        <%= link_to "Destroy", admin_data_path(:klass => klass.name.underscore, :id => model),
               { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
       </p>
     </div>

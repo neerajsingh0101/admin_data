@@ -21,6 +21,12 @@ Feature: CRUD
     Then I should see "99"
     Then I should see "Record was updated"
 
+  Scenario: edit PhoneNumber
+    Given a phone_number exists
+    Given I visit phone_number show page
+    Given I follow "Edit"
+    Then page should have text field css "#phone_number_user_id" with user_id value
+
   Scenario: add a new record
     Given a user exists
     Given I visit quick_search page

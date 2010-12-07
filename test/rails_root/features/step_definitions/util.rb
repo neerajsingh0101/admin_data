@@ -1,9 +1,21 @@
+Then /^page should have text field css "(.*)" with user_id value$/ do |css_selector|
+  elem = page.find(css_selector)
+  elem.value.should == PhoneNumber.last.user.id.to_s
+end
+
+
 Then /^page should have id "remove_row_3"$/ do
   page.has_css?("remove_row_3")
 end
 
-Then /^I should see only two rows in the table$/ do
-  table =  page.find(:xpath, "//table[@id='advance_search_table']")
+Then /^I should see only two rows in the (.*) result table$/ do |search_type|
+  case search_type
+  when 'quick search'
+    table_id = 'view_table'
+  when 'advance search'
+    table_id = 'advance_search_table'
+  end
+  table =  page.find(:xpath, "//table[@id='#{table_id}']")
   table.find(:xpath, "./tbody/tr", :count => 2 )
 end
 

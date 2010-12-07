@@ -9,6 +9,11 @@ Feature: CRUD show
     Then I should see "Destroy"
     Then I should see crud show tabular attributes
 
+  Scenario: show for Newspaper which has primary key as paper_id
+    Given a newspaper exists
+    Given I visit newspaper show page
+    Then I should see "Edit"
+
   Scenario: show with has_one association info
     Given the following user exists:
       | first name | last name |

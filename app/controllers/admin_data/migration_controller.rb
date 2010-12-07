@@ -1,7 +1,5 @@
 module AdminData
-  class MigrationController < BaseController
-
-    unloadable
+  class MigrationController < ApplicationController
 
     before_filter :ensure_is_allowed_to_view
 

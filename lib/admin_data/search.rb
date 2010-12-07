@@ -47,7 +47,7 @@ module Search
       @table_name = klass.table_name
       compute_search_fields(value)
 
-      adapter = AdminData::Config.setting[:adapter_name].downcase
+      adapter = AdminData.config.adapter_name.downcase
       if adapter =~ /postgresql/
         self.dbbase = PostgresqlSpecific.new(@operands, table_name, field, operator)
       elsif adapter =~ /oracle/

@@ -1,3 +1,10 @@
+=== 2010-12-07
+* new router api
+* new configuration api. It is not backward compatible. However the error message is nice.
+* cucumber tests are inside the repo
+* support for column_headers
+* support for column_settings
+
 === 2010-11-08 v1.0.20
 * support for habtm
 * do not get the list of nested models. It breaks routing. Comprehensive nested models fix coming soon.
@@ -38,7 +45,7 @@
 * fix for options defined in ~/config/initializers/admin_data_settings.rb not taking effect
 
 === 2010-08-17 v1.0.3
-* added more tests 
+* added more tests
 * fixed a bug related to :is_allowed_to_view_klass
 
 
@@ -116,7 +123,7 @@
 
 === 0.0.26 2009-11-04
 
-* cleaning up History.txt file 
+* cleaning up History.txt file
 
 === 0.0.25 2009-11-03
 
@@ -139,7 +146,7 @@
 
 === 0.0.21 2009-10-26
 
-* fixed the formatting issue while displaying missing index in diagnostic section 
+* fixed the formatting issue while displaying missing index in diagnostic section
 * by passing additional parameter called 'attr' editing of a record would display
 only one field to avoid any accidental change.
 
@@ -154,7 +161,7 @@ override the sql that is built by admin_data
 
 === 0.0.18 2009-10-16
 
-* changed theme from warehouse to dark because the association info on the right 
+* changed theme from warehouse to dark because the association info on the right
 hand side was not appearing correctly
 * homepage should have main tab selected
 * changed urls to support models that override to_param to other than id
@@ -164,14 +171,14 @@ as A,Q,B instead of A,B,Q.
 === 0.0.17 2009-10-08
 
 * drop down of klasses is now available at the center of home page
-* current model will be selected in the drop down  
+* current model will be selected in the drop down
 
 === 0.0.16 2009-10-07
 
 * form UI foreign keys are dropdown (display name attribute if it exists and id otherwise)
 * form UI date fields use date_select (with free text year since we cannot guess a good range)
 * form UI refactored to use form_for instead of form_tag and hadcoded html
-     
+
 === 0.0.15 2009-10-06
 
 * cache the list of models
@@ -182,21 +189,21 @@ as A,Q,B instead of A,B,Q.
 
 === 0.0.14 2009-10-05
 
-* while editing match was being done for hard coded value id. Now it looks for klass.primary_key 
+* while editing match was being done for hard coded value id. Now it looks for klass.primary_key
 
 === 0.0.13 2009-10-04
 
-* fixed IE7 bug 
+* fixed IE7 bug
 
 === 0.0.12 2009-10-04
 
-* fixed bug regarding integer values not appearning in listing 
+* fixed bug regarding integer values not appearning in listing
 * better indentation
 
 === 0.0.11 2009-10-01
 
-* Major contribution in this release by Alex Rothenberg. http://github.com/alexrothenberg 
-* this plugin now treats each model as a restful resource. 
+* Major contribution in this release by Alex Rothenberg. http://github.com/alexrothenberg
+* this plugin now treats each model as a restful resource.
 * security fix and test for it
 * commented out offending code for has_one relationship
 * has_one and habtm relationships along with test would be taken up in next release
@@ -210,7 +217,7 @@ as A,Q,B instead of A,B,Q.
 
 === 0.0.10 2009-09-18
 
-* fixed listing and has_many association info for namespaced model 
+* fixed listing and has_many association info for namespaced model
 
 === 0.0.9 2009-09-18
 
@@ -224,7 +231,7 @@ as A,Q,B instead of A,B,Q.
 
 === 0.0.7 2009-09-17
 
-* fixed test for Vehicle::Car 
+* fixed test for Vehicle::Car
 
 === 0.0.6 2009-09-09
 
@@ -242,9 +249,9 @@ as A,Q,B instead of A,B,Q.
 
 * changed the way security configiruation is passed to the plugin
 
-* users can configure number of records in a page. Default is 50 
+* users can configure number of records in a page. Default is 50
 
-* fixed bug associated with advance search 
+* fixed bug associated with advance search
 
 * added link to report bug in footer
 
@@ -253,7 +260,7 @@ as A,Q,B instead of A,B,Q.
 === 0.0.4 2009-08-28
 
 * storing serialized array in string causing problem in truncate method. more at
-  http://github.com/neerajdotname/admin_data/issues#issue/3. 
+  http://github.com/neerajdotname/admin_data/issues#issue/3.
 
 === 0.0.3 2009-08-10
 

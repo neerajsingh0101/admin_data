@@ -1,13 +1,13 @@
 <div id="header">
-  <h1> &nbsp; </h1>  
+  <h1> &nbsp; </h1>
 
   <ul id='subnav'>
-    <li> 
+    <li>
       <% label = "Back to Site " + image_tag('site.png', :width => '12') %>
-      <%= link_to label.html_safe, '/' %> 
+      <%= link_to label.html_safe, '/' %>
     </li>
-    <li> 
-      <%= link_to AdminData::Config.setting[:app_name] , '/admin_data' %> 
+    <li>
+      <%= link_to 'admin_data' , '/admin_data' %>
     </li>
   </ul>
 

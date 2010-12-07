@@ -14,17 +14,21 @@ Feature: homepage
     Then I should see "Select from the drop down menu above"
     Then I should see dropdown with css_selector ".drop_down_value_klass" with following options:
       | text         | value                                 | position | value_match_type |
-      | club         | /admin_data/quick_search/club         | 2        | regex |
-      | phone_number | /admin_data/quick_search/phone_number | 3        | regex |
-      | user         | /admin_data/quick_search/user         | 4        | regex |
-      | website      | /admin_data/quick_search/website      | 5        | regex |
+      | city         | /admin_data/quick_search/city         | 2        | regex |
+      | club         | /admin_data/quick_search/club         | 3        | regex |
+      | newspaper    | /admin_data/quick_search/newspaper    | 4        | regex |
+      | phone_number | /admin_data/quick_search/phone_number | 5        | regex |
+      | user         | /admin_data/quick_search/user         | 6        | regex |
+      | website      | /admin_data/quick_search/website      | 7        | regex |
 
     Then I should see dropdown with css_selector "#drop_down_klasses" with following options:
       | text         | value                                 | position | value_match_type |
-      | club         | /admin_data/quick_search/club         | 2        | regex            |
-      | phone_number | /admin_data/quick_search/phone_number | 3        | regex            |
-      | user         | /admin_data/quick_search/user         | 4        | regex            |
-      | website      | /admin_data/quick_search/website      | 5        | regex            |
+      | city         | /admin_data/quick_search/city         | 2        | regex            |
+      | club         | /admin_data/quick_search/club         | 3        | regex            |
+      | newspaper    | /admin_data/quick_search/newspaper    | 4        | regex            |
+      | phone_number | /admin_data/quick_search/phone_number | 5        | regex            |
+      | user         | /admin_data/quick_search/user         | 6        | regex            |
+      | website      | /admin_data/quick_search/website      | 7        | regex            |
     When I select "user" from "drop_down_klasses"
     Then first id of table should be of "Trisha"
 

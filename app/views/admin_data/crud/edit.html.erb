@@ -1,22 +1,22 @@
 <div id="main">
   <div>
     <h1 class='search_path'>
-      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>  
+      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
       >
-      <%= link_to "ID #{@model.id}", ''%>  
+      <%= link_to "ID #{@model.id}", ''%>
     </h1>
     <div class='clear'></div>
   </div>
 
   <div class="block" id="block-tables">
 
-    <div class="content rounded">          
+    <div class="content rounded">
       <div class="inner umbrella">
-        <% url = admin_data_path(:klass => @klass.name, :id => @model)  
+        <% url = admin_data_path(:klass => @klass.name, :id => @model)
            html_options = {:class => 'form', :method => :put} %>
            <%= form_for @model, :as => @klass.name.underscore.to_sym, :url => url, :html=> html_options do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>
-          <%= render 'admin_data/main/misc/form', :klass => @klass, :f => f %>
+          <%= render 'admin_data/crud/misc/form', :klass => @klass, :f => f %>
         <% end %>
       </div>
     </div>
@@ -25,12 +25,12 @@
 </div>
 
 <div id="sidebar">
-  <%= render 'admin_data/main/association/association_info', :klass => @klass, :model => @model %>
-  <%= render 'admin_data/main/misc/modify_record', :model => @model, :klass => @klass %>
-</div>  
+  <%= render 'admin_data/crud/association/association_info', :klass => @klass, :model => @model %>
+  <%= render 'admin_data/crud/misc/modify_record', :model => @model, :klass => @klass %>
+</div>
 
 <style type="text/css">
   #main {
     width:70%;
   }
-</style>  
+</style>

@@ -1,7 +1,6 @@
 module AdminData
-  class PublicController < BaseController
+  class PublicController < ApplicationController
 
-    # Serve static file from /ublic directory
     def serve
 
       # validate filename with a white list
@@ -11,7 +10,7 @@ module AdminData
 
       opts = {:text => File.read(File.join(AdminData.public_dir,params[:file])), :cache => true}
 
-      case params[:file] 
+      case params[:file]
       when /\.css$/i then opts[:content_type] = "text/css"
       when /\.js$/i then opts[:content_type] = "text/javascript"
       when /\.png$/i then opts[:content_type] = "image/png"

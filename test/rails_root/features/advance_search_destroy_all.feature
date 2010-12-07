@@ -17,4 +17,4 @@ Feature: Advance search destroy all
     Then async verify that user "last_name" is "Smith"
     When async click "Destroy All"
     Then async verify that number of "User" records is "2"
-    Then asyc I should see "1 record destroyed"
+    Then async I should see "1 record destroyed"

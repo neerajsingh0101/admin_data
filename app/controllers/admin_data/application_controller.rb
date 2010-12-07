@@ -1,15 +1,12 @@
 module AdminData
-  class BaseController < ApplicationController
 
-    unloadable
+  class ApplicationController < ::ApplicationController
 
     before_filter :ensure_is_allowed_to_view
 
-    helper_method :admin_data_is_allowed_to_update?
+    helper_method :is_allowed_to_update?
 
     layout 'admin_data'
-
-    include Chelper
 
     before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
 
@@ -27,43 +24,25 @@ module AdminData
     end
 
     def ensure_is_allowed_to_view
-      render :text => 'not authorized' unless admin_data_is_allowed_to_view?
-    end
-
-    def ensure_is_allowed_to_view_klass
-      render :text => 'not authorized' unless admin_data_is_allowed_to_view_klass?
+      render :text => 'not authorized' unless is_allowed_to_view?
     end
 
     def ensure_is_allowed_to_update
-      render :text => 'not authorized' unless admin_data_is_allowed_to_update?
+      render :text => 'not authorized' unless is_allowed_to_update?
     end
-
-    def ensure_is_allowed_to_update_klass
-      render :text => 'not authorized' unless admin_data_is_allowed_to_update_klass?
-    end
-
 
     def get_class_from_params
       begin
         @klass = Util.camelize_constantize(params[:klass])
       rescue TypeError => e # in case no params[:klass] is supplied
-        Rails.logger.debug 'no params[:klass] was supplied'
-        redirect_to admin_data_index_path
+        render :text => 'wrong params[:klass] was supplied' and return
       rescue NameError # in case wrong params[:klass] is supplied
-        Rails.logger.debug 'wrong params[:klass] was supplied'
-        redirect_to admin_data_index_path
+        render :text => 'wrong params[:klass] was supplied' and return
       end
     end
 
     def build_klasses
-      # if is_allowed_to_view_klass option is passed then global constant can't be used since
-      # list of klasses need to be built for each user. It will slow down the speed a bit since
-      # every single the list needs to be built
-      if Config.setting[:is_allowed_to_view_klass]
-        @klasses = _build_custom_klasses
-      else
-        @klasses = _build_all_klasses
-      end
+      @klasses = _build_all_klasses
     end
 
     def _build_all_klasses
@@ -80,7 +59,7 @@ module AdminData
     def _build_custom_klasses
       _build_all_klasses.compact.select do |klass_local|
         @klass = klass_local
-        admin_data_is_allowed_to_view_klass?
+        is_allowed_to_view_klass?
       end
     end
 
@@ -114,6 +93,18 @@ module AdminData
       else
         render :text => 'Invalid params[:page]', :status => :unprocessable_entity
       end
+    end
+
+    def per_page
+      AdminData.config.number_of_records_per_page
+    end
+
+    def is_allowed_to_view?
+      AdminData.config.is_allowed_to_view.call(self)
+    end
+
+    def is_allowed_to_update?
+      AdminData.config.is_allowed_to_update.call(self)
     end
 
   end

@@ -1,6 +1,6 @@
 <%@records = @relation.order(@order).paginate(:page => params[:page]) if @records.nil?%>
-<%= render :partial => 'admin_data/search/search/title', :locals => { 
-                                                            :records => @records, 
+<%= render :partial => 'admin_data/search/search/title', :locals => {
+                                                            :records => @records,
                                                             :total_num_of_children => @total_num_of_children } %>
 
 <div class="pagination">
@@ -12,25 +12,27 @@
 
   <thead>
      <tr>
-      <% AdminData::Util.columns_order(klass.name).each do |column| %>
-        <th> <%= column %> </th>
+      <% columns_order(klass).each do |column| %>
+        <th> <%= column_title(klass, column) %> </th>
       <% end %>
     </tr>
   </thead>
 
+  <tbody>
   <% @records.each do |record| %>
     <tr>
-      <% AdminData::Util.columns_order(klass.name).each do |column| %>
+      <% columns_order(klass).each do |column| %>
         <td>
           <% if (column == klass.primary_key) %>
-            <%= link_to(record.send(column), admin_data_path(:klass => klass.name.underscore, :id => record)) %>
+            <%= link_to(record.to_param.to_s, admin_data_path(:klass => klass.name.underscore, :id => record)) %>
          <% else %>
-            <%=h  admin_data_get_value_for_column(admin_data_column_native(klass, column), record) %>
-          <% end %>  
+            <%=h get_value_for_column(column_native(klass, column), record) %>
+          <% end %>
         </td>
       <% end %>
     </tr>
-  <% end %>  
+  <% end %>
+  </tbody>
 </table>
 
 <div class="pagination">

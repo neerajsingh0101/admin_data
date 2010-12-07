@@ -1,0 +1,7 @@
+<% if AdminData::ActiveRecordUtil.declared_belongs_to_association_names(klass).any? %>
+  <p class='belongs_to'>
+    <strong>belongs_to :</strong>
+    &nbsp;
+    <%= belongs_to_data(model, klass).html_safe %>
+  </p>
+<% end %>

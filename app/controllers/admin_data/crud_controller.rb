@@ -1,39 +1,12 @@
 module AdminData
-  class MainController  < BaseController
 
-    unloadable
+  class CrudController  < ApplicationController
 
-    before_filter :get_class_from_params, :only => [ :table_structure, :show, :destroy, :del, :edit, :new, :update, :create]
+    before_filter :get_class_from_params, :only => [:show, :destroy, :del, :edit, :new, :update, :create]
 
     before_filter :get_model_and_verify_it, :only => [:destroy, :del, :edit, :update, :show]
 
-    before_filter :ensure_is_allowed_to_view_klass, :except => [:index]
-
     before_filter :ensure_is_allowed_to_update, :only => [:destroy, :del, :edit, :update, :create]
-
-    before_filter :ensure_is_allowed_to_update_klass, :only => [:destroy, :del, :edit, :update, :create]
-
-
-    def table_structure
-      @page_title = 'table_structure'
-      @indexes = []
-      if (indexes = ActiveRecord::Base.connection.indexes(@klass.table_name)).any?
-        add_index_statements = indexes.map do |index|
-          statment_parts = [ ('add_index ' + index.table.inspect) ]
-          statment_parts << index.columns.inspect
-          statment_parts << (':name => ' + index.name.inspect)
-          statment_parts << ':unique => true' if index.unique
-
-          '  ' + statment_parts.join(', ')
-        end
-        add_index_statements.sort.each { |index| @indexes << index }
-      end
-      respond_to {|format| format.html}
-    end
-
-    def index
-      respond_to {|format| format.html}
-    end
 
     def show
       @page_title = "#{@klass.name.underscore}:#{@model.id}"
@@ -65,8 +38,7 @@ module AdminData
     end
 
     def update
-      model_name_underscored = @klass.name.underscore
-      model_attrs = update_model_with_assoc(params[model_name_underscored])
+      model_attrs = params[@klass.name.underscore]
       @columns = columns_list
 
       respond_to do |format|
@@ -84,8 +56,7 @@ module AdminData
     end
 
     def create
-      model_name_underscored = @klass.name.underscore
-      model_attrs = update_model_with_assoc(params[model_name_underscored])
+      model_attrs = params[@klass.name.underscore]
       @model = @klass.create(model_attrs)
       @columns = columns_list
 
@@ -105,31 +76,19 @@ module AdminData
 
     private
 
-    # If this class has any habtm relationships, update the parameters
-    # in the model with the actual objects so they can be saved properly
-    # TODO write test for it
-    def update_model_with_assoc(model_attrs)
-      ActiveRecordUtil.habtm_klasses_for(klass).each do |k|
-        if model_attrs.include? k.table_name
-          model_attrs[k.table_name].map! { |s| k.find(s.to_i) }
-        end
-      end
-      model_attrs
-    end
-
     def get_model_and_verify_it
       primary_key = @klass.primary_key.intern
       conditional_id = params[:id] =~ /^(\d+)-.*/ ? params[:id].to_i : params[:id]
       condition = {primary_key => conditional_id}
 
-      _proc = Config.setting[:find_conditions] ?  Config.setting[:find_conditions][@klass.name] : nil
+      _proc = AdminData.config.find_conditions[@klass.name]
       if _proc && find_conditions = _proc.call(params)
         condition = find_conditions.fetch(:conditions) if find_conditions.has_key?(:conditions)
       end
 
-      @model = @klass.send('find', :first, :conditions => condition)
-      unless @model
-        render :text => "#{@klass.name} not found: #{params[:id]}", :status => :not_found
+      unless @model = @klass.find(:first, :conditions => condition)
+        render :text => "#{@klass.name} not found: #{params[:id]}"
+        return
       end
     end
 
