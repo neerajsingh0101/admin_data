@@ -9,7 +9,7 @@ module AdminData
   end
 
   def self.public_dir
-    File.expand_path(File.join(LIBPATH, '..', 'public')) + File::SEPARATOR
+    File.expand_path(File.join(LIBPATH, 'public')) + File::SEPARATOR
   end
 
   class << self
