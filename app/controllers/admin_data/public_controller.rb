@@ -2,9 +2,9 @@ module AdminData
   class PublicController < ApplicationController
 
     def serve
-      path = File.join(AdminData.public_dir,params[:file]))
+      path = File.join(AdminData.public_dir,params[:file])
 
-      unless File.expanded_path(path) =~ /admin_data/
+      unless File.expand_path(path) =~ /admin_data/
         render :nothing => true, :status => 404 and return
       end
 
