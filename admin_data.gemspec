@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{admin_data}
-  s.version = "1.1.6"
+  s.version = "1.1.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
@@ -69,7 +69,36 @@ Gem::Specification.new do |s|
      "lib/admin_data/search.rb",
      "lib/admin_data/util.rb",
      "lib/admin_data/version.rb",
-     "lib/admin_data_date_validation.rb"
+     "lib/admin_data_date_validation.rb",
+     "lib/public/images/add.png",
+     "lib/public/images/no.png",
+     "lib/public/images/site.png",
+     "lib/public/javascripts/advance_search/act_on_result.js",
+     "lib/public/javascripts/advance_search/advance_search.js",
+     "lib/public/javascripts/advance_search/advance_search_structure.js",
+     "lib/public/javascripts/advance_search/ajaxify_advance_search.js",
+     "lib/public/javascripts/advance_search/build_first_row.js",
+     "lib/public/javascripts/advance_search/event_bindings.js",
+     "lib/public/javascripts/advance_search/global_ajax_setting.js",
+     "lib/public/javascripts/advance_search/trigger_submit_on_domready.js",
+     "lib/public/javascripts/misc/drop_down_change.js",
+     "lib/public/javascripts/misc/js_util.js",
+     "lib/public/javascripts/misc/quick_search_input_focus.js",
+     "lib/public/javascripts/test/act_on_result.js",
+     "lib/public/javascripts/test/advance_search.js",
+     "lib/public/javascripts/test/ajaxify_advance_search.js",
+     "lib/public/javascripts/test/build_first_row.js",
+     "lib/public/javascripts/test/event_bindings.js",
+     "lib/public/javascripts/vendor/jack.js",
+     "lib/public/javascripts/vendor/jquery-1.4.2.js",
+     "lib/public/javascripts/vendor/jquery-ui-1.7.2.custom.min.js",
+     "lib/public/javascripts/vendor/jquery.ba-isjquery.js",
+     "lib/public/javascripts/vendor/jquery_form.js",
+     "lib/public/javascripts/vendor/log.js",
+     "lib/public/javascripts/vendor/qunit.js",
+     "lib/public/javascripts/vendor/rails.js",
+     "lib/public/stylesheets/base.css",
+     "lib/public/stylesheets/vendor/jquery-ui-1.7.2.custom.css"
   ]
   s.homepage = %q{http://github.com/neerajdotname/admin_data}
   s.rdoc_options = ["--charset=UTF-8"]
