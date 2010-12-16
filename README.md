@@ -1,4 +1,5 @@
 # admin_data works with both Rails 2.3.x and Rails 3. #
+
 # [Documentation](http://github.com/neerajdotname/admin_data/wiki) #
 
 # [Installing in a Rails3 application](https://github.com/neerajdotname/admin_data/wiki/Installation-and-Usage-information-for-a-Rails-3-application) #
@@ -7,14 +8,11 @@
 # [Live Demo](http://admin-data-test.heroku.com/admin_data) #
 
 
-* admin_data works as a gem with Rails 3.x project. Source for that resides in master branch.
-* admin_data works as a plugin with Rails 2.3.x project. Source code for that resides in branch called [rails2](https://github.com/neerajdotname/admin_data/tree/rails2) .
-
 #Test#
 
-cd _test/rails_app_ and read the instructions mentioned at README.md there.
+###cd _test/rails_app_ and read the instructions mentioned at README.md there.###
 
 
 ### License ###
 
-Dual licensed under the [MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) and [GPL version 2](http://github.com/jquery/jquery/blob/master/GPL-LICENSE.txt) licenses.
+[MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt)
