@@ -10,9 +10,8 @@
 
 #Test#
 
-###cd _test/rails_app_ and read the instructions mentioned at README.md there.###
+####cd _test/rails_app_ and read the instructions mentioned at README.md there.####
 
 
-### License ###
 
-[MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt)
+[MIT](http://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) License
