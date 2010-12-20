@@ -5,6 +5,7 @@ module AdminData
 
   autoload :Configuration, 'admin_data/configuration'
   autoload :Util, 'admin_data/util'
+  autoload :ActiveRecordUtil, 'admin_data/active_record_util'
 
 
   LIBPATH = File.expand_path(::File.dirname(__FILE__)) + File::SEPARATOR
@@ -47,4 +48,4 @@ require 'admin_data_date_validation'
 
 require 'admin_data/deprecation'
 require 'admin_data/extension'
-require 'admin_data/active_record_util'
+#require 'admin_data/active_record_util'
