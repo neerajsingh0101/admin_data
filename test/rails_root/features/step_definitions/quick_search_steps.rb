@@ -1,12 +1,10 @@
 Given /^user config has defined additional_column phone_numbers$/ do
   AdminData.config.columns_order = AdminData.config.columns_order.merge('User' => [:id, :phone_numbers])
-  AdminData.config.column_settings = AdminData.config.column_settings.merge('User' => { :phone_numbers => lambda {|model| model.phone_numbers.map {|r| r.number}.join(', ') } })
+  proc = lambda {|model| model.phone_numbers.map {|r| r.number}.join(', ') }
+  AdminData.config.column_settings = AdminData.config.column_settings.merge('User' => { :phone_numbers => proc })
 end
 
 Then /^table should have additional column phone_numbers with valid data$/ do
-  AdminData.config.columns_order = AdminData.config.columns_order.merge('User' => nil)
-  AdminData.config.column_settings = AdminData.config.column_settings.merge('User' => nil)
-
   data = tableish('table.table tr', 'th,td')
   data[0][0].should == "id"
   data[0][1].should == "phone_numbers"
@@ -14,6 +12,11 @@ Then /^table should have additional column phone_numbers with valid data$/ do
   data[0][3].should == "last_name"
   user = User.find(data[1][0].to_i)
   assert_equal user.phone_numbers.map(&:number).join(', '),data[1][1]
+end
+
+Then /^reset columns_order and column_settings for User$/ do
+  AdminData.config.columns_order = AdminData.config.columns_order.merge('User' => nil)
+  AdminData.config.column_settings = AdminData.config.column_settings.merge('User' => nil)
 end
 
 
