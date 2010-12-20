@@ -111,5 +111,6 @@ Feature: quick search
     Given I visit admin_data page
     When I select "user" from "drop_down_klasses"
     Then table should have additional column phone_numbers with valid data
+    Then reset columns_order and column_settings for User
 
 
