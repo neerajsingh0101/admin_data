@@ -1,7 +1,11 @@
 require 'will_paginate'
-require 'admin_data/configuration'
+#require 'admin_data/configuration'
 
 module AdminData
+
+  autoload :Configuration, 'admin_data/configuration'
+
+
   LIBPATH = File.expand_path(::File.dirname(__FILE__)) + File::SEPARATOR
 
   def self.plugin_dir
