@@ -6,8 +6,7 @@ module AdminData
         tmp = view.get_value_for_column(column, model, :limit => nil)
         sum << [ column.name, (tmp.html_safe? ? tmp : view.send(:h,tmp)) ]
       end
-      extension = Extension.show_info(model)
-      data + extension
+      data
     end
 
     def self.custom_value_for_column(column, model)
