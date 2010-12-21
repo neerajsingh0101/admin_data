@@ -1,4 +1,5 @@
-class AdminData::Config
+module AdminData
+class Config
 
   cattr_accessor :setting
 
@@ -29,4 +30,5 @@ EOF
    raise msg
   end
 
+end
 end

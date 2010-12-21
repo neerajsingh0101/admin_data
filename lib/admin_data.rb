@@ -4,6 +4,7 @@ module AdminData
 
   autoload :Configuration, 'admin_data/configuration'
   autoload :Util, 'admin_data/util'
+  autoload :Config, 'admin_data/config' #deprecated message
   autoload :ActiveRecordUtil, 'admin_data/active_record_util'
 
 
@@ -44,4 +45,3 @@ end
 
 # move date_validation to inside admin_data
 require 'admin_data_date_validation'
-require 'admin_data/deprecation'
