@@ -1,5 +1,4 @@
 require 'will_paginate'
-#require 'admin_data/configuration'
 
 module AdminData
 
@@ -48,4 +47,3 @@ require 'admin_data_date_validation'
 
 require 'admin_data/deprecation'
 require 'admin_data/extension'
-#require 'admin_data/active_record_util'
