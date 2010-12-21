@@ -44,6 +44,4 @@ end
 
 # move date_validation to inside admin_data
 require 'admin_data_date_validation'
-
 require 'admin_data/deprecation'
-require 'admin_data/extension'
