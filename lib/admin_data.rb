@@ -4,7 +4,7 @@ require 'will_paginate'
 module AdminData
   extend ActiveSupport::Autoload
 
-  LIBPATH = ::File.dirname(__FILE__)
+  LIBPATH = File.dirname(__FILE__)
 
   autoload :Configuration
   autoload :Util, 'admin_data/util'
