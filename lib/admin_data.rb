@@ -7,9 +7,9 @@ module AdminData
   LIBPATH = File.dirname(__FILE__)
 
   autoload :Configuration
-  autoload :Util, 'admin_data/util'
-  autoload :Config, 'admin_data/config' #deprecated message
-  autoload :ActiveRecordUtil, 'admin_data/active_record_util'
+  autoload :Util
+  autoload :Config
+  autoload :ActiveRecordUtil
 
   class << self
     # A configuration object that acts like a hash.
