@@ -1,8 +1,8 @@
-Then /^page should have text field css "(.*)" with user_id value$/ do |css_selector|
+Then /^page should have (\w*) field css "(.*)" with user_id value$/ do |tag_name,css_selector|
   elem = page.find(css_selector)
+  elem.tag_name.should == tag_name
   elem.value.should == PhoneNumber.last.user.id.to_s
 end
-
 
 Then /^page should have id "remove_row_3"$/ do
   page.has_css?("remove_row_3")

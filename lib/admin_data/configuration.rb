@@ -107,6 +107,20 @@ module AdminData
       @adapter_name               =  ActiveRecord::Base.connection.adapter_name
       @ignore_column_limit        = false
     end
+   
+    def display_assoc?( class_name )
+      case @drop_down_for_associations
+        when Hash
+          return @drop_down_for_associations[ class_name ]
+        when TrueClass, FalseClass
+          return @drop_down_for_associations
+        when NilClass 
+          return false
+        else
+          raise "Configuration Error. #{@drop_down_for_associations} " \
+                "must be true, false or a Hash."
+      end
+    end 
 
   end
 
