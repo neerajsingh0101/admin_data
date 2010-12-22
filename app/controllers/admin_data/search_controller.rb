@@ -43,7 +43,7 @@ module AdminData
         format.js {
 
           unless hash[:errors].blank?
-            file = "#{AdminData.plugin_dir}app/views/admin_data/search/search/_errors.html.erb"
+            file = File.join(AdminData::LIBPATH, '..', 'app','views', 'admin_data', 'search', 'search', '_errors.html.erb')
             render :file =>  file, :locals => {:errors => errors}
             return
           end

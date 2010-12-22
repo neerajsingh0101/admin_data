@@ -1,22 +1,14 @@
 require 'will_paginate'
 
 module AdminData
+  extend ActiveSupport::Autoload
 
-  autoload :Configuration, 'admin_data/configuration'
+  LIBPATH = ::File.dirname(__FILE__)
+
+  autoload :Configuration
   autoload :Util, 'admin_data/util'
   autoload :Config, 'admin_data/config' #deprecated message
   autoload :ActiveRecordUtil, 'admin_data/active_record_util'
-
-
-  LIBPATH = File.expand_path(::File.dirname(__FILE__)) + File::SEPARATOR
-
-  def self.plugin_dir
-    File.expand_path(File.join(LIBPATH, '..')) + File::SEPARATOR
-  end
-
-  def self.public_dir
-    File.expand_path(File.join(LIBPATH, 'public')) + File::SEPARATOR
-  end
 
   class << self
     # A configuration object that acts like a hash.
