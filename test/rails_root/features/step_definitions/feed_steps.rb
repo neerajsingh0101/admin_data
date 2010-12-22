@@ -1,3 +1,8 @@
-Given /^I am logged in through http basic authentication$/ do
-  basic_auth('admin_data', 'welcome') 
-end
+AdminData::Authenticator.extend(
+  Module.new{
+    def verify(controller)
+      #TODO use rspec double code here. This is a very bad hack
+      true
+    end
+  }
+)

@@ -12,6 +12,7 @@ module AdminData
   autoload :ActiveRecordUtil
   autoload :SetupConfig
   autoload :DateUtil
+  autoload :Authenticator
 
   include SetupConfig
 

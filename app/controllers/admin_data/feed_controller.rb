@@ -32,15 +32,10 @@ module AdminData
         return false
       end
 
-      stored_userid = AdminData.config.feed_authentication_user_id
-      stored_password = AdminData.config.feed_authentication_password
-      perform_basic_authentication(stored_userid, stored_password, controller)
-    end
-
-    def perform_basic_authentication(stored_userid, stored_password, controller)
-      controller.authenticate_or_request_with_http_basic do |input_userid, input_password|
-        (input_userid == stored_userid) && (input_password == stored_password)
-      end
+      userid = AdminData.config.feed_authentication_user_id
+      password = AdminData.config.feed_authentication_password
+      authenticator = AdminData::Authenticator.new(userid, password)
+      authenticator.verify(controller)
     end
 
   end
