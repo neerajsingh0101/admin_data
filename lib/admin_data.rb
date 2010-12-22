@@ -11,12 +11,10 @@ module AdminData
   autoload :Config
   autoload :ActiveRecordUtil
   autoload :SetupConfig
+  autoload :DateUtil
 
   include SetupConfig
 
 end
 
 require 'admin_data/railtie'
-
-# move date_validation to inside admin_data
-require 'admin_data_date_validation'

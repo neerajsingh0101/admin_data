@@ -139,7 +139,7 @@ module Search
     def values_after_cast
       case operator
       when /(is_on|is_on_or_before_date|is_on_or_after_date)/
-        AdminDataDateValidation.validate(operands)
+        AdminData::DateUtil.parse(operands)
       when /(is_equal_to|greater_than|less_than)/
         operands.to_i
       else
@@ -150,7 +150,7 @@ module Search
     def validate
       case operator
       when /(is_on|is_on_or_before_date|is_on_or_after_date)/
-        "#{operands} is not a valid date" unless AdminDataDateValidation.validate(operands)
+        "#{operands} is not a valid date" unless AdminData::DateUtil.valid?(operands)
       when /(is_equal_to|greater_than|less_than)/
         unless operands.blank?
           "#{operands} is not a valid integer" unless operands =~ /^\d+$/
