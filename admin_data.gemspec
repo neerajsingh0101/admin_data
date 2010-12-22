@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Neeraj Singh"]
-  s.date = %q{2010-12-11}
+  s.date = %q{2010-12-22}
   s.description = %q{Manage database using browser}
   s.email = %q{neerajdotname@gmail.com}
   s.extra_rdoc_files = [
@@ -62,14 +62,15 @@ Gem::Specification.new do |s|
      "config/routes.rb",
      "lib/admin_data.rb",
      "lib/admin_data/active_record_util.rb",
+     "lib/admin_data/config.rb",
      "lib/admin_data/configuration.rb",
-     "lib/admin_data/deprecation.rb",
-     "lib/admin_data/extension.rb",
+     "lib/admin_data/date_util.rb",
+     "lib/admin_data/rails_version_check.rb",
      "lib/admin_data/railtie.rb",
      "lib/admin_data/search.rb",
+     "lib/admin_data/setup_config.rb",
      "lib/admin_data/util.rb",
      "lib/admin_data/version.rb",
-     "lib/admin_data_date_validation.rb",
      "lib/public/images/add.png",
      "lib/public/images/no.png",
      "lib/public/images/site.png",
@@ -134,12 +135,14 @@ Gem::Specification.new do |s|
      "test/rails_root/features/step_definitions/advance_search_steps.rb",
      "test/rails_root/features/step_definitions/app_steps.rb",
      "test/rails_root/features/step_definitions/async.rb",
+     "test/rails_root/features/step_definitions/configuration_steps.rb",
      "test/rails_root/features/step_definitions/crud_show_steps.rb",
      "test/rails_root/features/step_definitions/feed_steps.rb",
      "test/rails_root/features/step_definitions/quick_search_steps.rb",
      "test/rails_root/features/step_definitions/util.rb",
      "test/rails_root/features/step_definitions/web_steps.rb",
      "test/rails_root/features/support/env.rb",
+     "test/rails_root/features/support/hooks.rb",
      "test/rails_root/features/support/paths.rb",
      "test/rails_root/test/factories.rb",
      "test/rails_root/test/performance/browsing_test.rb",
