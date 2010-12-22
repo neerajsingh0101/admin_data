@@ -10,23 +10,9 @@ module AdminData
   autoload :Util
   autoload :Config
   autoload :ActiveRecordUtil
+  autoload :SetupConfig
 
-  class << self
-    # A configuration object that acts like a hash.
-    # See AdminData::Configuration for details.
-    attr_accessor :configuration
-
-    # Call this method to modify defaults in initializer.
-    #
-    # @example
-    #   AdminData.config do |config|
-    #     config.number_of_records_per_page = 20
-    #   end
-    def config
-      self.configuration ||= Configuration.new
-      block_given? ? yield(self.configuration) : self.configuration
-    end
-  end
+  include SetupConfig
 
 end
 
