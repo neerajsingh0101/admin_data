@@ -3,15 +3,18 @@ module AdminData
   class FeedController < ApplicationController
 
     def index
-      render :text => "Usage: http://localhost:3000/admin_data/feed/<model name>" and return if params[:klasss].blank?
+      if params[:klasss].blank?
+        render :text => "Usage: http://localhost:3000/admin_data/feed/user replace user with your model name"
+        return
+      end
 
       begin
         @klass = Util.camelize_constantize(params[:klasss])
         @title = "Feeds from admin_data #{@klass.name}"
         @description = "feeds from AdminData #{@klass.name}"
         @records = @klass.find(:all, :order => "#{@klass.primary_key} desc", :limit => 100)
-      rescue NameError => e
-        render :text => "No constant was found with name #{params[:klasss]}" and return
+      rescue NameError
+        render :text => "No constant was found with name #{params[:klasss]}"
       end
     end
 

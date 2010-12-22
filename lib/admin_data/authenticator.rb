@@ -7,9 +7,9 @@ module AdminData
       @password = password
     end
 
-  def verify(controller)
-    controller.authenticate_or_request_with_http_basic { |_userid, _password| (_userid == @userid) && (_password == @password) }
-  end
+    def verify(controller)
+      controller.authenticate_or_request_with_http_basic { |_userid, _password| (_userid == @userid) && (_password == @password) }
+    end
 
   end
 end
