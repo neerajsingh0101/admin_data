@@ -62,6 +62,7 @@ Gem::Specification.new do |s|
      "config/routes.rb",
      "lib/admin_data.rb",
      "lib/admin_data/active_record_util.rb",
+     "lib/admin_data/authenticator.rb",
      "lib/admin_data/config.rb",
      "lib/admin_data/configuration.rb",
      "lib/admin_data/date_util.rb",
