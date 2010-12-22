@@ -11,9 +11,12 @@ module AdminData
       opts = {:text => File.read(path), :cache => true}
 
       case params[:file]
-      when /\.css$/i then opts[:content_type] = "text/css"
-      when /\.js$/i then opts[:content_type] = "text/javascript"
-      when /\.png$/i then opts[:content_type] = "image/png"
+      when /\.css$/i
+        opts[:content_type] = "text/css"
+      when /\.js$/i
+        opts[:content_type] = "text/javascript"
+      when /\.png$/i
+        opts[:content_type] = "image/png"
       else
         render :nothing => true, :status => 404 and return
       end
