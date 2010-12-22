@@ -148,7 +148,7 @@ module AdminData
 
       if col.primary
         html <<  model.new_record? ? '(auto)' : model.id
-      elsif get_reflection_for_column(klass, col) && AdminData.config.drop_down_for_associations[klass.name]
+      elsif get_reflection_for_column(klass, col) && AdminData.config.display_assoc?( klass.name ) 
         form_field_for_association_records(klass, col, f, html)
       else
         handle_column_type(col, html, model, column_value, f)

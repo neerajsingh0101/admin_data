@@ -1,5 +1,5 @@
 Feature: CRUD
-
+  
   Scenario: edit
     Given a user exists
     Given I visit user show page
@@ -21,11 +21,19 @@ Feature: CRUD
     Then I should see "99"
     Then I should see "Record was updated"
 
-  Scenario: edit PhoneNumber
+  Scenario: edit PhoneNumber (no association drop-down)
+    Given configuration to hide the association drop down for PhoneNumber
     Given a phone_number exists
     Given I visit phone_number show page
     Given I follow "Edit"
-    Then page should have text field css "#phone_number_user_id" with user_id value
+    Then page should have input field css "#phone_number_user_id" with user_id value
+
+  Scenario: edit PhoneNumber (with association drop-down)
+    Given configuration to show the association drop down for PhoneNumber
+    Given a phone_number exists
+    Given I visit phone_number show page
+    Given I follow "Edit"
+    Then page should have select field css "#phone_number_user_id" with user_id value
 
   Scenario: add a new record
     Given a user exists

@@ -1,5 +1,9 @@
 Feature: CRUD show
 
+  Background:
+    When configured to display only 2 records per page
+    When configured to display City column :name as "City Name"
+    
   Scenario: show
     Given a user exists
     Given I visit user show page

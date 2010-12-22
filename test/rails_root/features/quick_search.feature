@@ -1,4 +1,12 @@
 Feature: quick search
+  
+  Background:
+    When configured to display only 2 records per page 
+    When configured to rename City columns:
+      | column | alias     |
+      | :id    | ID        |
+      | :name  | City Name |
+      | :data  | City Info |
 
   Scenario: quick search with no search term
     Given the following user exists:
