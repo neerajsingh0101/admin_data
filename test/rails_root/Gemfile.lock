@@ -1,7 +1,7 @@
 PATH
   remote: /Users/nsingh/dev/admin_data
   specs:
-    admin_data (1.1.9)
+    admin_data (1.1.10)
       will_paginate (>= 3.0.pre2)
 
 GEM
