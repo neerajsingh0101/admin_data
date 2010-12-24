@@ -37,19 +37,19 @@ module AdminData
 
     def quick_search
       @page_title = "Search #{@klass.name.underscore}"
-      @order = default_order
+      order = default_order
 
       if params[:base]
         klass = Util.camelize_constantize(params[:base])
         model = klass.find(params[:model_id])
         has_many_proxy = model.send(params[:children].intern)
         @total_num_of_children = has_many_proxy.send(:count)
-        h = { :page => params[:page], :per_page => per_page, :order => @order }
+        h = { :page => params[:page], :per_page => per_page, :order => order }
         @records = has_many_proxy.send(:paginate, h)
       else
         params[:query] = params[:query].strip unless params[:query].blank?
         cond = build_quick_search_conditions(@klass, params[:query])
-        h = { :page => params[:page], :per_page => per_page, :order => @order, :conditions => cond }
+        h = { :page => params[:page], :per_page => per_page, :order => order, :conditions => cond }
         @records = @klass.unscoped.paginate(h)
       end
       respond_to {|format| format.html}
@@ -59,9 +59,9 @@ module AdminData
     def advance_search
       @page_title = "Advance search #{@klass.name.underscore}"
       hash = build_advance_search_conditions(@klass, params[:adv_search])
-      @relation = hash[:cond]
+      relation = hash[:cond]
       errors = hash[:errors]
-      @order = default_order
+      order = default_order
 
       respond_to do |format|
         format.html { render }
@@ -73,7 +73,7 @@ module AdminData
             return
           end
 
-          search_action = SearchAction.new(@relation)
+          search_action = SearchAction.new(relation)
 
           case params[:admin_data_advance_search_action_type]
           when 'destroy'
@@ -81,7 +81,7 @@ module AdminData
           when 'delete'
             search_action.delete
           else
-            @records = @relation.order(@order).paginate(:page => params[:page], :per_page => per_page)
+            @records = relation.order(order).paginate(:page => params[:page], :per_page => per_page)
           end
 
           if search_action.success_message
