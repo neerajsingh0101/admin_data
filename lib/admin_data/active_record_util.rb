@@ -5,7 +5,7 @@ module AdminData
     #   has_and_belongs_to_many :clubs
     # end
     #
-    # User.declared_habtm_association_names(Club)
+    # ActiveRecordUtil.declared_habtm_association_names(User)
     # #=> ['clubs']
     def self.declared_habtm_association_names(klass)
       delcared_association_names_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
@@ -15,7 +15,7 @@ module AdminData
     #   belongs_to :club
     # end
     #
-    # User.declared_belongs_to_association_names(Club)
+    # ActiveRecordUtil.declared_belongs_to_association_names(User)
     # #=> ['club']
     def self.declared_belongs_to_association_names(klass)
       delcared_association_names_for(klass, :belongs_to).map(&:name).map(&:to_s)
@@ -25,7 +25,7 @@ module AdminData
     #   has_one :car
     # end
     #
-    # User.declared_has_one_association_names(Car)
+    # ActiveRecordUtil.declared_has_one_association_names(User)
     # #=> ['car']
     def self.declared_has_one_association_names(klass)
       delcared_association_names_for(klass, :has_one).map(&:name).map(&:to_s)
@@ -35,20 +35,10 @@ module AdminData
     #   has_many :cars
     # end
     #
-    # User.declared_has_many_association_names(Car)
+    # ActiveRecordUtil.declared_has_many_association_names(User)
     # #=> ['cars']
     def self.declared_has_many_association_names(klass)
       delcared_association_names_for(klass, :has_many).map(&:name).map(&:to_s)
-    end
-
-    # returns declared association names like
-    # #=> ['comments']
-    # #=> ['positive_comments']
-    # #=> ['negative_comments']
-    def self.delcared_association_names_for(klass, association_type)
-      klass.name.camelize.constantize.reflections.values.select do |value|
-        value.macro == association_type
-      end
     end
 
     # returns an array of classes
@@ -71,7 +61,8 @@ module AdminData
     #   has_many :comments
     # end
     #
-    # ActiveRecordUtil.klass_for_association_type_and_name(User, :has_many, 'comments') #=> Comment
+    # ActiveRecordUtil.klass_for_association_type_and_name(User, :has_many, 'comments')
+    # #=> Comment
     #
     def self.klass_for_association_type_and_name(klass, association_type, association_name)
       data = klass.name.camelize.constantize.reflections.values.detect do |value|
@@ -79,8 +70,6 @@ module AdminData
       end
       data.klass if data # output of detect from hash is an array with key and value
     end
-    # TODO test with polymorphic
-
 
     # returns false if the given Klass has no association info. Otherwise returns true.
     def self.has_association_info?(k)
@@ -88,6 +77,19 @@ module AdminData
       AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||
       AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||
       AdminData::ActiveRecordUtil.declared_habtm_association_names(k).any?
+    end
+
+    private
+
+    # returns declared association names like
+    #
+    # #=> ['comments']
+    # #=> ['positive_comments']
+    # #=> ['negative_comments']
+    def self.delcared_association_names_for(klass, association_type)
+      klass.name.camelize.constantize.reflections.values.select do |value|
+        value.macro == association_type
+      end
     end
 
   end
