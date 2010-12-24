@@ -62,7 +62,7 @@ module AdminData
     end
 
     def has_one(model, klass)
-      tmp = AdminData::ActiveRecordUtil.new(klass).declared_has_one_association_names
+      tmp = ActiveRecordUtil.new(klass).declared_has_one_association_names
       tmp.inject('') do |output, ho|
         begin
           label = ho
@@ -72,27 +72,27 @@ module AdminData
             output << label
           end
         rescue => e
-          Rails.logger.debug AdminData::Util.exception_info(e)
+          Rails.logger.debug Util.exception_info(e)
         end
         output
       end
     end
 
     def has_many_data(model, klass)
-      array = AdminData::ActiveRecordUtil.new(klass).declared_has_many_association_names.map do |m|
+      array = ActiveRecordUtil.new(klass).declared_has_many_association_names.map do |m|
         begin
           count = model.send(m.intern).count
           label = m.to_s + '(' + count.to_s + ')'
           output = label
           if count > 0
-            has_many_klass_name = AdminData::ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_many, m).name.underscore
+            has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_many, m).name.underscore
             output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
             :children => m,
             :base => klass.name.underscore,
             :model_id => model.id))
           end
         rescue => e
-          Rails.logger.debug AdminData::Util.exception_info(e)
+          Rails.logger.debug Util.exception_info(e)
         end
         output
       end
@@ -100,35 +100,35 @@ module AdminData
     end
 
     def belongs_to_data(model, klass)
-      AdminData::ActiveRecordUtil.new(klass).declared_belongs_to_association_names.map do |assoc_name|
+      ActiveRecordUtil.new(klass).declared_belongs_to_association_names.map do |assoc_name|
         begin
           output = assoc_name
           if belongs_to_record = model.send(assoc_name)
             output = link_to(assoc_name, admin_data_path(:klass => belongs_to_record.class.name.underscore, :id => belongs_to_record.id))
           end
         rescue => e
-          Rails.logger.info AdminData::Util.exception_info(e)
+          Rails.logger.info Util.exception_info(e)
         end
         output
       end.join(', ')
     end
 
     def habtm_data(model, klass)
-      AdminData::ActiveRecordUtil.new(klass).declared_habtm_association_names.map do |assoc_name|
+      ActiveRecordUtil.new(klass).declared_habtm_association_names.map do |assoc_name|
         begin
           count = model.send(assoc_name.intern).count
           label = assoc_name + '(' + count.to_s + ')'
           output = label
 
           if count > 0 then
-            has_many_klass_name = AdminData::ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name).name.underscore
+            has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name).name.underscore
             output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
             :children => assoc_name,
             :base => klass.name.underscore,
             :model_id => model.id))
           end
         rescue => e
-          Rails.logger.info AdminData::Util.exception_info(e)
+          Rails.logger.info Util.exception_info(e)
         end
         output
       end.join(', ')
@@ -143,7 +143,7 @@ module AdminData
       column_value = model.send(col.name)
 
       if klass.serialized_attributes.has_key?(col.name)
-        return AdminData::Util.get_serialized_value(html,column_value)
+        return Util.get_serialized_value(html,column_value)
       end
 
       if col.primary
@@ -172,7 +172,7 @@ module AdminData
         end
         html.join
       rescue Exception => e
-        Rails.logger.info AdminData::Util.exception_info(e)
+        Rails.logger.info Util.exception_info(e)
         'could not retrieve' # returning nil
       end
     end
@@ -180,8 +180,8 @@ module AdminData
     def form_field_for_habtm_records(klass, model, f, html)
       begin
         html = []
-        AdminData::ActiveRecordUtil.new(klass).delcared_habtm_association_names.each do |k|
-          assoc_klass = AdminData::Util.get_class_name_for_habtm_association(model, k)
+        ActiveRecordUtil.new(klass).delcared_habtm_association_names.each do |k|
+          assoc_klass = Util.get_class_name_for_habtm_association(model, k)
 
           html << "<div class='col_box'>"
           html << "  <span class='col_name'>#{assoc_klass.table_name}</span>"
@@ -197,7 +197,7 @@ module AdminData
         end
         html.join
       rescue Exception => e
-        Rails.logger.info AdminData::Util.exception_info(e)
+        Rails.logger.info Util.exception_info(e)
         'could not retrieve' # returning nil
       end
     end
@@ -260,7 +260,7 @@ module AdminData
     def get_value_for_column(column, model, options = {})
       options.reverse_merge!(:limit => 400)
 
-      value = AdminData::Util.custom_value_for_column(column, model)
+      value = Util.custom_value_for_column(column, model)
 
       if column.is_a?(String)
         value
