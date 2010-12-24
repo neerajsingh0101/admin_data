@@ -1,10 +1,6 @@
 Rails.application.routes.draw do
 
   namespace(:admin_data) do
-    match '/feed/:klasss' => "feed#index", :defaults => { :format =>'rss' }, :as => :feed
-  end
-
-  namespace(:admin_data) do
     scope :admin_data do
       controller "crud" do
         match '/klass/(:klass)',                :to => :index,            :as => :index,   :via => :get
@@ -23,8 +19,13 @@ Rails.application.routes.draw do
       end
 
       match '/table_structure/:klass' => "table_structure#index", :as => :table_structure
+
       match '/quick_search/:klass' => "search#quick_search",      :as => :search
+
       match '/advance_search/:klass' => "search#advance_search",  :as => :advance_search
+
+      match '/feed/:klasss' => "feed#index", :defaults => { :format =>'rss' }, :as => :feed
+
       match '/public/*file' => "public#serve"
 
       root :to => "home#index"
