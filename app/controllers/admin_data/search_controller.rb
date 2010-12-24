@@ -1,5 +1,27 @@
 require File.join(AdminData::LIBPATH, 'admin_data', 'search')
 
+class SearchAction
+  attr_accessor :relation, :success_message
+
+  def initialize(relation)
+    @relation = relation
+  end
+
+  def delete
+    count = relation.count
+    relation.delete_all
+    self.success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} deleted"
+  end
+
+  def destroy
+    count = relation.count
+    relation.find_in_batches do |group|
+      group.each {|record| record.destroy }
+    end
+    self.success_message = "#{count} #{AdminData::Util.pluralize(count, 'record')} destroyed"
+  end
+end
+
 module AdminData
   class SearchController < ApplicationController
 
@@ -9,6 +31,7 @@ module AdminData
     before_filter :ensure_valid_children_klass, :only => [:quick_search]
     before_filter :ensure_is_authorized_for_update_opration, :only => [:advance_search]
     before_filter :set_column_type_info, :only => [:advance_search]
+
 
     def quick_search
       @page_title = "Search #{@klass.name.underscore}"
@@ -47,16 +70,20 @@ module AdminData
             render :file =>  file, :locals => {:errors => errors}
             return
           end
-          if params[:admin_data_advance_search_action_type] == 'destroy'
-            handle_advance_search_action_type_destroy
-          elsif params[:admin_data_advance_search_action_type] == 'delete'
-            handle_advance_search_action_type_delete
+
+          search_action = SearchAction.new(@relation)
+
+          case params[:admin_data_advance_search_action_type]
+          when 'destroy'
+            search_action.destroy
+          when 'delete'
+            search_action.delete
           else
             @records = @relation.order(@order).paginate(:page => params[:page], :per_page => per_page)
           end
 
-          if @success_message
-            render :json => {:success => @success_message }
+          if search_action.success_message
+            render :json => {:success => search_action.success_message }
           else
             file = "/admin_data/search/search/listing.html.erb"
             render :partial => file, :locals => {:klass => @klass}, :layout => false
@@ -90,20 +117,6 @@ module AdminData
       if %w(destroy delete).include? params[:admin_data_advance_search_action_type]
         render :text => 'not authorized' unless is_allowed_to_update?
       end
-    end
-
-    def handle_advance_search_action_type_delete
-      count = @relation.count
-      @relation.delete_all
-      @success_message = "#{count} #{Util.pluralize(count, 'record')} deleted"
-    end
-
-    def handle_advance_search_action_type_destroy
-      count = @relation.count
-      @relation.find_in_batches do |group|
-        group.each {|record| record.destroy }
-      end
-      @success_message = "#{count} #{Util.pluralize(count, 'record')} destroyed"
     end
 
     def default_order
