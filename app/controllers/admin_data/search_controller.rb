@@ -75,7 +75,9 @@ module AdminData
           render :text => "#{params[:base]} is an invalid value", :status => :not_found
           return
         end
-        if ActiveRecordUtil.declared_has_many_association_names(model_klass).include?(params[:children]) || ActiveRecordUtil.declared_habtm_association_names(model_klass).include?(params[:children])
+
+        ar_util = ActiveRecordUtil.new(model_klass)
+        if ar_util.declared_has_many_association_names.include?(params[:children]) || ar_util.declared_habtm_association_names.include?(params[:children])
           #proceed
         else
           render :text => "#{params[:children]} is not a valid has_many association", :status => :not_found

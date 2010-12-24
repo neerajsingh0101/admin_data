@@ -62,7 +62,7 @@ module AdminData
     end
 
     def has_one(model, klass)
-      tmp = AdminData::ActiveRecordUtil.declared_has_one_association_names(klass)
+      tmp = AdminData::ActiveRecordUtil.new(klass).declared_has_one_association_names
       tmp.inject('') do |output, ho|
         begin
           label = ho
@@ -79,13 +79,13 @@ module AdminData
     end
 
     def has_many_data(model, klass)
-      array = AdminData::ActiveRecordUtil.declared_has_many_association_names(klass).map do |m|
+      array = AdminData::ActiveRecordUtil.new(klass).declared_has_many_association_names.map do |m|
         begin
           count = model.send(m.intern).count
           label = m.to_s + '(' + count.to_s + ')'
           output = label
           if count > 0
-            has_many_klass_name = AdminData::ActiveRecordUtil.klass_for_association_type_and_name(model.class, :has_many, m).name.underscore
+            has_many_klass_name = AdminData::ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_many, m).name.underscore
             output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
             :children => m,
             :base => klass.name.underscore,
@@ -100,7 +100,7 @@ module AdminData
     end
 
     def belongs_to_data(model, klass)
-      AdminData::ActiveRecordUtil.declared_belongs_to_association_names(klass).map do |assoc_name|
+      AdminData::ActiveRecordUtil.new(klass).declared_belongs_to_association_names.map do |assoc_name|
         begin
           output = assoc_name
           if belongs_to_record = model.send(assoc_name)
@@ -114,14 +114,14 @@ module AdminData
     end
 
     def habtm_data(model, klass)
-      AdminData::ActiveRecordUtil.declared_habtm_association_names(klass).map do |assoc_name|
+      AdminData::ActiveRecordUtil.new(klass).declared_habtm_association_names.map do |assoc_name|
         begin
           count = model.send(assoc_name.intern).count
           label = assoc_name + '(' + count.to_s + ')'
           output = label
 
           if count > 0 then
-            has_many_klass_name = AdminData::ActiveRecordUtil.klass_for_association_type_and_name(model.class, :has_and_belongs_to_many, assoc_name).name.underscore
+            has_many_klass_name = AdminData::ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name).name.underscore
             output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
             :children => assoc_name,
             :base => klass.name.underscore,
@@ -148,7 +148,7 @@ module AdminData
 
       if col.primary
         html <<  model.new_record? ? '(auto)' : model.id
-      elsif get_reflection_for_column(klass, col) && AdminData.config.display_assoc?( klass.name ) 
+      elsif get_reflection_for_column(klass, col) && AdminData.config.display_assoc?( klass.name )
         form_field_for_association_records(klass, col, f, html)
       else
         handle_column_type(col, html, model, column_value, f)
@@ -180,7 +180,7 @@ module AdminData
     def form_field_for_habtm_records(klass, model, f, html)
       begin
         html = []
-        AdminData::ActiveRecordUtil.delcared_habtm_association_names(klass).each do |k|
+        AdminData::ActiveRecordUtil.new(klass).delcared_habtm_association_names.each do |k|
           assoc_klass = AdminData::Util.get_class_name_for_habtm_association(model, k)
 
           html << "<div class='col_box'>"

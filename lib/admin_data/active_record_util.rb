@@ -1,44 +1,50 @@
 module AdminData
   class ActiveRecordUtil
 
+    attr_accessor :klass
+
+    def initialize(klass)
+      @klass = klass
+    end
+
     # class User
     #   has_and_belongs_to_many :clubs
     # end
     #
-    # ActiveRecordUtil.declared_habtm_association_names(User)
+    # ActiveRecordUtil.new(User).declared_habtm_association_names
     # #=> ['clubs']
-    def self.declared_habtm_association_names(klass)
-      delcared_association_names_for(klass, :has_and_belongs_to_many).map(&:name).map(&:to_s)
+    def declared_habtm_association_names
+      delcared_association_names_for(:has_and_belongs_to_many).map(&:name).map(&:to_s)
     end
 
     # class User
     #   belongs_to :club
     # end
     #
-    # ActiveRecordUtil.declared_belongs_to_association_names(User)
+    # ActiveRecordUtil.new(User).declared_belongs_to_association_names
     # #=> ['club']
-    def self.declared_belongs_to_association_names(klass)
-      delcared_association_names_for(klass, :belongs_to).map(&:name).map(&:to_s)
+    def declared_belongs_to_association_names
+      delcared_association_names_for(:belongs_to).map(&:name).map(&:to_s)
     end
 
     # class User
     #   has_one :car
     # end
     #
-    # ActiveRecordUtil.declared_has_one_association_names(User)
+    # ActiveRecordUtil.new(User).declared_has_one_association_names
     # #=> ['car']
-    def self.declared_has_one_association_names(klass)
-      delcared_association_names_for(klass, :has_one).map(&:name).map(&:to_s)
+    def declared_has_one_association_names
+      delcared_association_names_for(:has_one).map(&:name).map(&:to_s)
     end
 
     # class User
     #   has_many :cars
     # end
     #
-    # ActiveRecordUtil.declared_has_many_association_names(User)
+    # ActiveRecordUtil.new(User).declared_has_many_association_names
     # #=> ['cars']
-    def self.declared_has_many_association_names(klass)
-      delcared_association_names_for(klass, :has_many).map(&:name).map(&:to_s)
+    def declared_has_many_association_names
+      delcared_association_names_for(:has_many).map(&:name).map(&:to_s)
     end
 
     # returns an array of classes
@@ -47,11 +53,11 @@ module AdminData
     #   has_and_belongs_to_many :clubs
     # end
     #
-    # ActiveRecordUtil.habtm_klasses_for(User)
+    # ActiveRecordUtil.new(User).habtm_klasses_for
     # #=> [Club]
-    def self.habtm_klasses_for(klass)
-      declared_habtm_association_names(klass).map do |assoc_name|
-        klass_for_association_type_and_name(klass, :has_and_belongs_to_many, assoc_name)
+    def habtm_klasses_for
+      declared_habtm_association_names.map do |assoc_name|
+        klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name)
       end
     end
 
@@ -61,10 +67,10 @@ module AdminData
     #   has_many :comments
     # end
     #
-    # ActiveRecordUtil.klass_for_association_type_and_name(User, :has_many, 'comments')
+    # ActiveRecordUtil.new(User).klass_for_association_type_and_name(:has_many, 'comments')
     # #=> Comment
     #
-    def self.klass_for_association_type_and_name(klass, association_type, association_name)
+    def klass_for_association_type_and_name(association_type, association_name)
       data = klass.name.camelize.constantize.reflections.values.detect do |value|
         value.macro == association_type && value.name.to_s == association_name
       end
@@ -72,11 +78,11 @@ module AdminData
     end
 
     # returns false if the given Klass has no association info. Otherwise returns true.
-    def self.has_association_info?(k)
-      AdminData::ActiveRecordUtil.declared_belongs_to_association_names(k).any? ||
-      AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||
-      AdminData::ActiveRecordUtil.declared_has_many_association_names(k).any? ||
-      AdminData::ActiveRecordUtil.declared_habtm_association_names(k).any?
+    def has_association_info?
+      declared_belongs_to_association_names.any? ||
+      declared_has_many_association_names.any? ||
+      declared_has_many_association_names.any? ||
+      declared_habtm_association_names.any?
     end
 
     private
@@ -86,7 +92,7 @@ module AdminData
     # #=> ['comments']
     # #=> ['positive_comments']
     # #=> ['negative_comments']
-    def self.delcared_association_names_for(klass, association_type)
+    def delcared_association_names_for(association_type)
       klass.name.camelize.constantize.reflections.values.select do |value|
         value.macro == association_type
       end
