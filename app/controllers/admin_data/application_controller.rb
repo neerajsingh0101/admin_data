@@ -10,7 +10,7 @@ module AdminData
 
     before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
 
-    attr_reader :klass, :model
+    attr_reader :klass
 
     protected
 
@@ -53,13 +53,6 @@ module AdminData
         model_names = Dir.chdir(model_dir) { Dir["*.rb"] }
         klasses = get_klass_names(model_names)
         $admin_data_all_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
-      end
-    end
-
-    def _build_custom_klasses
-      _build_all_klasses.compact.select do |klass_local|
-        @klass = klass_local
-        is_allowed_to_view_klass?
       end
     end
 

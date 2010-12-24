@@ -8,7 +8,7 @@ module AdminData
     end
 
     def verify(controller)
-      controller.authenticate_or_request_with_http_basic { |_userid, _password| (_userid == @userid) && (_password == @password) }
+      controller.authenticate_or_request_with_http_basic { |_u, _p| (_u == @userid) && (_p == @password) }
     end
 
   end

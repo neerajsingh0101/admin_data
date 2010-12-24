@@ -82,8 +82,8 @@ module AdminData
       condition = {primary_key => conditional_id}
 
       _proc = AdminData.config.find_conditions[@klass.name]
-      if _proc && find_conditions = _proc.call(params)
-        condition = find_conditions.fetch(:conditions) if find_conditions.has_key?(:conditions)
+      if _proc && (find_conditions = _proc.call(params)) && find_conditions.has_key?(:conditions)
+        condition = find_conditions.fetch(:conditions)
       end
 
       unless @model = @klass.find(:first, :conditions => condition)

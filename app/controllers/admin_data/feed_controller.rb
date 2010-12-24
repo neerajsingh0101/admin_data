@@ -2,6 +2,8 @@ module AdminData
 
   class FeedController < ApplicationController
 
+    before_filter :ensure_is_allowed_to_view_feed
+
     def index
       if params[:klasss].blank?
         render :text => "Usage: http://localhost:3000/admin_data/feed/user replace user with your model name"
