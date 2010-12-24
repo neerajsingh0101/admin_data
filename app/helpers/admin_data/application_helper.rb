@@ -1,6 +1,11 @@
 module AdminData
   module ApplicationHelper
 
+    def parent_layout(layout)
+      @_content_for[:layout] = self.output_buffer
+      self.output_buffer = render(:file => "layouts/#{layout}")
+    end
+
     def column_title(klass, column)
       AdminData.config.column_headers[klass.name].try(:fetch,column.intern, nil) || column
     end

@@ -25,6 +25,8 @@ end
 module AdminData
   class SearchController < ApplicationController
 
+    layout 'search'
+
     include Search
 
     before_filter :get_class_from_params

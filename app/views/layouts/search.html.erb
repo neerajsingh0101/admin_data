@@ -1,0 +1,37 @@
+<div id='main'>
+<div class="block" id="block-text">
+
+  <div>
+    <h1 class='listing_klass'> Listing <%=@klass.name%></h1>
+    <h3 class='total_records_info_klass'><%=total_records_info(@klass)%></h3>
+    <div class='clear'></div>
+  </div>
+
+  <div class="secondary-navigation">
+    <%= render 'admin_data/shared/secondary_navigation', :klass => @klass %>
+    <div class="clear"></div>
+  </div>
+
+  <div class="content">
+    <%= yield %>
+  </div>
+
+  <div class='clear'></div>
+
+  <div class='main2 rounded'>
+    <div class="block" id="block-tables">
+      <div class="content">
+        <div class='inner'>
+          <div id='results'>
+            <% if params[:action] == 'quick_search' %>
+              <%= render 'admin_data/search/search/listing', :klass => @klass, :records => @records %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<%= parent_layout 'admin_data' %>

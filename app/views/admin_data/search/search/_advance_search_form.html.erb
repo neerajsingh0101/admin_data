@@ -1,6 +1,6 @@
-<%= form_tag(admin_data_advance_search_path(:klass=>klass),   
-             :method => 'get', 
-             :class => 'form search_form', 
+<%= form_tag(admin_data_advance_search_path(:klass => klass),
+             :method => 'get',
+             :class => 'form search_form',
              :id => 'advance_search_form') %>
 
   <div id='advance_search' class='search_box'>
@@ -8,19 +8,19 @@
     </table>
 
     <div class='sortby_umbrella'>
-      <div class='group'>     
+      <div class='group'>
         <div class='sortby_text'>Sort by</div>
         <select name='sortby' id='sortby'>
           <%= AdminData::Util.build_sort_options(klass,params[:sortby]).html_safe %>
         </select>
         <br />
-      </div> 
+      </div>
       <div class='clear'></div>
       <input type="submit" value="Search" class='submit_search' />
-    </div> 
+    </div>
   </div>
 
-</form>   
+</form>
 
 <div style='display:none;' id='primary_column_type_info'>
   <%=@column_type_info%>
@@ -30,15 +30,15 @@
 </div>
 
 <style>
-   .sortby_umbrella { 
+   .sortby_umbrella {
       margin-top: 6px;
    }
    .sortby_umbrella .group {
       padding-left: 20px;
-   } 
+   }
    .sortby_umbrella .sortby_text {
       font-size: 16px;
-   } 
+   }
    .submit_search {
       margin-left: 15px;
       margin-right: 20px;
@@ -46,12 +46,12 @@
    .sortby_umbrella .group {
       float: left;
    }
-   .sortby_text { 
+   .sortby_text {
       float: left;
       margin-right: 5px;
    }
-   #sortby { 
-      width: 200px; 
+   #sortby {
+      width: 200px;
       float: left;
    }
 </style>
