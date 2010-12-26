@@ -1,5 +1,5 @@
 Feature: CRUD
-  
+
   Scenario: edit
     Given a user exists
     Given I visit user show page
@@ -26,14 +26,14 @@ Feature: CRUD
     Given a phone number exists
     Given I visit phone_number show page
     Given I follow "Edit"
-    Then page should have input field css "#phone_number_user_id" with user_id value
+    Then page should have "input" field with selector "#phone_number_user_id"
 
   Scenario: edit PhoneNumber (with association drop-down)
     Given configuration to show the association drop down for PhoneNumber
     Given a phone number exists
     Given I visit phone_number show page
     Given I follow "Edit"
-    Then page should have select field css "#phone_number_user_id" with user_id value
+    Then page should have "select" field with selector "#phone_number_user_id"
 
   Scenario: add a new record
     Given a user exists

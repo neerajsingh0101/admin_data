@@ -1,4 +1,8 @@
-Then /^page should have (\w*) field css "(.*)" with user_id value$/ do |tag_name,css_selector|
+# Usage:
+#
+# Then page should have "select" field with selector "#phone_number_user_id"
+# Then page should have "input" field with selector "#phone_number_user_id"
+Then /^page should have "(.*)" field with selector "(.*)"$/ do |tag_name, css_selector|
   elem = page.find(css_selector)
   elem.tag_name.should == tag_name
   elem.value.should == PhoneNumber.last.user.id.to_s
@@ -34,6 +38,13 @@ def handy_has_links(table)
   end
 end
 
+# Usage:
+#
+# Then page should have following links:
+#  | url                                                | text          | within  |
+#  | http://github.com/neerajdotname/admin_data         | admin_data    | #footer |
+#  | http://github.com/neerajdotname/admin_data/issues  | Report Bug    | #footer |
+#  | http://github.com/neerajdotname/admin_data/wiki    | Documentation | #footer |
 Then /^page should have following links?:$/ do |table|
   handy_has_links(table)
 end
@@ -41,15 +52,15 @@ end
 
 # Usage :
 #
-#   position:         if the option is the very first option in the dropdown list then position should be 1.
-#   css_selector:     only class and id are supported at this time.
-#   value_match_type: If specified as "regex" then Regular expression will be used to detect the match.
+#  position:         if the option is the very first option in the dropdown list then position should be 1.
+#  css_selector:     only class and id are supported at this time.
+#  value_match_type: If specified as "regex" then Regular expression will be used to detect the match.
 #
-#    Then I should see dropdown with css_selector ".drop_down_value_klass" with following options:
-#      | text         | value                                 | position | value_match_type |
-#      | phone_number | /admin_data/quick_search/phone_number | 2        | regex            |
-#      | user         | /admin_data/quick_search/user         | 3        | regex            |
-#      | website      | /admin_data/quick_search/website      | 4        | regex            |
+#  Then I should see dropdown with css_selector ".drop_down_value_klass" with following options:
+#    | text         | value                                 | position | value_match_type |
+#    | phone_number | /admin_data/quick_search/phone_number | 2        | regex            |
+#    | user         | /admin_data/quick_search/user         | 3        | regex            |
+#    | website      | /admin_data/quick_search/website      | 4        | regex            |
 #
 def handy_has_select?(css_selector, select_options)
   selector = css_selector[1..-1]
