@@ -23,14 +23,14 @@ Feature: CRUD
 
   Scenario: edit PhoneNumber (no association drop-down)
     Given configuration to hide the association drop down for PhoneNumber
-    Given a phone_number exists
+    Given a phone number exists
     Given I visit phone_number show page
     Given I follow "Edit"
     Then page should have input field css "#phone_number_user_id" with user_id value
 
   Scenario: edit PhoneNumber (with association drop-down)
     Given configuration to show the association drop down for PhoneNumber
-    Given a phone_number exists
+    Given a phone number exists
     Given I visit phone_number show page
     Given I follow "Edit"
     Then page should have select field css "#phone_number_user_id" with user_id value

@@ -1,7 +1,3 @@
-Given /^a phone_number exists$/ do
-  Factory(:phone_number)
-end
-
 When /^I visit (.*) page$/ do |target_page|
   case target_page
   when 'admin_data'
