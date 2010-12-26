@@ -1,7 +1,7 @@
 Feature: quick search
-  
+
   Background:
-    When configured to display only 2 records per page 
+    When configured to display only 2 records per page
     When configured to rename City columns:
       | column | alias     |
       | :id    | ID        |
@@ -72,7 +72,8 @@ Feature: quick search
       | 123-456-7777  | first name:Mary |
     When I visit quick search page with association info page
     Then I should see "has 2 phone_numbers"
-    Then I should see only two rows in the quick search result table
+    #Then I should see only two rows in the quick search result table
+    Then I should see "2" rows in table "view_table"
 
   Scenario: quick search with wrong klass name
     When I visit quick search with wrong klass name page

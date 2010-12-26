@@ -80,7 +80,7 @@ Feature: Advance search multiple rows
     Then page should have id "remove_row_3"
 
     When I follow "remove_row_3"
-    Then I should see only two rows in the advance search result table
+    Then I should see "2" rows in table "advance_search_table"
     When I press "Search"
     Then I should see "Search result: 2 records found"
     Then async verify that user "first_name" is "John"

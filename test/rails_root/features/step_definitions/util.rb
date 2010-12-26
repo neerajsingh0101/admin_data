@@ -8,15 +8,9 @@ Then /^page should have id "remove_row_3"$/ do
   page.has_css?("remove_row_3")
 end
 
-Then /^I should see only two rows in the (.*) result table$/ do |search_type|
-  case search_type
-  when 'quick search'
-    table_id = 'view_table'
-  when 'advance search'
-    table_id = 'advance_search_table'
-  end
+Then /^I should see "(.*)" rows in table "(.*)"$/ do |count, table_id|
   table =  page.find(:xpath, "//table[@id='#{table_id}']")
-  table.find(:xpath, "./tbody/tr", :count => 2 )
+  table.find(:xpath, "./tbody/tr", :count => count.to_i )
 end
 
 Then /^async I should see "(.*)"$/ do |msg|
