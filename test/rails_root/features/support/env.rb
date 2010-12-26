@@ -60,7 +60,6 @@ end
 
 require 'factory_girl'
 require Rails.root.join('test', 'factories')
-Dir[Rails.root.join('test', 'factories', '*.rb')].each {|f| require f}
 require 'factory_girl/step_definitions'
 require 'shoulda'
 
