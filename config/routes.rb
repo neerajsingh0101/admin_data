@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
       match '/feed/:klasss' => "feed#index", :defaults => { :format =>'rss' }, :as => :feed
 
-      match '/public/*file' => "public#serve"
+      match '/public/*file' => "public#serve", :as => :public
 
       root :to => "home#index"
     end
