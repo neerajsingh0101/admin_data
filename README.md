@@ -5,7 +5,7 @@
 # [Installing in a Rails3 application](https://github.com/neerajdotname/admin_data/wiki/Installation-and-Usage-information-for-a-Rails-3-application) #
 # [Installing in a Rails 2.3.x application](https://github.com/neerajdotname/admin_data/wiki/Installation-and-Usage-information-for-a-Rails-2.3.x-application) #
 
-# [Live Demo](http://admin-data-test.heroku.com/admin_data) #
+# [Live Demo](http://admin-data-demo.heroku.com/admin_data) #
 
 
 #Test#
