@@ -6,6 +6,7 @@
   </div>
   <div class='data'>
     <input type="file" name="<%= klass.to_s.downcase %>[<%= col.name.gsub('_file_name','') %>]" />
+    <%= image_tag @model.send(":#{col.name.gsub('_file_name','')}".to_sym) %>
   </div>
 <% else %>
   <div class='col_box'>
