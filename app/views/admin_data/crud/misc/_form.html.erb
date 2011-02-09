@@ -5,7 +5,7 @@
     <span class='col_type'>[file upload]</span>
   </div>
   <div class='data'>
-    <input type="file" name="<%= klass.downcase %>[<%= col.name.gsub('_file_name','') %>]" />
+    <input type="file" name="<%= klass.to_s.downcase %>[<%= col.name.gsub('_file_name','') %>]" />
   </div>
 <% else %>
   <div class='col_box'>
