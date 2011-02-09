@@ -16,6 +16,7 @@
     <%= form_field(klass, @model, col, f).html_safe %>
   </div>
 <% end %>
+<% end %>
 
 <% if AdminData::ActiveRecordUtil.new(klass).declared_habtm_association_names.any? %>
   <div class='data'>
