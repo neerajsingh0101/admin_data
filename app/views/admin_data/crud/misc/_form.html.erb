@@ -1,4 +1,13 @@
 <% @columns.each do |col| %>
+<% if col.name.include?('file_name') %>
+  <div class='col_box'>
+    <span class='col_name'><%= col.name %> (uploadable field detected)</span>
+    <span class='col_type'>[<%= col.type.to_s %>]</span>
+  </div>
+  <div class='data'>
+    <%= form_field(klass, @model, col, f).html_safe %>
+  </div>
+<% else %>
   <div class='col_box'>
     <span class='col_name'><%= col.name %></span>
     <span class='col_type'>[<%= col.type.to_s %>]</span>

@@ -13,7 +13,7 @@
     <div class="content rounded">
       <div class="inner umbrella">
         <% url = admin_data_path(:klass => @klass.name, :id => @model.id)
-           html_options = {:class => 'form', :method => :put} %>
+           html_options = {:class => 'form', :method => :put, :multipart => true} %>
            <%= form_for @model, :as => @klass.name.underscore.to_sym, :url => url, :html=> html_options do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>
           <%= render 'admin_data/crud/misc/form', :klass => @klass, :f => f %>
