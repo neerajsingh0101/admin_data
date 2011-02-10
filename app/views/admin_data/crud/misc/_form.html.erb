@@ -1,13 +1,19 @@
 <% @columns.each do |col| %>
 <% if col.name.include?('file_name') %>
+<% attachment_name = col.name.gsub('_file_name','') %>
+<% if @model.respond_to?(attachment_name.to_sym) %>
   <div class='col_box'>
     <span class='col_name'><%= col.name %></span>
     <span class='col_type'>[file upload]</span>
   </div>
   <div class='data'>
-    <input type="file" name="<%= klass.to_s.downcase %>[<%= col.name.gsub('_file_name','') %>]" />
-    <%= image_tag @model.send(col.name.gsub('_file_name','').to_sym).url %>
+    <input type="file" name="<%= klass.to_s.downcase %>[<%= attachment_name %>]" />
+    Original: <%= image_tag @model.send(attachment_name.to_sym).url %><br/>
+    <% @model.send(attachment_name.to_sym).styles.keys.each do |key| %>
+    <%= key.to_s.gsub(':','').capitalize %>: <%= image_tag @model.send(attachment_name.to_sym).url(key) %><br/>
+    <% end %>
   </div>
+<% end %>
 <% else %>
   <div class='col_box'>
     <span class='col_name'><%= col.name %></span>
