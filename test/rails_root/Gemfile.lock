@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/nsingh/dev/admin_data
+  remote: /Users/nsingh/dev/personal/admin_data
   specs:
     admin_data (1.1.10)
       will_paginate (>= 3.0.pre2)
@@ -155,6 +155,3 @@ DEPENDENCIES
   ruby-debug
   shoulda
   sqlite3-ruby
-
-METADATA
-  version: 1.0.6
