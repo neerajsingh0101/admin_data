@@ -288,5 +288,12 @@ module AdminData
       klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
     end
 
+    def record_id(record)
+      if record.respond_to?(:primary_key)
+        record.send(:primary_key)
+      else
+        record.id
+      end
+    end
   end
 end
