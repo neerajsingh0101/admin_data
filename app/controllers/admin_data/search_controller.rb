@@ -27,7 +27,7 @@ module AdminData
 
     layout 'search'
 
-    include Search
+    include AdminData::Search
 
     before_filter :get_class_from_params
     before_filter :ensure_valid_children_klass, :only => [:quick_search]
