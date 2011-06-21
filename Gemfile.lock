@@ -2,11 +2,13 @@ PATH
   remote: .
   specs:
     admin_data (1.1.12)
+      will_paginate (= 3.0.pre2)
 
 GEM
   remote: http://rubygems.org/
   specs:
     rake (0.8.7)
+    will_paginate (3.0.pre2)
 
 PLATFORMS
   ruby
@@ -14,3 +16,4 @@ PLATFORMS
 DEPENDENCIES
   admin_data!
   rake (= 0.8.7)
+  will_paginate (= 3.0.pre2)
