@@ -10,7 +10,7 @@
 
 #Test#
 
-####cd _test/rails_app_ and read the instructions mentioned at README.md there.####
+<tt>cd _test/rails_root</tt> and read the instructions mentioned at README.md there.
 
 
 
