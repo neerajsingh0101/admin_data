@@ -161,7 +161,7 @@ module Search
   end # end of Term
 
 
-  def build_quick_search_conditions( klass, search_term )
+  def build_quick_search_condition( klass, search_term )
     return nil if search_term.blank?
     str_columns = klass.columns.select { |column| column.type.to_s =~ /(string|text)/i }
     conditions = str_columns.collect do |column|
@@ -171,7 +171,7 @@ module Search
     AdminData::Util.or_merge_conditions(klass, *conditions)
   end
 
-  def build_advance_search_conditions(klass, options)
+  def build_advance_search_condition(klass, options)
     values        = ( options.blank? ? [] : options.values )
     terms         = values.collect {|value| Term.new(klass, value, 'advance_search') }
     valid_terms   = terms.select{ |t| t.valid? }

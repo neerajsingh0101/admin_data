@@ -48,7 +48,7 @@ module AdminData
         @records = has_many_proxy.send(:paginate, h)
       else
         params[:query] = params[:query].strip unless params[:query].blank?
-        cond = build_quick_search_conditions(@klass, params[:query])
+        cond = build_quick_search_condition(@klass, params[:query])
         h = { :page => params[:page], :per_page => per_page, :order => order, :conditions => cond }
         @records = @klass.unscoped.paginate(h)
       end
@@ -58,7 +58,7 @@ module AdminData
 
     def advance_search
       @page_title = "Advance search #{@klass.name.underscore}"
-      hash = build_advance_search_conditions(@klass, params[:adv_search])
+      hash = build_advance_search_condition(@klass, params[:adv_search])
       relation = hash[:cond]
       errors = hash[:errors]
       order = default_order
