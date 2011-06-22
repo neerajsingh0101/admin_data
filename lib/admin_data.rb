@@ -13,6 +13,7 @@ module AdminData
   autoload :SetupConfig
   autoload :DateUtil
   autoload :Authenticator
+  autoload :Search
 
   include SetupConfig
 

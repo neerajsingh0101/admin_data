@@ -1,5 +1,3 @@
-require File.join(AdminData::LIBPATH, 'admin_data', 'search')
-
 class SearchAction
   attr_accessor :relation, :success_message
 
