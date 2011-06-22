@@ -39,17 +39,6 @@ Feature: quick search
     Then I should see "seattle"
     Then I should see population_5000
 
-  Scenario: sorting
-    Given the following user exists:
-      | first_name | last_name |
-      | Mary       | Jane      |
-      | John       | Smith     |
-    Given I visit quick_search page
-    When I select "id asc" from "sortby"
-    When I press "Search"
-    Then verify that user "first_name" is "Mary"
-    Then verify that user "last_name" is "Jane"
-
   Scenario: quick search with search term
     Given the following user exists:
       | first_name | last_name |
