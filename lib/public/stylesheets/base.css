@@ -1109,7 +1109,7 @@ ul#subnav li a:hover {
 }
 
 th.sortable {
-  background: url("") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_nothing.jpg") no-repeat scroll 0 0 #CAE8EA;
   cursor: pointer;
   padding: 8px 12px 4px 16px;
   border-bottom: 1px solid #c1dad7;
@@ -1124,8 +1124,8 @@ th.sortable a {
 }
 
 th.sort_by_desc {
-  background: url("") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_desc.jpg") no-repeat scroll 0 0 #CAE8EA;
 }
 th.sort_by_asc {
-  background: url("") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_asc.jpg") no-repeat scroll 0 0 #CAE8EA;
 }

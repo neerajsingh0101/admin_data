@@ -13,7 +13,7 @@
      <tr>
       <% columns_order(klass).each do |column| %>
         <th class='<%=get_sort_class(column)%>'> 
-          <%= link_to column_title(klass, column), '' %> 
+          <%= get_sort_title_with_url(column, klass) %>
         </th>
       <% end %>
     </tr>

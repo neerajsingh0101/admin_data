@@ -15,6 +15,8 @@ module AdminData
         content_type = "text/javascript"
       when /\.png$/i
         content_type = "image/png"
+      when /\.jpg$/i
+        content_type = "image/jpg"
       else
         render :nothing => true, :status => 404 and return
       end
