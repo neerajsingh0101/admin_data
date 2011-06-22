@@ -10,9 +10,9 @@
 <table cellspacing="3" cellpadding="3" id="view_table" class='table colorize'>
 
   <thead>
-     <tr>
+     <tr class='thead'>
       <% columns_order(klass).each do |column| %>
-        <th class='<%=get_sort_class(column)%>'> 
+        <th class='<%=get_sort_class(column)%>' data-sortby='<%=get_sort_order(column)%>'> 
           <%= get_sort_title_with_url(column, klass) %>
         </th>
       <% end %>

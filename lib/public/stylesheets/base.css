@@ -909,7 +909,6 @@ table#view_table th {
 	border: 1px solid #ccc;
 	letter-spacing: 2px;
 	text-align: left;
-	padding: 6px 6px 6px 12px;
 }
 
 
@@ -1109,7 +1108,7 @@ ul#subnav li a:hover {
 }
 
 th.sortable {
-  background: url("/admin_data/public/images/sort_by_nothing.jpg") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_nothing.jpg") no-repeat scroll 0 -4px #CAE8EA;
   cursor: pointer;
   padding: 8px 12px 4px 16px;
   border-bottom: 1px solid #c1dad7;
@@ -1120,12 +1119,15 @@ th.sortable {
 }
 
 th.sortable a {
-  margin-left: 6px;
+  margin-left: 3px;
+  color: #4F6B72;
 }
 
 th.sort_by_desc {
-  background: url("/admin_data/public/images/sort_by_desc.jpg") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_desc.jpg") no-repeat scroll 0 -4px #CAE8EA;
 }
 th.sort_by_asc {
-  background: url("/admin_data/public/images/sort_by_asc.jpg") no-repeat scroll 0 0 #CAE8EA;
+  background: url("/admin_data/public/images/sort_by_asc.jpg") no-repeat scroll 0 -4px #CAE8EA;
 }
+
+

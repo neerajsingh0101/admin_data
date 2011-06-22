@@ -1,12 +1,16 @@
 module AdminData
   module ApplicationHelper
 
-    def get_sort_title_with_url(column, klass)
-      order = if column == @sort_by_column_name && @sort_order == 'desc'
+    def get_sort_order(column)
+      if column == @sort_by_column_name && @sort_order == 'desc'
         "#{column} asc"
       else
         "#{column} desc"
       end
+    end
+
+    def get_sort_title_with_url(column, klass)
+      order = get_sort_order(column)
       link_to column_title(klass, column), admin_data_search_path(:klass => klass, :query => params[:query], :sortby => order)
     end
 

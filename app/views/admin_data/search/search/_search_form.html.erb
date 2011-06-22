@@ -4,7 +4,6 @@
     <div id='quick_search'>
       <label class='label keyword_label'>Search keyword</label>
       <input type="text" id="quick_search_input" name="query" value="<%=params[:query]%>" />
-      <%= render :partial => 'admin_data/search/search/sortby', :locals => {:klass => klass} %>
       <div class='clear'></div>
       <%= submit_tag 'Search', :name => nil, :disable_with => 'searching ...', :class => 'submit_search' %>
     </div>
