@@ -902,6 +902,7 @@ table#view_table {
   margin: 5px 0 5px 0;
 	border-collapse: collapse;
 	border-spacing: 0;
+  font-size:13px;
 }
 
 table#view_table th {
