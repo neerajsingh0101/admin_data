@@ -33,12 +33,6 @@ module AdminData
     before_filter :set_column_type_info, :only => [:advance_search]
     before_filter :handle_sorting
 
-    def handle_sorting
-      sort_order = params[:sortby] || 'id desc'
-      @sort_by_column_name, @sort_order = sort_order.split
-      @sort_css = @sort_order == 'asc' ? 'sort_by_asc' : 'sort_by_desc'
-    end
-
 
     def quick_search
       @page_title = "Search #{@klass.name.underscore}"
@@ -137,6 +131,12 @@ module AdminData
         %Q{ "#{column.name}":"#{column_type}" }
       }.join(',')
       @column_type_info = "{#{column_type_info}}"
+    end
+
+    def handle_sorting
+      sort_order = params[:sortby] || 'id desc'
+      @sort_by_column_name, @sort_order = sort_order.split
+      @sort_css = @sort_order == 'asc' ? 'sort_by_asc' : 'sort_by_desc'
     end
 
   end
