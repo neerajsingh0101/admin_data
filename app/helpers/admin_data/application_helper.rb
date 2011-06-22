@@ -1,6 +1,14 @@
 module AdminData
   module ApplicationHelper
 
+    def get_sort_class(column)
+      sort_class = 'sortable'
+      if column == @sort_by_column_name
+        sort_class << ' ' + @sort_css
+      end
+      sort_class
+    end
+
     def parent_layout(layout)
       @_content_for[:layout] = self.output_buffer
       self.output_buffer = render(:file => "layouts/#{layout}")

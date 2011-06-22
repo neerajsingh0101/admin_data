@@ -36,6 +36,9 @@ module AdminData
     def quick_search
       @page_title = "Search #{@klass.name.underscore}"
       order = default_order
+      sort_order = params[:sortby] || 'id desc'
+      @sort_by_column_name, @sort_order = sort_order.split
+      @sort_css = @sort_order == 'asc' ? 'sort_by_asc' : 'sort_by_desc'
 
       if params[:base]
         klass = Util.camelize_constantize(params[:base])
