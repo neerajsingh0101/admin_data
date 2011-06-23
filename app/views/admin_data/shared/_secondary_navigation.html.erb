@@ -1,6 +1,7 @@
 <%
   quick_search_tab_active = params[:action] == 'quick_search' ? 'active' : ''
   advance_search_tab_active = params[:action] == 'advance_search' ? 'active' : ''
+  analytics_tab_active = params[:controller] == 'admin_data/analytics' ? 'active' : ''
   table_structure_tab_active = params[:controller] == 'admin_data/table_structure' ? 'active' : ''
   add_new_record_tab_active = %w(new create).include?(params[:action]) ? 'active' : ''
 %>
@@ -12,6 +13,10 @@
 
   <li class="<%=advance_search_tab_active%>">
     <%= link_to 'Advance Search', admin_data_advance_search_path(:klass => klass.name.underscore)  %>
+  </li>
+
+  <li class="<%=analytics_tab_active%>">
+    <%= link_to 'Analytics', admin_data_daily_analytics_path(:klass => klass.name.underscore)  %>
   </li>
 
   <li class="<%=table_structure_tab_active%>">

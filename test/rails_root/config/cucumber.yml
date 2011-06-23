@@ -7,5 +7,3 @@ default: <%= std_opts %> features
 wip: --tags @wip:3 --wip features
 rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip
 javascript: --tags @javascript
-
-

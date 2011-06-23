@@ -32,6 +32,8 @@
                                                  'advance_search/trigger_submit_on_domready',
                                                  'advance_search/sortby'
                                                 ) %>
+    <% elsif params[:controller] == 'admin_data/analytics' %>
+      <%= javascript_include_tag('analytics/report') %>
     <% end %>
 
     <%= csrf_meta_tag %>

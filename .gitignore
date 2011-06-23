@@ -15,3 +15,4 @@ test/rails_root/db/*.sqlite3
 test/rails_root/.rvmrc
 test/rails_root/.bundle
 test/rails_root/.bundle/*
+test/rails_root/config/database.yml

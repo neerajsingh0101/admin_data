@@ -86,7 +86,10 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    minitest (2.2.2)
+    mysql2 (0.2.7)
     nokogiri (1.4.4)
+    pg (0.10.0)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -150,6 +153,9 @@ DEPENDENCIES
   factory_girl_rails
   faker
   launchy (>= 0.3.7)
+  minitest
+  mysql2 (= 0.2.7)
+  pg (= 0.10.0)
   rails (= 3.0.3)
   rspec-rails (>= 2.0.1)
   ruby-debug
