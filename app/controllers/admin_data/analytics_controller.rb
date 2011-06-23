@@ -11,7 +11,7 @@ module AdminData
     end
 
     def daily
-      @chart_title = "#{@klass.name} rercords created in last 30 days"
+      @chart_title = "#{@klass.name} records created in the last 30 days"
 
       a = AdminData::Analytics.daily_report(@klass, Time.now)
       @chart_data_s = a.map {|e| e.last }.join(', ')
@@ -20,7 +20,7 @@ module AdminData
     end
 
     def monthly
-      @chart_title = "#{@klass.name} rercords created in last year"
+      @chart_title = "#{@klass.name} rercords created last year"
       a = AdminData::Analytics.monthly_report(@klass, Time.now)
       @chart_data_s = a.map {|e| e.last }.join(', ')
       @chart_data_x_axis = a.map {|e| e.first}.join(', ')
