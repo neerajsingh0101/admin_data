@@ -1,185 +1,201 @@
-=== 2010-12-07
+== 1.1.13
+
+* 24-June-2011
+* Analytics feature
+* Remove failing and not useful test
+* Better sorting for advance search
+* Better sorting for quick search
+
+== 2010-12-07
+
 * new router api
 * new configuration api. It is not backward compatible. However the error message is nice.
 * cucumber tests are inside the repo
 * support for column_headers
 * support for column_settings
 
-=== 2010-11-08 v1.0.20
+== 2010-11-08 v1.0.20
+
 * support for habtm
 * do not get the list of nested models. It breaks routing. Comprehensive nested models fix coming soon.
 
-=== 2010-11-08 v1.0.19
+== 2010-11-08 v1.0.19
+
 * used unscoped on the model to have basic search result always in the order user wants
 * remove inline css
 
-=== 2010-11-08 v1.0.18
+== 2010-11-08 v1.0.18
+
 * disable the columns not being used
 * use parseJSON instead of eval
 * javascript variable declaration refactoring
 
-=== 2010-10-12 v1.0.17
+== 2010-10-12 v1.0.17
+
 * use image for advance search add and remove link
 * fix bug regarding "Destroy All"
 * layout change
 * have only one drop down in the homepage
 
-=== 2010-09-22 v1.0.11
 
-=== 2010-10-12 v1.0.14
+== 2010-09-22 v1.0.11
+
+== 2010-10-12 v1.0.14
+
 * use the new way of routing. remove deprecation
 
-=== 2010-09-22 v1.0.11
+== 2010-09-22 v1.0.11
+
 * fix for pagination not working in chrome
 * css cleanup
 * JavaScript cleanup
 * bumped up jQuery from 1.4.1 to jQuery 1.4.2
 
-=== 2010-09-09 v1.0.10
+== 2010-09-09 v1.0.10
+
 * fix for delete and destroy link
 
-=== 2010-08-17 v1.0.8
+== 2010-08-17 v1.0.8
+
 * fix for deprecation warning in routes
 
-=== 2010-08-17 v1.0.5
+== 2010-08-17 v1.0.5
+
 * fix for options defined in ~/config/initializers/admin_data_settings.rb not taking effect
 
-=== 2010-08-17 v1.0.3
+== 2010-08-17 v1.0.3
+
 * added more tests
 * fixed a bug related to :is_allowed_to_view_klass
 
+== 2010-08-16
 
-=== 2010-08-16
 * released as a gem
 * version 1.0.2
 * only works with rails3
 
-=== 2010-04-14
+== 2010-04-14
 
 * JavaScript code refactoring
 * More JavaScript code test
 * Moved functionalities from layout to helper
 
-=== 0.0.37 2010-01-28
+== 0.0.37 2010-01-28
 
 * refactored the code to take inline style out to style section
 * moves a lot of ruby code from view to helpers and controllers
 * better indentation
 
-=== 0.0.36 2010-01-05
+== 0.0.36 2010-01-05
 
 * Fixing the online validation of models that have primary key not id
 
-=== 0.0.35 2010-01-05
+== 0.0.35 2010-01-05
 
 * If invalid children value is passed in apply rescue
 
-=== 0.0.34 2010-01-04
+== 0.0.34 2010-01-04
 
 * updated README
 
-=== 0.0.33 2009-12-27
+== 0.0.33 2009-12-27
 
 * added authentication for feed
 
-=== 0.0.32 2009-12-23
+== 0.0.32 2009-12-23
 
 * the default search result for advance search should be primary key des
 * changed the layout for quick search
 
-=== 0.0.31 2009-12-15
+== 0.0.31 2009-12-15
 
 * association information is rescued so that show method works even if association info throws error
 * association info is displayed with belongs_to or has_many name instead of class name
 * debugging variable $debug_admin_data
 
-=== 0.0.30 2009-12-02
+== 0.0.30 2009-12-02
 
 * RSS feed for all the models
 
-=== 0.0.29 2009-11-18
+== 0.0.29 2009-11-18
 
 * rake task to validate all the models
 * ability to validate all the models using browser
 * increased the font size of overall app
 
-=== 0.0.28 2009-11-12
+== 0.0.28 2009-11-12
 
 * has_many association_info were too close to each other
 * fixing the issue where a class is used as a hash key. It breaks in development
 
-=== 0.0.28 2009-11-11
+== 0.0.28 2009-11-11
 
 * better link color
 
-=== 0.0.28 2009-11-11
+== 0.0.28 2009-11-11
 
 * refactored the way advance search JavaScript code
 * for pretty urls like /42-SEO-friendly-title the show method should pickup 42 as id
 
-=== 0.0.27 2009-11-04
+== 0.0.27 2009-11-04
 
 * test for has_one association
 
-=== 0.0.26 2009-11-04
+== 0.0.26 2009-11-04
 
 * cleaning up History.txt file
 
-=== 0.0.25 2009-11-03
+== 0.0.25 2009-11-03
 
 * fix for issue #14 so that not like will also include records which are null
 
-=== 0.0.24 2009-11-03
+== 0.0.24 2009-11-03
 
 * advance search refactoring
 
-=== 0.0.23 2009-10-29
+== 0.0.23 2009-10-29
 
 * advance search bug fix
 
-=== 0.0.22 2009-10-26
+== 0.0.22 2009-10-26
 
 * fixed adding rows on advanced search
 * consistenly use model_id for search and association parent objects
 * datetime/date/time fixes on edit and advanced search pages
 * added configuration to not use admin_data layout and use application one instead
 
-=== 0.0.21 2009-10-26
+== 0.0.21 2009-10-26
 
 * fixed the formatting issue while displaying missing index in diagnostic section
-* by passing additional parameter called 'attr' editing of a record would display
-only one field to avoid any accidental change.
+* by passing additional parameter called 'attr' editing of a record would display only one field to avoid any accidental change.
 
-=== 0.0.20 2009-10-22
+== 0.0.20 2009-10-22
 
 * warning message if JavaScript is disabled
 
-=== 0.0.19 2009-10-20
+== 0.0.19 2009-10-20
 
-* ability to pass :find_conditions to settings so that models with to_param method could
-override the sql that is built by admin_data
+* ability to pass :find_conditions to settings so that models with to_param method could override the sql that is built by admin_data
 
-=== 0.0.18 2009-10-16
+== 0.0.18 2009-10-16
 
-* changed theme from warehouse to dark because the association info on the right
-hand side was not appearing correctly
+* changed theme from warehouse to dark because the association info on the right hand side was not appearing correctly
 * homepage should have main tab selected
 * changed urls to support models that override to_param to other than id
-* fixed the sorting order. model a, model B and model A/Q was being sorted
-as A,Q,B instead of A,B,Q.
+* fixed the sorting order. model a, model B and model A/Q was being sorted as A,Q,B instead of A,B,Q.
 
-=== 0.0.17 2009-10-08
+== 0.0.17 2009-10-08
 
 * drop down of klasses is now available at the center of home page
 * current model will be selected in the drop down
 
-=== 0.0.16 2009-10-07
+== 0.0.16 2009-10-07
 
 * form UI foreign keys are dropdown (display name attribute if it exists and id otherwise)
 * form UI date fields use date_select (with free text year since we cannot guess a good range)
 * form UI refactored to use form_for instead of form_tag and hadcoded html
 
-=== 0.0.15 2009-10-06
+== 0.0.15 2009-10-06
 
 * cache the list of models
 * advance search refactoring
@@ -187,20 +203,20 @@ as A,Q,B instead of A,B,Q.
 * advance search now shows validation error for integer and date fields
 * log.js for easy logging in JavaScript
 
-=== 0.0.14 2009-10-05
+== 0.0.14 2009-10-05
 
 * while editing match was being done for hard coded value id. Now it looks for klass.primary_key
 
-=== 0.0.13 2009-10-04
+== 0.0.13 2009-10-04
 
 * fixed IE7 bug
 
-=== 0.0.12 2009-10-04
+== 0.0.12 2009-10-04
 
 * fixed bug regarding integer values not appearning in listing
 * better indentation
 
-=== 0.0.11 2009-10-01
+== 0.0.11 2009-10-01
 
 * Major contribution in this release by Alex Rothenberg. http://github.com/alexrothenberg
 * this plugin now treats each model as a restful resource.
@@ -208,70 +224,61 @@ as A,Q,B instead of A,B,Q.
 * commented out offending code for has_one relationship
 * has_one and habtm relationships along with test would be taken up in next release
 
-=== 0.0.11 2009-09-28
+== 0.0.11 2009-09-28
 
 * renamed quick search to search
 * using jQuery theme to make drop down boxes jazzier
 * more tests
 * moved some inline css to external css file
 
-=== 0.0.10 2009-09-18
+== 0.0.10 2009-09-18
 
 * fixed listing and has_many association info for namespaced model
 
-=== 0.0.9 2009-09-18
+== 0.0.9 2009-09-18
 
 * fixed security issue
 
-=== 0.0.8 2009-09-18
+== 0.0.8 2009-09-18
 
 * do not assume that primary key is 'id' . Respect the primary key set by model.
-
 * test for alternate primary key
 
-=== 0.0.7 2009-09-17
+== 0.0.7 2009-09-17
 
 * fixed test for Vehicle::Car
 
-=== 0.0.6 2009-09-09
+== 0.0.6 2009-09-09
 
 * more tests for the plugin. Now 151 tests and 229 assertions
-
 * support for name spaced models like Vehicle::Car and Vehicle::Engine
-
 * fixed a bug related to advance search
-
 * refactored JavaScript code for advance search
 
-=== 0.0.5 2009-09-04
+== 0.0.5 2009-09-04
 
 * tests for the plugin
-
 * changed the way security configiruation is passed to the plugin
-
 * users can configure number of records in a page. Default is 50
-
 * fixed bug associated with advance search
-
 * added link to report bug in footer
-
 * fixed bug in date parsing
 
-=== 0.0.4 2009-08-28
+== 0.0.4 2009-08-28
 
 * storing serialized array in string causing problem in truncate method. more at
-  http://github.com/neerajdotname/admin_data/issues#issue/3.
+* http://github.com/neerajdotname/admin_data/issues#issue/3
 
-=== 0.0.3 2009-08-10
+== 0.0.3 2009-08-10
 
 * not requiring rubygems
 * if will_paginate is missing then not raising exception
 
-=== 0.0.2 2009-07-06
+== 0.0.2 2009-07-06
 
 * ability to sort records
 * better visual clue that search is in progress
 
-=== 0.0.1 2009-05-01
+== 0.0.1 2009-05-01
 
 * Initial release
