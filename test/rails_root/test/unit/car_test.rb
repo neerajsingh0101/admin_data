@@ -11,6 +11,8 @@ class CarTest < MiniTest::Unit::TestCase
 
   def setup
     Car.delete_all
+    new_time = Time.local(2011, 6, 23, 12, 0, 0)
+    Timecop.freeze(new_time)
   end
 
   def test_by_default_all_values_are_zero
