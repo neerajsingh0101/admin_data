@@ -21,9 +21,11 @@ Rails.application.routes.draw do
 
         match '/table_structure/:klass' => "table_structure#index",  :as => :table_structure
 
-        match '/quick_search'    => "search#quick_search",    :as => :search
+        match '/quick_search/:klass'    => "search#quick_search",    :as => :search
+        match '/quick_search'           => "search#quick_search"
 
-        match '/advance_search'  => "search#advance_search",  :as => :advance_search
+        match '/advance_search/:klass'  => "search#advance_search",  :as => :advance_search
+        match '/advance_search'         => "search#advance_search"
 
         match '/analytics/daily/:klass'       => "analytics#daily",        :as => :daily_analytics
         match '/analytics/monthly/:klass'     => "analytics#monthly",      :as => :monthly_analytics
