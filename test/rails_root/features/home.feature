@@ -12,23 +12,24 @@ Feature: homepage
     Then I should see "Select from the drop down menu above"
     When I follow "admin_data" within "#subnav"
     Then I should see "Select from the drop down menu above"
+    Then show me the page
     Then I should see dropdown with css_selector ".drop_down_value_klass" with following options:
       | text         | value                                 | position | value_match_type |
-      | city         | /admin_data/quick_search/city         | 2        | regex |
-      | club         | /admin_data/quick_search/club         | 3        | regex |
-      | newspaper    | /admin_data/quick_search/newspaper    | 4        | regex |
-      | phone_number | /admin_data/quick_search/phone_number | 5        | regex |
-      | user         | /admin_data/quick_search/user         | 6        | regex |
-      | website      | /admin_data/quick_search/website      | 7        | regex |
+      | city         | /admin_data/quick_search/city         | 3        | regex |
+      | club         | /admin_data/quick_search/club         | 4        | regex |
+      | newspaper    | /admin_data/quick_search/newspaper    | 5        | regex |
+      | phone_number | /admin_data/quick_search/phone_number | 6        | regex |
+      | user         | /admin_data/quick_search/user         | 7        | regex |
+      | website      | /admin_data/quick_search/website      | 8        | regex |
 
     Then I should see dropdown with css_selector "#drop_down_klasses" with following options:
       | text         | value                                 | position | value_match_type |
-      | city         | /admin_data/quick_search/city         | 2        | regex            |
-      | club         | /admin_data/quick_search/club         | 3        | regex            |
-      | newspaper    | /admin_data/quick_search/newspaper    | 4        | regex            |
-      | phone_number | /admin_data/quick_search/phone_number | 5        | regex            |
-      | user         | /admin_data/quick_search/user         | 6        | regex            |
-      | website      | /admin_data/quick_search/website      | 7        | regex            |
+      | city         | /admin_data/quick_search/city         | 3        | regex            |
+      | club         | /admin_data/quick_search/club         | 4        | regex            |
+      | newspaper    | /admin_data/quick_search/newspaper    | 5        | regex            |
+      | phone_number | /admin_data/quick_search/phone_number | 6        | regex            |
+      | user         | /admin_data/quick_search/user         | 7        | regex            |
+      | website      | /admin_data/quick_search/website      | 8        | regex            |
     When I select "user" from "drop_down_klasses"
     Then first id of table should be of "Trisha"
 

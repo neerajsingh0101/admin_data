@@ -77,11 +77,10 @@ def handy_has_select?(css_selector, select_options)
   selects = page.find(:xpath, "//select[#{attribute}]")
 
   select_options.each do |h|
-    selects.find(:xpath, "./option[#{h[:position]}]", :text => h[:text])
     if h[:value_match_type] == 'regex'
-      selects.find(:xpath, "./option[#{h[:position]}]").value.should match Regexp.new(h[:value])
+      selects.find(:xpath, "option[#{h[:position]}]").value.should match Regexp.new(h[:value])
     else
-      selects.find(:xpath, "./option[#{h[:position]}]", :text => h[:value])
+      selects.find(:xpath, "option[#{h[:position]}]", :text => h[:value])
     end
   end
 end
