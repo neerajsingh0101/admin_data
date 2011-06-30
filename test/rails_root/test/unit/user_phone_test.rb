@@ -54,7 +54,7 @@ class UserPhoneTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    #assert_equal 5, count_of_main_klass_records_not_in_hm_klass(User, PhoneNumber, :phone_numbers)
+    assert_equal 5, count_of_main_klass_records_not_in_hm_klass(User, PhoneNumber, :phone_numbers)
     assert_equal 3, count_of_main_klass_records_in_hm_klass(User, PhoneNumber, :phone_numbers)
   end
 end
