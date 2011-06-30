@@ -35,7 +35,7 @@ class UserPhoneTest < MiniTest::Unit::TestCase
       select #{main_klass.table_name}.id, count(#{hm_klass.table_name}.id)
       from #{main_klass.table_name} join #{hm_klass.table_name} on #{main_klass.table_name}.id = #{hm_klass.table_name}.#{foreign_key}
       group by #{main_klass.table_name}.id
-      having count (#{hm_klass.table_name}.id) > 0
+      having count(#{hm_klass.table_name}.id) > 0
     }
 
     main_klass.find_by_sql(sql).size
