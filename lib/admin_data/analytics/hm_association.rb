@@ -33,22 +33,13 @@ module AdminData
       def count_of_main_klass_records_in_hm_klass(count = nil)
         foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
-        having_sql = if count
-          "having count(#{hm_klass.table_name}.id) = #{count}"
+
+        if count
           operator = '='
         else
-          "having count(#{hm_klass.table_name}.id) > 0"
           operator = '>'
           count = 0
         end
-
-        sql = %Q{
-          select #{main_klass.table_name}.id, count(#{hm_klass.table_name}.id)
-          from #{main_klass.table_name} join #{hm_klass.table_name} on #{main_klass.table_name}.id = #{hm_klass.table_name}.#{foreign_key}
-          group by #{main_klass.table_name}.id
-          #{having_sql}
-        }
-        #main_klass.find_by_sql(sql).size
 
         sql = %Q{
           select count(#{main_klass.table_name}.id) as count_data
