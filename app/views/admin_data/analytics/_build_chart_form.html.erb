@@ -1,0 +1,43 @@
+<%= form_tag(admin_data_build_chart_search_analytics_path(:klass => @klass),
+             :method => 'get',
+             :class => 'form ',
+             :id => 'build_search_analytics_form') %>
+
+  <%= hidden_field_tag :klass, @klass.name %>
+
+  <table class='build_chart_analytics'>
+    <tr>
+      <td>
+        <%= select_tag "search[row_1]klass", options_for_select([@klass.name]) %>
+      </td>
+      <td>
+        <%= select_tag "search[row_1]with_type", options_for_select(%w(with without)) %>
+      </td>
+      <td>
+        <%= select_tag "search[row_1]relationship", options_for_select(@has_many_associations) %>
+      </td>
+      <td>
+        <%= link_to 'vs', '#', :class => 'build_chart_analytics_vs' %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= select_tag "search[row_2]klass", options_for_select([@klass.name]) %>
+      </td>
+      <td>
+        <%= select_tag "search[row_2]with_type", options_for_select(%w(with without)) %>
+      </td>
+      <td>
+        <%= select_tag "search[row_2]relationship", options_for_select(@has_many_associations) %>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td colspan='4'>
+        <input type="submit" value="Build Chart" class='submit_search' />
+      </td>
+    </tr>
+  </table>
+
+</form>

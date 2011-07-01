@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
         match '/analytics/daily/:klass'       => "analytics#daily",        :as => :daily_analytics
         match '/analytics/monthly/:klass'     => "analytics#monthly",      :as => :monthly_analytics
+        match '/analytics/build_chart/search' => "analytics#build_chart_search",  :as => :build_chart_search_analytics
         match '/analytics/build_chart/:klass' => "analytics#build_chart",  :as => :build_chart_analytics
 
         match '/feed/:klasss'           => "feed#index", :defaults => { :format =>'rss' }, :as => :feed

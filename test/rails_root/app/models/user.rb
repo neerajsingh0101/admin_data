@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   serialize :data
 
   has_many :phone_numbers, :dependent => :destroy
+  has_many :cars, :dependent => :destroy
+
   has_and_belongs_to_many :clubs
   has_one :website, :dependent => :destroy
 

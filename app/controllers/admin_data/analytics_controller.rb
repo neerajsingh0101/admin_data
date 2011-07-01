@@ -6,8 +6,12 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
+    def build_chart_search
+      raise params.inspect
+    end
+
     def build_chart
-      render
+      @has_many_associations = ActiveRecordUtil.new(@klass).declared_has_many_association_names
     end
 
     def render_no_created_at
