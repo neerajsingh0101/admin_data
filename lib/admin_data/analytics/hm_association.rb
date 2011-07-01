@@ -13,14 +13,13 @@ module AdminData
       end
 
       def count_of_main_klass_records_not_in_hm_klass
-        foreign_key = main_klass.reflections[hm_relationship_name].instance_variable_get('@active_record').name.foreign_key
-        raise 'foreign_key is nil' unless foreign_key
+        foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
         sql  = %Q{
           
           select count(*) as count_data
           from #{main_klass.table_name}
-          where users.id NOT IN (
+          where #{main_klass.table_name}.id NOT IN (
             select #{hm_klass.table_name}.#{foreign_key}
             from #{hm_klass.table_name}
           )
@@ -31,8 +30,7 @@ module AdminData
       end
 
       def count_of_main_klass_records_in_hm_klass(count = nil)
-        foreign_key = main_klass.reflections[hm_relationship_name].instance_variable_get('@active_record').name.foreign_key
-        raise 'foreign_key is nil' unless foreign_key
+        foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
         having_sql = if count
           "having count(#{hm_klass.table_name}.id) = #{count}"

@@ -1,6 +1,12 @@
 class CreateTables < ActiveRecord::Migration
   def self.up
 
+    create_table :brakes do |t|
+      t.string :color
+      t.integer :vehicle_id
+      t.timestamps
+    end
+
     create_table :cars do |t|
       t.string :name
       t.integer :user_id

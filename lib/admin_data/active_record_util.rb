@@ -85,6 +85,25 @@ module AdminData
       declared_habtm_association_names.any?
     end
 
+    # class User
+    #   has_many :comments
+    # end
+    #
+    # class Car
+    #   has_many :brakes, :foreign_key => 'vehicle_id'
+    # end
+    #
+    # ActiveRecordUtil.foreign_key_for_has_many(User, :comments)
+    # #=> user_id
+    #
+    # ActiveRecordUtil.foreign_key_for_has_many(Car, :brakes)
+    # #=> vehicle_id
+    #
+    def self.foreign_key_for_has_many(klass, relationship_name)
+      fk = klass.reflections[relationship_name].instance_variable_get('@options')[:foreign_key]
+      fk || klass.reflections[relationship_name].instance_variable_get('@active_record').name.foreign_key
+    end
+
     private
 
     # returns declared association names like
