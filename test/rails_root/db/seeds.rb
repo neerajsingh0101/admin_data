@@ -23,6 +23,11 @@ User.limit(80).each do |u|
   u.clubs.create!(:name => Faker::Company.name)
 end
 
+# ensure that 30 users do not have cars
+User.limit(70).each do |u|
+  u.cars.create!(:name => 'Honda')
+end
+
 n = Newspaper.new(:name => 'DC Experss')
 n.paper_id = 'dc_express'
 n.save!
