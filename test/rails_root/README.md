@@ -10,6 +10,10 @@
 
 # Unit test #
 
+    rake test:units
+
+If you want to run an individual file then you can execute following command
+
     ruby -I test test/unit/car_test.rb
 
 # Switch database #

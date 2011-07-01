@@ -168,7 +168,7 @@ module AdminData
     end
 
     def self.debug(msg)
-      puts msg
+      #puts msg
     end
 
   end
