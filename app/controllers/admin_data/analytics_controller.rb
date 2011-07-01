@@ -20,7 +20,11 @@ module AdminData
       hm_instance2 = get_hm_instance(params[:search][:row_2])
       hm2 = hm_instance2.count_of_main_klass_records_not_in_hm_klass
 
-      raise hm1.inspect + ' ' + hm2.inspect
+      respond_to do |format|
+        format.js do
+          render :template => 'admin_data/analytics/build_chart_search', :layout => false
+        end
+      end
     end
 
     def build_chart
