@@ -8,27 +8,29 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
-    def get_hm_instance(row)
+    def pie_record(row)
+      record = OpenStruct.new
       klass = row[:klass].camelize.constantize
       relationship = row[:relationship]
       hm_klass = ActiveRecordUtil.new(klass).klass_for_association_type_and_name(:has_many, relationship)
-      Analytics::HmAssociation.new(klass, hm_klass, relationship)
+      hm_instance = Analytics::HmAssociation.new(klass, hm_klass, relationship)
+
+
+      if row[:with_type] == 'with'
+        record.data = hm_instance.count_of_main_klass_records_in_hm_klass
+        record.title = "#{klass.name.pluralize} with #{hm_klass.name.underscore}"
+      else
+        record.data = hm_instance.count_of_main_klass_records_not_in_hm_klass
+        record.title = "#{klass.name.pluralize} without #{hm_klass.name.underscore}"
+      end
+      record
     end
 
     def build_chart_search
       @data_points = []
 
-      record = OpenStruct.new
-      hm_instance1 = get_hm_instance(params[:search][:row_1])
-      record.data = hm_instance1.count_of_main_klass_records_in_hm_klass
-      record.title = "Users with phone_number"
-      @data_points << record
-
-      record = OpenStruct.new
-      hm_instance2 = get_hm_instance(params[:search][:row_2])
-      record.data = hm_instance2.count_of_main_klass_records_not_in_hm_klass
-      record.title = "Users without phone_number"
-      @data_points << record
+      @data_points << pie_record(params[:search][:row_1])
+      @data_points << pie_record(params[:search][:row_2])
 
       respond_to do |format|
         format.js do
