@@ -9,7 +9,7 @@ module AdminData
       def initialize(main_klass, hm_klass, hm_relationship_name)
         @main_klass = main_klass
         @hm_klass = hm_klass
-        @hm_relationship_name = hm_relationship_name
+        @hm_relationship_name = hm_relationship_name.intern
       end
 
       def count_of_main_klass_records_not_in_hm_klass

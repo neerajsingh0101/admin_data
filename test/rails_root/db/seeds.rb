@@ -14,7 +14,8 @@ City.delete_all
   :born_at =>  Time.now)
 end
 
-User.find(:all).each do |u|
+# ensure that 20 users do not have any phone numbers
+User.limit(80).each do |u|
   2.times do
     u.phone_numbers.create!(:number => Faker::PhoneNumber.phone_number)
   end

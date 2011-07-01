@@ -6,8 +6,21 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
+    def get_hm_instance(row)
+      klass = row[:klass].camelize.constantize
+      relationship = row[:relationship]
+      hm_klass = ActiveRecordUtil.new(klass).klass_for_association_type_and_name(:has_many, relationship)
+      Analytics::HmAssociation.new(klass, hm_klass, relationship)
+    end
+
     def build_chart_search
-      raise params.inspect
+      hm_instance1 = get_hm_instance(params[:search][:row_1])
+      hm1 = hm_instance1.count_of_main_klass_records_in_hm_klass
+
+      hm_instance2 = get_hm_instance(params[:search][:row_2])
+      hm2 = hm_instance2.count_of_main_klass_records_not_in_hm_klass
+
+      raise hm1.inspect + ' ' + hm2.inspect
     end
 
     def build_chart
