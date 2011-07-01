@@ -6,6 +6,10 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
+    def build_chart
+      render
+    end
+
     def render_no_created_at
       render :text => "Model #{@klass} does not have created_at column"
     end

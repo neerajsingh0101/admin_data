@@ -1,11 +1,3 @@
-<%= render 'bar_chart', :chart_title => @chart_title, 
-                        :chart_h_axis_title => @chart_h_axis_title,  
-                        :chart_legend_name => @chart_legend_name,
-                        :chart_data_s => @chart_data_s,
-                        :chart_data_x_axis => @chart_data_x_axis,
-                        :chart_width => @chart_width, 
-                        :chart_height => @chart_height %>
-
 <div id="main">
 
   <%= breadcrum do %>
@@ -30,7 +22,7 @@
       </div>
 
       <div style='float:left;margin-top:18px;margin-left:20px;'>
-        <%= link_to 'Build chart', admin_data_build_chart_analytics_path(:klass => @klass.name) %>
+        <%= link_to 'Build chart', admin_data_build_chart_analytics_path %>
       </div>
 
       <div style='clear:both;'></div>
@@ -39,7 +31,6 @@
 
       <div class="inner">
          <div id="chart_div"></div>
-
       </div>
     </div>
   </div>
