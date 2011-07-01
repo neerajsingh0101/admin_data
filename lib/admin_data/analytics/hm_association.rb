@@ -35,19 +35,32 @@ module AdminData
 
         having_sql = if count
           "having count(#{hm_klass.table_name}.id) = #{count}"
+          operator = '='
         else
           "having count(#{hm_klass.table_name}.id) > 0"
+          operator = '>'
+          count = 0
         end
 
         sql = %Q{
-        
           select #{main_klass.table_name}.id, count(#{hm_klass.table_name}.id)
           from #{main_klass.table_name} join #{hm_klass.table_name} on #{main_klass.table_name}.id = #{hm_klass.table_name}.#{foreign_key}
           group by #{main_klass.table_name}.id
           #{having_sql}
         }
+        #main_klass.find_by_sql(sql).size
 
-        main_klass.find_by_sql(sql).size
+        sql = %Q{
+          select count(#{main_klass.table_name}.id) as count_data
+          from #{main_klass.table_name}
+          where
+           (
+              select count(#{hm_klass.table_name}.id) 
+              from #{hm_klass.table_name} 
+              where #{hm_klass.table_name}.#{foreign_key}=#{main_klass.table_name}.id 
+           ) #{operator} #{count}
+        }
+        main_klass.find_by_sql(sql).first['count_data'].to_i
       end
 
     end
