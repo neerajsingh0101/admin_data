@@ -29,8 +29,9 @@ module AdminData
     def build_chart_search
       @data_points = []
 
-      @data_points << pie_record(params[:search][:row_1])
-      @data_points << pie_record(params[:search][:row_2])
+      params[:search].each do |key, value|
+        @data_points << pie_record(value)
+      end
 
       respond_to do |format|
         format.js do
