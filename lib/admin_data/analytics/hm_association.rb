@@ -2,9 +2,17 @@ require "active_support/all"
 
 module AdminData
   module Analytics
-    module HmAssociation
+    class HmAssociation
 
-      def self.count_of_main_klass_records_not_in_hm_klass(main_klass, hm_klass, hm_relationship_name)
+      attr_accessor :main_klass, :hm_klass, :hm_relationship_name
+
+      def initialize(main_klass, hm_klass, hm_relationship_name)
+        @main_klass = main_klass
+        @hm_klass = hm_klass
+        @hm_relationship_name = hm_relationship_name
+      end
+
+      def count_of_main_klass_records_not_in_hm_klass
         foreign_key = main_klass.reflections[hm_relationship_name].instance_variable_get('@active_record').name.foreign_key
         raise 'foreign_key is nil' unless foreign_key
 
@@ -22,7 +30,7 @@ module AdminData
         record['count_data'].to_i
       end
 
-      def self.count_of_main_klass_records_in_hm_klass(main_klass, hm_klass, hm_relationship_name, count = nil)
+      def count_of_main_klass_records_in_hm_klass(count = nil)
         foreign_key = main_klass.reflections[hm_relationship_name].instance_variable_get('@active_record').name.foreign_key
         raise 'foreign_key is nil' unless foreign_key
 

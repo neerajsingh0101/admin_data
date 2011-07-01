@@ -9,26 +9,6 @@ class UserPhoneTest < MiniTest::Unit::TestCase
   end
 
 
-  def count_of_main_klass_records_in_hm_klass(main_klass, hm_klass, hm_relationship_name, count = nil)
-    foreign_key = main_klass.reflections[hm_relationship_name].instance_variable_get('@active_record').name.foreign_key
-    raise 'foreign_key is nil' unless foreign_key
-
-    having_sql = if count
-      "having count(#{hm_klass.table_name}.id) = #{count}"
-    else
-      "having count(#{hm_klass.table_name}.id) > 0"
-    end
-
-    sql = %Q{
-    
-      select #{main_klass.table_name}.id, count(#{hm_klass.table_name}.id)
-      from #{main_klass.table_name} join #{hm_klass.table_name} on #{main_klass.table_name}.id = #{hm_klass.table_name}.#{foreign_key}
-      group by #{main_klass.table_name}.id
-      #{having_sql}
-    }
-
-    main_klass.find_by_sql(sql).size
-  end
 
   def test_pie_chart_for_user_with_1_phone_vs_users_with_2_phones_vs_users_with_0_phone
     5.times { Factory(:user) }
@@ -49,9 +29,11 @@ class UserPhoneTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    assert_equal 5, AdminData::Analytics::HmAssociation.count_of_main_klass_records_not_in_hm_klass(User, PhoneNumber, :phone_numbers)
-    assert_equal 4, AdminData::Analytics::HmAssociation.count_of_main_klass_records_in_hm_klass(User, PhoneNumber, :phone_numbers, 1)
-    assert_equal 2, AdminData::Analytics::HmAssociation.count_of_main_klass_records_in_hm_klass(User, PhoneNumber, :phone_numbers, 2)
+    hma = AdminData::Analytics::HmAssociation.new(User, PhoneNumber, :phone_numbers)
+
+    assert_equal 5, hma.count_of_main_klass_records_not_in_hm_klass
+    assert_equal 4, hma.count_of_main_klass_records_in_hm_klass(1)
+    assert_equal 2, hma.count_of_main_klass_records_in_hm_klass(2)
   end
 
 
@@ -68,8 +50,10 @@ class UserPhoneTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    assert_equal 5, AdminData::Analytics::HmAssociation.count_of_main_klass_records_not_in_hm_klass(User, PhoneNumber, :phone_numbers)
-    assert_equal 3, AdminData::Analytics::HmAssociation.count_of_main_klass_records_in_hm_klass(User, PhoneNumber, :phone_numbers)
+    hma = AdminData::Analytics::HmAssociation.new(User, PhoneNumber, :phone_numbers)
+
+    assert_equal 5, hma.count_of_main_klass_records_not_in_hm_klass
+    assert_equal 3, hma.count_of_main_klass_records_in_hm_klass
   end
 
 
