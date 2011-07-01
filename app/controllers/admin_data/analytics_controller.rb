@@ -1,3 +1,5 @@
+require "ostruct"
+
 module AdminData
   class AnalyticsController < ApplicationController
 
@@ -14,11 +16,19 @@ module AdminData
     end
 
     def build_chart_search
-      hm_instance1 = get_hm_instance(params[:search][:row_1])
-      hm1 = hm_instance1.count_of_main_klass_records_in_hm_klass
+      @data_points = []
 
+      record = OpenStruct.new
+      hm_instance1 = get_hm_instance(params[:search][:row_1])
+      record.data = hm_instance1.count_of_main_klass_records_in_hm_klass
+      record.title = "Users with phone_number"
+      @data_points << record
+
+      record = OpenStruct.new
       hm_instance2 = get_hm_instance(params[:search][:row_2])
-      hm2 = hm_instance2.count_of_main_klass_records_not_in_hm_klass
+      record.data = hm_instance2.count_of_main_klass_records_not_in_hm_klass
+      record.title = "Users without phone_number"
+      @data_points << record
 
       respond_to do |format|
         format.js do
