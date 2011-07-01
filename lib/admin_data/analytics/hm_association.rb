@@ -9,7 +9,7 @@ module AdminData
       def initialize(main_klass, hm_klass, hm_relationship_name)
         @main_klass = main_klass
         @hm_klass = hm_klass
-        @hm_relationship_name = hm_relationship_name.intern
+        @hm_relationship_name = hm_relationship_name.to_sym
       end
 
       def count_of_main_klass_records_not_in_hm_klass
@@ -22,6 +22,7 @@ module AdminData
           where #{main_klass.table_name}.id NOT IN (
             select #{hm_klass.table_name}.#{foreign_key}
             from #{hm_klass.table_name}
+            where #{hm_klass.table_name}.#{foreign_key} IS NOT NULL
           )
         
         }
