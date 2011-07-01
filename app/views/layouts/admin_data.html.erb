@@ -34,7 +34,7 @@
                                                  'advance_search/sortby'
                                                 ) %>
     <% elsif params[:controller] == 'admin_data/analytics' %>
-      <%= javascript_include_tag('analytics/report', 'analytics/ajaxify_search') %>
+      <%= javascript_include_tag('analytics/report', 'analytics/ajaxify_search', 'analytics/build_search') %>
     <% end %>
 
     <%= csrf_meta_tag %>

@@ -7,17 +7,17 @@
 
   <table class='build_chart_analytics'>
     <tr>
-      <td>
+      <td class='col1'>
         <%= select_tag "search[row_1]klass", options_for_select([@klass.name]) %>
       </td>
-      <td>
+      <td class='col2'>
         <%= select_tag "search[row_1]with_type", options_for_select(%w(with without)) %>
       </td>
-      <td>
+      <td class='col3' >
         <%= select_tag "search[row_1]relationship", options_for_select(@has_many_associations) %>
       </td>
-      <td>
-        <%= link_to 'vs', '#', :class => 'build_chart_analytics_vs' %>
+      <td class='col4'>
+        <%= link_to image_tag('/images/add.png'), '#', :class => 'build_chart_analytics_vs' %>
       </td>
     </tr>
     <tr>
