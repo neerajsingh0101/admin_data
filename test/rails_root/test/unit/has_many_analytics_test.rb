@@ -31,8 +31,9 @@ class HasManyAnalyticsTest < MiniTest::Unit::TestCase
 
     assert_equal 5, hma.not_in_count
     assert_equal 6, hma.in_count
-    assert_equal 4, hma.in_count(:count => 1)
-    assert_equal 2, hma.in_count(:count => 2)
+    assert_equal 4, hma.in_count(:count => 1, :operator => '=')
+    assert_equal 2, hma.in_count(:count => 2, :operator => '=')
+    assert_equal 6, hma.in_count(:count => 1, :operator => '>=')
   end
 
 

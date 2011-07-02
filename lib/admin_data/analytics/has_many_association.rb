@@ -31,15 +31,12 @@ module AdminData
       end
 
       def in_count(options = {})
-        options.reverse_merge!(:count => 0)
+        raise 'options should have both count and operator' if options.keys.size == 1
+        options.reverse_merge!(:count => 0, :operator => '>')
 
         count = options[:count].to_i
+        operator = options[:operator]
 
-        if count > 0
-          operator = '='
-        else
-          operator = '>'
-        end
 
         foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
