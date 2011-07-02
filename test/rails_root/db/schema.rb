@@ -12,6 +12,13 @@
 
 ActiveRecord::Schema.define(:version => 20091030202259) do
 
+  create_table "brakes", :force => true do |t|
+    t.string   "color"
+    t.integer  "vehicle_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "cars", :force => true do |t|
     t.string   "name"
     t.integer  "user_id"

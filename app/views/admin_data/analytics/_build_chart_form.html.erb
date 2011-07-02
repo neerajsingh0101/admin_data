@@ -7,16 +7,22 @@
 
   <table class='build_chart_analytics'>
     <tr>
-      <td class='col1'>
+      <td class='main_klass'>
         <%= select_tag "search[row_1]klass", options_for_select([@klass.name]) %>
       </td>
-      <td class='col2'>
+      <td class='with_type'>
         <%= select_tag "search[row_1]with_type", options_for_select(%w(with without)) %>
       </td>
-      <td class='col3' >
+      <td class='relationship'>
         <%= select_tag "search[row_1]relationship", options_for_select(@has_many_associations) %>
       </td>
-      <td class='col4'>
+      <td class='operator'>
+        <%= select_tag "search[row_1]operator", options_for_select(['', 'count =','count >', 'count <']) %>
+      </td>
+      <td class='operator_value'>
+        <%= text_field_tag 'operator_value' %>
+      </td>
+      <td class='add_link'>
         <%= link_to image_tag('/images/add.png'), '#', :class => 'build_chart_analytics_vs' %>
       </td>
     </tr>
@@ -29,6 +35,12 @@
       </td>
       <td>
         <%= select_tag "search[row_2]relationship", options_for_select(@has_many_associations) %>
+      </td>
+      <td class='operator'>
+        <%= select_tag "search[row_2]operator", options_for_select(['', 'count =','count >', 'count <']) %>
+      </td>
+      <td class='operator_value'>
+        <%= text_field_tag 'operator_value' %>
       </td>
       <td>
       </td>
