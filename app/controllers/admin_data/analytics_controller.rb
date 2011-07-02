@@ -8,26 +8,36 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
-    def set_association_info
+    def build_chart
+      set_association_info(@klass)
+    end
+
+    def set_association_info(klass)
       aru = ActiveRecordUtil.new(klass)
       s = []
-      aru.declared_habtm_association_names.each do |a|
-        s << %Q{ "#{a}":"habtm" }
-      end
+      @all_associations_names = ['']
       
-      aru.declared_belongs_to_association_names.each do |a|
-        s << %Q{ "#{a}":"belongs_to" }
+      aru.declared_habtm_association_names.each do |a| 
+        s << %Q{ "#{a}":"habtm" } 
+        @all_associations_names << a
       end
 
-      aru.declared_has_one_association_names.each do |a|
-        s << %Q{ "#{a}":"has_one" }
+      aru.declared_belongs_to_association_names.each do |a| 
+        s << %Q{ "#{a}":"belongs_to" } 
+        @all_associations_names << a
       end
 
-      aru.declared_has_many_association_names.each do |a|
-        s << %Q{ "#{a}":"has_many" }
+      aru.declared_has_one_association_names.each do |a| 
+        s << %Q{ "#{a}":"has_one" } 
+        @all_associations_names << a
       end
 
-      @association_info = "{#{s.join(',')}}"
+      aru.declared_has_many_association_names.each do |a| 
+        s << %Q{ "#{a}":"has_many" } 
+        @all_associations_names << a
+      end
+
+      @all_associations_json = "{#{s.join(',')}}"
     end
 
     def pie_record(row)
@@ -35,8 +45,6 @@ module AdminData
       klass = row[:klass].camelize.constantize
 
       set_association_info
-
-      raise @association_info.inspect
 
       relationship = row[:relationship]
       hm_klass = ActiveRecordUtil.new(klass).klass_for_association_type_and_name(:has_many, relationship)
@@ -67,9 +75,6 @@ module AdminData
       end
     end
 
-    def build_chart
-      @has_many_associations = ActiveRecordUtil.new(@klass).declared_has_many_association_names
-    end
 
     def render_no_created_at
       render :text => "Model #{@klass} does not have created_at column"

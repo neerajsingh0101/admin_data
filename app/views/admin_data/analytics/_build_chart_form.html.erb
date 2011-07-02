@@ -1,3 +1,7 @@
+<div style='display:none;' id='all_association_info'>
+  <%=@all_associations_json%>
+</div>
+
 <%= form_tag(admin_data_build_chart_search_analytics_path(:klass => @klass),
              :method => 'get',
              :class => 'form ',
@@ -14,7 +18,7 @@
         <%= select_tag "search[row_1]with_type", options_for_select(%w(with without)) %>
       </td>
       <td class='relationship'>
-        <%= select_tag "search[row_1]relationship", options_for_select(@has_many_associations) %>
+        <%= select_tag "search[row_1]relationship", options_for_select(@all_associations_names) %>
       </td>
       <td class='operator'>
         <%= select_tag "search[row_1]operator", options_for_select(['', 'count =','count >', 'count <']) %>
@@ -30,11 +34,11 @@
       <td>
         <%= select_tag "search[row_2]klass", options_for_select([@klass.name]) %>
       </td>
-      <td>
+      <td class='with_type'>
         <%= select_tag "search[row_2]with_type", options_for_select(%w(with without)) %>
       </td>
-      <td>
-        <%= select_tag "search[row_2]relationship", options_for_select(@has_many_associations) %>
+      <td class='relationship'>
+        <%= select_tag "search[row_2]relationship", options_for_select(@all_associations_names) %>
       </td>
       <td class='operator'>
         <%= select_tag "search[row_2]operator", options_for_select(['', 'count =','count >', 'count <']) %>
