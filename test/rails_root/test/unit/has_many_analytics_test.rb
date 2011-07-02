@@ -1,7 +1,7 @@
 require "test_helper"
 require "minitest/autorun"
 
-class UserPhoneTest < MiniTest::Unit::TestCase
+class HasManyAnalyticsTest < MiniTest::Unit::TestCase
 
   def setup
     User.delete_all

@@ -14,7 +14,6 @@ module AdminData
   autoload :DateUtil
   autoload :Authenticator
   autoload :Search
-  autoload :Analytics
 
   include SetupConfig
 
@@ -22,4 +21,5 @@ end
 
 require 'admin_data/railtie'
 require 'admin_data/exceptions'
+require 'admin_data/analytics/trend'
 require 'admin_data/analytics/hm_association'

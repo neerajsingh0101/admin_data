@@ -7,7 +7,7 @@ class Time
   end
 end
 
-class CarTest < MiniTest::Unit::TestCase
+class TrendAnalyticsTest < MiniTest::Unit::TestCase
 
   def setup
     Car.delete_all
@@ -17,7 +17,7 @@ class CarTest < MiniTest::Unit::TestCase
 
   def test_by_default_all_values_are_zero
     now = Time.now.utc
-    result = AdminData::Analytics.daily_report(Car, now)
+    result = AdminData::Analytics::Trend.daily_report(Car, now)
     expected = []
     expected << ["'2011-05-23'", 0] << ["'2011-05-24'", 0] << ["'2011-05-25'", 0] << ["'2011-05-26'", 0] << ["'2011-05-27'", 0]
     expected << ["'2011-05-28'", 0] << ["'2011-05-29'", 0] << ["'2011-05-30'", 0] << ["'2011-05-31'", 0] 
@@ -38,7 +38,7 @@ class CarTest < MiniTest::Unit::TestCase
     Car.create!(:created_at => y) 
     Car.create!(:created_at => y) 
     Car.create!(:created_at => now) 
-    result = AdminData::Analytics.daily_report(Car, now)
+    result = AdminData::Analytics::Trend.daily_report(Car, now)
     expected = []
     expected << ["'2011-05-23'", 0] << ["'2011-05-24'", 0] << ["'2011-05-25'", 0] << ["'2011-05-26'", 0] << ["'2011-05-27'", 0]
     expected << ["'2011-05-28'", 0] << ["'2011-05-29'", 0] << ["'2011-05-30'", 0] << ["'2011-05-31'", 0] 
@@ -62,7 +62,7 @@ class CarTest < MiniTest::Unit::TestCase
     11.times { cc(now.ago(10.month)) }; 12.times { cc(now.ago(11.month)) }; 13.times { cc(now.ago(12.month)) }
     14.times { cc(now.ago(13.month)) }; 15.times { cc(now.ago(14.month)) }; 
     
-    result = AdminData::Analytics.monthly_report(Car, now)
+    result = AdminData::Analytics::Trend.monthly_report(Car, now)
 
     expected = []
     expected << ["'Jul-2010'", 12] << ["'Aug-2010'", 11] << ["'Sep-2010'", 10] << ["'Oct-2010'", 9]
@@ -78,7 +78,7 @@ class CarTest < MiniTest::Unit::TestCase
     Car.create!(:created_at => now) 
     2.times { cc(now.ago(1.month)) }; 3.times { cc(now.ago(2.month)) };
     
-    result = AdminData::Analytics.monthly_report(Car, now)
+    result = AdminData::Analytics::Trend.monthly_report(Car, now)
 
     expected = []
     expected << ["'Jul-2010'", 0] << ["'Aug-2010'", 0] << ["'Sep-2010'", 0] << ["'Oct-2010'", 0]
