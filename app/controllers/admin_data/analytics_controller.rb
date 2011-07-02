@@ -86,33 +86,66 @@ module AdminData
       @all_associations_hash = hash
     end
 
+    class Row
+      attr_accessor :klass, :relationship, :with_type, :operator_value, :operator
+
+      def initialize(input)
+        @klass = input[:klass]
+        @relationship = input[:relationship]
+        @with_type = input[:with_type]
+        @operator_value = input[:operator_value]
+        @operator = input[:operator]
+      end
+
+      def relationship_type(all_associations_hash)
+        all_associations_hash[relationship]
+      end
+
+      def operator_value
+        @operator_value.blank? ? 0 : @operator_value
+      end
+
+      def operator
+        @operator.blank? ? '>' : @operator.gsub(/count/,'').strip
+      end
+
+      def title(associated_klass)
+        if with_type == 'without'
+          "#{klass.pluralize} without #{associated_klass.name.underscore}".html_safe
+        else
+          s = "#{klass.pluralize} with #{associated_klass.name.underscore}"
+          s << " count #{operator} #{operator_value}" unless (operator == '>' && operator_value == 0)
+          return s.html_safe
+        end
+      end
+
+    end
+
     def pie_record(row)
+      row = Row.new(row)
       record = OpenStruct.new
-      klass = row[:klass].camelize.constantize
+      klass = row.klass.camelize.constantize
 
       set_association_info(klass)
 
-      relationship = row[:relationship]
       aru = ActiveRecordUtil.new(klass)
 
-      case @all_associations_hash[relationship]
+      case row.relationship_type(@all_associations_hash)
       when 'has_many'
-        hm_klass = aru.klass_for_association_type_and_name(:has_many, relationship)
-        hm_instance = Analytics::HasManyAssociation.new(klass, hm_klass, relationship)
+        associated_klass = aru.klass_for_association_type_and_name(:has_many, row.relationship)
+        hm_instance = Analytics::HasManyAssociation.new(klass, associated_klass, row.relationship)
       when 'has_one'
-        hm_klass = aru.klass_for_association_type_and_name(:has_one, relationship)
-        hm_instance = Analytics::HasOneAssociation.new(klass, hm_klass, relationship)
+        associated_klass = aru.klass_for_association_type_and_name(:has_one, row.relationship)
+        hm_instance = Analytics::HasOneAssociation.new(klass, associated_klass, row.relationship)
       end
 
-      if row[:with_type] == 'with'
-        count = (row[:operator_value] || 0).to_i
-        record.data = hm_instance.in_count(:count => count)
-        record.title = "#{klass.name.pluralize} with #{hm_klass.name.underscore}"
-        record.title << " count #{count}" if count > 0
+      if row.with_type == 'with'
+        hash = {:count => row.operator_value, :operator => row.operator}
+        record.data = hm_instance.in_count(hash)
       else
         record.data = hm_instance.not_in_count
-        record.title = "#{klass.name.pluralize} without #{hm_klass.name.underscore}"
       end
+      record.title = row.title(associated_klass)
       record
     end
 

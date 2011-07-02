@@ -13,7 +13,10 @@ City.delete_all
   :born_at =>  Time.now)
 end
 
-# ensure that 20 users do not have any phone numbers
+# ensure that 
+# - 20 users do not have any phone numbers
+# - 80 users have two phone numbers
+# - 3 users have only one phone number
 User.order('id desc').limit(80).each do |u|
   2.times { u.phone_numbers.create!(:number => Faker::PhoneNumber.phone_number) }
   u.create_website(:url => 'http://www.' + Faker::Internet.domain_name)
