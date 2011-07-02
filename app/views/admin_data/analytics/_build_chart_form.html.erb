@@ -24,7 +24,7 @@
         <%= select_tag "search[row_1]operator", options_for_select(['', 'count =','count >', 'count <']) %>
       </td>
       <td class='operator_value'>
-        <%= text_field_tag 'operator_value' %>
+        <%= text_field_tag 'search[row_1]operator_value' %>
       </td>
       <td class='add_link'>
         <%= link_to image_tag('/images/add.png'), '#', :class => 'build_chart_analytics_vs' %>
@@ -44,7 +44,7 @@
         <%= select_tag "search[row_2]operator", options_for_select(['', 'count =','count >', 'count <']) %>
       </td>
       <td class='operator_value'>
-        <%= text_field_tag 'operator_value' %>
+        <%= text_field_tag 'search[row_2]operator_value' %>
       </td>
       <td>
       </td>
