@@ -8,7 +8,7 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
-    def build_chart
+    def chart_builder
       set_association_info(@klass)
     end
 
@@ -16,25 +16,30 @@ module AdminData
       aru = ActiveRecordUtil.new(klass)
       s = []
       @all_associations_names = ['']
+      @all_associations_hash = {}
       
       aru.declared_habtm_association_names.each do |a| 
         s << %Q{ "#{a}":"habtm" } 
         @all_associations_names << a
+        @all_associations_hash.merge!(a => 'habtm')
       end
 
       aru.declared_belongs_to_association_names.each do |a| 
         s << %Q{ "#{a}":"belongs_to" } 
         @all_associations_names << a
+        @all_associations_hash.merge!(a => 'belongs_to')
       end
 
       aru.declared_has_one_association_names.each do |a| 
         s << %Q{ "#{a}":"has_one" } 
         @all_associations_names << a
+        @all_associations_hash.merge!(a => 'has_one')
       end
 
       aru.declared_has_many_association_names.each do |a| 
         s << %Q{ "#{a}":"has_many" } 
         @all_associations_names << a
+        @all_associations_hash.merge!(a => 'has_many')
       end
 
       @all_associations_json = "{#{s.join(',')}}"
@@ -44,24 +49,31 @@ module AdminData
       record = OpenStruct.new
       klass = row[:klass].camelize.constantize
 
-      set_association_info
+      set_association_info(klass)
 
       relationship = row[:relationship]
-      hm_klass = ActiveRecordUtil.new(klass).klass_for_association_type_and_name(:has_many, relationship)
-      hm_instance = Analytics::HmAssociation.new(klass, hm_klass, relationship)
+      aru = ActiveRecordUtil.new(klass)
 
+      case @all_associations_hash[relationship]
+      when 'has_many'
+        hm_klass = aru.klass_for_association_type_and_name(:has_many, relationship)
+        hm_instance = Analytics::HasManyAssociation.new(klass, hm_klass, relationship)
+      when 'has_one'
+        hm_klass = aru.klass_for_association_type_and_name(:has_one, relationship)
+        hm_instance = Analytics::HasOneAssociation.new(klass, hm_klass, relationship)
+      end
 
       if row[:with_type] == 'with'
-        record.data = hm_instance.count_of_main_klass_records_in_hm_klass
+        record.data = hm_instance.in_count
         record.title = "#{klass.name.pluralize} with #{hm_klass.name.underscore}"
       else
-        record.data = hm_instance.count_of_main_klass_records_not_in_hm_klass
+        record.data = hm_instance.not_in_count
         record.title = "#{klass.name.pluralize} without #{hm_klass.name.underscore}"
       end
       record
     end
 
-    def build_chart_search
+    def build_chart
       @data_points = []
 
       params[:search].each do |key, value|

@@ -2,7 +2,7 @@
   <%=@all_associations_json%>
 </div>
 
-<%= form_tag(admin_data_build_chart_search_analytics_path(:klass => @klass),
+<%= form_tag(admin_data_build_chart_path(:klass => @klass.name),
              :method => 'get',
              :class => 'form ',
              :id => 'build_search_analytics_form') %>
