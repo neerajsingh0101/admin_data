@@ -33,7 +33,7 @@ module AdminData
       def in_count(options = {})
         options.reverse_merge!(:count => 0)
 
-        count = options[:count]
+        count = options[:count].to_i
 
         if count > 0
           operator = '='

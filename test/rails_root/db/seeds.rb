@@ -3,7 +3,6 @@ Club.all.each {|r| r.destroy }
 Newspaper.delete_all
 City.delete_all
 
-
 (1..100).to_a.each_with_index do |i,e|
   User.create!(:data => {:year => 1900 + i, :music => 'rock, jazz'},
   :first_name => Faker::Name.first_name,
@@ -15,13 +14,26 @@ City.delete_all
 end
 
 # ensure that 20 users do not have any phone numbers
-User.limit(80).each do |u|
-  2.times do
-    u.phone_numbers.create!(:number => Faker::PhoneNumber.phone_number)
-  end
+User.order('id desc').limit(80).each do |u|
+  2.times { u.phone_numbers.create!(:number => Faker::PhoneNumber.phone_number) }
   u.create_website(:url => 'http://www.' + Faker::Internet.domain_name)
   u.clubs.create!(:name => Faker::Company.name)
 end
+
+3.times do
+user =  User.create!(:data => {:year => 1977, :music => 'rock, jazz'},
+  :first_name => Faker::Name.first_name,
+  :last_name => Faker::Name.last_name,
+  :active => true,
+  :age => 37,
+  :description => Faker::Lorem.paragraph,
+  :born_at =>  Time.now)
+user.phone_numbers.create!(:number => Faker::PhoneNumber.phone_number)
+end
+
+
+
+
 
 # ensure that 30 users do not have cars
 User.limit(70).each do |u|

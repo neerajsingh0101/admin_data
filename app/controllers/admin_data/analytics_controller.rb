@@ -12,37 +12,78 @@ module AdminData
       set_association_info(@klass)
     end
 
+    def build_chart
+      @data_points = []
+
+      params[:search].each do |key, value|
+        @data_points << pie_record(value)
+      end
+
+      respond_to do |format|
+        format.js do
+          render :template => 'admin_data/analytics/build_chart_search', :layout => false
+        end
+      end
+    end
+
+    def daily
+      @chart_title = "#{@klass.name} records created in the last 30 days"
+
+      a = AdminData::Analytics::Trend.daily_report(@klass, Time.now)
+      @chart_data_s = a.map {|e| e.last }.join(', ')
+      @chart_data_x_axis = a.map {|e| e.first}.join(', ')
+      render :action => 'index'
+    end
+
+    def monthly
+      @chart_title = "#{@klass.name} rercords created last year"
+      a = AdminData::Analytics::Trend.monthly_report(@klass, Time.now)
+      @chart_data_s = a.map {|e| e.last }.join(', ')
+      @chart_data_x_axis = a.map {|e| e.first}.join(', ')
+      render :action => 'index'
+    end
+
+    private
+
+    def set_ivars
+      @chart_width = 950
+      @chart_height = 400
+      @chart_h_axis_title = ''
+      @chart_legend_name = 'Created'
+    end
+
+    def render_no_created_at
+      render :text => "Model #{@klass} does not have created_at column"
+    end
+
     def set_association_info(klass)
       aru = ActiveRecordUtil.new(klass)
-      s = []
-      @all_associations_names = ['']
-      @all_associations_hash = {}
+      hash = {}
       
       aru.declared_habtm_association_names.each do |a| 
-        s << %Q{ "#{a}":"habtm" } 
-        @all_associations_names << a
-        @all_associations_hash.merge!(a => 'habtm')
+        hash.merge!(a => 'habtm')
       end
 
       aru.declared_belongs_to_association_names.each do |a| 
-        s << %Q{ "#{a}":"belongs_to" } 
-        @all_associations_names << a
-        @all_associations_hash.merge!(a => 'belongs_to')
+        hash.merge!(a => 'belongs_to')
       end
 
       aru.declared_has_one_association_names.each do |a| 
-        s << %Q{ "#{a}":"has_one" } 
-        @all_associations_names << a
-        @all_associations_hash.merge!(a => 'has_one')
+        hash.merge!(a => 'has_one')
       end
 
       aru.declared_has_many_association_names.each do |a| 
-        s << %Q{ "#{a}":"has_many" } 
-        @all_associations_names << a
-        @all_associations_hash.merge!(a => 'has_many')
+        hash.merge!(a => 'has_many')
+      end
+
+      s = []
+      hash.each do |key, value|
+        s << %Q{ "#{key}":"#{value}" } 
       end
 
       @all_associations_json = "{#{s.join(',')}}"
+      @all_associations_names = hash.keys.unshift('')
+      @all_associations_hash = hash
     end
 
     def pie_record(row)
@@ -64,56 +105,15 @@ module AdminData
       end
 
       if row[:with_type] == 'with'
-        record.data = hm_instance.in_count
+        count = (row[:operator_value] || 0).to_i
+        record.data = hm_instance.in_count(:count => count)
         record.title = "#{klass.name.pluralize} with #{hm_klass.name.underscore}"
+        record.title << " count #{count}" if count > 0
       else
         record.data = hm_instance.not_in_count
         record.title = "#{klass.name.pluralize} without #{hm_klass.name.underscore}"
       end
       record
-    end
-
-    def build_chart
-      @data_points = []
-
-      params[:search].each do |key, value|
-        @data_points << pie_record(value)
-      end
-
-      respond_to do |format|
-        format.js do
-          render :template => 'admin_data/analytics/build_chart_search', :layout => false
-        end
-      end
-    end
-
-
-    def render_no_created_at
-      render :text => "Model #{@klass} does not have created_at column"
-    end
-
-    def daily
-      @chart_title = "#{@klass.name} records created in the last 30 days"
-
-      a = AdminData::Analytics::Trend.daily_report(@klass, Time.now)
-      @chart_data_s = a.map {|e| e.last }.join(', ')
-      @chart_data_x_axis = a.map {|e| e.first}.join(', ')
-      render :action => 'index'
-    end
-
-    def monthly
-      @chart_title = "#{@klass.name} rercords created last year"
-      a = AdminData::Analytics::Trend.monthly_report(@klass, Time.now)
-      @chart_data_s = a.map {|e| e.last }.join(', ')
-      @chart_data_x_axis = a.map {|e| e.first}.join(', ')
-      render :action => 'index'
-    end
-
-    def set_ivars
-      @chart_width = 950
-      @chart_height = 400
-      @chart_h_axis_title = ''
-      @chart_legend_name = 'Created'
     end
 
   end
