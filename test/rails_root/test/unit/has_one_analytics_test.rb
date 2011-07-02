@@ -8,7 +8,7 @@ class HasOneAalyticsTest < MiniTest::Unit::TestCase
     Website.delete_all
   end
 
-  def _test_pie_chart_for_user_with_no_website_vs_users_with_website
+  def test_pie_chart_for_user_with_no_website_vs_users_with_website
     5.times { Factory(:user) }
     4.times do
       user = Factory(:user)
@@ -24,8 +24,8 @@ class HasOneAalyticsTest < MiniTest::Unit::TestCase
 
     hoa = AdminData::Analytics::HasOneAssociation.new(User, Website, :website)
 
-    assert_equal 5, hma.not_in_count
-    assert_equal 4, hma.in_count
+    assert_equal 5, hoa.not_in_count
+    assert_equal 4, hoa.in_count
   end
 
 end

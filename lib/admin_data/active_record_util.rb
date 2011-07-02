@@ -104,6 +104,10 @@ module AdminData
       fk || klass.reflections[relationship_name].instance_variable_get('@active_record').name.foreign_key
     end
 
+    class << self
+      alias foreign_key_for_has_one foreign_key_for_has_many
+    end
+
     private
 
     # returns declared association names like

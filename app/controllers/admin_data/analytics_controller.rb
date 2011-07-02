@@ -8,9 +8,36 @@ module AdminData
 
     rescue_from AdminData::NoCreatedAtColumnException, :with => :render_no_created_at
 
+    def set_association_info
+      aru = ActiveRecordUtil.new(klass)
+      s = []
+      aru.declared_habtm_association_names.each do |a|
+        s << %Q{ "#{a}":"habtm" }
+      end
+      
+      aru.declared_belongs_to_association_names.each do |a|
+        s << %Q{ "#{a}":"belongs_to" }
+      end
+
+      aru.declared_has_one_association_names.each do |a|
+        s << %Q{ "#{a}":"has_one" }
+      end
+
+      aru.declared_has_many_association_names.each do |a|
+        s << %Q{ "#{a}":"has_many" }
+      end
+
+      @association_info = "{#{s.join(',')}}"
+    end
+
     def pie_record(row)
       record = OpenStruct.new
       klass = row[:klass].camelize.constantize
+
+      set_association_info
+
+      raise @association_info.inspect
+
       relationship = row[:relationship]
       hm_klass = ActiveRecordUtil.new(klass).klass_for_association_type_and_name(:has_many, relationship)
       hm_instance = Analytics::HmAssociation.new(klass, hm_klass, relationship)
@@ -51,7 +78,7 @@ module AdminData
     def daily
       @chart_title = "#{@klass.name} records created in the last 30 days"
 
-      a = AdminData::Analytics.daily_report(@klass, Time.now)
+      a = AdminData::Analytics::Trend.daily_report(@klass, Time.now)
       @chart_data_s = a.map {|e| e.last }.join(', ')
       @chart_data_x_axis = a.map {|e| e.first}.join(', ')
       render :action => 'index'
@@ -59,7 +86,7 @@ module AdminData
 
     def monthly
       @chart_title = "#{@klass.name} rercords created last year"
-      a = AdminData::Analytics.monthly_report(@klass, Time.now)
+      a = AdminData::Analytics::Trend.monthly_report(@klass, Time.now)
       @chart_data_s = a.map {|e| e.last }.join(', ')
       @chart_data_x_axis = a.map {|e| e.first}.join(', ')
       render :action => 'index'
