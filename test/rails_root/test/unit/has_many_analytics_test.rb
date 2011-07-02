@@ -27,11 +27,12 @@ class HasManyAnalyticsTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    hma = AdminData::Analytics::HmAssociation.new(User, PhoneNumber, :phone_numbers)
+    hma = AdminData::Analytics::HasManyAssociation.new(User, PhoneNumber, :phone_numbers)
 
-    assert_equal 5, hma.count_of_main_klass_records_not_in_hm_klass
-    assert_equal 4, hma.count_of_main_klass_records_in_hm_klass(1)
-    assert_equal 2, hma.count_of_main_klass_records_in_hm_klass(2)
+    assert_equal 5, hma.not_in_count
+    assert_equal 6, hma.in_count
+    assert_equal 4, hma.in_count(:count => 1)
+    assert_equal 2, hma.in_count(:count => 2)
   end
 
 
@@ -48,10 +49,10 @@ class HasManyAnalyticsTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    hma = AdminData::Analytics::HmAssociation.new(User, PhoneNumber, :phone_numbers)
+    hma = AdminData::Analytics::HasManyAssociation.new(User, PhoneNumber, :phone_numbers)
 
-    assert_equal 5, hma.count_of_main_klass_records_not_in_hm_klass
-    assert_equal 3, hma.count_of_main_klass_records_in_hm_klass
+    assert_equal 5, hma.not_in_count
+    assert_equal 3, hma.in_count
   end
 
   def test_pie_chart_for_user_with_phones_vs_users_without_phones_with_user_id_null
@@ -70,15 +71,12 @@ class HasManyAnalyticsTest < MiniTest::Unit::TestCase
     hm_klass = PhoneNumber
     hm_relationship = :phone_numbers
 
-    hma = AdminData::Analytics::HmAssociation.new(User, PhoneNumber, :phone_numbers)
+    hma = AdminData::Analytics::HasManyAssociation.new(User, PhoneNumber, :phone_numbers)
 
     assert_equal 1, PhoneNumber.count(:conditions => {:user_id => nil})
     assert_equal nil, PhoneNumber.find_by_user_id(nil).user_id
-    assert_equal 5, hma.count_of_main_klass_records_not_in_hm_klass
-    assert_equal 3, hma.count_of_main_klass_records_in_hm_klass
+    assert_equal 5, hma.not_in_count
+    assert_equal 3, hma.in_count
   end
 
-
-
 end
-

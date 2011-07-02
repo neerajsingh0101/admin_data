@@ -2,7 +2,7 @@ require "active_support/all"
 
 module AdminData
   module Analytics
-    class HmAssociation
+    class HasManyAssociation
 
       attr_accessor :main_klass, :hm_klass, :hm_relationship_name
 
@@ -12,7 +12,7 @@ module AdminData
         @hm_relationship_name = hm_relationship_name.to_sym
       end
 
-      def count_of_main_klass_records_not_in_hm_klass
+      def not_in_count
         foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
         sql  = %Q{
@@ -30,16 +30,18 @@ module AdminData
         record['count_data'].to_i
       end
 
-      def count_of_main_klass_records_in_hm_klass(count = nil)
-        foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
+      def in_count(options = {})
+        options.reverse_merge!(:count => 0)
 
+        count = options[:count]
 
-        if count
+        if count > 0
           operator = '='
         else
           operator = '>'
-          count = 0
         end
+
+        foreign_key = AdminData::ActiveRecordUtil.foreign_key_for_has_many(main_klass, hm_relationship_name) 
 
         sql = %Q{
           select count(#{main_klass.table_name}.id) as count_data

@@ -22,4 +22,4 @@ end
 require 'admin_data/railtie'
 require 'admin_data/exceptions'
 require 'admin_data/analytics/trend'
-require 'admin_data/analytics/hm_association'
+require 'admin_data/analytics/has_many_association'
