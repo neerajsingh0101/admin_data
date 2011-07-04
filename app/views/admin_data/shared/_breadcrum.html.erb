@@ -9,7 +9,7 @@
 
   <% if params[:klass] && !(params[:action] == 'show') %>
     <span class='description'>
-      (<%= pluralize(@klass.count, 'record') %> )
+      (Total <%= pluralize(@klass.count, 'record') %> )
     </span>
   <% end %>
 
