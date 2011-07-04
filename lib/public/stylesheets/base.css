@@ -46,6 +46,7 @@ body {
   width: 100%;
   font-size: 20px;
   background-color: #D5E9F6;
+  background-color: #e5e8ee;
 }
 
 #header h1 {
@@ -531,6 +532,7 @@ hr {
 
 #main-navigation ul li.active {
   background: #f0f0ee;
+  background: #fff;
 }
 
 #main-navigation ul li a:link, #main-navigation ul li a:visited, #main-navigation ul li a:hover, #main-navigation ul li a:active,
@@ -538,24 +540,29 @@ hr {
 #user-navigation ul li a:link, #user-navigation ul li a:visited, #user-navigation ul li a:hover, #user-navigation ul li a:active {
   text-decoration: none;
   color: #FFF;
+  color: #666;
 }
 
 .secondary-navigation li a:hover {
   background: #666666;
+  background: #f6f6f6;
 }
 
-#main-navigation ul li.active a:link, #main-navigation ul li.active a:visited, #main-navigation ul li.active a:hover, #main-navigation ul li.active a:active {
+#main-navigation ul li.active a {
   color: #1a1a1a;
 }
 
 .secondary-navigation {
   background: #36393d;
+  background: #f6f6f6;
   border-bottom-color: #4F8AFF;
+  border-bottom-color: #e5e8ee;
 }
 
 .secondary-navigation ul li.active, .secondary-navigation ul li.active a:hover {
   background: #1a1a1a;
   background: #4F8AFF;
+  background: #e5e8ee;
 }
 
 #footer .block {
@@ -812,7 +819,6 @@ input.button { cursor: pointer; }
   padding: 5px 6px 0 6px;
   text-decoration: none;
   color: white;
-  background: #1a4f85;
 }
 
 #header ul li#selected a {
@@ -992,7 +998,7 @@ table#view_table tr:hover {
 
 a:link, a:visited, a:active {
   text-decoration: none;
-  color: green;
+  color: #666;
 }
 
 a:hover {
@@ -1052,6 +1058,7 @@ table#missing_index tr td {
 
 ul#subnav {
    background: #fff9d8;
+   background: #f6f6f6;
    display: inline;
    padding: 10px 6px;
    position: absolute;
@@ -1067,8 +1074,7 @@ ul#subnav li {
 }
 
 ul#subnav li a, ul#subnav li a:hover {
-  color: #000;
-  background-color: #fff9d8;
+  color: #666;
   font-size: 14px;
   font-weight: bold;
   margin-left: 10px;
