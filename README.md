@@ -1,6 +1,8 @@
 admin_data
 
 
+* Live demo is available at http://admin-data-demo.heroku.com/admin_data (read only version)
+
 * admin_data works with both Rails 2.3.x and Rails 3
 
 * Documentation is available at https://github.com/bigbinary/admin_data/wiki
