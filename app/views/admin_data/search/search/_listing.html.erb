@@ -12,7 +12,7 @@
   <thead>
      <tr class='thead'>
       <% columns_order(klass).each do |column| %>
-        <th class='<%=get_sort_class(column)%>' data-sortby='<%=get_sort_order(column)%>'> 
+        <th class='<%=get_sort_class(column)%>' data-sortby='<%=get_sort_order(column)%>'>
           <%= get_sort_title_with_url(column, klass) %>
         </th>
       <% end %>
@@ -25,7 +25,8 @@
       <% columns_order(klass).each do |column| %>
         <td>
           <% if (column == klass.primary_key) %>
-            <%= link_to(record.to_param.to_s, admin_data_path(:klass => klass.name.underscore, :id => record_id(record))) %>
+            <%#= link_to(record.to_param.to_s, admin_data_path(:klass => klass.name.underscore, :id => record_id(record))) %>
+            <%= link_to(record.send(column), admin_data_path(:klass => klass.name.underscore, :id => record_id(record))) %>
          <% else %>
             <%=h get_value_for_column(column_native(klass, column), record) %>
           <% end %>
