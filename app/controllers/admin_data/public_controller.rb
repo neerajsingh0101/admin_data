@@ -8,20 +8,20 @@ module AdminData
         render :nothing => true, :status => 404 and return
       end
 
-      case params[:file]
-      when /\.css$/i
+      case params[:format].to_s.downcase
+      when 'css'
         content_type = "text/css"
-      when /\.js$/i
+      when 'js'
         content_type = "text/javascript"
-      when /\.png$/i
+      when 'png'
         content_type = "image/png"
-      when /\.jpg$/i
+      when 'jpg'
         content_type = "image/jpg"
       else
         render :nothing => true, :status => 404 and return
       end
 
-      render({:text => File.read(path), :cache => true, :content_type => content_type})
+      render({:text => File.read("#{path}.#{params[:format]}"), :cache => true, :content_type => content_type})
     end
 
   end
