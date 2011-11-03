@@ -1,5 +1,10 @@
-//= require_tree ./vendor
-//= require_tree ./advance_search
-//= require_tree ./analytics
-//= require_tree ./misc
-
+//= require ./vendor/jquery-1.4.2.js
+//= require ./vendor/jquery-ui-1.7.2.custom.min.js
+//= require ./vendor/jquery_form
+//= require ./vendor/log
+//= require ./vendor/rails
+//= require ./misc/drop_down_change
+//= require ./misc/quick_search_input_focus
+//= require ./advance_search/global_ajax_setting
+//= require ./misc/js_util
+//= require ./analytics/report

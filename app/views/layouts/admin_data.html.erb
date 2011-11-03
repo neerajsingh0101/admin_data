@@ -6,20 +6,7 @@
       <%= @page_title.blank? ? 'admin_data' : "#{@page_title} - admin_data" %>
     </title>
 
-    <%= stylesheet_link_tag('vendor/jquery-ui-1.7.2.custom.css') %>
-
-    <%= stylesheet_link_tag('base') %>
-
-    <%= javascript_include_tag('vendor/jquery-1.4.2.js', 'vendor/jquery-ui-1.7.2.custom.min.js') %>
-
-    <%= javascript_include_tag('vendor/jquery_form') %>
-
-    <%= javascript_include_tag('vendor/log',
-                                               'vendor/rails',
-                                               'misc/drop_down_change',
-                                               'misc/quick_search_input_focus',
-                                               'advance_search/global_ajax_setting',
-                                               'misc/js_util') %>
+    <%= stylesheet_link_tag('admin_data') %>
 
     <% if params[:action] == 'advance_search' %>
       <%= javascript_include_tag(
@@ -32,8 +19,8 @@
                                                  'advance_search/trigger_submit_on_domready',
                                                  'advance_search/sortby'
                                                 ) %>
-    <% elsif params[:controller] == 'admin_data/analytics' %>
-      <%= javascript_include_tag('analytics/report') %>
+                                            <% else %>
+      <%= javascript_include_tag('admin_data') %>
     <% end %>
 
     <%= csrf_meta_tag %>
