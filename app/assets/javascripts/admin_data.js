@@ -8,3 +8,11 @@
 //= require ./advance_search/global_ajax_setting
 //= require ./misc/js_util
 //= require ./analytics/report
+//= require ./advance_search/advance_search
+//= require ./advance_search/advance_search_structure
+//= require ./advance_search/ajaxify_advance_search
+//= require ./advance_search/act_on_result
+//= require ./advance_search/build_first_row
+//= require ./advance_search/event_bindings
+//= require ./advance_search/trigger_submit_on_domready
+//= require ./advance_search/sortby

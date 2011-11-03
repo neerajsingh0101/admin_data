@@ -7,22 +7,7 @@
     </title>
 
     <%= stylesheet_link_tag('admin_data') %>
-
-    <% if params[:action] == 'advance_search' %>
-      <%= javascript_include_tag(
-                                                 'advance_search/advance_search',
-                                                 'advance_search/advance_search_structure',
-                                                 'advance_search/ajaxify_advance_search',
-                                                 'advance_search/act_on_result',
-                                                 'advance_search/build_first_row',
-                                                 'advance_search/event_bindings',
-                                                 'advance_search/trigger_submit_on_domready',
-                                                 'advance_search/sortby'
-                                                ) %>
-                                            <% else %>
-      <%= javascript_include_tag('admin_data') %>
-    <% end %>
-
+    <%= javascript_include_tag('admin_data') %>
     <%= csrf_meta_tag %>
 
   </head>
