@@ -1,12 +1,25 @@
 # admin_data
 
+## Rails 3.0.x
+
 If you are using Rails 3.0.x then use
 
     gem 'admin_data', '= 1.1.14'
 
+## Rails 3.1.x
+
 If you are using Rails 3.1.x then use
 
-    gem 'admin_data', '>= 1.1.15'
+    gem 'admin_data', '>= 1.1.16'
+
+Also add following lines to config/application.rb just below the line that says <tt>config.assets.enabled = true</tt> .
+
+    config.assets.precompile += ['admin_data.css', 'admin_data.js']
+
+Before deploying the code to production execute
+
+    bundle exec rake assets:precompile
+
 
 Live demo is available at http://admin-data-demo.heroku.com/admin_data (read only version)
 
