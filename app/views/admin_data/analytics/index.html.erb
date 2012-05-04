@@ -24,9 +24,9 @@
       <h2 class="title" style='float:left;'>Analytics</h2>
 
       <div style='float:left;margin-top:18px;margin-left:20px;'>
-        <%= radio_button_tag :report_type, admin_data_daily_analytics_path(:klass => @klass), params[:action] == 'daily' %> Daily
+        <%= radio_button_tag :report_type, daily_analytics_path(:klass => @klass), params[:action] == 'daily' %> Daily
         &nbsp;
-        <%= radio_button_tag :report_type, admin_data_monthly_analytics_path(:klass => @klass), params[:action] == 'monthly' %> Monthly
+        <%= radio_button_tag :report_type, monthly_analytics_path(:klass => @klass), params[:action] == 'monthly' %> Monthly
       </div>
       <div style='clear:both;'></div>
     </div>
