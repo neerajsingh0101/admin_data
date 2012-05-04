@@ -9,7 +9,7 @@
 <div id="main">
 
   <%= breadcrum do %>
-    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
+    <%= link_to @klass, search_path(:klass => @klass.name) %>
   <% end %>
 
   <%= render 'admin_data/shared/flash_message', :model => @model %>

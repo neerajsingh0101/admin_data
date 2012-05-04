@@ -1,24 +1,25 @@
-# -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
+
+# Maintain your gem's version:
 require "admin_data/version"
 
+# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "admin_data"
   s.version     = AdminData::VERSION
-  s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Neeraj Singh"]
-  s.email       = ["neeraj@BigBinary.com"]
-  s.homepage    = ""
-  s.summary     = %q{Manage data as if you own it}
-  s.description = %q{Manage data as if you own it}
+  s.authors     = ["TODO: Your name"]
+  s.email       = ["TODO: Your email"]
+  s.homepage    = "TODO"
+  s.summary     = "TODO: Summary of AdminData."
+  s.description = "TODO: Description of AdminData."
 
-  s.rubyforge_project = "admin_data"
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["test/**/*"]
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  s.add_dependency "rails", "~> 3.2"
+  s.add_dependency "will_paginate"
 
-  s.add_dependency("will_paginate", ">= 3.0.0")
-  s.add_dependency("rails", "~> 3.1")
+  # s.add_dependency "jquery-rails"
+
+  s.add_development_dependency "sqlite3"
 end

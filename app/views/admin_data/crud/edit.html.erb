@@ -1,7 +1,7 @@
 <div id="main">
   <div>
     <h1 class='search_path'>
-      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
+      <%= link_to @klass, search_path(:klass => @klass.name) %>
       >
       <%= link_to "ID #{@model.id}", ''%>
     </h1>
@@ -12,7 +12,7 @@
 
     <div class="content rounded">
       <div class="inner umbrella">
-        <% url = admin_data_path(:klass => @klass.name, :id => @model.id)
+        <% url = crud_show_path(:klass => @klass.name, :id => @model.id)
            html_options = {:class => 'form', :method => :put} %>
            <%= form_for @model, :as => @klass.name.underscore.to_sym, :url => url, :html=> html_options do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>

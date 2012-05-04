@@ -11,7 +11,7 @@ module AdminData
 
     def get_sort_title_with_url(column, klass)
       order = get_sort_order(column)
-      link_to column_title(klass, column), admin_data_search_path(:klass => klass, :query => params[:query], :sortby => order)
+      link_to column_title(klass, column), search_path(:klass => klass, :query => params[:query], :sortby => order)
     end
 
     def get_sort_class(column)
@@ -66,7 +66,7 @@ module AdminData
       output = []
       if params[:base]
         label = params[:base].camelize + ' ID ' + params[:model_id]
-        output << link_to(label, admin_data_path(:klass => params[:base], :id => params[:model_id]))
+        output << link_to(label, crud_show_path(:klass => params[:base], :id => params[:model_id]))
         output << 'has'
         output << pluralize(total_num_of_children, params[:klass])
 
@@ -93,7 +93,7 @@ module AdminData
         begin
           label = ho
           if model.send(ho)
-            output << link_to(label, admin_data_path(:klass => ho.underscore, :id => model.send(ho)))
+            output << link_to(label, crud_show_path(:klass => ho.underscore, :id => model.send(ho)))
           else
             output << label
           end
@@ -112,7 +112,7 @@ module AdminData
           output = label
           if count > 0
             has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_many, m).name.underscore
-            output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
+            output = link_to(label, search_path(  :klass => has_many_klass_name,
             :children => m,
             :base => klass.name.underscore,
             :model_id => model.id))
@@ -130,7 +130,7 @@ module AdminData
         begin
           output = assoc_name
           if belongs_to_record = model.send(assoc_name)
-            output = link_to(assoc_name, admin_data_path(:klass => belongs_to_record.class.name.underscore, :id => belongs_to_record.id))
+            output = link_to(assoc_name, crud_show_path(:klass => belongs_to_record.class.name.underscore, :id => belongs_to_record.id))
           end
         rescue => e
           Rails.logger.info Util.exception_info(e)
@@ -148,7 +148,7 @@ module AdminData
 
           if count > 0 then
             has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name).name.underscore
-            output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
+            output = link_to(label, search_path(  :klass => has_many_klass_name,
             :children => assoc_name,
             :base => klass.name.underscore,
             :model_id => model.id))
@@ -306,7 +306,7 @@ module AdminData
     end
 
     def get_reflection_for_column(klass, col)
-      klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
+      klass.reflections.values.detect { |reflection| :id == col.name.to_sym }
     end
 
     def record_id(record)

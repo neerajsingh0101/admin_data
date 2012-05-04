@@ -1,4 +1,5 @@
-require 'admin_data/rails_version_check'
+require "admin_data/engine"
+
 require 'will_paginate'
 
 module AdminData
@@ -20,5 +21,4 @@ module AdminData
 
 end
 
-require 'admin_data/railtie'
 require 'admin_data/exceptions'

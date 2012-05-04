@@ -1,7 +1,7 @@
 <div id="main">
 
   <%= breadcrum do %>
-    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
+    <%= link_to @klass, search_path(:klass => @klass.name) %>
   <% end %>
 
   <div class="block" id="block-tables">
@@ -14,7 +14,7 @@
       <div class="inner umbrella">
         <h1>Create a new record</h1>
         <%= form_for @model,  :as => @klass.name.underscore.to_sym,
-                              :url  => admin_data_index_path(:klass => @klass.name),
+                              :url  => crud_index_path(:klass => @klass.name),
                               :html => {:class => 'form', :method => :post} do |f| %>
           <%= render 'admin_data/shared/flash_message', :model => @model %>
           <%= render 'admin_data/crud/misc/form', :klass => @klass, :f => f %>

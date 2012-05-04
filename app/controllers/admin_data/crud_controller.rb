@@ -15,13 +15,13 @@ module AdminData
 
     def destroy
       @klass.send(:destroy, params[:id])
-      redirect_to admin_data_search_path(:klass => @klass.name.underscore)
+      redirect_to search_path(:klass => @klass.name.underscore)
     end
 
     def del
       @klass.send(:delete, params[:id])
       flash[:success] = 'Record was deleted'
-      redirect_to admin_data_search_path(:klass => @klass.name.underscore)
+      redirect_to search_path(:klass => @klass.name.underscore)
     end
 
     def edit
@@ -45,7 +45,7 @@ module AdminData
         if @model.update_attributes(model_attrs)
           format.html do
             flash[:success] = "Record was updated"
-            redirect_to admin_data_path(:id => @model.id, :klass => @klass.name.underscore)
+            redirect_to crud_show_path(:id => @model.id, :klass => @klass.name.underscore)
           end
           format.js { render :json => {:success => true}}
         else
@@ -67,7 +67,7 @@ module AdminData
         else
           format.html do
             flash[:success] = "Record was created"
-            redirect_to admin_data_path(:id => @model.id, :klass => @klass.name.underscore)
+            redirect_to crud_show_path(:id => @model.id, :klass => @klass.name.underscore)
           end
           format.js { render :json => {} }
         end

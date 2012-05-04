@@ -1,6 +1,6 @@
 module AdminData
 
-  class ApplicationController < ::ApplicationController
+  class ApplicationController < ActionController::Base
 
     before_filter :ensure_is_allowed_to_view
 
@@ -74,7 +74,7 @@ module AdminData
 
     def build_drop_down_for_klasses
       @drop_down_for_klasses = @klasses.inject([]) do |result, klass|
-        result << [klass.name.underscore, admin_data_search_url(:klass => klass.name.underscore)]
+        result << [klass.name.underscore, search_url(:klass => klass.name.underscore)]
       end
     end
 
