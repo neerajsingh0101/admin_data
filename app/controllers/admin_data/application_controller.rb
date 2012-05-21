@@ -97,14 +97,15 @@ module AdminData
     end
 
     def is_allowed_to_update?
-      return true if Rails.env.development? || Rails.env.test?
+      #return true if Rails.env.development? || Rails.env.test?
 
-      Rails.logger.info request.env["rack.session"].inspect
+      #Rails.logger.info request.env["rack.session"].inspect
+      #s = request.env["rack.session"]
+      #s2 = s["warden.user.user.key"]
+      #_s3 = s2[1].first
+      #Rails.logger.info "_s3 is #{_s3}"
 
-      _id = request.env["rack.session"]["warden.user.user.key"][1].first
-      Rails.logger.info "_id is #{_id}"
-
-      id = AdminData.config.user_id.call rescue nil
+      id = AdminData.config.user_id.call(request) rescue nil
       Rails.logger.info "id is #{id}"
       if id
         user = User.find_by_id(id)

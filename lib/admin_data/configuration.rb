@@ -17,7 +17,7 @@ module AdminData
     # only while editing or creating a new record.
     attr_accessor :drop_down_for_associations
 
-    attr_writer :user_id
+    attr_accessor :user_id
 
     # Holds a proc which should be called. If the returned value is
     # true then user is granted the access. Otherwise access is denied.
