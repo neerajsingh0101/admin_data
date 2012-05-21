@@ -97,7 +97,8 @@ module AdminData
     end
 
     def is_allowed_to_update?
-      id = request.env["rack.session"]["warden.user.user.key"][1].first rescue nil
+      return true if Rails.env.development? || Rails.env.test?
+      id = AdminData.config.user_id.call rescue nil
       if id
         user = User.find_by_id(id)
         user.try(:admin?)
