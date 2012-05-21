@@ -93,11 +93,15 @@ module AdminData
     end
 
     def is_allowed_to_view?
-      AdminData.config.is_allowed_to_view.call(self)
+      is_allowed_to_update?
     end
 
     def is_allowed_to_update?
-      AdminData.config.is_allowed_to_update.call(self)
+      id = request.env["rack.session"]["warden.user.user.key"][1].first rescue nil
+      if id
+        user = User.find_by_id(id)
+        user.try(:admin?)
+      end
     end
 
   end
