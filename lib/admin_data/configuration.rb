@@ -69,19 +69,31 @@ module AdminData
     #
     attr_accessor :columns_order
 
-    def is_allowed_to_view
-      return lambda {|controller| return true } if Rails.env.development?
-      @is_allowed_to_view || lambda {|_| nil }
+    def is_allowed_to_view &block
+      if block_given?
+        @is_allowed_to_view = block
+      else
+        return lambda {|controller| return true } if Rails.env.development?
+        @is_allowed_to_view || lambda {|_| nil }
+      end
     end
 
-    def is_allowed_to_update
-      return lambda {|controller| return true } if Rails.env.development?
-      @is_allowed_to_update || lambda {|_| nil }
+    def is_allowed_to_update &block
+      if block_given?
+        @is_allowed_to_update = block
+      else
+        return lambda {|controller| return true } if Rails.env.development?
+        @is_allowed_to_update || lambda {|_| nil }
+      end
     end
 
-    def is_allowed_to_view_feed
-      return lambda {|controller| return true } if Rails.env.development?
-      @is_allowed_to_view_feed || lambda {|_| nil }
+    def is_allowed_to_view_feed &block
+      if block_given?
+        @is_allowed_to_view_feed = block
+      else
+        return lambda {|controller| return true } if Rails.env.development?
+        @is_allowed_to_view_feed || lambda {|_| nil }
+      end
     end
 
     # TODO explain why it is needed
