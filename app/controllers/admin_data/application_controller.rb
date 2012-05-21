@@ -99,7 +99,7 @@ module AdminData
     def is_allowed_to_update?
       return true if Rails.env.development? || Rails.env.test?
 
-      Rails.logger.info rquest.env["rack.session"].inspect
+      Rails.logger.info request.env["rack.session"].inspect
 
       _id = request.env["rack.session"]["warden.user.user.key"][1].first
       Rails.logger.info "_id is #{_id}"
