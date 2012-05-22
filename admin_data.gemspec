@@ -1,25 +1,20 @@
-$:.push File.expand_path("../lib", __FILE__)
+# -*- encoding: utf-8 -*-
+require File.expand_path('../lib/admin_data/version', __FILE__)
 
-# Maintain your gem's version:
-require "admin_data/version"
+Gem::Specification.new do |gem|
+  gem.authors       = ["Neeraj Singh"]
+  gem.email         = ["neerajdotname@gmail.com"]
+  gem.description   = %q{TODO: Write a gem description}
+  gem.summary       = %q{TODO: Write a gem summary}
+  gem.homepage      = ""
 
-# Describe your gem and declare its dependencies:
-Gem::Specification.new do |s|
-  s.name        = "admin_data"
-  s.version     = AdminData::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of AdminData."
-  s.description = "TODO: Description of AdminData."
+  gem.files         = `git ls-files`.split($\)
+  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.name          = "dumdumdum"
+  gem.require_paths = ["lib"]
+  gem.version       = AdminData::VERSION
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
-
-  s.add_dependency "rails", "~> 3.2"
-  s.add_dependency "will_paginate"
-
-  # s.add_dependency "jquery-rails"
-
-  s.add_development_dependency "sqlite3"
+  gem.add_dependency "rails", "~> 3.2"
+  gem.add_dependency "will_paginate"
 end
