@@ -97,7 +97,7 @@ module AdminData
     end
 
     def is_allowed_to_update?
-      #return true if Rails.env.development? || Rails.env.test?
+      return true if Rails.env.development? || Rails.env.test?
 
       #Rails.logger.info request.env["rack.session"].inspect
       #s = request.env["rack.session"]
