@@ -306,7 +306,7 @@ module AdminData
     end
 
     def get_reflection_for_column(klass, col)
-      klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
+      klass.reflections.values.detect { |reflection| reflection.foreign_key.to_sym == col.name.to_sym }
     end
 
     def record_id(record)
