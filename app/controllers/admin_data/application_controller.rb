@@ -76,6 +76,10 @@ module AdminData
       @drop_down_for_klasses = @klasses.inject([]) do |result, klass|
         result << [klass.name.underscore, search_url(:klass => klass.name.underscore)]
       end
+
+      if @drop_down_for_klasses.blank?
+        raise 'before filter is not being executed'
+      end
     end
 
     def check_page_parameter
