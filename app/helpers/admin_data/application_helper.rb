@@ -206,7 +206,7 @@ module AdminData
     def form_field_for_habtm_records(klass, model, f, html)
       begin
         html = []
-        ActiveRecordUtil.new(klass).delcared_habtm_association_names.each do |k|
+        ActiveRecordUtil.new(klass).declared_habtm_association_names.each do |k|
           assoc_klass = Util.get_class_name_for_habtm_association(model, k)
 
           html << "<div class='col_box'>"
