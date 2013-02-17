@@ -14,6 +14,12 @@
   </div>
 <% end %>
 
+<% if AdminData::ActiveRecordUtil.new(klass).declared_has_many_association_names.any? %>
+  <div class='data'>
+    <%= form_field_for_association_records(klass, @model, f, '').html_safe %>
+  </div>
+<% end %>
+
 <div class='group navform' style='padding-top:10px;'>
   <% if params[:action] == 'edit' || params[:action] == 'update' %>
     <% label = 'Update' %>

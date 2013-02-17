@@ -206,7 +206,7 @@ module AdminData
     def form_field_for_habtm_records(klass, model, f, html)
       begin
         html = []
-        ActiveRecordUtil.new(klass).delcared_habtm_association_names.each do |k|
+        ActiveRecordUtil.new(klass).declared_habtm_association_names.each do |k|
           assoc_klass = Util.get_class_name_for_habtm_association(model, k)
 
           html << "<div class='col_box'>"
@@ -306,7 +306,7 @@ module AdminData
     end
 
     def get_reflection_for_column(klass, col)
-      klass.reflections.values.detect { |reflection| reflection.primary_key_name.to_sym == col.name.to_sym }
+      klass.reflections.values.detect { |reflection| reflection.foreign_key.to_sym == col.name.to_sym }
     end
 
     def record_id(record)
