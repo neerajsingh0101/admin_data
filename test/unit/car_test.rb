@@ -1,14 +1,8 @@
 require "test_helper"
-require "minitest/autorun"
 
-class Time
-  def fmt
-    self.strftime('%Y-%m-%d')
-  end
-end
+class CarTest < ActiveSupport::TestCase
 
-class CarTest < MiniTest::Unit::TestCase
-
+=begin
   def setup
     Car.delete_all
     new_time = Time.local(2011, 6, 23, 12, 0, 0)
@@ -98,5 +92,5 @@ class CarTest < MiniTest::Unit::TestCase
   def cc(time)
     Car.create!(:created_at => time)
   end
-
+=end
 end
