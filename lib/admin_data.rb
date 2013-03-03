@@ -6,6 +6,12 @@ module AdminData
 
   LIBPATH = File.dirname(__FILE__)
 
+
+  class NoCreatedAtColumnException < Exception 
+  end
+
+
+
   autoload :Configuration
   autoload :Util
   autoload :Config
@@ -15,10 +21,10 @@ module AdminData
   autoload :Authenticator
   autoload :Search
   autoload :Analytics
+  autoload :ModelFinder
 
   include SetupConfig
 
 end
 
 require 'admin_data/railtie'
-require 'admin_data/exceptions'

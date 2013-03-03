@@ -1,6 +1,6 @@
 class CreateTables < ActiveRecord::Migration
+=begin
   def self.up
-
     create_table :cars do |t|
       t.string :name
       t.timestamps
@@ -9,10 +9,11 @@ class CreateTables < ActiveRecord::Migration
     create_table :users do |t|
       t.string :first_name
       t.string :last_name
+      t.string :type
       t.integer :age
-      t.text :data
+      t.text    :data
       t.boolean :active, :default => false
-      t.text    :description
+      t.text     :description
       t.datetime :born_at
       t.timestamps
     end
@@ -57,5 +58,15 @@ class CreateTables < ActiveRecord::Migration
 
   def self.down
     drop_table :users
+  end
+=end
+
+  def change
+    create_table :users do |t|
+      t.string :type
+      t.string :name
+
+      t.timestamps
+    end
   end
 end
