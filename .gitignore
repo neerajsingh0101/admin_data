@@ -7,6 +7,7 @@ response.html
 tags
 pkg
 .rvmrc
+admindatademo/
 
 test/rails_root/tmp/**/*
 test/rails_root/log/*.*
