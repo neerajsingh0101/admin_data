@@ -25,7 +25,6 @@
       <% columns_order(klass).each do |column| %>
         <td>
           <% if (column == klass.primary_key) %>
-            <%#= link_to(record.to_param.to_s, admin_data_path(:klass => klass.name.underscore, :id => record_id(record))) %>
             <%= link_to(record.send(column), admin_data_path(:klass => klass.name.underscore, :id => record_id(record))) %>
          <% else %>
             <%=h get_value_for_column(column_native(klass, column), record) %>

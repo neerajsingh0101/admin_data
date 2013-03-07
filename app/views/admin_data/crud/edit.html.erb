@@ -1,7 +1,7 @@
 <div id="main">
   <div>
     <h1 class='search_path'>
-      <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %>
+      <%= link_to @klass, search_path(:klass => @klass.name) %>
       >
       <%= link_to "ID #{@model.id}", ''%>
     </h1>
