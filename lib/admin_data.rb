@@ -1,16 +1,16 @@
 require 'admin_data/rails_version_check'
 require 'will_paginate'
 
+require 'admin_data/engine'
+
 module AdminData
   extend ActiveSupport::Autoload
 
-  LIBPATH = File.dirname(__FILE__)
-
-
   class NoCreatedAtColumnException < Exception 
+
   end
 
-
+  LIBPATH = File.dirname(__FILE__)
 
   autoload :Configuration
   autoload :Util
@@ -24,7 +24,4 @@ module AdminData
   autoload :ModelFinder
 
   include SetupConfig
-
 end
-
-require 'admin_data/railtie'

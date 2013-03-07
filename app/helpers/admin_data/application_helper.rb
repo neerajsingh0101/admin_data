@@ -11,7 +11,7 @@ module AdminData
 
     def get_sort_title_with_url(column, klass)
       order = get_sort_order(column)
-      link_to column_title(klass, column), admin_data_search_path(:klass => klass, :query => params[:query], :sortby => order)
+      link_to column_title(klass, column), search_path(:klass => klass, :query => params[:query], :sortby => order)
     end
 
     def get_sort_class(column)
@@ -112,7 +112,7 @@ module AdminData
           output = label
           if count > 0
             has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_many, m).name.underscore
-            output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
+            output = link_to(label, search_path(  :klass => has_many_klass_name,
             :children => m,
             :base => klass.name.underscore,
             :model_id => model.id))
@@ -148,7 +148,7 @@ module AdminData
 
           if count > 0 then
             has_many_klass_name = ActiveRecordUtil.new(model.class).klass_for_association_type_and_name(:has_and_belongs_to_many, assoc_name).name.underscore
-            output = link_to(label, admin_data_search_path(  :klass => has_many_klass_name,
+            output = link_to(label, search_path(  :klass => has_many_klass_name,
             :children => assoc_name,
             :base => klass.name.underscore,
             :model_id => model.id))

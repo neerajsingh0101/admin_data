@@ -1,13 +1,8 @@
 module AdminData
   class HomeController < ApplicationController
-
-    layout 'admin_data'
+    respond_to :html
 
     def index
-      respond_to do |format|
-        format.html
-      end
     end
-
   end
 end

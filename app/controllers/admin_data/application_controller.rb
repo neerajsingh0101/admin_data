@@ -1,14 +1,17 @@
 module AdminData
-
   class ApplicationController < ::ApplicationController
+
+    layout 'admin_data'
 
     before_filter :ensure_is_allowed_to_view
 
     helper_method :is_allowed_to_update?
 
-    layout 'admin_data'
 
-    before_filter :build_klasses, :build_drop_down_for_klasses, :check_page_parameter, :prepare_drop_down_klasses
+    before_filter :build_klasses, 
+      :build_drop_down_for_klasses, 
+      :check_page_parameter, 
+      :prepare_drop_down_klasses
 
     attr_reader :klass
 
@@ -73,8 +76,8 @@ module AdminData
     end
 
     def build_drop_down_for_klasses
-      @drop_down_for_klasses = @klasses.inject([]) do |result, klass|
-        result << [klass.name.underscore, admin_data_search_url(:klass => klass.name.underscore)]
+      @drop_down_for_klasses = ModelFinder.models.inject([]) do |result, klass|
+        result << [klass, search_url(:klass => klass)]
       end
     end
 
