@@ -17,7 +17,6 @@ module AdminData
   autoload :ActiveRecordUtil
   autoload :SetupConfig
   autoload :DateUtil
-  autoload :Authenticator
   autoload :Search
   autoload :Analytics
   autoload :ModelFinder
