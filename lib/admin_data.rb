@@ -1,4 +1,3 @@
-require 'admin_data/rails_version_check'
 require 'will_paginate'
 
 require 'admin_data/engine'
