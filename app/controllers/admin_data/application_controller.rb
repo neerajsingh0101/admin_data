@@ -53,7 +53,9 @@ module AdminData
         return $admin_data_all_klasses
       else
         model_dir = File.join(Rails.root, 'app', 'models')
-        model_names = Dir.chdir(model_dir) { Dir["*.rb"] }
+        model_names = Dir[ File.join(model_dir, '**', '*.rb').to_s ]
+        model_names.map! {|item| item.sub(model_dir,'').sub(/^\//,'').sub(/\.rb$/,'').camelize.gsub(/\//,'::') }
+
         klasses = get_klass_names(model_names)
         $admin_data_all_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
       end
@@ -67,7 +69,8 @@ module AdminData
       model_names.inject([]) do |output, model_name|
         klass_name = model_name.sub(/\.rb$/,'').camelize
         begin
-          output << Util.constantize_klass(klass_name)
+          klass = Util.constantize_klass(klass_name)
+          output << klass if klass.to_s == klass_name
         rescue Exception => e
           Rails.logger.debug e.message
         end
