@@ -8,6 +8,7 @@ tags
 pkg
 .rvmrc
 admindatademo/
+nbproject/
 
 test/rails_root/tmp/**/*
 test/rails_root/log/*.*
