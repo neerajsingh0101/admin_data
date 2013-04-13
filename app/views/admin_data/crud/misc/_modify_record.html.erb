@@ -6,11 +6,11 @@
         <%= link_to 'Edit', edit_path(:klass => klass.name.underscore, :id => model.id) %>
       </p>
       <p>
-        <%= link_to 'Delete', del_path(:klass => klass.name.underscore, :id => model.id) ,
+        <%= link_to 'Delete', delete_path(:klass => klass.name.underscore, :id => model.id) ,
                { :confirm => ' You are deleting (not destroying) a record. Are you sure?', :method => :delete} %>
       </p>
       <p>
-        <%= link_to "Destroy", admin_data_path(:klass => klass.name.underscore, :id => model.id),
+        <%= link_to "Destroy", destroy_path(:klass => klass.name.underscore, :id => model.id),
               { :confirm => 'You are destroying a record. Are you sure?', :method => :delete} %>
       </p>
     </div>
