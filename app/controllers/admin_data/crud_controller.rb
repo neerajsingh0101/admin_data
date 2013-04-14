@@ -45,7 +45,7 @@ module AdminData
         if @model.update_attributes(model_attrs)
           format.html do
             flash[:success] = "Record was updated"
-            redirect_to admin_data_path(:id => @model.id, :klass => @klass.name.underscore)
+            redirect_to show_path(:id => @model.id, :klass => @klass.name.underscore)
           end
           format.js { render :json => {:success => true}}
         else
@@ -67,7 +67,7 @@ module AdminData
         else
           format.html do
             flash[:success] = "Record was created"
-            redirect_to admin_data_path(:id => @model.id, :klass => @klass.name.underscore)
+            redirect_to show_path(:id => @model.id, :klass => @klass.name.underscore)
           end
           format.js { render :json => {} }
         end

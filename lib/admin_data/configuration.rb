@@ -2,7 +2,7 @@ module AdminData
 
   class Configuration
 
-    # Number of recores displayed while listing records
+    # Number of records displayed while listing records
     attr_accessor :number_of_records_per_page
 
     # Default value is false .
@@ -94,6 +94,13 @@ module AdminData
     #
     attr_accessor :column_headers
 
+    # Tell AdminData to cache model data or not
+    # Example:
+    # config.cache_model_data = false (default is true)
+    #
+    attr_accessor :cache_model_data
+    attr_accessor :show_model_data_cache
+
     def initialize
       @number_of_records_per_page =  50
       @is_allowed_to_view         = nil
@@ -106,6 +113,8 @@ module AdminData
       @column_settings            = {}
       @adapter_name               =  ActiveRecord::Base.connection.adapter_name
       @ignore_column_limit        = false
+      @cache_model_data           = true
+      @show_model_data_cache      = false
     end
    
     def display_assoc?( class_name )

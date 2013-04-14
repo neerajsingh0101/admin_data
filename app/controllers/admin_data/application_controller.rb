@@ -49,13 +49,22 @@ module AdminData
     end
 
     def _build_all_klasses
-      if defined? $admin_data_all_klasses
+      if defined?($admin_data_all_klasses) && AdminData.config.cache_model_data
         return $admin_data_all_klasses
       else
         model_dir = File.join(Rails.root, 'app', 'models')
-        model_names = Dir.chdir(model_dir) { Dir["*.rb"] }
+        model_names = Dir[ File.join(model_dir, '**', '*.rb').to_s ]
+        model_names.map! {|item| item.sub(model_dir,'').sub(/^\//,'').sub(/\.rb$/,'') }
+
         klasses = get_klass_names(model_names)
         $admin_data_all_klasses = remove_klasses_without_table(klasses).sort_by {|r| r.name.underscore}
+
+        if AdminData.config.show_model_data_cache
+          puts "Model names:"
+          $admin_data_all_klasses.each do |klass|
+            puts klass.to_s
+          end
+        end
       end
     end
 
@@ -65,9 +74,10 @@ module AdminData
 
     def get_klass_names(model_names)
       model_names.inject([]) do |output, model_name|
-        klass_name = model_name.sub(/\.rb$/,'').camelize
+        klass_name = model_name.sub(/\.rb$/,'').camelize.gsub(File::SEPARATOR,'::')
         begin
-          output << Util.constantize_klass(klass_name)
+          klass = Util.constantize_klass(klass_name)
+          output << klass if klass.to_s == klass_name
         rescue Exception => e
           Rails.logger.debug e.message
         end
