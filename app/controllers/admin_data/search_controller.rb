@@ -21,7 +21,7 @@ class SearchAction
 end
 
 module AdminData
-  class SearchController < ApplicationController
+  class SearchController < AdminData::ApplicationController
 
     layout 'search'
 
