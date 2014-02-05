@@ -257,7 +257,7 @@ module AdminData
         #html << f.time_select(col.name, :include_blank => true, :include_seconds => true)
 
       when :boolean
-        html << f.select(col.name, [['True', true], ['False', false]], :include_blank => true)
+        html << f.select(col.name, [['True', true], ['False', false]], {:include_blank => true, :selected => f.object.send(col.name).to_s})
 
       else
         build_text_field(html, f, col)
