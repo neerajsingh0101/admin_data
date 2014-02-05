@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Neeraj Singh"]
   s.email       = ["neeraj@BigBinary.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/bigbinary/admin_data"
   s.summary     = %q{Manage data as if you own it}
   s.description = %q{Manage data as if you own it}
 
